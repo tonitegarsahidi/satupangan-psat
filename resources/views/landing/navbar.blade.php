@@ -10,19 +10,43 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ml-auto">
                     <li class="nav-item">
+                        <a class="nav-link text-white" href="{{ route('home.index') }}">Home</a>
+                    </li>
+                    <li class="nav-item">
                         <a class="nav-link text-white" href="{{ route('home.index') }}#about">Tentang Kami</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link text-white" href="{{ route('home.index') }}#features">Fitur</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text-white" href="{{ route('home.index') }}#contact">Hubungi Kami</a>
+                        <a class="nav-link text-white" href="{{ route('landing.contact') }}">Hubungi Kami</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle text-white" href="#" id="navbarDropdownLayanan" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Layanan
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdownLayanan">
+                            <a class="dropdown-item" href="{{ route('landing.layanan.cek_data') }}">Cek Data Keamanan Pangan</a>
+                            <a class="dropdown-item" href="{{ route('landing.layanan.lapor_keamanan') }}">Lapor Keamanan Pangan</a>
+                            <a class="dropdown-item" href="{{ route('landing.layanan.registrasi_izin') }}">Registrasi Izin Produk Pangan</a>
+                            <a class="dropdown-item" href="{{ route('landing.layanan.permintaan_informasi') }}">Permintaan Informasi</a>
+                        </div>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle text-white" href="#" id="navbarDropdownPanduan" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Informasi Panduan
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdownPanduan">
+                            <a class="dropdown-item" href="{{ route('landing.panduan.alur_prosedur') }}">Alur Prosedur</a>
+                            <a class="dropdown-item" href="{{ route('landing.panduan.standar_keamanan') }}">Standar Keamanan Mutu Pangan</a>
+                            <a class="dropdown-item" href="{{ route('landing.panduan.batas_cemaran') }}">Batas Cemaran & Residu</a>
+                        </div>
                     </li>
                     <li class="nav-item">
-                        <a class="btn ml-2" style="background-color: #FFD700; color: #2E8B57;" href="{{ route('login') }}">Login</a> {{-- Kuning keemasan --}}
+                        <a class="btn ml-2" style="background-color: #FFD700; color: #2E8B57;" href="{{ route('login') }}">Login</a>
                     </li>
                     <li class="nav-item">
-                        <a class="btn ml-2" style="background-color: #F0F0F0; color: #2E8B57;" href="{{ route('register') }}">Register</a> {{-- Abu-abu terang --}}
+                        <a class="btn ml-2" style="background-color: #F0F0F0; color: #2E8B57;" href="{{ route('register') }}">Register</a>
                     </li>
                 </ul>
             </div>
