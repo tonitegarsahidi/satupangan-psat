@@ -50,6 +50,30 @@
             color: #F0F0F0 !important; /* Abu-abu terang */
         }
     </style>
+    <style>
+        /* Custom CSS for hover dropdown */
+        @media all and (min-width: 992px) {
+            .navbar .nav-item .dropdown-menu {
+                display: none;
+                margin-top: 0;
+            }
+            .navbar .nav-item:hover .dropdown-menu {
+                display: block;
+            }
+        }
+    </style>
+    <style>
+        /* Custom CSS for hover dropdown */
+        @media all and (min-width: 992px) {
+            .navbar .nav-item .dropdown-menu {
+                display: none;
+                margin-top: 0;
+            }
+            .navbar .nav-item:hover .dropdown-menu {
+                display: block;
+            }
+        }
+    </style>
 
     <!-- Icons. Uncomment required icon fonts -->
     <link rel="stylesheet" href="{{ asset('assets/vendor/fonts/boxicons.css') }}" />
@@ -179,6 +203,8 @@
         </div>
     </footer>
     <!-- Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 
