@@ -19,4 +19,12 @@
     'menuIcon' => 'bx bx-group',
     'subMenuData' => null,
 ])
+
+@include('admin.components.sidebar.item', [
+    'menuId' => 'menu-provinsi-management',
+    'menuText' => 'Master Provinsi',
+    'menuUrl' => route('admin.master-provinsi.index'),
+    'menuIcon' => 'bx bx-map',
+    'subMenuData' => null,
+])
 @endif

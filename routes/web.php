@@ -11,6 +11,7 @@ use App\Http\Controllers\UserSettingController;
 use App\Http\Controllers\SupervisorController;
 use App\Http\Controllers\SampleController;
 use App\Http\Controllers\LandingController;
+use App\Http\Controllers\MasterProvinsiController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -87,7 +88,23 @@ Route::middleware('auth')->group(function () {
             Route::get('/user/edit/{id}',           [UserController::class, 'edit'])->name('admin.user.edit');
             Route::get('/user/delete/{id}',         [UserController::class, 'deleteConfirm'])->name('admin.user.delete');
             Route::delete('/user/delete/{id}',      [UserController::class, 'destroy'])->name('admin.user.destroy');
+
+             // MANAGE PROVINSI
+            Route::prefix('/master-provinsi')
+                ->group(function () {
+                    Route::get('/',                     [MasterProvinsiController::class, 'index'])->name('admin.master-provinsi.index');
+                    Route::get('/add/new',              [MasterProvinsiController::class, 'create'])->name('admin.master-provinsi.add');
+                    Route::post('/add/new',             [MasterProvinsiController::class, 'store'])->name('admin.master-provinsi.store');
+
+                    Route::get('/detail/{id}',          [MasterProvinsiController::class, 'detail'])->name('admin.master-provinsi.detail');
+                    Route::put('/edit/{id}',            [MasterProvinsiController::class, 'update'])->name('admin.master-provinsi.update');
+                    Route::get('/edit/{id}',            [MasterProvinsiController::class, 'edit'])->name('admin.master-provinsi.edit');
+                    Route::get('/delete/{id}',          [MasterProvinsiController::class, 'deleteConfirm'])->name('admin.master-provinsi.delete');
+                    Route::delete('/delete/{id}',       [MasterProvinsiController::class, 'destroy'])->name('admin.master-provinsi.destroy');
+                });
         });
+
+
 
     Route::prefix('/user-setting')
         ->middleware('role:ROLE_ADMIN,ROLE_OPERATOR,ROLE_SUPERVISOR,ROLE_USER')
