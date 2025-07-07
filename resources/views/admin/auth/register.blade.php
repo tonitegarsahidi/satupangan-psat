@@ -20,8 +20,8 @@
                         @include('admin.auth.logo')
 
                         <!-- /Logo -->
-                        <h4 class="mb-2">Sobat Pangan master starts here 🚀</h4>
-                        <p class="mb-4">Begin your training now!</p>
+                        <h4 class="mb-2">Sobat Pangan dimulai disini 🚀</h4>
+                        <p class="mb-4">Mulai perjalanan Pangan Anda sekarang!</p>
 
                          <!-- Notification element -->
                          @if ($errors->any() || session('loginError'))
