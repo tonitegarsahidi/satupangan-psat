@@ -13,6 +13,8 @@ use App\Http\Controllers\SampleController;
 use App\Http\Controllers\LandingController;
 use App\Http\Controllers\MasterProvinsiController;
 use App\Http\Controllers\MasterKelompokPanganController;
+use App\Http\Controllers\MasterJenisPanganSegarController;
+use App\Http\Controllers\MasterBahanPanganSegarController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -116,6 +118,34 @@ Route::middleware('auth')->group(function () {
                     Route::get('/edit/{id}',            [MasterKelompokPanganController::class, 'edit'])->name('admin.master-kelompok-pangan.edit');
                     Route::get('/delete/{id}',          [MasterKelompokPanganController::class, 'deleteConfirm'])->name('admin.master-kelompok-pangan.delete');
                     Route::delete('/delete/{id}',       [MasterKelompokPanganController::class, 'destroy'])->name('admin.master-kelompok-pangan.destroy');
+                });
+
+             // MANAGE JENIS PANGAN SEGAR
+            Route::prefix('/master-jenis-pangan-segar')
+                ->group(function () {
+                    Route::get('/',                     [MasterJenisPanganSegarController::class, 'index'])->name('admin.master-jenis-pangan-segar.index');
+                    Route::get('/add/new',              [MasterJenisPanganSegarController::class, 'create'])->name('admin.master-jenis-pangan-segar.add');
+                    Route::post('/add/new',             [MasterJenisPanganSegarController::class, 'store'])->name('admin.master-jenis-pangan-segar.store');
+
+                    Route::get('/detail/{id}',          [MasterJenisPanganSegarController::class, 'detail'])->name('admin.master-jenis-pangan-segar.detail');
+                    Route::put('/edit/{id}',            [MasterJenisPanganSegarController::class, 'update'])->name('admin.master-jenis-pangan-segar.update');
+                    Route::get('/edit/{id}',            [MasterJenisPanganSegarController::class, 'edit'])->name('admin.master-jenis-pangan-segar.edit');
+                    Route::get('/delete/{id}',          [MasterJenisPanganSegarController::class, 'deleteConfirm'])->name('admin.master-jenis-pangan-segar.delete');
+                    Route::delete('/delete/{id}',       [MasterJenisPanganSegarController::class, 'destroy'])->name('admin.master-jenis-pangan-segar.destroy');
+                });
+
+             // MANAGE BAHAN PANGAN SEGAR
+            Route::prefix('/master-bahan-pangan-segar')
+                ->group(function () {
+                    Route::get('/',                     [MasterBahanPanganSegarController::class, 'index'])->name('admin.master-bahan-pangan-segar.index');
+                    Route::get('/add/new',              [MasterBahanPanganSegarController::class, 'create'])->name('admin.master-bahan-pangan-segar.add');
+                    Route::post('/add/new',             [MasterBahanPanganSegarController::class, 'store'])->name('admin.master-bahan-pangan-segar.store');
+
+                    Route::get('/detail/{id}',          [MasterBahanPanganSegarController::class, 'detail'])->name('admin.master-bahan-pangan-segar.detail');
+                    Route::put('/edit/{id}',            [MasterBahanPanganSegarController::class, 'update'])->name('admin.master-bahan-pangan-segar.update');
+                    Route::get('/edit/{id}',            [MasterBahanPanganSegarController::class, 'edit'])->name('admin.master-bahan-pangan-segar.edit');
+                    Route::get('/delete/{id}',          [MasterBahanPanganSegarController::class, 'deleteConfirm'])->name('admin.master-bahan-pangan-segar.delete');
+                    Route::delete('/delete/{id}',       [MasterBahanPanganSegarController::class, 'destroy'])->name('admin.master-bahan-pangan-segar.destroy');
                 });
         });
 

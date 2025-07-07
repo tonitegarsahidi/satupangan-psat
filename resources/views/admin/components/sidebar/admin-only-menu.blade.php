@@ -36,4 +36,19 @@
     'menuIcon' => 'bx bx-food-menu',
     'subMenuData' => null,
 ])
+@include('admin.components.sidebar.item', [
+    'menuId' => 'menu-jenis-pangan-segar-management',
+    'menuText' => 'Jenis Pangan Segar',
+    'menuUrl' => route('admin.master-jenis-pangan-segar.index'),
+    'menuIcon' => 'bx bx-food-menu',
+    'subMenuData' => null,
+])
+
+@include('admin.components.sidebar.item', [
+    'menuId' => 'menu-bahan-pangan-segar-management',
+    'menuText' => 'Bahan Pangan Segar',
+    'menuUrl' => route('admin.master-bahan-pangan-segar.index'),
+    'menuIcon' => 'bx bx-food-menu',
+    'subMenuData' => null,
+])
 @endif
