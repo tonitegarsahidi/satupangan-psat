@@ -33,8 +33,8 @@
                 'subMenuUrl' => route('admin.master-provinsi.index'),
             ],
             [
-                'subMenuText' => 'Master Kabupaten',
-                'subMenuUrl' => route('user.profile.index'),
+                'subMenuText' => 'Master Kota',
+                'subMenuUrl' => route('admin.master-kota.index'),
             ],
         ],
     ])
@@ -84,3 +84,4 @@
 
 
 @endif
+

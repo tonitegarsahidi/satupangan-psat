@@ -61,20 +61,20 @@ Route::middleware('auth')->group(function () {
     Route::prefix('/sample')
         ->middleware('role:ROLE_USER')
         ->group(function () {
-            Route::get('cards',         [SampleController::class, 'cards'])             ->name('sample.cards');
-            Route::get('table',         [SampleController::class, 'tablePage'])         ->name('sample.table');
-            Route::get('form1',         [SampleController::class, 'formPage1'])         ->name('sample.form1');
-            Route::get('form2',         [SampleController::class, 'formPage2'])         ->name('sample.form2');
-            Route::get('textdivider',   [SampleController::class, 'textDivider'])       ->name('sample.textdivider');
-            Route::get('blank',         [SampleController::class, 'blank'])             ->name('sample.blank');
+            Route::get('cards',         [SampleController::class, 'cards'])->name('sample.cards');
+            Route::get('table',         [SampleController::class, 'tablePage'])->name('sample.table');
+            Route::get('form1',         [SampleController::class, 'formPage1'])->name('sample.form1');
+            Route::get('form2',         [SampleController::class, 'formPage2'])->name('sample.form2');
+            Route::get('textdivider',   [SampleController::class, 'textDivider'])->name('sample.textdivider');
+            Route::get('blank',         [SampleController::class, 'blank'])->name('sample.blank');
         });
 
 
     //This One is for Demo Middleware Routing, so that only who has role can access it
-    Route::get('/admin-page',           [AdminController::class, 'index'])      ->name('admin-page')        ->middleware('role:ROLE_ADMIN');
-    Route::get('/operator-page',        [OperatorController::class, 'index'])   ->name('operator-page')     ->middleware('role:ROLE_OPERATOR');
-    Route::get('/supervisor-page',      [SupervisorController::class, 'index']) ->name('supervisor-page')   ->middleware('role:ROLE_SUPERVISOR');
-    Route::get('/user-page',            [UserController::class, 'userOnlyPage'])->name('user-page')         ->middleware('role:ROLE_USER');
+    Route::get('/admin-page',           [AdminController::class, 'index'])->name('admin-page')->middleware('role:ROLE_ADMIN');
+    Route::get('/operator-page',        [OperatorController::class, 'index'])->name('operator-page')->middleware('role:ROLE_OPERATOR');
+    Route::get('/supervisor-page',      [SupervisorController::class, 'index'])->name('supervisor-page')->middleware('role:ROLE_SUPERVISOR');
+    Route::get('/user-page',            [UserController::class, 'userOnlyPage'])->name('user-page')->middleware('role:ROLE_USER');
 
     // Only users with the 'ROLE_ADMIN' can access this route group
     Route::prefix('/admin')
@@ -92,7 +92,7 @@ Route::middleware('auth')->group(function () {
             Route::get('/user/delete/{id}',         [UserController::class, 'deleteConfirm'])->name('admin.user.delete');
             Route::delete('/user/delete/{id}',      [UserController::class, 'destroy'])->name('admin.user.destroy');
 
-             // MANAGE PROVINSI
+            // MANAGE PROVINSI
             Route::prefix('/master-provinsi')
                 ->group(function () {
                     Route::get('/',                     [MasterProvinsiController::class, 'index'])->name('admin.master-provinsi.index');
@@ -105,21 +105,21 @@ Route::middleware('auth')->group(function () {
                     Route::get('/delete/{id}',          [MasterProvinsiController::class, 'deleteConfirm'])->name('admin.master-provinsi.delete');
                     Route::delete('/delete/{id}',       [MasterProvinsiController::class, 'destroy'])->name('admin.master-provinsi.destroy');
                 });
-// MANAGE CEMARAN MIKROBA
-Route::prefix('/master-cemaran-mikroba')
-    ->group(function () {
-        Route::get('/',                     [\App\Http\Controllers\MasterCemaranMikrobaController::class, 'index'])->name('admin.master-cemaran-mikroba.index');
-        Route::get('/add/new',              [\App\Http\Controllers\MasterCemaranMikrobaController::class, 'create'])->name('admin.master-cemaran-mikroba.add');
-        Route::post('/add/new',             [\App\Http\Controllers\MasterCemaranMikrobaController::class, 'store'])->name('admin.master-cemaran-mikroba.store');
+            // MANAGE CEMARAN MIKROBA
+            Route::prefix('/master-cemaran-mikroba')
+                ->group(function () {
+                    Route::get('/',                     [\App\Http\Controllers\MasterCemaranMikrobaController::class, 'index'])->name('admin.master-cemaran-mikroba.index');
+                    Route::get('/add/new',              [\App\Http\Controllers\MasterCemaranMikrobaController::class, 'create'])->name('admin.master-cemaran-mikroba.add');
+                    Route::post('/add/new',             [\App\Http\Controllers\MasterCemaranMikrobaController::class, 'store'])->name('admin.master-cemaran-mikroba.store');
 
-        Route::get('/detail/{id}',          [\App\Http\Controllers\MasterCemaranMikrobaController::class, 'detail'])->name('admin.master-cemaran-mikroba.detail');
-        Route::put('/edit/{id}',            [\App\Http\Controllers\MasterCemaranMikrobaController::class, 'update'])->name('admin.master-cemaran-mikroba.update');
-        Route::get('/edit/{id}',            [\App\Http\Controllers\MasterCemaranMikrobaController::class, 'edit'])->name('admin.master-cemaran-mikroba.edit');
-        Route::get('/delete/{id}',          [\App\Http\Controllers\MasterCemaranMikrobaController::class, 'deleteConfirm'])->name('admin.master-cemaran-mikroba.delete');
-        Route::delete('/delete/{id}',       [\App\Http\Controllers\MasterCemaranMikrobaController::class, 'destroy'])->name('admin.master-cemaran-mikroba.destroy');
-    });
+                    Route::get('/detail/{id}',          [\App\Http\Controllers\MasterCemaranMikrobaController::class, 'detail'])->name('admin.master-cemaran-mikroba.detail');
+                    Route::put('/edit/{id}',            [\App\Http\Controllers\MasterCemaranMikrobaController::class, 'update'])->name('admin.master-cemaran-mikroba.update');
+                    Route::get('/edit/{id}',            [\App\Http\Controllers\MasterCemaranMikrobaController::class, 'edit'])->name('admin.master-cemaran-mikroba.edit');
+                    Route::get('/delete/{id}',          [\App\Http\Controllers\MasterCemaranMikrobaController::class, 'deleteConfirm'])->name('admin.master-cemaran-mikroba.delete');
+                    Route::delete('/delete/{id}',       [\App\Http\Controllers\MasterCemaranMikrobaController::class, 'destroy'])->name('admin.master-cemaran-mikroba.destroy');
+                });
 
-             // MANAGE KELOMPOK PANGAN
+            // MANAGE KELOMPOK PANGAN
             Route::prefix('/master-kelompok-pangan')
                 ->group(function () {
                     Route::get('/',                     [MasterKelompokPanganController::class, 'index'])->name('admin.master-kelompok-pangan.index');
@@ -133,7 +133,7 @@ Route::prefix('/master-cemaran-mikroba')
                     Route::delete('/delete/{id}',       [MasterKelompokPanganController::class, 'destroy'])->name('admin.master-kelompok-pangan.destroy');
                 });
 
-             // MANAGE JENIS PANGAN SEGAR
+            // MANAGE JENIS PANGAN SEGAR
             Route::prefix('/master-jenis-pangan-segar')
                 ->group(function () {
                     Route::get('/',                     [MasterJenisPanganSegarController::class, 'index'])->name('admin.master-jenis-pangan-segar.index');
@@ -147,7 +147,7 @@ Route::prefix('/master-cemaran-mikroba')
                     Route::delete('/delete/{id}',       [MasterJenisPanganSegarController::class, 'destroy'])->name('admin.master-jenis-pangan-segar.destroy');
                 });
 
-             // MANAGE BAHAN PANGAN SEGAR
+            // MANAGE BAHAN PANGAN SEGAR
             Route::prefix('/master-bahan-pangan-segar')
                 ->group(function () {
                     Route::get('/',                     [MasterBahanPanganSegarController::class, 'index'])->name('admin.master-bahan-pangan-segar.index');
@@ -159,6 +159,35 @@ Route::prefix('/master-cemaran-mikroba')
                     Route::get('/edit/{id}',            [MasterBahanPanganSegarController::class, 'edit'])->name('admin.master-bahan-pangan-segar.edit');
                     Route::get('/delete/{id}',          [MasterBahanPanganSegarController::class, 'deleteConfirm'])->name('admin.master-bahan-pangan-segar.delete');
                     Route::delete('/delete/{id}',       [MasterBahanPanganSegarController::class, 'destroy'])->name('admin.master-bahan-pangan-segar.destroy');
+                });
+
+
+            // MANAGE CEMARAN LOGAM BERAT
+            Route::prefix('/master-cemaran-logam-berat')
+                ->group(function () {
+                    Route::get('/',                     [\App\Http\Controllers\MasterCemaranLogamBeratController::class, 'index'])->name('admin.master-cemaran-logam-berat.index');
+                    Route::get('/add/new',              [\App\Http\Controllers\MasterCemaranLogamBeratController::class, 'create'])->name('admin.master-cemaran-logam-berat.add');
+                    Route::post('/add/new',             [\App\Http\Controllers\MasterCemaranLogamBeratController::class, 'store'])->name('admin.master-cemaran-logam-berat.store');
+
+                    Route::get('/detail/{id}',          [\App\Http\Controllers\MasterCemaranLogamBeratController::class, 'detail'])->name('admin.master-cemaran-logam-berat.detail');
+                    Route::put('/edit/{id}',            [\App\Http\Controllers\MasterCemaranLogamBeratController::class, 'update'])->name('admin.master-cemaran-logam-berat.update');
+                    Route::get('/edit/{id}',            [\App\Http\Controllers\MasterCemaranLogamBeratController::class, 'edit'])->name('admin.master-cemaran-logam-berat.edit');
+                    Route::get('/delete/{id}',          [\App\Http\Controllers\MasterCemaranLogamBeratController::class, 'deleteConfirm'])->name('admin.master-cemaran-logam-berat.delete');
+                    Route::delete('/delete/{id}',       [\App\Http\Controllers\MasterCemaranLogamBeratController::class, 'destroy'])->name('admin.master-cemaran-logam-berat.destroy');
+                });
+
+            // MANAGE CEMARAN MIKROTOKSIN
+            Route::prefix('/master-cemaran-mikrotoksin')
+                ->group(function () {
+                    Route::get('/',                     [\App\Http\Controllers\MasterCemaranMikrotoksinController::class, 'index'])->name('admin.master-cemaran-mikrotoksin.index');
+                    Route::get('/add/new',              [\App\Http\Controllers\MasterCemaranMikrotoksinController::class, 'create'])->name('admin.master-cemaran-mikrotoksin.add');
+                    Route::post('/add/new',             [\App\Http\Controllers\MasterCemaranMikrotoksinController::class, 'store'])->name('admin.master-cemaran-mikrotoksin.store');
+
+                    Route::get('/detail/{id}',          [\App\Http\Controllers\MasterCemaranMikrotoksinController::class, 'detail'])->name('admin.master-cemaran-mikrotoksin.detail');
+                    Route::put('/edit/{id}',            [\App\Http\Controllers\MasterCemaranMikrotoksinController::class, 'update'])->name('admin.master-cemaran-mikrotoksin.update');
+                    Route::get('/edit/{id}',            [\App\Http\Controllers\MasterCemaranMikrotoksinController::class, 'edit'])->name('admin.master-cemaran-mikrotoksin.edit');
+                    Route::get('/delete/{id}',          [\App\Http\Controllers\MasterCemaranMikrotoksinController::class, 'deleteConfirm'])->name('admin.master-cemaran-mikrotoksin.delete');
+                    Route::delete('/delete/{id}',       [\App\Http\Controllers\MasterCemaranMikrotoksinController::class, 'destroy'])->name('admin.master-cemaran-mikrotoksin.destroy');
                 });
         });
 
@@ -189,35 +218,20 @@ Route::prefix('/master-cemaran-mikroba')
 
 require __DIR__ . '/auth.php';
 
-if(config('saas.SAAS_ACTIVATED')){
+if (config('saas.SAAS_ACTIVATED')) {
     require __DIR__ . '/saas.php';
 }
 
-
-// MANAGE CEMARAN LOGAM BERAT
-Route::prefix('/master-cemaran-logam-berat')
+// MANAGE KOTA
+Route::prefix('/master-kota')
     ->group(function () {
-        Route::get('/',                     [\App\Http\Controllers\MasterCemaranLogamBeratController::class, 'index'])->name('admin.master-cemaran-logam-berat.index');
-        Route::get('/add/new',              [\App\Http\Controllers\MasterCemaranLogamBeratController::class, 'create'])->name('admin.master-cemaran-logam-berat.add');
-        Route::post('/add/new',             [\App\Http\Controllers\MasterCemaranLogamBeratController::class, 'store'])->name('admin.master-cemaran-logam-berat.store');
+        Route::get('/',                     [\App\Http\Controllers\MasterKotaController::class, 'index'])->name('admin.master-kota.index');
+        Route::get('/add/new',              [\App\Http\Controllers\MasterKotaController::class, 'create'])->name('admin.master-kota.add');
+        Route::post('/add/new',             [\App\Http\Controllers\MasterKotaController::class, 'store'])->name('admin.master-kota.store');
 
-        Route::get('/detail/{id}',          [\App\Http\Controllers\MasterCemaranLogamBeratController::class, 'detail'])->name('admin.master-cemaran-logam-berat.detail');
-        Route::put('/edit/{id}',            [\App\Http\Controllers\MasterCemaranLogamBeratController::class, 'update'])->name('admin.master-cemaran-logam-berat.update');
-        Route::get('/edit/{id}',            [\App\Http\Controllers\MasterCemaranLogamBeratController::class, 'edit'])->name('admin.master-cemaran-logam-berat.edit');
-        Route::get('/delete/{id}',          [\App\Http\Controllers\MasterCemaranLogamBeratController::class, 'deleteConfirm'])->name('admin.master-cemaran-logam-berat.delete');
-        Route::delete('/delete/{id}',       [\App\Http\Controllers\MasterCemaranLogamBeratController::class, 'destroy'])->name('admin.master-cemaran-logam-berat.destroy');
-    });
-
-// MANAGE CEMARAN MIKROTOKSIN
-Route::prefix('/master-cemaran-mikrotoksin')
-    ->group(function () {
-        Route::get('/',                     [\App\Http\Controllers\MasterCemaranMikrotoksinController::class, 'index'])->name('admin.master-cemaran-mikrotoksin.index');
-        Route::get('/add/new',              [\App\Http\Controllers\MasterCemaranMikrotoksinController::class, 'create'])->name('admin.master-cemaran-mikrotoksin.add');
-        Route::post('/add/new',             [\App\Http\Controllers\MasterCemaranMikrotoksinController::class, 'store'])->name('admin.master-cemaran-mikrotoksin.store');
-
-        Route::get('/detail/{id}',          [\App\Http\Controllers\MasterCemaranMikrotoksinController::class, 'detail'])->name('admin.master-cemaran-mikrotoksin.detail');
-        Route::put('/edit/{id}',            [\App\Http\Controllers\MasterCemaranMikrotoksinController::class, 'update'])->name('admin.master-cemaran-mikrotoksin.update');
-        Route::get('/edit/{id}',            [\App\Http\Controllers\MasterCemaranMikrotoksinController::class, 'edit'])->name('admin.master-cemaran-mikrotoksin.edit');
-        Route::get('/delete/{id}',          [\App\Http\Controllers\MasterCemaranMikrotoksinController::class, 'deleteConfirm'])->name('admin.master-cemaran-mikrotoksin.delete');
-        Route::delete('/delete/{id}',       [\App\Http\Controllers\MasterCemaranMikrotoksinController::class, 'destroy'])->name('admin.master-cemaran-mikrotoksin.destroy');
+        Route::get('/detail/{id}',          [\App\Http\Controllers\MasterKotaController::class, 'detail'])->name('admin.master-kota.detail');
+        Route::put('/edit/{id}',            [\App\Http\Controllers\MasterKotaController::class, 'update'])->name('admin.master-kota.update');
+        Route::get('/edit/{id}',            [\App\Http\Controllers\MasterKotaController::class, 'edit'])->name('admin.master-kota.edit');
+        Route::get('/delete/{id}',          [\App\Http\Controllers\MasterKotaController::class, 'deleteConfirm'])->name('admin.master-kota.delete');
+        Route::delete('/delete/{id}',       [\App\Http\Controllers\MasterKotaController::class, 'destroy'])->name('admin.master-kota.destroy');
     });
