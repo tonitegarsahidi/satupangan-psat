@@ -19,7 +19,7 @@
                         <a class="nav-link text-white" href="{{ route('home.index') }}#features">Fitur</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text-white" href="{{ route('landing.contact') }}">Hubungi Kami</a>
+                        <a class="nav-link text-white" href="{{ route('landing.contact') }}">Kontak</a>
                     </li>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle text-white" href="#" id="navbarDropdownLayanan" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
