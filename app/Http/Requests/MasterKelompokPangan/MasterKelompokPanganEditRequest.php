@@ -23,7 +23,7 @@ class MasterKelompokPanganEditRequest extends FormRequest
     {
         return [
             'nama_kelompok_pangan' => 'required|string|max:100|unique:master_kelompok_pangans,nama_kelompok_pangan,' . $this->route('id') . ',id',
-            'kode_kelompok_pangan' => 'nullable|string|max:12',
+            'kode_kelompok_pangan' => 'nullable|string|max:12|unique:master_kelompok_pangans,kode_kelompok_pangan,' . $this->route('id') . ',id',
             'keterangan' => 'nullable|string|max:255',
             'is_active' => 'boolean',
         ];

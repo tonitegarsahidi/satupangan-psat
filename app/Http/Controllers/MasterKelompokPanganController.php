@@ -72,11 +72,8 @@ class MasterKelompokPanganController extends Controller
     public function store(MasterKelompokPanganAddRequest $request)
     {
         $validatedData = $request->validated();
-        if($this->MasterKelompokPanganService->checkMasterKelompokPanganExist($validatedData["nama_kelompok_pangan"])){
-            throw ValidationException::withMessages([
-                'nama_kelompok_pangan' => 'Nama Kelompok Pangan sudah ada sebelumnya.'
-            ]);
-        }
+        // No need to check for nama_kelompok_pangan existence here, as it's handled by unique rule in request
+        // No need to check for kode_kelompok_pangan existence here, as it's handled by unique rule in request
         $result = $this->MasterKelompokPanganService->addNewMasterKelompokPangan($validatedData);
 
         $alert = $result

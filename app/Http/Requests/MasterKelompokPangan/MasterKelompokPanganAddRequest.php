@@ -22,7 +22,7 @@ class MasterKelompokPanganAddRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'kode_kelompok_pangan' => 'nullable|string|max:12',
+            'kode_kelompok_pangan' => 'nullable|string|max:12|unique:master_kelompok_pangans,kode_kelompok_pangan',
             'nama_kelompok_pangan' => 'required|string|max:100',
             'keterangan' => 'nullable|string|max:255',
             'is_active' => 'boolean',

@@ -51,9 +51,10 @@ class MasterKelompokPanganService
      * YOU CAN ALSO BLACKLIST some nama_kelompok_pangan in this logic
      * =============================================
      */
-    public function checkMasterKelompokPanganExist(string $nama_kelompok_pangan): bool{
-        return $this->MasterKelompokPanganRepository->isKelompokPanganNameExist($nama_kelompok_pangan);
-    }
+    // This method is no longer needed as validation is handled by unique rules in requests.
+    // public function checkMasterKelompokPanganExist(string $nama_kelompok_pangan): bool{
+    //     return $this->MasterKelompokPanganRepository->isKelompokPanganNameExist($nama_kelompok_pangan);
+    // }
 
     /**
      * =============================================
