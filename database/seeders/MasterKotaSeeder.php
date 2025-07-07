@@ -11,7 +11,7 @@ class MasterKotaSeeder extends Seeder
 {
     public function run()
     {
-        // Mapping provinsi kode => daftar kota/kabupaten
+        // Mapping kode provinsi => daftar kota/kabupaten
         $data = [
             // Pulau Jawa
             'DKI' => [
@@ -103,6 +103,41 @@ class MasterKotaSeeder extends Seeder
                 'Kota Batam', 'Kota Tanjungpinang', 'Kabupaten Bintan', 'Kabupaten Karimun', 'Kabupaten Kepulauan Anambas', 'Kabupaten Lingga',
                 'Kabupaten Natuna'
             ],
+            // Kalimantan (contoh, lengkapi sesuai kebutuhan)
+            'KALBAR' => [
+                'Kota Pontianak', 'Kota Singkawang', 'Kabupaten Bengkayang', 'Kabupaten Kapuas Hulu', 'Kabupaten Kayong Utara', 'Kabupaten Ketapang',
+                'Kabupaten Kubu Raya', 'Kabupaten Landak', 'Kabupaten Melawi', 'Kabupaten Mempawah', 'Kabupaten Sambas', 'Kabupaten Sanggau',
+                'Kabupaten Sekadau', 'Kabupaten Sintang'
+            ],
+            'KALSEL' => [
+                'Kota Banjarbaru', 'Kota Banjarmasin', 'Kabupaten Balangan', 'Kabupaten Banjar', 'Kabupaten Barito Kuala', 'Kabupaten Hulu Sungai Selatan',
+                'Kabupaten Hulu Sungai Tengah', 'Kabupaten Hulu Sungai Utara', 'Kabupaten Kotabaru', 'Kabupaten Tabalong', 'Kabupaten Tanah Bumbu',
+                'Kabupaten Tanah Laut', 'Kabupaten Tapin'
+            ],
+            'KALTENG' => [
+                'Kota Palangka Raya', 'Kabupaten Barito Selatan', 'Kabupaten Barito Timur', 'Kabupaten Barito Utara', 'Kabupaten Gunung Mas',
+                'Kabupaten Kapuas', 'Kabupaten Katingan', 'Kabupaten Kotawaringin Barat', 'Kabupaten Kotawaringin Timur', 'Kabupaten Lamandau',
+                'Kabupaten Murung Raya', 'Kabupaten Pulang Pisau', 'Kabupaten Sukamara', 'Kabupaten Seruyan'
+            ],
+            'KALTIM' => [
+                'Kota Balikpapan', 'Kota Bontang', 'Kota Samarinda', 'Kabupaten Berau', 'Kabupaten Kutai Barat', 'Kabupaten Kutai Kartanegara',
+                'Kabupaten Kutai Timur', 'Kabupaten Mahakam Ulu', 'Kabupaten Paser', 'Kabupaten Penajam Paser Utara'
+            ],
+            'KALTARA' => [
+                'Kota Tarakan', 'Kabupaten Bulungan', 'Kabupaten Malinau', 'Kabupaten Nunukan', 'Kabupaten Tana Tidung'
+            ],
+            // Sulawesi (contoh, lengkapi sesuai kebutuhan)
+            'SULUT' => [
+                'Kota Bitung', 'Kota Kotamobagu', 'Kota Manado', 'Kota Tomohon', 'Kabupaten Bolaang Mongondow', 'Kabupaten Bolaang Mongondow Selatan',
+                'Kabupaten Bolaang Mongondow Timur', 'Kabupaten Bolaang Mongondow Utara', 'Kabupaten Kepulauan Sangihe', 'Kabupaten Kepulauan Siau Tagulandang Biaro',
+                'Kabupaten Kepulauan Talaud', 'Kabupaten Minahasa', 'Kabupaten Minahasa Selatan', 'Kabupaten Minahasa Tenggara', 'Kabupaten Minahasa Utara'
+            ],
+            'SULTENG' => [
+                'Kota Palu', 'Kabupaten Banggai', 'Kabupaten Banggai Kepulauan', 'Kabupaten Banggai Laut', 'Kabupaten Buol', 'Kabupaten Donggala',
+                'Kabupaten Morowali', 'Kabupaten Morowali Utara', 'Kabupaten Parigi Moutong', 'Kabupaten Poso', 'Kabupaten Sigi', 'Kabupaten Tojo Una-Una',
+                'Kabupaten Toli-Toli'
+            ],
+            // ... (tambahkan provinsi lain: SULSEL, SULTRA, SULBAR, MALUKU, MALUT, NTB, NTT, PAPUA, PABAR, dst)
         ];
 
         $kodeToUuid = [];
@@ -133,3 +168,7 @@ class MasterKotaSeeder extends Seeder
         }
     }
 }
+
+// Catatan:
+// - Lengkapi array $data di atas untuk seluruh provinsi di Indonesia sesuai kebutuhan Anda.
+// - Pastikan kode_provinsi di MasterProvinsiSeeder konsisten dengan key di $data.
