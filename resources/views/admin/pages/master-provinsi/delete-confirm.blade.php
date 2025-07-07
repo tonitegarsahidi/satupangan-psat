@@ -1,6 +1,6 @@
 @extends('admin.template-base', ['searchNavbar' => false])
 
-@section('page-title', 'Confirm Delete User')
+@section('page-title', 'Confirm Delete Provinsi')
 
 {{-- MAIN CONTENT PART --}}
 @section('main-content')
@@ -17,7 +17,7 @@
             <div class="d-flex justify-content-between">
 
                 <div class="bd-highlight">
-                    <h3 class="card-header">Are you sure want to delete this User?</h3>
+                    <h3 class="card-header">Are you sure want to delete this Provinsi?</h3>
                 </div>
 
             </div>
@@ -33,8 +33,8 @@
                     <a onclick="goBack()" class="btn btn-outline-secondary me-2"><i
                         class="tf-icons bx bx-left-arrow-alt me-2"></i>Back</a>
 
-                    <button type="submit" class="btn btn-danger me-2" href="{{ route('admin.master-provinsi.edit', ['id' => $data->id]) }}"
-                        title="delete user">
+                    <button type="submit" class="btn btn-danger me-2"
+                        title="delete provinsi">
                         <i class='tf-icons bx bx-trash me-2'></i>Confirm Delete
                     </button>
                 </form>
@@ -48,16 +48,12 @@
                         <table class="table table-hover">
                             <tbody>
                                 <tr>
-                                    <th scope="col" class="bg-dark text-white">Name</th>
-                                    <td>{{ $data->name }}</td>
+                                    <th scope="col" class="bg-dark text-white">Kode Provinsi</th>
+                                    <td>{{ $data->kode_provinsi }}</td>
                                 </tr>
                                 <tr>
-                                    <th scope="col" class="bg-dark text-white">Email</th>
-                                    <td>{{ $data->email }}</td>
-                                </tr>
-                                <tr>
-                                    <th scope="col" class="bg-dark text-white">Phone Number</th>
-                                    <td>{{ $data->phone_number }}</td>
+                                    <th scope="col" class="bg-dark text-white">Nama Provinsi</th>
+                                    <td>{{ $data->nama_provinsi }}</td>
                                 </tr>
                                 <tr>
                                     <th scope="col" class="bg-dark text-white">Is Active</th>
@@ -67,21 +63,6 @@
                                         @else
                                             <span class="badge rounded-pill bg-danger"> No </span>
                                         @endif
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <th scope="col" class="bg-dark text-white">Role</th>
-                                    <td>
-                                        @foreach ($data->listRoles() as $role)
-                                            @if (strcasecmp($role, 'ADMINISTRATOR') == 0)
-                                                <span class="badge rounded-pill bg-label-danger m-1"> {{ $role }}
-                                                </span>
-                                            @else
-                                                <span class="badge rounded-pill bg-label-primary m-1"> {{ $role }}
-                                                </span>
-                                            @endif
-                                            <br/>
-                                        @endforeach
                                     </td>
                                 </tr>
                             </tbody>

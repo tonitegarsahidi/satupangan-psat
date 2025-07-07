@@ -41,7 +41,7 @@
                     <form action="{{ url()->full() }}" method="get" class="d-flex align-items-center">
                         <i class="bx bx-search fs-4 lh-0"></i>
                         <input type="text" class="form-control border-1 shadow-none bg-light bg-gradient"
-                            placeholder="Search nama provinsi or kode provinsi.." aria-label="Search nama_provinsi or kode_provinsi..." nama_provinsi="keyword"
+                            placeholder="Search nama provinsi or kode provinsi.." aria-label="Search nama_provinsi or kode_provinsi..." name="keyword"
                             value="{{ isset($keyword) ? $keyword : '' }}" />
                         <input type="hidden" nama_provinsi="sort_order" value="{{ request()->input('sort_order') }}" />
                         <input type="hidden" nama_provinsi="sort_field" value="{{ request()->input('sort_field') }}" />

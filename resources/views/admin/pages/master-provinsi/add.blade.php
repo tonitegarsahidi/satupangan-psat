@@ -23,82 +23,36 @@
                         <form method="POST" action="{{ route('admin.master-provinsi.store') }}">
                             @csrf
 
-                            {{-- NAME FIELD --}}
+                            {{-- KODE PROVINSI FIELD --}}
                             <div class="row mb-3">
-                                <label class="col-sm-2 col-form-label" for="name">Full Name*</label>
+                                <label class="col-sm-2 col-form-label" for="kode_provinsi">Kode Provinsi</label>
                                 <div class="col-sm-10">
                                     {{-- form validation error --}}
-                                    @include('admin.components.notification.error-validation', ['field' => 'name'])
-
+                                    @include('admin.components.notification.error-validation', ['field' => 'kode_provinsi'])
 
                                     {{-- input form --}}
-                                    <input type="text" name="name" class="form-control" id="name"
-                                        placeholder="John Doe" value="{{ old('name', isset($name) ? $name : '') }}">
+                                    <input type="text" name="kode_provinsi" class="form-control" id="kode_provinsi"
+                                        placeholder="e.g., 11" value="{{ old('kode_provinsi', isset($kode_provinsi) ? $kode_provinsi : '') }}">
                                 </div>
                             </div>
 
-                            {{-- EMAIL FIELD --}}
+                            {{-- NAMA PROVINSI FIELD --}}
                             <div class="row mb-3">
-                                <label class="col-sm-2 col-form-label" for="email">Email*</label>
+                                <label class="col-sm-2 col-form-label" for="nama_provinsi">Nama Provinsi*</label>
                                 <div class="col-sm-10">
                                     {{-- form validation error --}}
-                                    @include('admin.components.notification.error-validation', ['field' => 'email'])
+                                    @include('admin.components.notification.error-validation', ['field' => 'nama_provinsi'])
 
                                     {{-- input form --}}
-                                    <input type="text" name="email" class="form-control" id="email"
-                                        placeholder="johndoe@someemail.com"
-                                        value="{{ old('email', isset($email) ? $email : '') }}">
-                                </div>
-                            </div>
-
-                            {{-- PASSWORD FIELD --}}
-                            <div class="row mb-3">
-                                <label class="col-sm-2 col-form-label" for="password">Set Password*</label>
-                                <div class="col-sm-10">
-                                    {{-- form validation error --}}
-                                    @include('admin.components.notification.error-validation', ['field' => 'password'])
-
-                                    {{-- input form --}}
-                                    <input type="password" name="password" class="form-control" id="password"
-                                        placeholder="..."
-                                        value="{{ old('password', isset($password) ? $password : '') }}">
-                                </div>
-                            </div>
-
-                            {{-- CONFIRM PASSWORD FIELD --}}
-                            <div class="row mb-3">
-                                <label class="col-sm-2 col-form-label" for="confirmpassword">Confirm Password*</label>
-                                <div class="col-sm-10">
-                                    {{-- form validation error --}}
-                                    @include('admin.components.notification.error-validation', ['field' => 'confirmpassword'])
-
-                                    {{-- input form --}}
-                                    <input type="password" name="confirmpassword" class="form-control" id="confirmpassword"
-                                        placeholder="..."
-                                        value="{{ old('confirmpassword', isset($confirmpassword) ? $confirmpassword : '') }}"
-                                        >
-                                </div>
-                            </div>
-
-                            {{-- PHONE NUMBER FIELD --}}
-                            <div class="row mb-3">
-                                <label class="col-sm-2 col-form-label" for="phone_number">Phone Number</label>
-                                <div class="col-sm-10">
-                                    {{-- form validation error --}}
-                                    @include('admin.components.notification.error-validation', ['field' => 'phone_number'])
-
-                                    {{-- input form --}}
-                                    <input type="text" name="phone_number" class="form-control" id="phone_number"
-                                        placeholder="+62..."
-                                        value="{{ old('phone_number', isset($phone_number) ? $phone_number : '') }}">
-
+                                    <input type="text" name="nama_provinsi" class="form-control" id="nama_provinsi"
+                                        placeholder="e.g., Aceh" value="{{ old('nama_provinsi', isset($nama_provinsi) ? $nama_provinsi : '') }}">
                                 </div>
                             </div>
 
                             {{-- IS_ACTIVE RADIO BUTTONS --}}
                             <div class="row mb-3">
                                 @php
-                                    $oldIsActive = old('is_active', null);
+                                    $oldIsActive = old('is_active', 1); // Default to 1 (true)
                                 @endphp
                                 <label class="col-sm-2 col-form-label" for="is_active">Is Active*</label>
                                 <div class="col-sm-10">
@@ -108,38 +62,18 @@
                                     {{-- input form --}}
                                     <div class="form-check form-check-inline">
                                         <input class="form-check-input" type="radio" name="is_active" id="is_active_true" value="1"
-                                            {{ isset($oldIsActive) && $oldIsActive == 1 ? 'checked' : ''}}>
+                                            {{ $oldIsActive == 1 ? 'checked' : ''}}>
                                         <label class="form-check-label" for="is_active_true">Yes</label>
                                     </div>
                                     <div class="form-check form-check-inline">
                                         <input class="form-check-input" type="radio" name="is_active" id="is_active_false" value="0"
-                                            {{ isset($oldIsActive) && $oldIsActive == 0 ? 'checked' : ''}}>
+                                            {{ $oldIsActive == 0 ? 'checked' : ''}}>
                                         <label class="form-check-label" for="is_active_false">No</label>
                                     </div>
                                 </div>
                             </div>
 
 
-                            {{-- ROLES CHECKBOXES --}}
-                            <div class="row mb-3">
-                                <label class="col-sm-2 col-form-label">Roles*</label>
-                                <div class="col-sm-10">
-                                    {{-- form validation error --}}
-                                    @include('admin.components.notification.error-validation', ['field' => 'roles'])
-
-                                    {{-- input form --}}
-                                    @foreach ($roles as $role)
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="checkbox" name="roles[]"
-                                                id="role_{{ $role->id }}" value="{{ $role->id }}"
-                                                {{ in_array($role->role_code, ['ROLE_Provinsi']) ? 'checked' : '' }}>
-                                            <label class="form-check-label" for="role_{{ $role->id }}">
-                                                {{ $role->role_name }}
-                                            </label>
-                                        </div>
-                                    @endforeach
-                                </div>
-                            </div>
 
 
 

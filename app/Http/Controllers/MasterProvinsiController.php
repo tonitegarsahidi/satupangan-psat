@@ -2,41 +2,21 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\MasterProvinsiAddRequest;
-use App\Http\Requests\MasterProvinsiEditRequest;
-use App\Http\Requests\MasterProvinsiListRequest;
-use App\Services\RoleMasterService;
 use App\Services\MasterProvinsiService;
 use Illuminate\Http\Request;
 use App\Helpers\AlertHelper;
+use App\Http\Requests\MasterProvinsi\MasterProvinsiAddRequest;
+use App\Http\Requests\MasterProvinsi\MasterProvinsiEditRequest;
+use App\Http\Requests\MasterProvinsi\MasterProvinsiListRequest;
 use Illuminate\Validation\ValidationException;
-
-    /**
-     * ################################################
-     *      THIS IS MasterProvinsi CONTROLLER
-     *  the main purpose of this class is to show functionality
-     *  for ULTIMATE CRUD concept in this SamBoilerplate
-     *  I use this MasterProvinsi model since it real neeed
-     *  modify as you wish.
-     *
-     *   ULTIMATE CRUD CONCEPT
-     *  - List, search/filter, sort, paging
-     *  - See Detail
-     *  - Add - Process Add
-     *  - Edit - Process Edit
-     *  - Delete confirm - Process Delete
-     * ################################################
-     */
 class MasterProvinsiController extends Controller
 {
     private $MasterProvinsiService;
-    private $roleMasterService;
     private $mainBreadcrumbs;
 
-    public function __construct(MasterProvinsiService $MasterProvinsiService, RoleMasterService $roleMasterService)
+    public function __construct(MasterProvinsiService $MasterProvinsiService)
     {
         $this->MasterProvinsiService = $MasterProvinsiService;
-        $this->roleMasterService = $roleMasterService;
 
         // Store common breadcrumbs in the constructor
         $this->mainBreadcrumbs = [
@@ -44,8 +24,6 @@ class MasterProvinsiController extends Controller
             'Master Provinsi' => route('admin.master-provinsi.index'),
         ];
     }
-
-    // ============================ START OF ULTIMATE CRUD FUNCTIONALITY ===============================
 
 
 
@@ -81,9 +59,8 @@ class MasterProvinsiController extends Controller
     {
         $breadcrumbs = array_merge($this->mainBreadcrumbs, ['Add' => null]);
 
-        $roles = $this->roleMasterService->getAllRoles();
 
-        return view('admin.pages.master-provinsi.add', compact('breadcrumbs', 'roles'));
+        return view('admin.pages.master-provinsi.add', compact('breadcrumbs'));
     }
 
     /**
@@ -94,16 +71,16 @@ class MasterProvinsiController extends Controller
     public function store(MasterProvinsiAddRequest $request)
     {
         $validatedData = $request->validated();
-        if($this->MasterProvinsiService->checkMasterProvinsiExist($validatedData["email"])){
+        if($this->MasterProvinsiService->checkMasterProvinsiExist($validatedData["nama_provinsi"])){
             throw ValidationException::withMessages([
-                'email' => 'The email address already exists.'
+                'nama_provinsi' => 'Nama Provinsi sudah ada sebelumnya.'
             ]);
         }
         $result = $this->MasterProvinsiService->addNewMasterProvinsi($validatedData);
 
         $alert = $result
-            ? AlertHelper::createAlert('success', 'Data ' . $result->name . ' successfully added')
-            : AlertHelper::createAlert('danger', 'Data ' . $request->name . ' failed to be added');
+            ? AlertHelper::createAlert('success', 'Data ' . $result->nama_provinsi . ' successfully added')
+            : AlertHelper::createAlert('danger', 'Data ' . $request->nama_provinsi . ' failed to be added');
 
 
 
@@ -134,13 +111,11 @@ class MasterProvinsiController extends Controller
      */
     public function edit(Request $request, $id)
     {
-        $MasterProvinsi = $this->MasterProvinsiService->getMasterProvinsiDetail($id);
-        $MasterProvinsi->load('roles');
-        $roles = $this->roleMasterService->getAllRoles();
+        $provinsi = $this->MasterProvinsiService->getMasterProvinsiDetail($id);
 
         $breadcrumbs = array_merge($this->mainBreadcrumbs, ['Edit' => null]);
 
-        return view('admin.pages.master-provinsi.edit', compact('breadcrumbs', 'MasterProvinsi', 'roles'));
+        return view('admin.pages.master-provinsi.edit', compact('breadcrumbs', 'MasterProvinsi'));
     }
 
     /**
@@ -154,8 +129,8 @@ class MasterProvinsiController extends Controller
 
 
         $alert = $result
-            ? AlertHelper::createAlert('success', 'Data ' . $result->name . ' successfully updated')
-            : AlertHelper::createAlert('danger', 'Data ' . $request->name . ' failed to be updated');
+            ? AlertHelper::createAlert('success', 'Data ' . $result->nama_provinsi . ' successfully updated')
+            : AlertHelper::createAlert('danger', 'Data ' . $request->nama_provinsi . ' failed to be updated');
 
         return redirect()->route('admin.master-provinsi.index')->with([
             'alerts' => [$alert],
@@ -187,15 +162,15 @@ class MasterProvinsiController extends Controller
      */
     public function destroy(MasterProvinsiListRequest $request)
     {
-        $MasterProvinsi = $this->MasterProvinsiService->getMasterProvinsiDetail($request->id);
-        if (!is_null($MasterProvinsi)) {
+        $provinsi = $this->MasterProvinsiService->getMasterProvinsiDetail($request->id);
+        if (!is_null($provinsi)) {
             $result = $this->MasterProvinsiService->deleteMasterProvinsi($request->id);
         } else {
             $result = false;
         }
 
         $alert = $result
-            ? AlertHelper::createAlert('success', 'Data ' . $MasterProvinsi->name . ' successfully deleted')
+            ? AlertHelper::createAlert('success', 'Data ' . $provinsi->nama_provinsi . ' successfully deleted')
             : AlertHelper::createAlert('danger', 'Oops! failed to be deleted');
 
         return redirect()->route('admin.master-provinsi.index')->with('alerts', [$alert]);
@@ -203,15 +178,5 @@ class MasterProvinsiController extends Controller
 
 
     // ============================ END OF ULTIMATE CRUD FUNCTIONALITY ===============================
-    /**
-     * =============================================
-     *      Handle sample pages
-     *      which can only be accessed
-     *      by this role MasterProvinsi
-     * =============================================
-     */
-    public function MasterProvinsiOnlyPage(Request $request)
-    {
-        return view('admin.pages.master-provinsi.master-provinsionlypage', ['message' => 'Hello MasterProvinsi, Thanks for using our products']);
-    }
+
 }

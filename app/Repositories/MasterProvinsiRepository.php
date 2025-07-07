@@ -31,7 +31,7 @@ class MasterProvinsiRepository
     }
 
     public function isProvinsinameExist(String $provinsiname){
-        return MasterProvinsi::where('email', $provinsiname)->exists();
+        return MasterProvinsi::where('nama_provinsi', $provinsiname)->exists();
     }
 
     public function getProvinsiById($provinsiId): ?MasterProvinsi
