@@ -1,0 +1,21 @@
+name: Deploy Laravel to Production
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Notify Server via Webhook
+      run: |
+        curl -X POST \
+        -H "Authorization: Bearer ${{ secrets.WEBHOOK_TOKEN }}" \
+        -H "Content-Type: application/json" \
+        -d '{"ref":"${{ github.ref }}"}' \
+        https://webhook.konsultanit.my.id/webhook
