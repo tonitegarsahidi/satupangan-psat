@@ -25,6 +25,14 @@ class DatabaseSeeder extends Seeder
             SubscriptionMasterSeeder::class,
             SubscriptionUserSeeder::class,
             SubscriptionHistorySeeder::class,
+            SubscriptionHistorySeeder::class,
+            MasterProvinsiSeeder::class,
+            MasterKelompokPanganSeeder::class,
+            MasterJenisPanganSegarSeeder::class,
+            MasterBahanPanganSegarSeeder::class,
+            MasterCemaranLogamBeratSeeder::class,
+            MasterCemaranMikrobaSeeder::class,
+            MasterCemaranMikrotoksinSeeder::class,
         ]);
     }
 }
