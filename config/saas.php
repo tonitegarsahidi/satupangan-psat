@@ -3,7 +3,7 @@
 return [
 
     //turning on and off teatures is here
-    'SAAS_ACTIVATED'    => TRUE,
+    'SAAS_ACTIVATED'    => FALSE,
 
     'CURRENCY_SYMBOL'    => 'Rp.',
 

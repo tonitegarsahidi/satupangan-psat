@@ -118,11 +118,11 @@ After seeding the database, the following default users will be available:
 
 | Email                         | Role                                                  | Password        |
 | ----------------------------- | ----------------------------------------------------- | --------------- |
-| superadmin@samboilerplate.com | ROLE_ADMIN, ROLE_SUPERVISOR, ROLE_OPERATOR, ROLE_USER | *`password123`* |
-| admin@samboilerplate.com      | ROLE_ADMIN, ROLE_USER                                 | *`password123`* |
-| supervisor@samboilerplate.com | ROLE_SUPERVISOR, ROLE_USER                            | *`password123`* |
-| operator@samboilerplate.com   | ROLE_OPERATOR, ROLE_USER                              | *`password123`* |
-| user@samboilerplate.com       | ROLE_USER                                             | *`password123`* |
+| superadmin@satupangan.id | ROLE_ADMIN, ROLE_SUPERVISOR, ROLE_OPERATOR, ROLE_USER | *`password123`* |
+| admin@satupangan.id      | ROLE_ADMIN, ROLE_USER                                 | *`password123`* |
+| supervisor@satupangan.id | ROLE_SUPERVISOR, ROLE_USER                            | *`password123`* |
+| operator@satupangan.id   | ROLE_OPERATOR, ROLE_USER                              | *`password123`* |
+| user@satupangan.id       | ROLE_USER                                             | *`password123`* |
 
 
 - Only admin and superadmin which has ROLE_ADMIN roles. 

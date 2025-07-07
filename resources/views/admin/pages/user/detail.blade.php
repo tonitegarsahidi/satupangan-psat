@@ -91,9 +91,9 @@
                 <a class="btn btn-danger me-2" href="{{ route('admin.user.delete', ['id' => $data->id]) }}"
                     title="delete user">
                     <i class='tf-icons bx bx-trash me-2'></i>Delete</a>
-                <a class="btn btn-dark me-2" href="{{ route('subscription.user.index', ['userId' => $data->id]) }}"
+                {{-- <a class="btn btn-dark me-2" href="{{ route('subscription.user.index', ['userId' => $data->id]) }}"
                     title="show subscription">
-                    <i class='tf-icons bx bx-receipt me-2'></i>See Subscription</a>
+                    <i class='tf-icons bx bx-receipt me-2'></i>See Subscription</a> --}}
             </div>
 
         </div>
