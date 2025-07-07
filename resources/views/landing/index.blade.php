@@ -89,7 +89,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-6">
-                    <img src="{{asset('assets/img/illustrations/hero-samboilerplate.jpeg')}}" alt="SatuPangan Hero Image"
+                    <img src="{{asset('assets/img/illustrations/satu pangan illustration.png')}}" alt="SatuPangan Hero Image"
                         class="img-fluid rounded">
                 </div>
                 <div class="col-md-6">
