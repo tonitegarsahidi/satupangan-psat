@@ -12,6 +12,7 @@ use App\Http\Controllers\SupervisorController;
 use App\Http\Controllers\SampleController;
 use App\Http\Controllers\LandingController;
 use App\Http\Controllers\MasterProvinsiController;
+use App\Http\Controllers\MasterKelompokPanganController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -101,6 +102,20 @@ Route::middleware('auth')->group(function () {
                     Route::get('/edit/{id}',            [MasterProvinsiController::class, 'edit'])->name('admin.master-provinsi.edit');
                     Route::get('/delete/{id}',          [MasterProvinsiController::class, 'deleteConfirm'])->name('admin.master-provinsi.delete');
                     Route::delete('/delete/{id}',       [MasterProvinsiController::class, 'destroy'])->name('admin.master-provinsi.destroy');
+                });
+
+             // MANAGE KELOMPOK PANGAN
+            Route::prefix('/master-kelompok-pangan')
+                ->group(function () {
+                    Route::get('/',                     [MasterKelompokPanganController::class, 'index'])->name('admin.master-kelompok-pangan.index');
+                    Route::get('/add/new',              [MasterKelompokPanganController::class, 'create'])->name('admin.master-kelompok-pangan.add');
+                    Route::post('/add/new',             [MasterKelompokPanganController::class, 'store'])->name('admin.master-kelompok-pangan.store');
+
+                    Route::get('/detail/{id}',          [MasterKelompokPanganController::class, 'detail'])->name('admin.master-kelompok-pangan.detail');
+                    Route::put('/edit/{id}',            [MasterKelompokPanganController::class, 'update'])->name('admin.master-kelompok-pangan.update');
+                    Route::get('/edit/{id}',            [MasterKelompokPanganController::class, 'edit'])->name('admin.master-kelompok-pangan.edit');
+                    Route::get('/delete/{id}',          [MasterKelompokPanganController::class, 'deleteConfirm'])->name('admin.master-kelompok-pangan.delete');
+                    Route::delete('/delete/{id}',       [MasterKelompokPanganController::class, 'destroy'])->name('admin.master-kelompok-pangan.destroy');
                 });
         });
 

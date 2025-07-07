@@ -27,4 +27,13 @@
     'menuIcon' => 'bx bx-map',
     'subMenuData' => null,
 ])
+
+
+@include('admin.components.sidebar.item', [
+    'menuId' => 'menu-kelompok-pangan-management',
+    'menuText' => 'Kelompok Pangan',
+    'menuUrl' => route('admin.master-kelompok-pangan.index'),
+    'menuIcon' => 'bx bx-food-menu',
+    'subMenuData' => null,
+])
 @endif
