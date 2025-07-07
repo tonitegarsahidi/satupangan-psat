@@ -193,3 +193,31 @@ if(config('saas.SAAS_ACTIVATED')){
     require __DIR__ . '/saas.php';
 }
 
+
+// MANAGE CEMARAN LOGAM BERAT
+Route::prefix('/master-cemaran-logam-berat')
+    ->group(function () {
+        Route::get('/',                     [\App\Http\Controllers\MasterCemaranLogamBeratController::class, 'index'])->name('admin.master-cemaran-logam-berat.index');
+        Route::get('/add/new',              [\App\Http\Controllers\MasterCemaranLogamBeratController::class, 'create'])->name('admin.master-cemaran-logam-berat.add');
+        Route::post('/add/new',             [\App\Http\Controllers\MasterCemaranLogamBeratController::class, 'store'])->name('admin.master-cemaran-logam-berat.store');
+
+        Route::get('/detail/{id}',          [\App\Http\Controllers\MasterCemaranLogamBeratController::class, 'detail'])->name('admin.master-cemaran-logam-berat.detail');
+        Route::put('/edit/{id}',            [\App\Http\Controllers\MasterCemaranLogamBeratController::class, 'update'])->name('admin.master-cemaran-logam-berat.update');
+        Route::get('/edit/{id}',            [\App\Http\Controllers\MasterCemaranLogamBeratController::class, 'edit'])->name('admin.master-cemaran-logam-berat.edit');
+        Route::get('/delete/{id}',          [\App\Http\Controllers\MasterCemaranLogamBeratController::class, 'deleteConfirm'])->name('admin.master-cemaran-logam-berat.delete');
+        Route::delete('/delete/{id}',       [\App\Http\Controllers\MasterCemaranLogamBeratController::class, 'destroy'])->name('admin.master-cemaran-logam-berat.destroy');
+    });
+
+// MANAGE CEMARAN MIKROTOKSIN
+Route::prefix('/master-cemaran-mikrotoksin')
+    ->group(function () {
+        Route::get('/',                     [\App\Http\Controllers\MasterCemaranMikrotoksinController::class, 'index'])->name('admin.master-cemaran-mikrotoksin.index');
+        Route::get('/add/new',              [\App\Http\Controllers\MasterCemaranMikrotoksinController::class, 'create'])->name('admin.master-cemaran-mikrotoksin.add');
+        Route::post('/add/new',             [\App\Http\Controllers\MasterCemaranMikrotoksinController::class, 'store'])->name('admin.master-cemaran-mikrotoksin.store');
+
+        Route::get('/detail/{id}',          [\App\Http\Controllers\MasterCemaranMikrotoksinController::class, 'detail'])->name('admin.master-cemaran-mikrotoksin.detail');
+        Route::put('/edit/{id}',            [\App\Http\Controllers\MasterCemaranMikrotoksinController::class, 'update'])->name('admin.master-cemaran-mikrotoksin.update');
+        Route::get('/edit/{id}',            [\App\Http\Controllers\MasterCemaranMikrotoksinController::class, 'edit'])->name('admin.master-cemaran-mikrotoksin.edit');
+        Route::get('/delete/{id}',          [\App\Http\Controllers\MasterCemaranMikrotoksinController::class, 'deleteConfirm'])->name('admin.master-cemaran-mikrotoksin.delete');
+        Route::delete('/delete/{id}',       [\App\Http\Controllers\MasterCemaranMikrotoksinController::class, 'destroy'])->name('admin.master-cemaran-mikrotoksin.destroy');
+    });

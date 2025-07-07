@@ -2,12 +2,13 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class MasterCemaranLogamBerat extends Model
 {
-    use SoftDeletes;
+    use SoftDeletes, HasUuids;
 
     protected $table = 'master_cemaran_logam_berats';
     protected $primaryKey = 'id';
