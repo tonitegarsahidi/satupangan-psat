@@ -28,6 +28,14 @@
     'subMenuData' => null,
 ])
 
+@include('admin.components.sidebar.item', [
+    'menuId' => 'menu-cemaran-mikroba-management',
+    'menuText' => 'Master Cemaran Mikroba',
+    'menuUrl' => route('admin.master-cemaran-mikroba.index'),
+    'menuIcon' => 'bx bx-bug',
+    'subMenuData' => null,
+])
+
 
 @include('admin.components.sidebar.item', [
     'menuId' => 'menu-kelompok-pangan-management',
