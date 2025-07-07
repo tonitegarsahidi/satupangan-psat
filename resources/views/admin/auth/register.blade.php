@@ -20,7 +20,7 @@
                         @include('admin.auth.logo')
 
                         <!-- /Logo -->
-                        <h4 class="mb-2">Ninja master starts here 🚀</h4>
+                        <h4 class="mb-2">Sobat Pangan master starts here 🚀</h4>
                         <p class="mb-4">Begin your training now!</p>
 
                          <!-- Notification element -->

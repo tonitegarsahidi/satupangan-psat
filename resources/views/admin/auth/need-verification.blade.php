@@ -19,8 +19,8 @@
 
                         @include('admin.auth.logo')
 
-                        <h4 class="mb-2">Please Confirm Yourself, Ninja! 👋</h4>
-                        <p class="mb-4">Check your email inbox, we sent you something to verify you are as ninja you are.</p>
+                        <h4 class="mb-2">Please Confirm Yourself, Sobat Pangan! 👋</h4>
+                        <p class="mb-4">Check your email inbox, we sent you something to verify you are as Sobat Pangan you are.</p>
                         <p class="mb-4">Been waiting and not got any email? Resent here  <a href="{{ route('verification.sendForm') }}">
                             <span>Resent Email Verification</span>
                         </a>.</p>

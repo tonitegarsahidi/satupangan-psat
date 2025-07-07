@@ -19,12 +19,12 @@
 
                         @include('admin.auth.logo')
 
-                        <h4 class="mb-2">We are reviewing your Application, Ninja! 👋</h4>
+                        <h4 class="mb-2">We are reviewing your Application, Sobat Pangan! 👋</h4>
                         <p class="mb-4">Please wait on 3x24 hours while our staff review your application.</p>
                         @if (config('constant.NEW_USER_NEED_VERIFY_EMAIL'))
                         <p  class="mb-4"> Also don't forget to <strong>verify your email</strong> via link sent through on your inbox.</p>
                         @endif
-                        <p  class="mb-4"> Once we approve your application, we'll email you and then you can Login and enjoy our Ninja playground.</p>
+                        <p  class="mb-4"> Once we approve your application, we'll email you and then you can Login and enjoy our Sobat Pangan playground.</p>
 
 
 
