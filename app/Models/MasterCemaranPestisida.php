@@ -2,13 +2,13 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use App\Models\Traits\HasUuid;
 
 class MasterCemaranPestisida extends Model
 {
-    use HasUuid, SoftDeletes;
+    use HasUuids, SoftDeletes;
 
     protected $table = 'master_cemaran_pestisidas';
     protected $primaryKey = 'id';

@@ -33,6 +33,7 @@ class DatabaseSeeder extends Seeder
             MasterCemaranLogamBeratSeeder::class,
             MasterCemaranMikrobaSeeder::class,
             MasterCemaranMikrotoksinSeeder::class,
+            MasterCemaranPestisidaSeeder::class,
             MasterKotaSeeder::class,
         ]);
     }

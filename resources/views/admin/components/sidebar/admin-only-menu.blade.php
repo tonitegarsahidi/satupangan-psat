@@ -79,6 +79,10 @@
                 'subMenuText' => 'Mikrotoksin',
                 'subMenuUrl' => route('admin.master-cemaran-mikrotoksin.index'),
             ],
+            [
+                'subMenuText' => 'Pestisida',
+                'subMenuUrl' => route('admin.master-cemaran-pestisida.index'),
+            ],
         ],
     ])
 

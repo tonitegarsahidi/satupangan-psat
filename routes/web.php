@@ -119,6 +119,19 @@ Route::middleware('auth')->group(function () {
                     Route::delete('/delete/{id}',       [\App\Http\Controllers\MasterCemaranMikrobaController::class, 'destroy'])->name('admin.master-cemaran-mikroba.destroy');
                 });
 
+            // MANAGE CEMARAN PESTISIDA
+            Route::prefix('/master-cemaran-pestisida')
+                ->group(function () {
+                    Route::get('/',                     [\App\Http\Controllers\MasterCemaranPestisidaController::class, 'index'])->name('admin.master-cemaran-pestisida.index');
+                    Route::get('/add/new',              [\App\Http\Controllers\MasterCemaranPestisidaController::class, 'create'])->name('admin.master-cemaran-pestisida.add');
+                    Route::post('/add/new',             [\App\Http\Controllers\MasterCemaranPestisidaController::class, 'store'])->name('admin.master-cemaran-pestisida.store');
+                    Route::get('/detail/{id}',          [\App\Http\Controllers\MasterCemaranPestisidaController::class, 'detail'])->name('admin.master-cemaran-pestisida.detail');
+                    Route::put('/edit/{id}',            [\App\Http\Controllers\MasterCemaranPestisidaController::class, 'update'])->name('admin.master-cemaran-pestisida.update');
+                    Route::get('/edit/{id}',            [\App\Http\Controllers\MasterCemaranPestisidaController::class, 'edit'])->name('admin.master-cemaran-pestisida.edit');
+                    Route::get('/delete/{id}',          [\App\Http\Controllers\MasterCemaranPestisidaController::class, 'deleteConfirm'])->name('admin.master-cemaran-pestisida.delete');
+                    Route::delete('/delete/{id}',       [\App\Http\Controllers\MasterCemaranPestisidaController::class, 'destroy'])->name('admin.master-cemaran-pestisida.destroy');
+                });
+
             // MANAGE KELOMPOK PANGAN
             Route::prefix('/master-kelompok-pangan')
                 ->group(function () {
