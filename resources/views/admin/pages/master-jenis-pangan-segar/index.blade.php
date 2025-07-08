@@ -78,7 +78,7 @@
                                     @include('components.arrow-sort', ['field' => 'kode_jenis_pangan_segar', 'sortField' => $sortField, 'sortOrder' => $sortOrder])
                                 </a>
                             </th>
-                            <th>
+                            <th style="max-width:250px;">
                                 <a
                                     href="{{ route('admin.master-jenis-pangan-segar.index', [
                                         'sort_field' => 'nama_jenis_pangan_segar',
@@ -118,7 +118,9 @@
                             <tr>
                                 <td>{{ $startNumber++ }}</td>
                                 <td>{{ $jenisPanganSegar->kode_jenis_pangan_segar }}</td>
-                                <td>{{ $jenisPanganSegar->nama_jenis_pangan_segar }}</td>
+                                <td style="max-width:250px; white-space:normal; word-break:break-word;">
+                                    {{ $jenisPanganSegar->nama_jenis_pangan_segar }}
+                                </td>
                                 <td>{{ $jenisPanganSegar->kelompok->nama_kelompok_pangan }}</td>
                                 <td>
                                     @if ($jenisPanganSegar->is_active)
