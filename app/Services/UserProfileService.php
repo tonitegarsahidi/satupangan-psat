@@ -63,8 +63,9 @@ class UserProfileService
                 "date_of_birth"     => $validatedData['date_of_birth'] ?? null,
                 "gender"            => $validatedData['gender'] ?? null,
                 "address"           => $validatedData['address'] ?? null,
-                "city"              => $validatedData['city'] ?? null,
-                "country"           => $validatedData['country'] ?? null,
+                "provinsi_id"       => $validatedData['provinsi_id'] ?? null,
+                "kota_id"           => $validatedData['kota_id'] ?? null,
+                "pekerjaan"         => $validatedData['pekerjaan'] ?? null,
                 "profile_picture"   => $validatedData['profile_picture'] ?? null,
             ], $validatedData);
 

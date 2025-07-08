@@ -95,31 +95,48 @@
                                     value="{{ old('address', $profile->address ?? '') }}" />
                             </div>
 
-                            <!-- City -->
+                            <!-- Provinsi -->
                             <div class="mb-3 col-md-6">
-                                <label for="city" class="form-label">City</label>
+                                <label for="provinsi_id" class="form-label">Provinsi</label>
                                 @include('admin.components.notification.error-validation', [
-                                    'field' => 'city',
+                                    'field' => 'provinsi_id',
                                 ])
-                                <input type="text" class="form-control" id="city" name="city"
-                                    value="{{ old('city', $profile->city ?? '') }}" />
-                            </div>
-
-                            <!-- Country -->
-                            <div class="mb-3 col-md-6">
-                                <label class="form-label" for="country">Country</label>
-                                @include('admin.components.notification.error-validation', [
-                                    'field' => 'country',
-                                ])
-                                <select id="country" name="country" class="select2 form-select">
-                                    <option value="">Select</option>
-                                    @foreach ($countries as $country)
-                                        <option value="{{ $country }}"
-                                            {{ old('country', $profile->country ?? '') == $country ? 'selected' : '' }}>
-                                            {{ $country }}
+                                <select id="provinsi_id" name="provinsi_id" class="select2 form-select">
+                                    <option value="">Pilih Provinsi</option>
+                                    @foreach ($provinsis as $provinsi)
+                                        <option value="{{ $provinsi->id }}"
+                                            {{ old('provinsi_id', $profile->provinsi_id ?? '') == $provinsi->id ? 'selected' : '' }}>
+                                            {{ $provinsi->nama_provinsi }}
                                         </option>
                                     @endforeach
                                 </select>
+                            </div>
+
+                            <!-- Kota -->
+                            <div class="mb-3 col-md-6">
+                                <label for="kota_id" class="form-label">Kota</label>
+                                @include('admin.components.notification.error-validation', [
+                                    'field' => 'kota_id',
+                                ])
+                                <select id="kota_id" name="kota_id" class="select2 form-select">
+                                    <option value="">Pilih Kota</option>
+                                    @foreach ($kotas as $kota)
+                                        <option value="{{ $kota->id }}"
+                                            {{ old('kota_id', $profile->kota_id ?? '') == $kota->id ? 'selected' : '' }}>
+                                            {{ $kota->nama_kota }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>
+
+                            <!-- Pekerjaan -->
+                            <div class="mb-3 col-md-6">
+                                <label for="pekerjaan" class="form-label">Pekerjaan</label>
+                                @include('admin.components.notification.error-validation', [
+                                    'field' => 'pekerjaan',
+                                ])
+                                <input type="text" class="form-control" id="pekerjaan" name="pekerjaan"
+                                    value="{{ old('pekerjaan', $profile->pekerjaan ?? '') }}" />
                             </div>
 
                             <!-- Gender -->
@@ -213,6 +230,31 @@
     function showError(message) {
         document.getElementById('profilePictureError').textContent = message; // Set error message
     }
+
+    // Dependent dropdown: Provinsi -> Kota
+    document.getElementById('provinsi_id').addEventListener('change', function() {
+        var provinsiId = this.value;
+        var kotaSelect = document.getElementById('kota_id');
+        kotaSelect.innerHTML = '<option value="">Loading...</option>';
+        if (provinsiId) {
+            fetch('/profile/kota-by-provinsi/' + provinsiId)
+                .then(response => response.json())
+                .then(data => {
+                    kotaSelect.innerHTML = '<option value="">Pilih Kota</option>';
+                    data.forEach(function(kota) {
+                        var option = document.createElement('option');
+                        option.value = kota.id;
+                        option.text = kota.nama_kota;
+                        kotaSelect.appendChild(option);
+                    });
+                })
+                .catch(() => {
+                    kotaSelect.innerHTML = '<option value="">Gagal memuat kota</option>';
+                });
+        } else {
+            kotaSelect.innerHTML = '<option value="">Pilih Kota</option>';
+        }
+    });
 </script>
 
 @endsection

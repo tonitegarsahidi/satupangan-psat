@@ -50,6 +50,7 @@ Route::middleware('auth')->group(function () {
     //PROFILE SETTING
     Route::get('/profile', [UserProfileController::class, 'index'])->name('user.profile.index');
     Route::put('/profile', [UserProfileController::class, 'updateOrCreate'])->name('user.profile.update');
+    Route::get('/profile/kota-by-provinsi/{provinsiId}', [UserProfileController::class, 'getKotaByProvinsi'])->name('user.profile.kota_by_provinsi');
 
 
     // SAMPLE PAGES FOR THIS BOILER PLATE THING....

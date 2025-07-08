@@ -17,8 +17,9 @@ class UserProfile extends Model
         'date_of_birth',
         'gender',
         'address',
-        'city',
-        'country',
+        'provinsi_id',
+        'kota_id',
+        'pekerjaan',
         'profile_picture',
         'created_by',
         'updated_by',
@@ -31,5 +32,20 @@ class UserProfile extends Model
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+    /**
+     * Relasi ke MasterKota
+     */
+    public function kota()
+    {
+        return $this->belongsTo(MasterKota::class, 'kota_id');
+    }
+
+    /**
+     * Relasi ke MasterProvinsi
+     */
+    public function provinsi()
+    {
+        return $this->belongsTo(MasterProvinsi::class, 'provinsi_id');
     }
 }

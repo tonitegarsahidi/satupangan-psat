@@ -6,18 +6,20 @@ use App\Helpers\AlertHelper;
 use App\Http\Requests\UserProfileUpdateRequest;
 use App\Services\ImageUploadService;
 use App\Services\UserProfileService;
+use App\Repositories\MasterProvinsiRepository;
+use App\Repositories\MasterKotaRepository;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
 
-    /**
-     * ################################################
-     *      THIS IS USERPROFILE CONTROLLER
-     * handles basic things for userprofile operations
-     * mostly on user avatar and user profile data.
-     * ################################################
-     */
+/**
+ * ################################################
+ *      THIS IS USERPROFILE CONTROLLER
+ * handles basic things for userprofile operations
+ * mostly on user avatar and user profile data.
+ * ################################################
+ */
 class UserProfileController extends Controller
 {
 
@@ -25,11 +27,19 @@ class UserProfileController extends Controller
     private $imageUploadService;
     private $mainBreadcrumbs;
 
+    private $provinsiRepository;
+    private $kotaRepository;
 
-    public function __construct(UserProfileService $userProfileService, ImageUploadService $imageUploadService)
-    {
+    public function __construct(
+        UserProfileService $userProfileService,
+        ImageUploadService $imageUploadService,
+        MasterProvinsiRepository $provinsiRepository,
+        MasterKotaRepository $kotaRepository
+    ) {
         $this->userProfileService = $userProfileService;
         $this->imageUploadService = $imageUploadService;
+        $this->provinsiRepository = $provinsiRepository;
+        $this->kotaRepository = $kotaRepository;
         // Store common breadcrumbs in the constructor
         $this->mainBreadcrumbs = [
             'User Profile' => route('user.setting.index')
@@ -44,18 +54,21 @@ class UserProfileController extends Controller
      */
     public function index(Request $request): View
     {
-        //list of countries example
-        $countries = config('constant.COUNTRIES');
-
-
-        //get user Id
         $profile = $this->userProfileService->getUserProfile(Auth::user()->id);
         $breadcrumbs = array_merge($this->mainBreadcrumbs, ['My Profile' => null]);
-
-        // dd($profile);
         $alerts = AlertHelper::getAlerts();
 
-        return view('admin.pages.setting.userprofile-index', compact('profile', 'breadcrumbs', 'countries', 'alerts'));
+        // Ambil semua provinsi aktif
+        $provinsis = \App\Models\MasterProvinsi::where('is_active', 1)->orderBy('nama_provinsi')->get();
+
+        // Ambil kota dari provinsi terpilih, atau kosong jika belum ada
+        $kotas = collect();
+        $selectedProvinsiId = old('provinsi_id', $profile->provinsi_id ?? null);
+        if ($selectedProvinsiId) {
+            $kotas = \App\Models\MasterKota::where('provinsi_id', $selectedProvinsiId)->where('is_active', 1)->orderBy('nama_kota')->get();
+        }
+
+        return view('admin.pages.setting.userprofile-index', compact('profile', 'breadcrumbs', 'provinsis', 'kotas', 'alerts'));
     }
 
     /**
@@ -94,5 +107,14 @@ class UserProfileController extends Controller
 
         // Redirect back with the alert
         return redirect()->route('user.profile.index')->with(['alerts' => [$alert]]);
+    }
+
+    /**
+     * Endpoint AJAX: get kota by provinsi
+     */
+    public function getKotaByProvinsi($provinsiId)
+    {
+        $kotas = \App\Models\MasterKota::where('provinsi_id', $provinsiId)->where('is_active', 1)->orderBy('nama_kota')->get(['id', 'nama_kota']);
+        return response()->json($kotas);
     }
 }
