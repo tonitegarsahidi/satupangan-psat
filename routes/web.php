@@ -230,6 +230,8 @@ Route::middleware('auth')->group(function () {
 });
 
 
+Route::get('/register/kota-by-provinsi/{provinsiId}', [UserProfileController::class, 'getKotaByProvinsi'])->name('register.kota_by_provinsi');
+
 require __DIR__ . '/auth.php';
 
 if (config('saas.SAAS_ACTIVATED')) {
