@@ -203,6 +203,32 @@ Route::middleware('auth')->group(function () {
                     Route::get('/delete/{id}',          [\App\Http\Controllers\MasterCemaranMikrotoksinController::class, 'deleteConfirm'])->name('admin.master-cemaran-mikrotoksin.delete');
                     Route::delete('/delete/{id}',       [\App\Http\Controllers\MasterCemaranMikrotoksinController::class, 'destroy'])->name('admin.master-cemaran-mikrotoksin.destroy');
                 });
+
+            // MANAGE KOTA
+            Route::prefix('/master-kota')
+                ->group(function () {
+                    Route::get('/',                     [\App\Http\Controllers\MasterKotaController::class, 'index'])->name('admin.master-kota.index');
+                    Route::get('/add/new',              [\App\Http\Controllers\MasterKotaController::class, 'create'])->name('admin.master-kota.add');
+                    Route::post('/add/new',             [\App\Http\Controllers\MasterKotaController::class, 'store'])->name('admin.master-kota.store');
+
+                    Route::get('/detail/{id}',          [\App\Http\Controllers\MasterKotaController::class, 'detail'])->name('admin.master-kota.detail');
+                    Route::put('/edit/{id}',            [\App\Http\Controllers\MasterKotaController::class, 'update'])->name('admin.master-kota.update');
+                    Route::get('/edit/{id}',            [\App\Http\Controllers\MasterKotaController::class, 'edit'])->name('admin.master-kota.edit');
+                    Route::get('/delete/{id}',          [\App\Http\Controllers\MasterKotaController::class, 'deleteConfirm'])->name('admin.master-kota.delete');
+                    Route::delete('/delete/{id}',       [\App\Http\Controllers\MasterKotaController::class, 'destroy'])->name('admin.master-kota.destroy');
+                });
+
+            // Workflow routes (admin only)
+            Route::prefix('workflows')->group(function () {
+                Route::get('/', [\App\Http\Controllers\WorkflowController::class, 'index'])->name('admin.workflow.index');
+                Route::get('/add', [\App\Http\Controllers\WorkflowController::class, 'create'])->name('admin.workflow.add');
+                Route::post('/', [\App\Http\Controllers\WorkflowController::class, 'store'])->name('admin.workflow.store');
+                Route::get('/detail/{id}', [\App\Http\Controllers\WorkflowController::class, 'detail'])->name('admin.workflow.detail');
+                Route::get('/edit/{id}', [\App\Http\Controllers\WorkflowController::class, 'edit'])->name('admin.workflow.edit');
+                Route::post('/update/{id}', [\App\Http\Controllers\WorkflowController::class, 'update'])->name('admin.workflow.update');
+                Route::get('/delete/{id}', [\App\Http\Controllers\WorkflowController::class, 'deleteConfirm'])->name('admin.workflow.delete');
+                Route::post('/destroy/{id}', [\App\Http\Controllers\WorkflowController::class, 'destroy'])->name('admin.workflow.destroy');
+            });
         });
 
 
@@ -237,17 +263,3 @@ require __DIR__ . '/auth.php';
 if (config('saas.SAAS_ACTIVATED')) {
     require __DIR__ . '/saas.php';
 }
-
-// MANAGE KOTA
-Route::prefix('/master-kota')
-    ->group(function () {
-        Route::get('/',                     [\App\Http\Controllers\MasterKotaController::class, 'index'])->name('admin.master-kota.index');
-        Route::get('/add/new',              [\App\Http\Controllers\MasterKotaController::class, 'create'])->name('admin.master-kota.add');
-        Route::post('/add/new',             [\App\Http\Controllers\MasterKotaController::class, 'store'])->name('admin.master-kota.store');
-
-        Route::get('/detail/{id}',          [\App\Http\Controllers\MasterKotaController::class, 'detail'])->name('admin.master-kota.detail');
-        Route::put('/edit/{id}',            [\App\Http\Controllers\MasterKotaController::class, 'update'])->name('admin.master-kota.update');
-        Route::get('/edit/{id}',            [\App\Http\Controllers\MasterKotaController::class, 'edit'])->name('admin.master-kota.edit');
-        Route::get('/delete/{id}',          [\App\Http\Controllers\MasterKotaController::class, 'deleteConfirm'])->name('admin.master-kota.delete');
-        Route::delete('/delete/{id}',       [\App\Http\Controllers\MasterKotaController::class, 'destroy'])->name('admin.master-kota.destroy');
-    });
