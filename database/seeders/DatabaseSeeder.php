@@ -35,6 +35,10 @@ class DatabaseSeeder extends Seeder
             MasterCemaranMikrotoksinSeeder::class,
             MasterCemaranPestisidaSeeder::class,
             MasterKotaSeeder::class,
+            WorkflowSeeder::class,
+            WorkflowActionSeeder::class,
+            WorkflowThreadSeeder::class,
+            WorkflowAttachmentSeeder::class,
         ]);
     }
 }
