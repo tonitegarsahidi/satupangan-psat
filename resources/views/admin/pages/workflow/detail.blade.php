@@ -53,11 +53,27 @@
                                 </tr>
                                 <tr>
                                     <th class="bg-dark text-white">Initiator</th>
-                                    <td>{{ $data->user_id_initiator }}</td>
+                                    <td>
+                                        @if($data->initiator)
+                                            <a href="{{ route('admin.user.detail', ['id' => $data->initiator->id]) }}" target="_blank">
+                                                {{ $data->initiator->name }}
+                                            </a>
+                                        @else
+                                            {{ $data->user_id_initiator }}
+                                        @endif
+                                    </td>
                                 </tr>
                                 <tr>
                                     <th class="bg-dark text-white">Current Assignee</th>
-                                    <td>{{ $data->current_assignee_id }}</td>
+                                    <td>
+                                        @if($data->currentAssignee)
+                                            <a href="{{ route('admin.user.detail', ['id' => $data->currentAssignee->id]) }}" target="_blank">
+                                                {{ $data->currentAssignee->name }}
+                                            </a>
+                                        @else
+                                            {{ $data->current_assignee_id }}
+                                        @endif
+                                    </td>
                                 </tr>
                                 <tr>
                                     <th class="bg-dark text-white">Parent Workflow</th>

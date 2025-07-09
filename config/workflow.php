@@ -14,6 +14,13 @@ return [
         'MENUNGGU TANGGAPAN DINAS',
         'SELESAI',
         'DITOLAK',
+        'DISETUJUI',
+        'DITUTUP',
+        'DIBATALKAN',
+        'DIBUKA KEMBALI',
+        'DIPINDAHKAN',
+        'DIARSIPKAN',
+        'TERBIT'
     ],
     'categories' => [
         'Teknis',
