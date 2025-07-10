@@ -12,6 +12,12 @@ use Illuminate\Support\Facades\Validator;
 
 class EmailVerificationNotificationController extends Controller
 {
+    private $userService;
+
+    public function __construct(\App\Services\UserService $userService)
+    {
+        $this->userService = $userService;
+    }
     /**
      * =================================================
      *      Send a new email verification notification.
@@ -59,7 +65,7 @@ class EmailVerificationNotificationController extends Controller
         }
 
         // Retrieve the user by email
-        $user = User::where('email', $request->email)->first();
+        $user = $this->userService->getUserByEmail($request->email);
 
         // Check if the user exists and has not verified their email
         if ($user && $user->hasVerifiedEmail()) {

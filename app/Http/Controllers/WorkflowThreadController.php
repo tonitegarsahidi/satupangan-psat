@@ -10,11 +10,13 @@ use Illuminate\Validation\ValidationException;
 class WorkflowThreadController extends Controller
 {
     private $workflowThreadService;
+    private $userService;
     private $mainBreadcrumbs;
 
-    public function __construct(WorkflowThreadService $workflowThreadService)
+    public function __construct(WorkflowThreadService $workflowThreadService, \App\Services\UserService $userService)
     {
         $this->workflowThreadService = $workflowThreadService;
+        $this->userService = $userService;
         $this->mainBreadcrumbs = [
             'Admin' => route('admin.workflow-thread.index'),
             'Workflow Thread' => route('admin.workflow-thread.index'),
@@ -68,7 +70,7 @@ class WorkflowThreadController extends Controller
     public function edit(Request $request, $id)
     {
         $thread = $this->workflowThreadService->getThreadDetail($id);
-        $users = \App\Models\User::orderBy('name')->get();
+        $users = $this->userService->getAllUsersSortedByName();
         $breadcrumbs = array_merge($this->mainBreadcrumbs, ['Edit' => null]);
         return view('admin.pages.workflow-thread.edit', compact('breadcrumbs', 'thread', 'users'));
     }

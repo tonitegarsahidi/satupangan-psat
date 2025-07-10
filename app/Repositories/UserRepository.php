@@ -82,4 +82,13 @@ class UserRepository
             throw $e; // Return false if deletion fails
         }
     }
+    public function getAllUsersSortedByName()
+    {
+        return User::orderBy('name', 'asc')->get();
+    }
+
+    public function getUserByEmail($email)
+    {
+        return User::where('email', $email)->first();
+    }
 }

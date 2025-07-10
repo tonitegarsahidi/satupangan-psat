@@ -102,6 +102,11 @@ class UserService
         }
     }
 
+    public function getUserByEmail($email)
+    {
+        return $this->userRepository->getUserByEmail($email);
+    }
+
     /**
      * =============================================
      * process delete user
@@ -120,5 +125,9 @@ class UserService
             Log::error("Failed to delete user with id $userId: {$exception->getMessage()}");
             return false;
         }
+    }
+    public function getAllUsersSortedByName()
+    {
+        return $this->userRepository->getAllUsersSortedByName();
     }
 }

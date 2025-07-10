@@ -10,11 +10,13 @@ use Illuminate\Validation\ValidationException;
 class WorkflowActionController extends Controller
 {
     private $workflowActionService;
+    private $userService;
     private $mainBreadcrumbs;
 
-    public function __construct(WorkflowActionService $workflowActionService)
+    public function __construct(WorkflowActionService $workflowActionService, \App\Services\UserService $userService)
     {
         $this->workflowActionService = $workflowActionService;
+        $this->userService = $userService;
         $this->mainBreadcrumbs = [
             'Admin' => route('admin.workflow-action.index'),
             'Workflow Action' => route('admin.workflow-action.index'),
@@ -68,7 +70,7 @@ class WorkflowActionController extends Controller
     public function edit(Request $request, $id)
     {
         $action = $this->workflowActionService->getActionDetail($id);
-        $users = \App\Models\User::orderBy('name')->get();
+        $users = $this->userService->getAllUsersSortedByName();
         $breadcrumbs = array_merge($this->mainBreadcrumbs, ['Edit' => null]);
         return view('admin.pages.workflow-action.edit', compact('breadcrumbs', 'action', 'users'));
     }

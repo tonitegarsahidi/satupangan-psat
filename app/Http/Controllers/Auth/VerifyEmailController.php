@@ -11,6 +11,13 @@ use Illuminate\Http\Request;
 
 class VerifyEmailController extends Controller
 {
+    private $userService;
+
+    public function __construct(\App\Services\UserService $userService)
+    {
+        $this->userService = $userService;
+    }
+
     /**
      * =========================================================
      * Mark the authenticated user's email address as verified.
@@ -19,7 +26,7 @@ class VerifyEmailController extends Controller
     public function __invoke(Request $request): RedirectResponse
     {
         // Retrieve user based on ID in the request
-        $user = User::find($request->route('id'));
+        $user = $this->userService->getUserDetail($request->route('id'));
 
         // Check if the user exists
         if (!$user) {

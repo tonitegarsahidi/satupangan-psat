@@ -12,6 +12,13 @@ use Illuminate\View\View;
 
 class PasswordResetLinkController extends Controller
 {
+    private $userService;
+
+    public function __construct(\App\Services\UserService $userService)
+    {
+        $this->userService = $userService;
+    }
+
     /**
      * =============================================
      * Display the password reset link request view.
@@ -33,7 +40,7 @@ class PasswordResetLinkController extends Controller
             'email' => ['required', 'email'],
         ]);
 
-        $user = User::where('email', $request->input('email'))->first();
+        $user = $this->userService->getUserByEmail($request->input('email'));
 
         if ($user) {
             Log::debug("Dispatching the Jobs");
