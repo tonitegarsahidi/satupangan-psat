@@ -23,7 +23,15 @@
                     </div>
                     <div class="mb-3">
                         <label for="user_id" class="form-label">User</label>
-                        <input type="text" class="form-control" id="user_id" name="user_id" value="{{ old('user_id', $action->user_id) }}" required>
+                        <select class="form-control" id="user_id" name="user_id" required>
+                            <option value="">-- Select User --</option>
+                            @foreach($users as $user)
+                                <option value="{{ $user->id }}"
+                                    {{ old('user_id', $action->user_id) == $user->id ? 'selected' : '' }}>
+                                    {{ $user->name }} ({{ $user->email }})
+                                </option>
+                            @endforeach
+                        </select>
                     </div>
                     <div class="mb-3">
                         <label for="note" class="form-label">Note</label>
@@ -35,4 +43,18 @@
             </div>
         </div>
     </div>
+@endsection
+
+@section('footer-code')
+    <!-- Select2 JS and CSS (CDN) -->
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('#user_id').select2({
+                placeholder: 'Search for a user',
+                allowClear: true
+            });
+        });
+    </script>
 @endsection

@@ -68,8 +68,9 @@ class WorkflowActionController extends Controller
     public function edit(Request $request, $id)
     {
         $action = $this->workflowActionService->getActionDetail($id);
+        $users = \App\Models\User::orderBy('name')->get();
         $breadcrumbs = array_merge($this->mainBreadcrumbs, ['Edit' => null]);
-        return view('admin.pages.workflow-action.edit', compact('breadcrumbs', 'action'));
+        return view('admin.pages.workflow-action.edit', compact('breadcrumbs', 'action', 'users'));
     }
 
     public function update(Request $request, $id)
