@@ -65,4 +65,26 @@ class WorkflowRepository
             throw $e;
         }
     }
+    public function getWorkflowByIdWithAttachments($workflowId): ?\App\Models\Workflow
+    {
+        return \App\Models\Workflow::with([
+            'initiator',
+            'currentAssignee',
+            'attachments'
+        ])->find($workflowId);
+    }
+
+    public function getWorkflowActionsWithAttachments($workflowId)
+    {
+        return \App\Models\WorkflowAction::with('attachments')
+            ->where('workflow_id', $workflowId)
+            ->get();
+    }
+
+    public function getWorkflowThreadsWithAttachments($workflowId)
+    {
+        return \App\Models\WorkflowThread::with('attachments')
+            ->where('workflow_id', $workflowId)
+            ->get();
+    }
 }

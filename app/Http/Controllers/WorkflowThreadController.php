@@ -68,8 +68,9 @@ class WorkflowThreadController extends Controller
     public function edit(Request $request, $id)
     {
         $thread = $this->workflowThreadService->getThreadDetail($id);
+        $users = \App\Models\User::orderBy('name')->get();
         $breadcrumbs = array_merge($this->mainBreadcrumbs, ['Edit' => null]);
-        return view('admin.pages.workflow-thread.edit', compact('breadcrumbs', 'thread'));
+        return view('admin.pages.workflow-thread.edit', compact('breadcrumbs', 'thread', 'users'));
     }
 
     public function update(Request $request, $id)

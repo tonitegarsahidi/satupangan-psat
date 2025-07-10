@@ -117,4 +117,14 @@ class WorkflowController extends Controller
 
         return redirect()->route('admin.workflow.index')->with('alerts', [$alert]);
     }
+    public function history(Request $request, $id)
+    {
+        $historyData = $this->workflowService->getWorkflowHistoryData($id);
+        $breadcrumbs = array_merge($this->mainBreadcrumbs, ['History' => null]);
+        return view('admin.pages.workflow.history', [
+            'breadcrumbs' => $breadcrumbs,
+            'workflow' => $historyData['workflow'],
+            'historyItems' => $historyData['historyItems'],
+        ]);
+    }
 }

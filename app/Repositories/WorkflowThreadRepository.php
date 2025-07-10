@@ -10,7 +10,7 @@ class WorkflowThreadRepository
 {
     public function getAllThreads(int $perPage = 10, string $sortField = null, string $sortOrder = null, string $keyword = null): LengthAwarePaginator
     {
-        $query = WorkflowThread::query();
+        $query = WorkflowThread::with(['workflow'])->query();
 
         if (!is_null($sortField) && !is_null($sortOrder)) {
             $query->orderBy($sortField, $sortOrder);

@@ -1,6 +1,6 @@
-@extends('admin/template-base')
+@extends('admin.template-base', ['searchNavbar' => false])
 
-@section('page-title', 'List of Workflows')
+@section('page-title', 'Workflow Threads')
 
 @section('main-content')
     <div class="container-xxl flex-grow-1 container-p-y">
@@ -13,12 +13,12 @@
             {{-- FIRST ROW,  FOR TITLE AND ADD BUTTON --}}
             <div class="d-flex justify-content-between">
                 <div class="p-2 bd-highlight">
-                    <h3 class="card-header">List of Workflows</h3>
+                    <h3 class="card-header">List of Workflow Threads</h3>
                 </div>
                 <div class="p-2">
-                    <a class="btn btn-primary" href="{{ route('admin.workflow.add') }}">
+                    <a class="btn btn-primary" href="#">
                         <span class="tf-icons bx bx-plus"></span>&nbsp;
-                        Add New Workflow
+                        Add New Thread
                     </a>
                 </div>
             </div>
@@ -32,7 +32,7 @@
                     <form action="{{ url()->full() }}" method="get" class="d-flex align-items-center">
                         <i class="bx bx-search fs-4 lh-0"></i>
                         <input type="text" class="form-control border-1 shadow-none bg-light bg-gradient"
-                            placeholder="Search title, type, status, category..." aria-label="Search title, type, status, category..." name="keyword"
+                            placeholder="Search message, user..." aria-label="Search message, user..." name="keyword"
                             value="{{ isset($keyword) ? $keyword : '' }}" />
                         <input type="hidden" name="sort_order" value="{{ request()->input('sort_order') }}" />
                         <input type="hidden" name="sort_field" value="{{ request()->input('sort_field') }}" />
@@ -52,69 +52,66 @@
                         <tr>
                             <th>No</th>
                             <th>
-                                <a href="{{ route('admin.workflow.index', [
-                                    'sort_field' => 'title',
+                                <a href="{{ route('admin.workflow-thread.index', [
+                                    'sort_field' => 'message',
                                     'sort_order' => $sortOrder == 'asc' ? 'desc' : 'asc',
                                     'keyword' => $keyword,
                                 ]) }}">
-                                    Title
-                                    @include('components.arrow-sort', ['field' => 'title', 'sortField' => $sortField, 'sortOrder' => $sortOrder])
+                                    Message
+                                    @include('components.arrow-sort', ['field' => 'message', 'sortField' => $sortField, 'sortOrder' => $sortOrder])
                                 </a>
                             </th>
-                            <th>Type</th>
-                            <th>Status</th>
-                            <th>Category</th>
-                            <th>Due Date</th>
-                            <th>Is Active</th>
+                            <th>Workflow Title</th>
+                            <th>User</th>
+                            <th>Is Internal</th>
+                            <th>Created At</th>
                             <th></th>
                             <th></th>
-                            <th></th>
-                            <th>History</th>
                         </tr>
                     </thead>
                     <tbody>
                         @php
                             $startNumber = $perPage * ($page - 1) + 1;
                         @endphp
-                        @foreach ($workflows as $workflow)
+                        @foreach ($threads as $thread)
                             <tr>
                                 <td>{{ $startNumber++ }}</td>
-                                <td>{{ $workflow->title }}</td>
-                                <td>{{ $workflow->type }}</td>
-                                <td>{{ $workflow->status }}</td>
-                                <td>{{ $workflow->category }}</td>
-                                <td>{{ $workflow->due_date ? \Carbon\Carbon::parse($workflow->due_date)->format('Y-m-d') : '-' }}</td>
-                                <td>
-                                    @if ($workflow->is_active)
-                                        <span class="badge rounded-pill bg-success"> Yes </span>
+                                <td style="white-space: pre-line; word-break: break-word; max-width: 200px;">{{ $thread->message }}</td>
+                                <td style="white-space: pre-line; word-break: break-word; max-width: 200px;">
+                                    @if($thread->workflow && $thread->workflow->title)
+                                        {{ $thread->workflow->title }}
                                     @else
-                                        <span class="badge rounded-pill bg-danger"> No </span>
+                                        -
+                                    @endif
+                                </td>
+                                    @if($thread->user && $thread->user->name)
+                                        <a href="{{ route('admin.user.detail', ['id' => $thread->user->id]) }}" target="_blank" style="word-break: break-word;">
+                                            {{ $thread->user->name }}
+                                        </a>
+                                    @else
+                                        <span style="word-break: break-word;">{{ $thread->user_id }}</span>
                                     @endif
                                 </td>
                                 <td>
-                                    <a class="action-icon" href="{{ route('admin.workflow.detail', ['id' => $workflow->id]) }}"
-                                        title="detail">
-                                        <i class='bx bx-search'></i>
-                                    </a>
+                                    @if($thread->is_internal)
+                                        <span class="badge rounded-pill bg-info">Internal</span>
+                                    @else
+                                        <span class="badge rounded-pill bg-secondary">External</span>
+                                    @endif
                                 </td>
+                                <td style="white-space: pre-line; word-break: break-word; max-width: 120px;">{{ $thread->created_at ? \Carbon\Carbon::parse($thread->created_at)->format('Y-m-d H:i') : '-' }}</td>
                                 <td>
-                                    <a class="action-icon" href="{{ route('admin.workflow.edit', ['id' => $workflow->id]) }}"
+                                    <a class="action-icon" href="{{ route('admin.workflow-thread.edit', ['id' => $thread->id]) }}"
                                         title="edit">
                                         <i class='bx bx-pencil'></i>
                                     </a>
                                 </td>
                                 <td>
-                                    <a class="action-icon" href="{{ route('admin.workflow.delete', ['id' => $workflow->id]) }}"
+                                    <a class="action-icon" href="{{ route('admin.workflow-thread.delete', ['id' => $thread->id]) }}"
                                         title="delete">
                                         <i class='bx bx-trash'></i>
                                     </a>
                                 </td>
-                            <td>
-                                <a class="action-icon" href="{{ route('admin.workflow.history', ['id' => $workflow->id]) }}"
-                                   title="history">
-                                    <i class='bx bx-history'></i>
-                                </a>
-                            </td>
                             </tr>
                         @endforeach
                     </tbody>
@@ -122,7 +119,7 @@
                 <br />
                 <div class="row">
                     <div class="col-md-10 mx-auto">
-                        {{ $workflows->onEachSide(5)->links('admin.components.paginator.default') }}
+                        {{ $threads->onEachSide(5)->links('admin.components.paginator.default') }}
                     </div>
                 </div>
             </div>

@@ -228,6 +228,21 @@ Route::middleware('auth')->group(function () {
                 Route::post('/update/{id}', [\App\Http\Controllers\WorkflowController::class, 'update'])->name('admin.workflow.update');
                 Route::get('/delete/{id}', [\App\Http\Controllers\WorkflowController::class, 'deleteConfirm'])->name('admin.workflow.delete');
                 Route::post('/destroy/{id}', [\App\Http\Controllers\WorkflowController::class, 'destroy'])->name('admin.workflow.destroy');
+            // Workflow History
+            Route::get('/history/{id}', [\App\Http\Controllers\WorkflowController::class, 'history'])->name('admin.workflow.history');
+                // WorkflowAction CRUD
+                Route::get('/action', [\App\Http\Controllers\WorkflowActionController::class, 'index'])->name('admin.workflow-action.index');
+                Route::get('/action/edit/{id}', [\App\Http\Controllers\WorkflowActionController::class, 'edit'])->name('admin.workflow-action.edit');
+                Route::put('/action/update/{id}', [\App\Http\Controllers\WorkflowActionController::class, 'update'])->name('admin.workflow-action.update');
+                Route::get('/action/delete/{id}', [\App\Http\Controllers\WorkflowActionController::class, 'deleteConfirm'])->name('admin.workflow-action.delete');
+                Route::delete('/action/delete/{id}', [\App\Http\Controllers\WorkflowActionController::class, 'destroy'])->name('admin.workflow-action.destroy');
+
+                // WorkflowThread CRUD
+                Route::get('/thread', [\App\Http\Controllers\WorkflowThreadController::class, 'index'])->name('admin.workflow-thread.index');
+                Route::get('/thread/edit/{id}', [\App\Http\Controllers\WorkflowThreadController::class, 'edit'])->name('admin.workflow-thread.edit');
+                Route::put('/thread/update/{id}', [\App\Http\Controllers\WorkflowThreadController::class, 'update'])->name('admin.workflow-thread.update');
+                Route::get('/thread/delete/{id}', [\App\Http\Controllers\WorkflowThreadController::class, 'deleteConfirm'])->name('admin.workflow-thread.delete');
+                Route::delete('/thread/delete/{id}', [\App\Http\Controllers\WorkflowThreadController::class, 'destroy'])->name('admin.workflow-thread.destroy');
             });
         });
 

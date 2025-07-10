@@ -75,4 +75,40 @@ class WorkflowService
             return false;
         }
     }
+    public function getWorkflowHistoryData($workflowId)
+    {
+        // Get workflow with attachments
+        $workflow = $this->workflowRepository->getWorkflowByIdWithAttachments($workflowId);
+
+        // Get actions with attachments
+        $actions = $this->workflowRepository->getWorkflowActionsWithAttachments($workflowId);
+
+        // Get threads with attachments
+        $threads = $this->workflowRepository->getWorkflowThreadsWithAttachments($workflowId);
+
+        // Merge actions and threads, sort by created_at
+        $historyItems = collect();
+
+        foreach ($actions as $action) {
+            $historyItems->push([
+                'type' => 'action',
+                'data' => $action,
+                'created_at' => $action->created_at,
+            ]);
+        }
+        foreach ($threads as $thread) {
+            $historyItems->push([
+                'type' => 'thread',
+                'data' => $thread,
+                'created_at' => $thread->created_at,
+            ]);
+        }
+
+        $historyItems = $historyItems->sortBy('created_at')->values();
+
+        return [
+            'workflow' => $workflow,
+            'historyItems' => $historyItems,
+        ];
+    }
 }
