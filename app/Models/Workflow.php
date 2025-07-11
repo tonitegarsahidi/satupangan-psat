@@ -58,4 +58,13 @@ class Workflow extends Model
     {
         return $this->hasMany(WorkflowAttachment::class, 'linked_id')->where('linked_type', 'Workflow');
     }
+    public function createdByUser()
+    {
+        return $this->belongsTo(User::class, 'created_by');
+    }
+
+    public function updatedByUser()
+    {
+        return $this->belongsTo(User::class, 'updated_by');
+    }
 }

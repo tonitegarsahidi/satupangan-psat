@@ -80,13 +80,6 @@
                                     <td>{{ $data->parent_id }}</td>
                                 </tr>
                                 <tr>
-                                    <th class="bg-dark text-white">Created By</th>
-                                    <td>{{ $data->created_by }}</td>
-                                </tr>
-                                <tr>
-                                    <th class="bg-dark text-white">Updated By</th>
-                                    <td>{{ $data->updated_by }}</td>
-                                </tr>
                             </tbody>
                         </table>
                         @if (config('constant.CRUD.DISPLAY_TIMESTAMPS'))

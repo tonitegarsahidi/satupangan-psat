@@ -36,7 +36,7 @@ class WorkflowRepository
 
     public function getWorkflowById($workflowId): ?Workflow
     {
-        return Workflow::with(['initiator', 'currentAssignee'])->find($workflowId);
+        return Workflow::with(['initiator', 'currentAssignee', 'createdByUser', 'updatedByUser'])->find($workflowId);
     }
 
     public function createWorkflow($data)

@@ -45,12 +45,16 @@ class WorkflowController extends Controller
     public function create(Request $request)
     {
         $breadcrumbs = array_merge($this->mainBreadcrumbs, ['Add' => null]);
-        return view('admin.pages.workflow.add', compact('breadcrumbs'));
+        $users = $this->userService->getAllUsersSortedByName();
+        return view('admin.pages.workflow.add', compact('breadcrumbs', 'users'));
     }
 
     public function store(Request $request)
     {
         $validatedData = $request->all(); // Ganti dengan $request->validated() jika pakai FormRequest
+        $validatedData['user_id_initiator'] = \Illuminate\Support\Facades\Auth::id();
+        $validatedData['created_by'] = \Illuminate\Support\Facades\Auth::id();
+        $validatedData['updated_by'] = \Illuminate\Support\Facades\Auth::id();
         if ($this->workflowService->checkWorkflowTitleExist($validatedData["title"])) {
             throw ValidationException::withMessages([
                 'title' => 'Judul Workflow sudah ada sebelumnya.'
