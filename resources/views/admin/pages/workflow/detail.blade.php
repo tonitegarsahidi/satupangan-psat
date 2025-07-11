@@ -39,7 +39,7 @@
                                 </tr>
                                 <tr>
                                     <th class="bg-dark text-white">Due Date</th>
-                                    <td>{{ $data->due_date ? \Carbon\Carbon::parse($data->due_date)->format('Y-m-d') : '-' }}</td>
+                                    <td>{{ $data->due_date ? \Carbon\Carbon::parse($data->due_date)->format('d-m-Y') : '-' }}</td>
                                 </tr>
                                 <tr>
                                     <th class="bg-dark text-white">Is Active</th>

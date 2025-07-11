@@ -33,7 +33,7 @@
                         <table class="table table-hover">
                             <tbody>
                                 <tr>
-                                    <th class="bg-dark text-white">Title</th>
+                                    <th style="width: 250px;" class="bg-dark text-white">Title</th>
                                     <td>{{ $data->title }}</td>
                                 </tr>
                                 <tr>
@@ -49,6 +49,10 @@
                                     <td>{{ $data->category }}</td>
                                 </tr>
                                 <tr>
+                                    <th class="bg-dark text-white">Due Date</th>
+                                    <td>{{ $data->due_date ? \Carbon\Carbon::parse($data->due_date)->format('d-m-Y') : '-' }}</td>
+                                </tr>
+                                <tr>
                                     <th class="bg-dark text-white">Is Active</th>
                                     <td>
                                         @if ($data->is_active)
@@ -57,6 +61,42 @@
                                             <span class="badge rounded-pill bg-danger"> No </span>
                                         @endif
                                     </td>
+                                </tr>
+                                <tr>
+                                    <th class="bg-dark text-white">Initiator</th>
+                                    <td>
+                                        @if($data->initiator)
+                                            <a href="{{ route('admin.user.detail', ['id' => $data->initiator->id]) }}" target="_blank">
+                                                {{ $data->initiator->name }}
+                                            </a>
+                                        @else
+                                            {{ $data->user_id_initiator }}
+                                        @endif
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th class="bg-dark text-white">Current Assignee</th>
+                                    <td>
+                                        @if($data->currentAssignee)
+                                            <a href="{{ route('admin.user.detail', ['id' => $data->currentAssignee->id]) }}" target="_blank">
+                                                {{ $data->currentAssignee->name }}
+                                            </a>
+                                        @else
+                                            {{ $data->current_assignee_id }}
+                                        @endif
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th class="bg-dark text-white">Parent Workflow</th>
+                                    <td>{{ $data->parent_id }}</td>
+                                </tr>
+                                <tr>
+                                    <th class="bg-dark text-white">Created By</th>
+                                    <td>{{ $data->created_by }}</td>
+                                </tr>
+                                <tr>
+                                    <th class="bg-dark text-white">Updated By</th>
+                                    <td>{{ $data->updated_by }}</td>
                                 </tr>
                                 <tr>
                                     <th class="bg-dark text-white">ID</th>

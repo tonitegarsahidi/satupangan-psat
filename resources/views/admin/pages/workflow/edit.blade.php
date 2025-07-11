@@ -81,6 +81,40 @@
                                 </div>
                             </div>
 
+                            {{-- INITIATOR FIELD --}}
+                            <div class="row mb-3">
+                                <label class="col-sm-2 col-form-label" for="user_id_initiator">Initiator*</label>
+                                <div class="col-sm-10">
+                                    @include('admin.components.notification.error-validation', ['field' => 'user_id_initiator'])
+                                    <select class="form-control" id="user_id_initiator" name="user_id_initiator" required>
+                                        <option value="">-- Select Initiator --</option>
+                                        @foreach($users as $user)
+                                            <option value="{{ $user->id }}"
+                                                {{ old('user_id_initiator', $workflow->user_id_initiator) == $user->id ? 'selected' : '' }}>
+                                                {{ $user->name }} ({{ $user->email }})
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+
+                            {{-- CURRENT ASSIGNEE FIELD --}}
+                            <div class="row mb-3">
+                                <label class="col-sm-2 col-form-label" for="current_assignee_id">Current Assignee*</label>
+                                <div class="col-sm-10">
+                                    @include('admin.components.notification.error-validation', ['field' => 'current_assignee_id'])
+                                    <select class="form-control" id="current_assignee_id" name="current_assignee_id" required>
+                                        <option value="">-- Select Current Assignee --</option>
+                                        @foreach($users as $user)
+                                            <option value="{{ $user->id }}"
+                                                {{ old('current_assignee_id', $workflow->current_assignee_id) == $user->id ? 'selected' : '' }}>
+                                                {{ $user->name }} ({{ $user->email }})
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+
                             {{-- IS_ACTIVE RADIO BUTTONS --}}
                             <div class="row mb-3">
                                 @php
@@ -113,4 +147,22 @@
             </div>
         </div>
     </div>
+@endsection
+
+@section('footer-code')
+    <!-- Select2 JS and CSS (CDN) -->
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('#user_id_initiator').select2({
+                placeholder: 'Search for an initiator',
+                allowClear: true
+            });
+            $('#current_assignee_id').select2({
+                placeholder: 'Search for a current assignee',
+                allowClear: true
+            });
+        });
+    </script>
 @endsection

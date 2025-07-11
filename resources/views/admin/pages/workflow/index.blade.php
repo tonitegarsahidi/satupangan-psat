@@ -83,7 +83,7 @@
                                 <td>{{ $workflow->type }}</td>
                                 <td>{{ $workflow->status }}</td>
                                 <td>{{ $workflow->category }}</td>
-                                <td>{{ $workflow->due_date ? \Carbon\Carbon::parse($workflow->due_date)->format('Y-m-d') : '-' }}</td>
+                                <td>{{ $workflow->due_date ? \Carbon\Carbon::parse($workflow->due_date)->format('d-m-Y') : '-' }}</td>
                                 <td>
                                     @if ($workflow->is_active)
                                         <span class="badge rounded-pill bg-success"> Yes </span>
