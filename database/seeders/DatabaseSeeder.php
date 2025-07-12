@@ -39,6 +39,7 @@ class DatabaseSeeder extends Seeder
             WorkflowActionSeeder::class,
             WorkflowThreadSeeder::class,
             WorkflowAttachmentSeeder::class,
+            LaporanPengaduanSeeder::class,
         ]);
     }
 }

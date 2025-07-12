@@ -106,6 +106,19 @@ Route::middleware('auth')->group(function () {
                     Route::get('/delete/{id}',          [MasterProvinsiController::class, 'deleteConfirm'])->name('admin.master-provinsi.delete');
                     Route::delete('/delete/{id}',       [MasterProvinsiController::class, 'destroy'])->name('admin.master-provinsi.destroy');
                 });
+// MANAGE LAPORAN PENGADUAN
+Route::prefix('/laporan-pengaduan')
+    ->group(function () {
+        Route::get('/',                     [\App\Http\Controllers\LaporanPengaduanController::class, 'index'])->name('admin.laporan-pengaduan.index');
+        Route::get('/add/new',              [\App\Http\Controllers\LaporanPengaduanController::class, 'create'])->name('admin.laporan-pengaduan.add');
+        Route::post('/add/new',             [\App\Http\Controllers\LaporanPengaduanController::class, 'store'])->name('admin.laporan-pengaduan.store');
+
+        Route::get('/detail/{id}',          [\App\Http\Controllers\LaporanPengaduanController::class, 'detail'])->name('admin.laporan-pengaduan.detail');
+        Route::put('/edit/{id}',            [\App\Http\Controllers\LaporanPengaduanController::class, 'update'])->name('admin.laporan-pengaduan.update');
+        Route::get('/edit/{id}',            [\App\Http\Controllers\LaporanPengaduanController::class, 'edit'])->name('admin.laporan-pengaduan.edit');
+        Route::get('/delete/{id}',          [\App\Http\Controllers\LaporanPengaduanController::class, 'deleteConfirm'])->name('admin.laporan-pengaduan.delete');
+        Route::delete('/delete/{id}',       [\App\Http\Controllers\LaporanPengaduanController::class, 'destroy'])->name('admin.laporan-pengaduan.destroy');
+    });
             // MANAGE CEMARAN MIKROBA
             Route::prefix('/master-cemaran-mikroba')
                 ->group(function () {

@@ -38,6 +38,13 @@
             ],
         ],
     ])
+@include('admin.components.sidebar.item', [
+    'menuId' => 'laporan-pengaduan-menu',
+    'menuText' => 'Laporan Pengaduan',
+    'menuUrl' => route('admin.laporan-pengaduan.index'),
+    'menuIcon' => 'bx bx-message-square-detail',
+    'subMenuData' => null
+])
 
 
 @include('admin.components.sidebar.item', [
