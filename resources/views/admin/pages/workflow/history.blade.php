@@ -93,7 +93,7 @@
                             <div class="col-md-3 text-end pe-0">
                                 <div class="bg-light border rounded p-2 h-100 d-flex flex-column justify-content-center">
                                     <span class="fw-bold text-primary">
-                                        {{ $item['data']->created_at ? \Carbon\Carbon::parse($item['data']->created_at)->format('d F Y - H:i') : '' }}
+                                        {{ $item['data']->created_at ? \Carbon\Carbon::parse($item['data']->created_at)->timezone('Asia/Jakarta')->format('d F Y - H:i') : '' }}
                                     </span>
                                 </div>
                             </div>
