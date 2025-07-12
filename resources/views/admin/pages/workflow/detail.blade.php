@@ -98,6 +98,14 @@
                 <a class="btn btn-danger me-2" href="{{ route('admin.workflow.delete', ['id' => $data->id]) }}"
                     title="delete workflow">
                     <i class='tf-icons bx bx-trash me-2'></i>Delete</a>
+                <a class="btn btn-success me-2" href="{{ route('admin.workflow-action.add', ['workflow_id' => $data->id]) }}"
+                    title="Add Workflow Action">
+                    <i class='tf-icons bx bx-plus me-2'></i>Add Workflow Action
+                </a>
+                <a class="btn btn-info me-2" href="{{ route('admin.workflow-thread.add', ['workflow_id' => $data->id]) }}"
+                    title="Add Workflow Thread">
+                    <i class='tf-icons bx bx-plus me-2'></i>Add Workflow Thread
+                </a>
             </div>
         </div>
     </div>

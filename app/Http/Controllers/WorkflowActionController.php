@@ -39,25 +39,39 @@ class WorkflowActionController extends Controller
         return view('admin.pages.workflow-action.index', compact('actions', 'breadcrumbs', 'sortField', 'sortOrder', 'perPage', 'page', 'keyword', 'alerts'));
     }
 
-    public function create(Request $request)
+    public function create(Request $request, $workflow_id)
     {
         $breadcrumbs = array_merge($this->mainBreadcrumbs, ['Add' => null]);
-        return view('admin.pages.workflow-action.add', compact('breadcrumbs'));
+        $users = $this->userService->getAllUsersSortedByName();
+        return view('admin.pages.workflow-action.add', compact('breadcrumbs', 'workflow_id', 'users'));
     }
 
     public function store(Request $request)
     {
         $validatedData = $request->all();
+        if (empty($validatedData['action_time'])) {
+            $validatedData['action_time'] = now();
+        }
+        // For backward compatibility: if "action" is set but "action_type" is not, use it
+        if (empty($validatedData['action_type']) && !empty($validatedData['action'])) {
+            $validatedData['action_type'] = $validatedData['action'];
+        }
+        // For backward compatibility: if "note" is set but "notes" is not, use it
+        if (empty($validatedData['notes']) && !empty($validatedData['note'])) {
+            $validatedData['notes'] = $validatedData['note'];
+        }
         $result = $this->workflowActionService->addNewAction($validatedData);
 
         $alert = $result
             ? AlertHelper::createAlert('success', 'Data action berhasil ditambahkan')
             : AlertHelper::createAlert('danger', 'Data action gagal ditambahkan');
 
-        return redirect()->route('admin.workflow-action.index')->with([
-            'alerts'        => [$alert],
-            'sort_order'    => 'desc'
-        ]);
+        if ($result) {
+            return redirect()->route('admin.workflow.history', ['id' => $validatedData['workflow_id']])
+                ->with(['alerts' => [$alert]]);
+        } else {
+            return back()->withErrors(['error' => 'Failed to add action'])->withInput();
+        }
     }
 
     public function detail(Request $request)

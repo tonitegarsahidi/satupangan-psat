@@ -39,10 +39,11 @@ class WorkflowThreadController extends Controller
         return view('admin.pages.workflow-thread.index', compact('threads', 'breadcrumbs', 'sortField', 'sortOrder', 'perPage', 'page', 'keyword', 'alerts'));
     }
 
-    public function create(Request $request)
+    public function create(Request $request, $workflow_id)
     {
         $breadcrumbs = array_merge($this->mainBreadcrumbs, ['Add' => null]);
-        return view('admin.pages.workflow-thread.add', compact('breadcrumbs'));
+        $users = $this->userService->getAllUsersSortedByName();
+        return view('admin.pages.workflow-thread.add', compact('breadcrumbs', 'workflow_id', 'users'));
     }
 
     public function store(Request $request)
@@ -54,10 +55,12 @@ class WorkflowThreadController extends Controller
             ? AlertHelper::createAlert('success', 'Data thread berhasil ditambahkan')
             : AlertHelper::createAlert('danger', 'Data thread gagal ditambahkan');
 
-        return redirect()->route('admin.workflow-thread.index')->with([
-            'alerts'        => [$alert],
-            'sort_order'    => 'desc'
-        ]);
+        if ($result) {
+            return redirect()->route('admin.workflow.history', ['id' => $validatedData['workflow_id']])
+                ->with(['alerts' => [$alert]]);
+        } else {
+            return back()->withErrors(['error' => 'Failed to add thread'])->withInput();
+        }
     }
 
     public function detail(Request $request)

@@ -14,6 +14,16 @@
                     <h3 class="card-header">Workflow History: {{ $workflow->title }}</h3>
                 </div>
             </div>
+                <div class="m-4">
+                    <a class="btn btn-success me-2" href="{{ route('admin.workflow-action.add', ['workflow_id' => $workflow->id]) }}"
+                        title="Add Workflow Action">
+                        <i class='tf-icons bx bx-plus me-2'></i>Add Workflow Action
+                    </a>
+                    <a class="btn btn-info me-2" href="{{ route('admin.workflow-thread.add', ['workflow_id' => $workflow->id]) }}"
+                        title="Add Workflow Thread">
+                        <i class='tf-icons bx bx-plus me-2'></i>Add Workflow Thread
+                    </a>
+                </div>
 
             <div class="row m-2">
                 <div class="col-md-8 col-xs-12">
@@ -110,7 +120,14 @@
                                         </div>
                                         <div>
                                             @if($item['type'] === 'action')
-                                                <b>Action:</b> {{ $item['data']->action ?? '-' }}<br>
+                                                <b>Action Type:</b>
+                                                @php
+                                                    $actionType = $item['data']->action_type ?? null;
+                                                    $actionTypeLabel = $actionType && config('workflow.action_types') && isset(config('workflow.action_types')[$actionType])
+                                                        ? config('workflow.action_types')[$actionType]
+                                                        : $actionType;
+                                                @endphp
+                                                {{ $actionTypeLabel ?? '-' }}<br>
                                                 <b>By:</b>
                                                 @if($item['data']->user && $item['data']->user->name)
                                                     <a href="{{ route('admin.user.detail', ['id' => $item['data']->user->id]) }}" target="_blank">
@@ -120,7 +137,7 @@
                                                     {{ $item['data']->user_id ?? '-' }}
                                                 @endif
                                                 <br>
-                                                <b>Note:</b> {{ $item['data']->note ?? '-' }}
+                                                <b>Note:</b> {{ $item['data']->notes ?? '-' }}
                                             @else
                                                 <b>Thread:</b> {{ $item['data']->message ?? '-' }}<br>
                                                 <b>By:</b>
