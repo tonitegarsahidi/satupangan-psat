@@ -106,19 +106,7 @@ Route::middleware('auth')->group(function () {
                     Route::get('/delete/{id}',          [MasterProvinsiController::class, 'deleteConfirm'])->name('admin.master-provinsi.delete');
                     Route::delete('/delete/{id}',       [MasterProvinsiController::class, 'destroy'])->name('admin.master-provinsi.destroy');
                 });
-// MANAGE LAPORAN PENGADUAN
-Route::prefix('/laporan-pengaduan')
-    ->group(function () {
-        Route::get('/',                     [\App\Http\Controllers\LaporanPengaduanController::class, 'index'])->name('admin.laporan-pengaduan.index');
-        Route::get('/add/new',              [\App\Http\Controllers\LaporanPengaduanController::class, 'create'])->name('admin.laporan-pengaduan.add');
-        Route::post('/add/new',             [\App\Http\Controllers\LaporanPengaduanController::class, 'store'])->name('admin.laporan-pengaduan.store');
 
-        Route::get('/detail/{id}',          [\App\Http\Controllers\LaporanPengaduanController::class, 'detail'])->name('admin.laporan-pengaduan.detail');
-        Route::put('/edit/{id}',            [\App\Http\Controllers\LaporanPengaduanController::class, 'update'])->name('admin.laporan-pengaduan.update');
-        Route::get('/edit/{id}',            [\App\Http\Controllers\LaporanPengaduanController::class, 'edit'])->name('admin.laporan-pengaduan.edit');
-        Route::get('/delete/{id}',          [\App\Http\Controllers\LaporanPengaduanController::class, 'deleteConfirm'])->name('admin.laporan-pengaduan.delete');
-        Route::delete('/delete/{id}',       [\App\Http\Controllers\LaporanPengaduanController::class, 'destroy'])->name('admin.laporan-pengaduan.destroy');
-    });
             // MANAGE CEMARAN MIKROBA
             Route::prefix('/master-cemaran-mikroba')
                 ->group(function () {
@@ -241,8 +229,8 @@ Route::prefix('/laporan-pengaduan')
                 Route::post('/update/{id}', [\App\Http\Controllers\WorkflowController::class, 'update'])->name('admin.workflow.update');
                 Route::get('/delete/{id}', [\App\Http\Controllers\WorkflowController::class, 'deleteConfirm'])->name('admin.workflow.delete');
                 Route::post('/destroy/{id}', [\App\Http\Controllers\WorkflowController::class, 'destroy'])->name('admin.workflow.destroy');
-            // Workflow History
-            Route::get('/history/{id}', [\App\Http\Controllers\WorkflowController::class, 'history'])->name('admin.workflow.history');
+                // Workflow History
+                Route::get('/history/{id}', [\App\Http\Controllers\WorkflowController::class, 'history'])->name('admin.workflow.history');
                 // WorkflowAction CRUD
                 Route::get('/action', [\App\Http\Controllers\WorkflowActionController::class, 'index'])->name('admin.workflow-action.index');
                 Route::get('/action/add/{workflow_id}', [\App\Http\Controllers\WorkflowActionController::class, 'create'])->name('admin.workflow-action.add');
@@ -277,6 +265,19 @@ Route::prefix('/laporan-pengaduan')
             Route::post('/change-password', [UserSettingController::class, 'changePasswordDo'])->name('user.setting.changePassword.do');
         });
 
+    // MANAGE LAPORAN PENGADUAN
+    Route::prefix('/laporan-pengaduan')
+        ->middleware('role:ROLE_USER')
+        ->group(function () {
+            Route::get('/',                     [\App\Http\Controllers\LaporanPengaduanController::class, 'index'])->name('admin.laporan-pengaduan.index');
+            Route::get('/add/new',              [\App\Http\Controllers\LaporanPengaduanController::class, 'create'])->name('admin.laporan-pengaduan.add');
+            Route::post('/add/new',             [\App\Http\Controllers\LaporanPengaduanController::class, 'store'])->name('admin.laporan-pengaduan.store');
+            Route::get('/detail/{id}',          [\App\Http\Controllers\LaporanPengaduanController::class, 'detail'])->name('admin.laporan-pengaduan.detail');
+            Route::put('/edit/{id}',            [\App\Http\Controllers\LaporanPengaduanController::class, 'update'])->name('admin.laporan-pengaduan.update');
+            Route::get('/edit/{id}',            [\App\Http\Controllers\LaporanPengaduanController::class, 'edit'])->name('admin.laporan-pengaduan.edit');
+            Route::get('/delete/{id}',          [\App\Http\Controllers\LaporanPengaduanController::class, 'deleteConfirm'])->name('admin.laporan-pengaduan.delete');
+            Route::delete('/delete/{id}',       [\App\Http\Controllers\LaporanPengaduanController::class, 'destroy'])->name('admin.laporan-pengaduan.destroy');
+        });
 
     Route::prefix('/demo')
         ->middleware('role:ROLE_USER')

@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SatuPangan - Sistem Pengendalian Keamanan Pangan Segar Asal Tumbuhan</title>
+    <title>Sistem Pengendalian Keamanan Pangan Segar Asal Tumbuhan</title>
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <style>
@@ -93,20 +93,20 @@
                         class="img-fluid rounded">
                 </div>
                 <div class="col-md-6">
-                    <h1 class="display-4 text-right">SatuPangan</h1>
+                    <h3 class="display-5 text-right"><strong> Pengendalian Keamanan<br/>Pangan Segar Asal Tumbuhan</strong></h3>
                     <p class="text-right">Platform digital terpadu untuk mendukung pengendalian keamanan Pangan Segar Asal Tumbuhan (PSAT) di Indonesia.</p>
-                    <p class="text-right">Sebagai bagian penelitian Disertasi oleh Dhani Hermansyah S.TP. M.P.</p>
+                    <p class="text-right">Sebagai bagian penelitian Disertasi<br/>oleh Dhani Hermansyah S.TP. M.P.</p>
                 </div>
             </div>
         </div>
     </div>
 
 <div class="container px-4 py-5" id="about">
-    <h2 class="pb-3 text-center border-bottom">Tentang SatuPangan</h2>
+    <h2 class="pb-3 text-center border-bottom">Tentang Sistem Pengendalian Keamanan Pangan Segar Asal Tumbuhan</h2>
     <div class="row row-cols-1 g-4 pt-4">
         <div class="col text-center">
-            <p>SatuPangan adalah sebuah platform digital terpadu untuk mendukung pengendalian keamanan Pangan Segar Asal Tumbuhan (PSAT) di Indonesia. Aplikasi ini dirancang untuk digunakan oleh masyarakat umum, pelaku usaha, serta petugas pengawas dari pemerintah pusat maupun daerah. Melalui sistem ini, pelaporan, verifikasi, edukasi, serta perizinan keamanan pangan dilakukan secara transparan, cepat, dan efisien.</p>
-            <p>SatuPangan dikembangkan sebagai solusi sistem digital untuk mendukung Badan Pangan Nasional dan otoritas terkait dalam menjaga keamanan pangan berbasis data, teknologi, dan partisipasi publik. Aplikasi ini menghubungkan pelaku usaha, masyarakat, dan pemerintah dalam satu ekosistem pangan segar yang aman, legal, dan terlacak.</p>
+            <p>Sistem ini adalah sebuah platform digital terpadu untuk mendukung pengendalian keamanan Pangan Segar Asal Tumbuhan (PSAT) di Indonesia. Aplikasi ini dirancang untuk digunakan oleh masyarakat umum, pelaku usaha, serta petugas pengawas dari pemerintah pusat maupun daerah. Melalui sistem ini, pelaporan, verifikasi, edukasi, serta perizinan keamanan pangan dilakukan secara transparan, cepat, dan efisien.</p>
+            <p>Sistem ini dikembangkan sebagai solusi sistem digital untuk mendukung Badan Pangan Nasional dan otoritas terkait dalam menjaga keamanan pangan berbasis data, teknologi, dan partisipasi publik. Aplikasi ini menghubungkan pelaku usaha, masyarakat, dan pemerintah dalam satu ekosistem pangan segar yang aman, legal, dan terlacak.</p>
         </div>
     </div>
 </div>
@@ -197,7 +197,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-12">
-                    SatuPangan - Dikembangkan untuk mendukung keamanan pangan di Indonesia.
+                    Sistem Pengendalian Keamanan Pangan Segar Asal Tumbuhan - Dikembangkan untuk mendukung keamanan pangan di Indonesia.
                 </div>
             </div>
         </div>

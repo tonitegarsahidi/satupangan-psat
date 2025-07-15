@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Services\LaporanPengaduanService;
 use Illuminate\Http\Request;
+use App\Http\Requests\LaporanPengaduan\LaporanPengaduanAddRequest;
 use App\Helpers\AlertHelper;
 
 class LaporanPengaduanController extends Controller
@@ -46,9 +47,9 @@ class LaporanPengaduanController extends Controller
         return view('admin.pages.laporan-pengaduan.add', compact('breadcrumbs', 'provinsis', 'kotas'));
     }
 
-    public function store(Request $request)
+    public function store(LaporanPengaduanAddRequest $request)
     {
-        $validatedData = $request->all();
+        $validatedData = $request->validated();
         $result = $this->LaporanPengaduanService->addNewLaporanPengaduan($validatedData);
 
         $alert = $result

@@ -10,7 +10,7 @@
         <!-- Search -->
         <div class="navbar-nav align-items-center">
             <div class="nav-item d-flex align-items-center">
-               Thanks for buy this,&nbsp; <strong>{{ auth()->user()->name }}</strong>, lets make awesome Apps..!!
+               Halo,&nbsp; <strong>{{ auth()->user()->name }}</strong>, yuk kita jaga dan awasi pangan di Indonesia..!!
             </div>
         </div>
         <!-- /Search -->
