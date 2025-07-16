@@ -95,7 +95,6 @@
                 <div class="col-md-6">
                     <h3 class="display-5 text-right"><strong> Pengendalian Keamanan<br/>Pangan Segar Asal Tumbuhan</strong></h3>
                     <p class="text-right">Platform digital terpadu untuk mendukung pengendalian keamanan Pangan Segar Asal Tumbuhan (PSAT) di Indonesia.</p>
-                    <p class="text-right">Sebagai bagian penelitian Disertasi<br/>oleh Dhani Hermansyah S.TP. M.P.</p>
                 </div>
             </div>
         </div>

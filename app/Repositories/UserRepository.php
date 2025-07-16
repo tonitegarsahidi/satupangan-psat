@@ -42,6 +42,11 @@ class UserRepository
         return User::with('roles')->find($userId);
     }
 
+    public function getUserByEmail($email): ?User
+    {
+        return User::with('roles')->where('email', $email)->first();
+    }
+
     public function createUser($data)
     {
         return User::create($data);
@@ -87,8 +92,4 @@ class UserRepository
         return User::orderBy('name', 'asc')->get();
     }
 
-    public function getUserByEmail($email)
-    {
-        return User::where('email', $email)->first();
-    }
 }

@@ -61,6 +61,7 @@ return [
 ],
 
 
+'LAPORAN_PENGADUAN_TITLE' => 'Laporan Pengaduan Dibuat',
 'LAPORAN_PENGADUAN_ASSIGNEE' => 'kantorpusat@satupangan.id',
 'LAPORAN_PENGADUAN_STATUS' => 'DALAM REVIEW',
 'LAPORAN_PENGADUAN_CATEGORIES' => 'INIT',

@@ -4,24 +4,71 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Hash;
 use App\Models\LaporanPengaduan;
 use App\Models\Workflow;
 use App\Models\User;
 use App\Models\MasterProvinsi;
 use App\Models\MasterKota;
+use App\Models\RoleMaster;
 
 class LaporanPengaduanSeeder extends Seeder
 {
     public function run()
     {
-        // Ambil ID user, provinsi, kota yang sudah ada
-        $user = User::first();
-        $provinsi = MasterProvinsi::first();
-        $kota = MasterKota::where('provinsi_id', $provinsi ? $provinsi->id : null)->first();
+        // Ensure default user exists for seeder and assignee
+        $defaultUserEmail = 'user@satupangan.id';
+        $assigneeEmail = config('constant.LAPORAN_PENGADUAN_ASSIGNEE');
 
-        if (!$user || !$provinsi || !$kota) {
-            $this->command->warn('Seeder gagal: User, Provinsi, atau Kota tidak ditemukan.');
-            return;
+        $user = User::firstOrCreate(
+            ['email' => $defaultUserEmail],
+            [
+                'name' => 'Default User',
+                'password' => Hash::make('password'), // You might want a more secure default password
+                'email_verified_at' => now(),
+                'is_active' => true,
+                'created_by' => 'seeder',
+            ]
+        );
+
+        $assigneeUser = User::firstOrCreate(
+            ['email' => $assigneeEmail],
+            [
+                'name' => 'Assignee User',
+                'password' => Hash::make('password'),
+                'email_verified_at' => now(),
+                'is_active' => true,
+                'created_by' => 'seeder',
+            ]
+        );
+
+        // Ensure default role exists and assign to users
+        $roleUser = RoleMaster::firstOrCreate(['role_name' => 'ROLE_USER', 'role_code' => 'USER']);
+        $roleAdmin = RoleMaster::firstOrCreate(['role_name' => 'ROLE_ADMIN', 'role_code' => 'ADMIN']); // Assuming an admin role for assignee
+
+        $user->roles()->syncWithoutDetaching([$roleUser->id => ['id' => Str::uuid()]]);
+        $assigneeUser->roles()->syncWithoutDetaching([$roleAdmin->id => ['id' => Str::uuid()]]);
+
+
+        // Ensure default provinsi exists
+        $provinsi = MasterProvinsi::first();
+        if (!$provinsi) {
+            $provinsi = MasterProvinsi::create([
+                'name' => 'DKI Jakarta',
+                'is_active' => true,
+                'created_by' => 'seeder',
+            ]);
+        }
+
+        // Ensure default kota exists for the province
+        $kota = MasterKota::where('provinsi_id', $provinsi->id)->first();
+        if (!$kota) {
+            $kota = MasterKota::create([
+                'provinsi_id' => $provinsi->id,
+                'name' => 'Jakarta Pusat',
+                'is_active' => true,
+                'created_by' => 'seeder',
+            ]);
         }
 
         $laporanData = [
@@ -59,11 +106,11 @@ class LaporanPengaduanSeeder extends Seeder
                 'id' => Str::uuid(),
                 'user_id_initiator' => $user->id,
                 'type' => 'pengaduan',
-                'status' => 'open',
+                'status' => config('constant.LAPORAN_PENGADUAN_STATUS'),
                 'title' => 'Workflow untuk laporan: ' . $data['nama_pelapor'],
-                'current_assignee_id' => $user->id,
+                'current_assignee_id' => $assigneeUser->id,
                 'parent_id' => null,
-                'category' => 'pengaduan',
+                'category' => config('constant.LAPORAN_PENGADUAN_CATEGORIES'),
                 'due_date' => now()->addDays(7),
                 'is_active' => true,
                 'created_by' => 'seeder',

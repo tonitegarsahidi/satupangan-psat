@@ -25,7 +25,7 @@
                                 <div class="col-sm-10">
                                     @include('admin.components.notification.error-validation', ['field' => 'nama_pelapor'])
                                     <input type="text" name="nama_pelapor" class="form-control" id="nama_pelapor"
-                                        placeholder="Nama Pelapor" value="{{ old('nama_pelapor') }}">
+                                        placeholder="Nama Pelapor" value="{{ old('nama_pelapor', $userData['nama_pelapor'] ?? '') }}">
                                 </div>
                             </div>
 
@@ -43,7 +43,7 @@
                                 <div class="col-sm-10">
                                     @include('admin.components.notification.error-validation', ['field' => 'nomor_telepon_pelapor'])
                                     <input type="text" name="nomor_telepon_pelapor" class="form-control" id="nomor_telepon_pelapor"
-                                        placeholder="Nomor Telepon" value="{{ old('nomor_telepon_pelapor') }}">
+                                        placeholder="Nomor Telepon" value="{{ old('nomor_telepon_pelapor', $userData['nomor_telepon'] ?? '') }}">
                                 </div>
                             </div>
 
@@ -52,7 +52,7 @@
                                 <div class="col-sm-10">
                                     @include('admin.components.notification.error-validation', ['field' => 'email_pelapor'])
                                     <input type="email" name="email_pelapor" class="form-control" id="email_pelapor"
-                                        placeholder="Email" value="{{ old('email_pelapor') }}">
+                                        placeholder="Email" value="{{ old('email_pelapor', $userData['email'] ?? '') }}">
                                 </div>
                             </div>
 

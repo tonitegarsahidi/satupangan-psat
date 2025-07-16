@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Services\LaporanPengaduanService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\LaporanPengaduan\LaporanPengaduanAddRequest;
 use App\Helpers\AlertHelper;
 
@@ -44,17 +45,28 @@ class LaporanPengaduanController extends Controller
         $breadcrumbs = array_merge($this->mainBreadcrumbs, ['Add' => null]);
         $provinsis = \App\Models\MasterProvinsi::all();
         $kotas = [];
-        return view('admin.pages.laporan-pengaduan.add', compact('breadcrumbs', 'provinsis', 'kotas'));
+
+        $user = Auth::user();
+        $userData = [
+            'nama_pelapor' => $user->name ?? '',
+            'nomor_telepon' => $user->userProfile->phone ?? '',
+            'email' => $user->email ?? '',
+        ];
+
+        return view('admin.pages.laporan-pengaduan.add', compact('breadcrumbs', 'provinsis', 'kotas', 'userData'));
     }
 
     public function store(LaporanPengaduanAddRequest $request)
     {
         $validatedData = $request->validated();
-        $result = $this->LaporanPengaduanService->addNewLaporanPengaduan($validatedData);
+
+        //dapatkan user Id yang login
+        $user = Auth::user() ?? null;
+        $result = $this->LaporanPengaduanService->addNewLaporanPengaduan($validatedData, $user ? $user->id : null);
 
         $alert = $result
-            ? AlertHelper::createAlert('success', 'Laporan berhasil ditambahkan')
-            : AlertHelper::createAlert('danger', 'Laporan gagal ditambahkan');
+            ? AlertHelper::createAlert('success', 'Laporan berhasil disimpan')
+            : AlertHelper::createAlert('danger', 'Laporan gagal disimpan');
 
         return redirect()->route('admin.laporan-pengaduan.index')->with([
             'alerts'        => [$alert],

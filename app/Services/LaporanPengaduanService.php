@@ -7,14 +7,26 @@ use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use App\Repositories\LaporanPengaduanRepository;
+use App\Repositories\UserRepository;
+use App\Repositories\WorkflowRepository;
+use App\Repositories\WorkflowThreadRepository;
 
 class LaporanPengaduanService
 {
     private $LaporanPengaduanRepository;
+    private $WorkflowRepository;
+    private $UserRepository;
+    private $WorkflowThreadRepository;
 
-    public function __construct(LaporanPengaduanRepository $LaporanPengaduanRepository)
+    public function __construct(LaporanPengaduanRepository $LaporanPengaduanRepository,
+                                UserRepository $UserRepository,
+                                WorkflowRepository $WorkflowRepository,
+                                WorkflowThreadRepository $WorkflowThreadRepository)
     {
         $this->LaporanPengaduanRepository = $LaporanPengaduanRepository;
+        $this->UserRepository = $UserRepository;
+        $this->WorkflowRepository = $WorkflowRepository;
+        $this->WorkflowThreadRepository = $WorkflowThreadRepository;
     }
 
     public function listAllLaporanPengaduan($perPage, string $sortField = null, string $sortOrder = null, string $keyword = null): LengthAwarePaginator
@@ -33,10 +45,38 @@ class LaporanPengaduanService
         return $this->LaporanPengaduanRepository->isLaporanExist($nama_pelapor, $isi_laporan);
     }
 
-    public function addNewLaporanPengaduan(array $validatedData)
-    {
+    public function addNewLaporanPengaduan(array $validatedData, $userId = null): ?LaporanPengaduan
+{
         DB::beginTransaction();
         try {
+            //dapatkan user id yang default ter assignee
+            $assignedUser = $this->UserRepository->getUserByEmail(config('constant.LAPORAN_PENGADUAN_ASSIGNEE'));
+            $userIdAssignee = $assignedUser ? $assignedUser->id : null;
+
+
+            // Buat Workflow terlebih dahulu
+            $workflowData = [
+                'user_id_initiator' => $userId,
+                'type' => config('constant.LAPORAN_PENGADUAN_STATUS'),
+                'status' => config('constant.LAPORAN_PENGADUAN_STATUS'),
+                'title' => $validatedData['isi_laporan'],
+                // 'title' => $validatedData['isi_laporan'],
+                'current_assignee_id' => $userIdAssignee,
+                'category' => config('constant.LAPORAN_PENGADUAN_CATEGORIES'),
+                'due_date' => null, // Atur sesuai kebutuhan
+                'is_active' => true,
+                'created_by' => $userId,
+                'updated_by' => $userId,
+                'parent_id' => null, // Atur sesuai kebutuhan
+            ];
+            $workflow = $this->WorkflowRepository->createWorkflow($workflowData);
+
+
+            // tambahkan user_id ke dalam data yang akan disimpan
+            $validatedData['user_id'] = $userId;
+            // tambahkan workflow_id ke dalam data yang akan disimpan
+            $validatedData['workflow_id'] = $workflow->id;
+
             $laporan = $this->LaporanPengaduanRepository->createLaporan($validatedData);
             DB::commit();
             return $laporan;

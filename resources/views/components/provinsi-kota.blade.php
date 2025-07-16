@@ -63,7 +63,7 @@
     </div>
 </div>
 
-@push('scripts')
+@section('footer-code')
 <script>
 document.addEventListener('DOMContentLoaded', function() {
     var provinsiSelect = document.getElementById('{{ $uniqueId }}_provinsi');
@@ -92,4 +92,4 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 </script>
-@endpush
+@endsection
