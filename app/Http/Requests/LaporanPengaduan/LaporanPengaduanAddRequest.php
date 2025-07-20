@@ -30,8 +30,8 @@ class LaporanPengaduanAddRequest extends FormRequest
             'provinsi_id' => 'required|uuid',
             'kota_id' => 'required|uuid',
             'isi_laporan' => 'required|string',
-            'tindak_lanjut_pertama' => 'nullable|string',
-            'is_active' => 'required|boolean',
+            // 'tindak_lanjut_pertama' => 'nullable|string',
+            // 'is_active' => 'required|boolean',
         ];
     }
 }

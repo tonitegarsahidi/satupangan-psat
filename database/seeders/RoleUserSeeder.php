@@ -23,6 +23,7 @@ class RoleUserSeeder extends Seeder
          //find the id of the users
          $userIdSuperAdmin  = DB::table('users')->where('email', 'superadmin@satupangan.id')->value('id');
          $userIdUser        = DB::table('users')->where('email', 'user@satupangan.id')->value('id');
+         $userIdUser2        = DB::table('users')->where('email', 'user2@satupangan.id')->value('id');
          $userIdAdmin       = DB::table('users')->where('email', 'admin@satupangan.id')->value('id');
          $userIdOperator    = DB::table('users')->where('email', 'operator@satupangan.id')->value('id');
          $userIdSupervisor  = DB::table('users')->where('email', 'supervisor@satupangan.id')->value('id');
@@ -58,6 +59,7 @@ class RoleUserSeeder extends Seeder
              ['id' => Str::uuid(), 'user_id' => $userIdOperator, 'role_id' => $roleIdOperator],    // operator has ROLE_OPERATOR
 
              ['id' => Str::uuid(), 'user_id' => $userIdUser, 'role_id' => $roleIdUser],        // user has ROLE_USER
+             ['id' => Str::uuid(), 'user_id' => $userIdUser2, 'role_id' => $roleIdUser],        // user has ROLE_USER
 
              ['id' => Str::uuid(), 'user_id' => $userIdKantorPusat, 'role_id' => $roleIdSupervisor], // Kantor Pusat has ROLE_SUPERVISOR
              ['id' => Str::uuid(), 'user_id' => $userIdKantorPusat, 'role_id' => $roleIdUser],       // Kantor Pusat has ROLE_USER

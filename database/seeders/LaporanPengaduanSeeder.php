@@ -17,7 +17,7 @@ class LaporanPengaduanSeeder extends Seeder
     public function run()
     {
         // Ensure default user exists for seeder and assignee
-        $defaultUserEmail = 'user@satupangan.id';
+        $defaultUserEmail = 'user2@satupangan.id';
         $assigneeEmail = config('constant.LAPORAN_PENGADUAN_ASSIGNEE');
 
         $user = User::firstOrCreate(
@@ -65,7 +65,7 @@ class LaporanPengaduanSeeder extends Seeder
         if (!$kota) {
             $kota = MasterKota::create([
                 'provinsi_id' => $provinsi->id,
-                'name' => 'Jakarta Pusat',
+                'nama_kota' => 'Jakarta Pusat',
                 'is_active' => true,
                 'created_by' => 'seeder',
             ]);

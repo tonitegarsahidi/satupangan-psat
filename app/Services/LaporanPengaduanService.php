@@ -10,6 +10,7 @@ use App\Repositories\LaporanPengaduanRepository;
 use App\Repositories\UserRepository;
 use App\Repositories\WorkflowRepository;
 use App\Repositories\WorkflowThreadRepository;
+use Illuminate\Support\Facades\Auth;
 
 class LaporanPengaduanService
 {
@@ -18,11 +19,12 @@ class LaporanPengaduanService
     private $UserRepository;
     private $WorkflowThreadRepository;
 
-    public function __construct(LaporanPengaduanRepository $LaporanPengaduanRepository,
-                                UserRepository $UserRepository,
-                                WorkflowRepository $WorkflowRepository,
-                                WorkflowThreadRepository $WorkflowThreadRepository)
-    {
+    public function __construct(
+        LaporanPengaduanRepository $LaporanPengaduanRepository,
+        UserRepository $UserRepository,
+        WorkflowRepository $WorkflowRepository,
+        WorkflowThreadRepository $WorkflowThreadRepository
+    ) {
         $this->LaporanPengaduanRepository = $LaporanPengaduanRepository;
         $this->UserRepository = $UserRepository;
         $this->WorkflowRepository = $WorkflowRepository;
@@ -32,7 +34,19 @@ class LaporanPengaduanService
     public function listAllLaporanPengaduan($perPage, string $sortField = null, string $sortOrder = null, string $keyword = null): LengthAwarePaginator
     {
         $perPage = !is_null($perPage) ? $perPage : config('constant.CRUD.PER_PAGE');
-        return $this->LaporanPengaduanRepository->getAllLaporanPengaduan($perPage, $sortField, $sortOrder, $keyword);
+
+        //check apakah role user atau diatasnya
+        $user = Auth::user(); // Ambil user yang sedang login
+
+        // dd($user->hasAnyRole(['ROLE_SUPERVISOR','ROLE_ADMIN']));
+        // Cek apakah user memiliki role 'ROLE_OPERATOR'
+        $userId = $user->id;
+        if ($user->hasAnyRole(['ROLE_SUPERVISOR','ROLE_ADMIN'])) {
+            // Kalau tidak punya role tersebut, batasi hanya laporan dari user ini
+            $userId = null;
+        }
+
+        return $this->LaporanPengaduanRepository->getAllLaporanPengaduan($perPage, $sortField, $sortOrder, $keyword,  $userId);
     }
 
     public function getLaporanPengaduanDetail($laporanId): ?LaporanPengaduan
@@ -46,7 +60,7 @@ class LaporanPengaduanService
     }
 
     public function addNewLaporanPengaduan(array $validatedData, $userId = null): ?LaporanPengaduan
-{
+    {
         DB::beginTransaction();
         try {
             //dapatkan user id yang default ter assignee
@@ -76,6 +90,9 @@ class LaporanPengaduanService
             $validatedData['user_id'] = $userId;
             // tambahkan workflow_id ke dalam data yang akan disimpan
             $validatedData['workflow_id'] = $workflow->id;
+            $validatedData['tindak_lanjut_pertama'] = null;
+            $validatedData['is_active'] = true;
+
 
             $laporan = $this->LaporanPengaduanRepository->createLaporan($validatedData);
             DB::commit();

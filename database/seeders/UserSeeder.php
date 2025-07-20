@@ -76,6 +76,17 @@ class UserSeeder extends Seeder
             ],
             [
                 'id' => Str::uuid(),
+                'name' => 'Sam Toni User',
+                'email' => 'user2@satupangan.id',
+                'password' => Hash::make('password123'),
+                'is_active' => true,
+                'email_verified_at' => Carbon::now(),
+                'phone_number' => '0811111111111',
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
+            ],
+            [
+                'id' => Str::uuid(),
                 'name' => 'Kantor Pusat',
                 'email' => 'kantorpusat@satupangan.id',
                 'password' => Hash::make('password123'),

@@ -8,9 +8,16 @@ use Illuminate\Pagination\LengthAwarePaginator;
 
 class LaporanPengaduanRepository
 {
-    public function getAllLaporanPengaduan(int $perPage = 10, string $sortField = null, string $sortOrder = null, string $keyword = null): LengthAwarePaginator
+    public function getAllLaporanPengaduan(int $perPage = 10, string $sortField = null, string $sortOrder = null, string $keyword = null,   string $userId = null): LengthAwarePaginator
     {
         $queryResult = LaporanPengaduan::query();
+
+        // dd($userId);
+
+        // Filter berdasarkan user_id jika diberikan
+        if (!is_null($userId)) {
+            $queryResult->where('user_id', $userId);
+        }
 
         if (!is_null($sortField) && !is_null($sortOrder)) {
             $queryResult->orderBy($sortField, $sortOrder);

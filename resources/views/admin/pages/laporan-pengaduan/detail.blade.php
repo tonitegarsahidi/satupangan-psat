@@ -42,7 +42,7 @@
                                 </tr>
                                 <tr>
                                     <th class="bg-dark text-white">Provinsi</th>
-                                    <td>{{ optional($data->provinsi)->nama ?? '-' }}</td>
+                                    <td>{{ optional($data->provinsi)->nama_provinsi ?? '-' }}</td>
                                 </tr>
                                 <tr>
                                     <th class="bg-dark text-white">Kota</th>
@@ -54,7 +54,7 @@
                                 </tr>
                                 <tr>
                                     <th class="bg-dark text-white">Tindak Lanjut Pertama</th>
-                                    <td>{{ $data->tindak_lanjut_pertama }}</td>
+                                    <td>{{ is_null($data->tindak_lanjut_pertama) ? "Belum Ada" : $data->tindak_lanjut_pertama }}</td>
                                 </tr>
                                 <tr>
                                     <th class="bg-dark text-white">Is Active</th>

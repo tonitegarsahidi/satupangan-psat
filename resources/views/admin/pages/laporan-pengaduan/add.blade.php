@@ -86,34 +86,6 @@
                                 </div>
                             </div>
 
-                            <div class="row mb-3">
-                                <label class="col-sm-2 col-form-label" for="tindak_lanjut_pertama">Tindak Lanjut Pertama</label>
-                                <div class="col-sm-10">
-                                    @include('admin.components.notification.error-validation', ['field' => 'tindak_lanjut_pertama'])
-                                    <textarea name="tindak_lanjut_pertama" class="form-control" id="tindak_lanjut_pertama" rows="2" placeholder="Tindak Lanjut Pertama">{{ old('tindak_lanjut_pertama') }}</textarea>
-                                </div>
-                            </div>
-
-                            <div class="row mb-3">
-                                @php
-                                    $oldIsActive = old('is_active', 1); // Default to 1 (true)
-                                @endphp
-                                <label class="col-sm-2 col-form-label" for="is_active">Is Active*</label>
-                                <div class="col-sm-10">
-                                    @include('admin.components.notification.error-validation', ['field' => 'is_active'])
-                                    <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="radio" name="is_active" id="is_active_true" value="1"
-                                            {{ $oldIsActive == 1 ? 'checked' : ''}}>
-                                        <label class="form-check-label" for="is_active_true">Yes</label>
-                                    </div>
-                                    <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="radio" name="is_active" id="is_active_false" value="0"
-                                            {{ $oldIsActive == 0 ? 'checked' : ''}}>
-                                        <label class="form-check-label" for="is_active_false">No</label>
-                                    </div>
-                                </div>
-                            </div>
-
                             <div class="row justify-content-end">
                                 <div class="col-sm-10">
                                     <button type="submit" class="btn btn-primary">Kirim</button>
