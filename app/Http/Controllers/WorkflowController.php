@@ -79,6 +79,13 @@ class WorkflowController extends Controller
         return view('admin.pages.workflow.detail', compact('breadcrumbs', 'data'));
     }
 
+    public function workflow(Request $request)
+    {
+        $data = $this->workflowService->getWorkflowDetail($request->id);
+        $breadcrumbs = array_merge($this->mainBreadcrumbs, ['Detail' => null]);
+        return view('admin.pages.workflow.detail', compact('breadcrumbs', 'data'));
+    }
+
     public function edit(Request $request, $id)
     {
         $workflow = $this->workflowService->getWorkflowDetail($id);

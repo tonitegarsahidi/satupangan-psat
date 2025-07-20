@@ -77,6 +77,109 @@
                 </div>
             </div>
 
+            <div class="card mt-4">
+                <div class="m-4">
+                    <h4>Workflow Actions & Threads (Chronological)</h4>
+                    <div class="timeline">
+                        @php
+                            $historyItems = collect();
+                            if ($data->workflow) {
+                                foreach ($data->workflow->threads as $thread) {
+                                    $historyItems->push([
+                                        'type' => 'thread',
+                                        'timestamp' => $thread->created_at,
+                                        'data' => $thread,
+                                    ]);
+                                }
+                                foreach ($data->workflow->actions as $action) {
+                                    $historyItems->push([
+                                        'type' => 'action',
+                                        'timestamp' => $action->action_time,
+                                        'data' => $action,
+                                    ]);
+                                }
+                            }
+                            $historyItems = $historyItems->sortBy('timestamp');
+                        @endphp
+
+                        @forelse($historyItems as $item)
+                            <div class="row align-items-stretch mb-3">
+                                <div class="col-md-3 text-end pe-0">
+                                    <div class="bg-light border rounded p-2 h-100 d-flex flex-column justify-content-center">
+                                        <span class="fw-bold text-primary">
+                                            {{ $item['data']->created_at ? \Carbon\Carbon::parse($item['data']->created_at)->timezone('Asia/Jakarta')->format('d F Y - H:i') : '' }}
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="col-md-9 ps-0">
+                                    <div class="card shadow-sm h-100">
+                                        <div class="card-body">
+                                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                                <span>
+                                                    @if($item['type'] === 'action')
+                                                        <span class="badge bg-info text-dark me-2"><i class="bx bx-bolt"></i> Action</span>
+                                                    @else
+                                                        <span class="badge bg-warning text-dark me-2"><i class="bx bx-message"></i> Thread</span>
+                                                    @endif
+                                                </span>
+                                            </div>
+                                            <div>
+                                                @if($item['type'] === 'action')
+                                                    <b>Action Type:</b>
+                                                    @php
+                                                        $actionType = $item['data']->action_type ?? null;
+                                                        $actionTypeLabel = $actionType && config('workflow.action_types') && isset(config('workflow.action_types')[$actionType])
+                                                            ? config('workflow.action_types')[$actionType]
+                                                            : $actionType;
+                                                    @endphp
+                                                    {{ $actionTypeLabel ?? '-' }}<br>
+                                                    <b>By:</b>
+                                                    @if($item['data']->user && $item['data']->user->name)
+                                                        <a href="{{ route('admin.user.detail', ['id' => $item['data']->user->id]) }}" target="_blank">
+                                                            {{ $item['data']->user->name }}
+                                                        </a>
+                                                    @else
+                                                        {{ $item['data']->user_id ?? '-' }}
+                                                    @endif
+                                                    <br>
+                                                    <b>Note:</b> {{ $item['data']->notes ?? '-' }}
+                                                @else
+                                                    <b>Thread:</b> {{ $item['data']->message ?? '-' }}<br>
+                                                    <b>By:</b>
+                                                    @if($item['data']->user && $item['data']->user->name)
+                                                        <a href="{{ route('admin.user.detail', ['id' => $item['data']->user->id]) }}" target="_blank">
+                                                            {{ $item['data']->user->name }}
+                                                        </a>
+                                                    @else
+                                                        {{ $item['data']->user_id ?? '-' }}
+                                                    @endif
+                                                @endif
+                                            </div>
+                                            @if($item['data']->attachments && count($item['data']->attachments) > 0)
+                                                <div class="mt-2">
+                                                    <b>Attachments:</b>
+                                                    <ul>
+                                                        @foreach($item['data']->attachments as $attachment)
+                                                            <li>
+                                                                <a href="{{ asset($attachment->file_path) }}" target="_blank">
+                                                                    {{ $attachment->file_name ?? basename($attachment->file_path) }}
+                                                                </a>
+                                                            </li>
+                                                        @endforeach
+                                                    </ul>
+                                                </div>
+                                            @endif
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        @empty
+                            <div class="alert alert-info">No actions or threads found.</div>
+                        @endforelse
+                    </div>
+                </div>
+            </div>
+
             <div class="m-4">
                 <a onclick="goBack()" class="btn btn-outline-secondary me-2"><i
                         class="tf-icons bx bx-left-arrow-alt me-2"></i>Kembali</a>

@@ -63,8 +63,10 @@ return [
 
 'LAPORAN_PENGADUAN_TITLE' => 'Laporan Pengaduan Dibuat',
 'LAPORAN_PENGADUAN_ASSIGNEE' => 'kantorpusat@satupangan.id',
-'LAPORAN_PENGADUAN_STATUS' => 'DALAM REVIEW',
-'LAPORAN_PENGADUAN_CATEGORIES' => 'INIT',
+'LAPORAN_PENGADUAN_STATUS' => config('workflow.statuses.DIBUAT'),
+'LAPORAN_PENGADUAN_TYPE' => config('workflow.types.LAPORAN'),
+'LAPORAN_PENGADUAN_CATEGORIES' => config('workflow.categories.'),
+'LAPORAN_PENGADUAN_ACTION_TYPE' => config('workflow.action_types.INIT'),
 
 
 ];

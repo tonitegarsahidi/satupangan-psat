@@ -8,8 +8,10 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use App\Repositories\LaporanPengaduanRepository;
 use App\Repositories\UserRepository;
+use App\Repositories\WorkflowActionRepository;
 use App\Repositories\WorkflowRepository;
 use App\Repositories\WorkflowThreadRepository;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 
 class LaporanPengaduanService
@@ -18,17 +20,20 @@ class LaporanPengaduanService
     private $WorkflowRepository;
     private $UserRepository;
     private $WorkflowThreadRepository;
+    private $WorkflowActionRepository;
 
     public function __construct(
         LaporanPengaduanRepository $LaporanPengaduanRepository,
         UserRepository $UserRepository,
         WorkflowRepository $WorkflowRepository,
-        WorkflowThreadRepository $WorkflowThreadRepository
+        WorkflowThreadRepository $WorkflowThreadRepository,
+        WorkflowActionRepository $WorkflowActionRepository
     ) {
         $this->LaporanPengaduanRepository = $LaporanPengaduanRepository;
         $this->UserRepository = $UserRepository;
         $this->WorkflowRepository = $WorkflowRepository;
         $this->WorkflowThreadRepository = $WorkflowThreadRepository;
+        $this->WorkflowActionRepository = $WorkflowActionRepository;
     }
 
     public function listAllLaporanPengaduan($perPage, string $sortField = null, string $sortOrder = null, string $keyword = null): LengthAwarePaginator
@@ -41,7 +46,7 @@ class LaporanPengaduanService
         // dd($user->hasAnyRole(['ROLE_SUPERVISOR','ROLE_ADMIN']));
         // Cek apakah user memiliki role 'ROLE_OPERATOR'
         $userId = $user->id;
-        if ($user->hasAnyRole(['ROLE_SUPERVISOR','ROLE_ADMIN'])) {
+        if ($user->hasAnyRole(['ROLE_SUPERVISOR', 'ROLE_ADMIN'])) {
             // Kalau tidak punya role tersebut, batasi hanya laporan dari user ini
             $userId = null;
         }
@@ -71,12 +76,12 @@ class LaporanPengaduanService
             // Buat Workflow terlebih dahulu
             $workflowData = [
                 'user_id_initiator' => $userId,
-                'type' => config('constant.LAPORAN_PENGADUAN_STATUS'),
-                'status' => config('constant.LAPORAN_PENGADUAN_STATUS'),
-                'title' => $validatedData['isi_laporan'],
+                'type' => config('workflow.types.LAPORAN'),
+                'status' => config('workflow.statuses.DALAM_REVIEW'),
+                'title' => config('constant.LAPORAN_PENGADUAN_TITLE'),
                 // 'title' => $validatedData['isi_laporan'],
                 'current_assignee_id' => $userIdAssignee,
-                'category' => config('constant.LAPORAN_PENGADUAN_CATEGORIES'),
+                'category' => config('workflow.categories.TEKNIS'),
                 'due_date' => null, // Atur sesuai kebutuhan
                 'is_active' => true,
                 'created_by' => $userId,
@@ -84,6 +89,51 @@ class LaporanPengaduanService
                 'parent_id' => null, // Atur sesuai kebutuhan
             ];
             $workflow = $this->WorkflowRepository->createWorkflow($workflowData);
+
+             //tambahkan workfow Thread disini
+            $workflowThreadData = [
+                'workflow_id' => $workflow->id,
+                'user_id' => $userId,
+                'message' => $validatedData['isi_laporan'],
+                'link_url' => null,
+                'is_internal' => false,
+                'is_active' => true,
+                'created_by' => $userId,
+                'updated_by' => $userId,
+            ];
+
+            $workflowThread = $this->WorkflowThreadRepository->createThread($workflowThreadData);
+
+            //tambahkan workflow action dan thread disini
+            $workflowActionData = [
+                'workflow_id'  => $workflow->id,
+                'user_id' => $userId,
+                'action_time' => Carbon::now(),
+                'action_type' => config('workflow.action_types.INIT'),
+                'action_target' => null,
+                'description' => null,
+                'previous_status' => null,
+                'new_status' => config('workflow.statuses.DIBUAT'),
+                'created_by' => $userId,
+                'updated_by' => $userId,
+            ];
+            $workflowAction = $this->WorkflowActionRepository->createAction($workflowActionData);
+
+
+            $workflowActionData2 = [
+                'workflow_id'  => $workflow->id,
+                'user_id' => $userIdAssignee,
+                'action_time' => Carbon::now(),
+                'action_type' => config('workflow.action_types.DISPOSISI'),
+                'action_target' => $userIdAssignee,
+                'description' => null,
+                'previous_status' => config('workflow.statuses.DIBUAT'),
+                'new_status' => config('workflow.statuses.DALAM_REVIEW'),
+                'created_by' => $userId,
+                'updated_by' => $userId,
+            ];
+            $workflowAction2 = $this->WorkflowActionRepository->createAction($workflowActionData2);
+
 
 
             // tambahkan user_id ke dalam data yang akan disimpan

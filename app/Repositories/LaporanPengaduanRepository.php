@@ -45,7 +45,11 @@ class LaporanPengaduanRepository
 
     public function getLaporanById($laporanId): ?LaporanPengaduan
     {
-        return LaporanPengaduan::find($laporanId);
+        return LaporanPengaduan::with([
+            'workflow',
+            'workflow.threads.user',
+            'workflow.actions.user'
+        ])->find($laporanId);
     }
 
     public function createLaporan($data)
