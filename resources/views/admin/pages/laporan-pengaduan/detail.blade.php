@@ -180,6 +180,35 @@
                 </div>
             </div>
 
+            <div class="card mt-4">
+                <div class="m-4">
+                    <h4>Update Laporan Pengaduan</h4>
+                    <form action="{{ route('admin.laporan-pengaduan.update', ['id' => $data->id]) }}" method="POST">
+                        @csrf
+                        @method('PUT') {{-- Assuming it's a PUT request for update --}}
+                        <div class="mb-3">
+                            <label for="status" class="form-label">Status</label>
+                            <select class="form-select" id="status" name="status">
+                                @if (auth()->user()->hasAnyRole(['ROLE_ADMIN', 'ROLE_SUPERVISOR']))
+                                    @foreach (['MENUNGGU_JAWABAN', 'SELESAI', 'DITUTUP', 'DIBATALKAN', 'DIARSIPKAN', 'DIPINDAHKAN', 'PROSES'] as $status)
+                                        <option value="{{ config('workflow.statuses.' . $status) }}">{{ config('workflow.statuses.' . $status) }}</option>
+                                    @endforeach
+                                @else
+                                    @foreach (['MENUNGGU_TANGGAPAN', 'SELESAI', 'DITUTUP'] as $status)
+                                        <option value="{{ config('workflow.statuses.' . $status) }}">{{ config('workflow.statuses.' . $status) }}</option>
+                                    @endforeach
+                                @endif
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="message" class="form-label">Message</label>
+                            <textarea class="form-control" id="message" name="message" rows="3"></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Update</button>
+                    </form>
+                </div>
+            </div>
+
             <div class="m-4">
                 <a onclick="goBack()" class="btn btn-outline-secondary me-2"><i
                         class="tf-icons bx bx-left-arrow-alt me-2"></i>Kembali</a>

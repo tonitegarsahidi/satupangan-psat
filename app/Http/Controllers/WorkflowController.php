@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Services\WorkflowService;
 use Illuminate\Http\Request;
 use App\Helpers\AlertHelper;
+use Illuminate\Support\Facades\Auth;
 // use App\Http\Requests\Workflow\WorkflowAddRequest;
 // use App\Http\Requests\Workflow\WorkflowEditRequest;
 // use App\Http\Requests\Workflow\WorkflowListRequest;
@@ -52,9 +53,9 @@ class WorkflowController extends Controller
     public function store(Request $request)
     {
         $validatedData = $request->all(); // Ganti dengan $request->validated() jika pakai FormRequest
-        $validatedData['user_id_initiator'] = \Illuminate\Support\Facades\Auth::id();
-        $validatedData['created_by'] = \Illuminate\Support\Facades\Auth::id();
-        $validatedData['updated_by'] = \Illuminate\Support\Facades\Auth::id();
+        $validatedData['user_id_initiator'] = Auth::id();
+        $validatedData['created_by'] = Auth::id();
+        $validatedData['updated_by'] = Auth::id();
         if ($this->workflowService->checkWorkflowTitleExist($validatedData["title"])) {
             throw ValidationException::withMessages([
                 'title' => 'Judul Workflow sudah ada sebelumnya.'
