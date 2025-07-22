@@ -21,43 +21,53 @@
                         <table class="table table-hover">
                             <tbody>
                                 <tr>
-                                    <th style="width: 250px;" class="bg-dark text-white">Nama Pelapor</th>
+                                    <th colspan="2" class="bg-primary text-white">Informasi Pelapor</th>
+                                </tr>
+                                <tr>
+                                    <th style="width: 250px;">Nama Pelapor</th>
                                     <td>{{ $data->nama_pelapor }}</td>
                                 </tr>
                                 <tr>
-                                    <th class="bg-dark text-white">NIK Pelapor</th>
+                                    <th>NIK Pelapor</th>
                                     <td>{{ $data->nik_pelapor }}</td>
                                 </tr>
                                 <tr>
-                                    <th class="bg-dark text-white">Nomor Telepon</th>
+                                    <th>Nomor Telepon</th>
                                     <td>{{ $data->nomor_telepon_pelapor }}</td>
                                 </tr>
                                 <tr>
-                                    <th class="bg-dark text-white">Email</th>
+                                    <th>Email</th>
                                     <td>{{ $data->email_pelapor }}</td>
                                 </tr>
                                 <tr>
-                                    <th class="bg-dark text-white">Lokasi Kejadian</th>
+                                    <th colspan="2" class="bg-primary text-white">Detail Laporan</th>
+                                </tr>
+                                <tr>
+                                    <th>Lokasi Kejadian</th>
                                     <td>{{ $data->lokasi_kejadian }}</td>
                                 </tr>
                                 <tr>
-                                    <th class="bg-dark text-white">Provinsi</th>
+                                    <th>Provinsi</th>
                                     <td>{{ optional($data->provinsi)->nama_provinsi ?? '-' }}</td>
                                 </tr>
                                 <tr>
-                                    <th class="bg-dark text-white">Kota</th>
+                                    <th>Kota</th>
                                     <td>{{ optional($data->kota)->nama_kota ?? '-' }}</td>
                                 </tr>
                                 <tr>
-                                    <th class="bg-dark text-white">Isi Laporan</th>
+                                    <th>Isi Laporan</th>
                                     <td>{{ $data->isi_laporan }}</td>
                                 </tr>
                                 <tr>
-                                    <th class="bg-dark text-white">Tindak Lanjut Pertama</th>
-                                    <td>{{ is_null($data->tindak_lanjut_pertama) ? "Belum Ada" : $data->tindak_lanjut_pertama }}</td>
+                                    <th colspan="2" class="bg-primary text-white">Status Tindak Lanjut</th>
                                 </tr>
                                 <tr>
-                                    <th class="bg-dark text-white">Is Active</th>
+                                    <th>Tindak Lanjut Pertama</th>
+                                    <td>{{ is_null($data->tindak_lanjut_pertama) ? 'Belum Ada' : $data->tindak_lanjut_pertama }}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>Status Aktif</th>
                                     <td>
                                         @if ($data->is_active)
                                             <span class="badge rounded-pill bg-success"> Aktif </span>
@@ -103,65 +113,76 @@
                         @endphp
 
                         @forelse($historyItems as $item)
-                            <div class="row align-items-stretch mb-3">
-                                <div class="col-md-3 text-end pe-0">
-                                    <div class="bg-light border rounded p-2 h-100 d-flex flex-column justify-content-center">
+                            <div class="row align-items-stretch mb-2"> {{-- Reduced margin-bottom --}}
+                                <div class="col-md-2 text-end pe-0">
+                                    <div
+                                        class="bg-light border rounded p-2 h-100 d-flex flex-column justify-content-center">
                                         <span class="fw-bold text-primary">
                                             {{ $item['data']->created_at ? \Carbon\Carbon::parse($item['data']->created_at)->timezone('Asia/Jakarta')->format('d F Y - H:i') : '' }}
                                         </span>
                                     </div>
                                 </div>
-                                <div class="col-md-9 ps-0">
+                                <div class="col-md-10 ps-0">
                                     <div class="card shadow-sm h-100">
-                                        <div class="card-body">
-                                            <div class="d-flex justify-content-between align-items-center mb-2">
-                                                <span>
-                                                    @if($item['type'] === 'action')
-                                                        <span class="badge bg-info text-dark me-2"><i class="bx bx-bolt"></i> Action</span>
-                                                    @else
-                                                        <span class="badge bg-warning text-dark me-2"><i class="bx bx-message"></i> Thread</span>
-                                                    @endif
-                                                </span>
-                                            </div>
-                                            <div>
-                                                @if($item['type'] === 'action')
+                                        <div class="card-body py-2"> {{-- Reduced padding-top/bottom --}}
+                                            @if ($item['type'] === 'action')
+                                                <div class="d-flex align-items-center">
+                                                    <span class="badge bg-info text-dark me-2"><i class="bx bx-bolt"></i>
+                                                        Action</span>
                                                     <b>Action Type:</b>
                                                     @php
                                                         $actionType = $item['data']->action_type ?? null;
-                                                        $actionTypeLabel = $actionType && config('workflow.action_types') && isset(config('workflow.action_types')[$actionType])
-                                                            ? config('workflow.action_types')[$actionType]
-                                                            : $actionType;
+                                                        $actionTypeLabel =
+                                                            $actionType &&
+                                                            config('workflow.action_types') &&
+                                                            isset(config('workflow.action_types')[$actionType])
+                                                                ? config('workflow.action_types')[$actionType]
+                                                                : $actionType;
                                                     @endphp
-                                                    {{ $actionTypeLabel ?? '-' }}<br>
+                                                    {{ $actionTypeLabel ?? '-' }}
+                                                    <span class="mx-2">|</span>
                                                     <b>By:</b>
-                                                    @if($item['data']->user && $item['data']->user->name)
-                                                        <a href="{{ route('admin.user.detail', ['id' => $item['data']->user->id]) }}" target="_blank">
+                                                    @if ($item['data']->user && $item['data']->user->name)
+                                                        <a href="{{ route('admin.user.detail', ['id' => $item['data']->user->id]) }}"
+                                                            target="_blank">
                                                             {{ $item['data']->user->name }}
                                                         </a>
                                                     @else
                                                         {{ $item['data']->user_id ?? '-' }}
                                                     @endif
-                                                    <br>
-                                                    <b>Note:</b> {{ $item['data']->notes ?? '-' }}
-                                                @else
+                                                    @if ($item['data']->notes)
+                                                        <span class="mx-2">|</span>
+                                                        <b>Note:</b> {{ $item['data']->notes }}
+                                                    @endif
+                                                </div>
+                                            @else
+                                                <div class="d-flex justify-content-between align-items-center mb-2">
+                                                    <span>
+                                                        <span class="badge bg-warning text-dark me-2"><i
+                                                                class="bx bx-message"></i> Thread</span>
+                                                    </span>
+                                                </div>
+                                                <div>
                                                     <b>Thread:</b> {{ $item['data']->message ?? '-' }}<br>
                                                     <b>By:</b>
-                                                    @if($item['data']->user && $item['data']->user->name)
-                                                        <a href="{{ route('admin.user.detail', ['id' => $item['data']->user->id]) }}" target="_blank">
+                                                    @if ($item['data']->user && $item['data']->user->name)
+                                                        <a href="{{ route('admin.user.detail', ['id' => $item['data']->user->id]) }}"
+                                                            target="_blank">
                                                             {{ $item['data']->user->name }}
                                                         </a>
                                                     @else
                                                         {{ $item['data']->user_id ?? '-' }}
                                                     @endif
-                                                @endif
-                                            </div>
-                                            @if($item['data']->attachments && count($item['data']->attachments) > 0)
+                                                </div>
+                                            @endif
+                                            @if ($item['data']->attachments && count($item['data']->attachments) > 0)
                                                 <div class="mt-2">
                                                     <b>Attachments:</b>
                                                     <ul>
-                                                        @foreach($item['data']->attachments as $attachment)
+                                                        @foreach ($item['data']->attachments as $attachment)
                                                             <li>
-                                                                <a href="{{ asset($attachment->file_path) }}" target="_blank">
+                                                                <a href="{{ asset($attachment->file_path) }}"
+                                                                    target="_blank">
                                                                     {{ $attachment->file_name ?? basename($attachment->file_path) }}
                                                                 </a>
                                                             </li>
@@ -191,13 +212,34 @@
                             <select class="form-select" id="status" name="status">
                                 @if (auth()->user()->hasAnyRole(['ROLE_ADMIN', 'ROLE_SUPERVISOR']))
                                     @foreach (['MENUNGGU_JAWABAN', 'SELESAI', 'DITUTUP', 'DIBATALKAN', 'DIARSIPKAN', 'DIPINDAHKAN', 'PROSES'] as $status)
-                                        <option value="{{ config('workflow.statuses.' . $status) }}">{{ config('workflow.statuses.' . $status) }}</option>
+                                        <option value="{{ config('workflow.statuses.' . $status) }}">
+                                            {{ config('workflow.statuses.' . $status) }}</option>
                                     @endforeach
                                 @else
                                     @foreach (['MENUNGGU_TANGGAPAN', 'SELESAI', 'DITUTUP'] as $status)
-                                        <option value="{{ config('workflow.statuses.' . $status) }}">{{ config('workflow.statuses.' . $status) }}</option>
+                                        <option value="{{ config('workflow.statuses.' . $status) }}">
+                                            {{ config('workflow.statuses.' . $status) }}</option>
                                     @endforeach
                                 @endif
+                            </select>
+                        </div>
+                        <div class="mb-3" id="initiator-field" style="display: none;">
+                            <label for="initiator_user_id" class="form-label">Initiator</label>
+                            <select class="form-select" id="initiator_user_id" name="initiator_user_id"
+                                style="width: 100%;">
+                                <option value="">-- Select Initiator --</option>
+                            </select>
+                            @include('admin.components.notification.error-validation', [
+                                'field' => 'user_id_initiator',
+                            ])
+                            <select class="form-control" id="user_id_initiator" name="user_id_initiator" required>
+                                <option value="">-- Select Initiator --</option>
+                                @foreach ($users as $user)
+                                    <option value="{{ $user->id }}"
+                                        {{-- {{ old('user_id_initiator', $workflow->user_id_initiator) == $user->id ? 'selected' : '' }}> --}}
+                                        {{ $user->name }} ({{ $user->email }})
+                                    </option>
+                                @endforeach
                             </select>
                         </div>
                         <div class="mb-3">
@@ -224,9 +266,63 @@
 @endsection
 
 @section('footer-code')
+    <!-- Select2 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <!-- Select2 JS -->
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <script>
         function goBack() {
             window.history.back();
         }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const statusSelect = document.getElementById('status');
+            const initiatorField = document.getElementById('initiator-field');
+            const initiatorSelect = $('#initiator_user_id'); // Use jQuery for Select2
+
+            function toggleInitiatorField() {
+                if (statusSelect.value === "{{ config('workflow.statuses.DIPINDAHKAN') }}") {
+                    initiatorField.style.display = 'block';
+                    initiatorSelect.prop('required', true); // Make required when visible
+                } else {
+                    initiatorField.style.display = 'none';
+                    initiatorSelect.prop('required', false); // Not required when hidden
+                    initiatorSelect.val(null).trigger('change'); // Clear selected value
+                }
+            }
+
+            // Initialize Select2 for initiator_user_id
+            initiatorSelect.select2({
+                placeholder: '-- Select Initiator --',
+                allowClear: true,
+                ajax: {
+                    url: '{{ route('admin.users.search') }}', // Assuming this route exists for user search
+                    dataType: 'json',
+                    delay: 250,
+                    data: function(params) {
+                        return {
+                            q: params.term // search term
+                        };
+                    },
+                    processResults: function(data) {
+                        return {
+                            results: data.map(function(user) {
+                                return {
+                                    id: user.id,
+                                    text: user.name + ' (' + user.email + ')'
+                                };
+                            })
+                        };
+                    },
+                    cache: true
+                },
+            });
+
+            // Initial check on page load
+            toggleInitiatorField();
+
+            // Listen for changes on the status dropdown
+            statusSelect.addEventListener('change', toggleInitiatorField);
+        });
     </script>
 @endsection

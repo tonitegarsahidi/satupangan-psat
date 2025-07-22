@@ -201,6 +201,26 @@ class UserController extends Controller
         return redirect()->route('admin.user.index')->with('alerts', [$alert]);
     }
 
+    /**
+     * =============================================
+     *      Search users for Select2
+     * =============================================
+     */
+    public function search(Request $request)
+    {
+        $search = $request->input('q');
+        // Ensure only necessary fields are selected for the AJAX response
+        $users = $this->userService->searchUsers($search)->map(function($user) {
+            return (object)['id' => $user->id, 'name' => $user->name, 'email' => $user->email];
+        });
+
+        $formattedUsers = $users->map(function ($user) {
+            return ['id' => $user->id, 'text' => $user->name . ' (' . $user->email . ')'];
+        });
+
+        return response()->json($formattedUsers);
+    }
+
 
     // ============================ END OF ULTIMATE CRUD FUNCTIONALITY ===============================
     /**

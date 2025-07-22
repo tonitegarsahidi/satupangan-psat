@@ -92,4 +92,16 @@ class UserRepository
         return User::orderBy('name', 'asc')->get();
     }
 
+    /**
+     * Search users by keyword (name or email)
+     *
+     * @param string $keyword
+     * @return \Illuminate\Database\Eloquent\Collection
+     */
+    public function searchUsers(string $keyword)
+    {
+        return User::whereRaw('lower(name) LIKE ?', ['%' . strtolower($keyword) . '%'])
+            ->orWhereRaw('lower(email) LIKE ?', ['%' . strtolower($keyword) . '%'])
+            ->get();
+    }
 }

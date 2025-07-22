@@ -130,4 +130,14 @@ class UserService
     {
         return $this->userRepository->getAllUsersSortedByName();
     }
+
+    /**
+     * =============================================
+     * Search users by keyword (name or email)
+     * =============================================
+     */
+    public function searchUsers(string $keyword)
+    {
+        return $this->userRepository->searchUsers($keyword);
+    }
 }

@@ -92,6 +92,7 @@ Route::middleware('auth')->group(function () {
             Route::get('/user/edit/{id}',           [UserController::class, 'edit'])->name('admin.user.edit');
             Route::get('/user/delete/{id}',         [UserController::class, 'deleteConfirm'])->name('admin.user.delete');
             Route::delete('/user/delete/{id}',      [UserController::class, 'destroy'])->name('admin.user.destroy');
+            Route::get('/user/search',              [UserController::class, 'search'])->name('admin.users.search');
 
             // MANAGE PROVINSI
             Route::prefix('/master-provinsi')

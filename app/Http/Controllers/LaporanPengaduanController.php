@@ -7,15 +7,18 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\LaporanPengaduan\LaporanPengaduanAddRequest;
 use App\Helpers\AlertHelper;
+use App\Services\UserService;
 
 class LaporanPengaduanController extends Controller
 {
     private $LaporanPengaduanService;
+    private $userService;
     private $mainBreadcrumbs;
 
-    public function __construct(LaporanPengaduanService $LaporanPengaduanService)
+    public function __construct(LaporanPengaduanService $LaporanPengaduanService, UserService $userService)
     {
         $this->LaporanPengaduanService = $LaporanPengaduanService;
+        $this->userService = $userService;
 
         $this->mainBreadcrumbs = [
             'Admin' => route('admin.laporan-pengaduan.index'),
@@ -78,7 +81,8 @@ class LaporanPengaduanController extends Controller
     {
         $data = $this->LaporanPengaduanService->getLaporanPengaduanDetail($request->id);
         $breadcrumbs = array_merge($this->mainBreadcrumbs, ['Detail' => null]);
-        return view('admin.pages.laporan-pengaduan.detail', compact('breadcrumbs', 'data'));
+        $users = $this->userService->getAllUsersSortedByName();
+        return view('admin.pages.laporan-pengaduan.detail', compact('breadcrumbs', 'data', 'users'));
     }
 
     public function edit(Request $request, $id)

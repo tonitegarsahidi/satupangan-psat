@@ -86,14 +86,13 @@
                                 <label class="col-sm-2 col-form-label" for="user_id_initiator">Initiator*</label>
                                 <div class="col-sm-10">
                                     @include('admin.components.notification.error-validation', ['field' => 'user_id_initiator'])
-                                    <select class="form-control" id="user_id_initiator" name="user_id_initiator" required>
+                                    <select class="form-control" id="user_id_initiator" name="user_id_initiator" required style="width: 100%;">
                                         <option value="">-- Select Initiator --</option>
-                                        @foreach($users as $user)
-                                            <option value="{{ $user->id }}"
-                                                {{ old('user_id_initiator', $workflow->user_id_initiator) == $user->id ? 'selected' : '' }}>
-                                                {{ $user->name }} ({{ $user->email }})
+                                        @if(isset($workflow->user_id_initiator) && $workflow->initiator)
+                                            <option value="{{ $workflow->initiator->id }}" selected>
+                                                {{ $workflow->initiator->name }} ({{ $workflow->initiator->email }})
                                             </option>
-                                        @endforeach
+                                        @endif
                                     </select>
                                 </div>
                             </div>
@@ -157,7 +156,28 @@
         $(document).ready(function() {
             $('#user_id_initiator').select2({
                 placeholder: 'Search for an initiator',
-                allowClear: true
+                allowClear: true,
+                ajax: {
+                    url: '{{ route('admin.users.search') }}',
+                    dataType: 'json',
+                    delay: 250,
+                    data: function (params) {
+                        return {
+                            q: params.term
+                        };
+                    },
+                    processResults: function (data) {
+                        return {
+                            results: data.map(function(user) {
+                                return {
+                                    id: user.id,
+                                    text: user.name + ' (' + user.email + ')'
+                                };
+                            })
+                        };
+                    },
+                    cache: true
+                }
             });
             $('#current_assignee_id').select2({
                 placeholder: 'Search for a current assignee',
