@@ -215,6 +215,11 @@
                                         <option value="{{ config('workflow.statuses.' . $status) }}">
                                             {{ config('workflow.statuses.' . $status) }}</option>
                                     @endforeach
+                                @elseif (auth()->user()->hasRole('ROLE_OPERATOR'))
+                                    @foreach (['PROSES', 'SELESAI', 'MENUNGGU_JAWABAN'] as $status)
+                                        <option value="{{ config('workflow.statuses.' . $status) }}">
+                                            {{ config('workflow.statuses.' . $status) }}</option>
+                                    @endforeach
                                 @else
                                     @foreach (['MENUNGGU_TANGGAPAN', 'SELESAI', 'DITUTUP'] as $status)
                                         <option value="{{ config('workflow.statuses.' . $status) }}">

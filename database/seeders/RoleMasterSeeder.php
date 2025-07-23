@@ -15,7 +15,8 @@ class RoleMasterSeeder extends Seeder
     {
         $roles = [
             ['role_name' => 'Pengguna', 'role_code' => 'ROLE_USER'],
-            ['role_name' => 'Pelaku Usaha', 'role_code' => 'ROLE_OPERATOR'],
+            ['role_name' => 'Pelaku Usaha', 'role_code' => 'ROLE_USER_BUSINESS'],
+            ['role_name' => 'Petugas Badan Pangan', 'role_code' => 'ROLE_OPERATOR'],
             ['role_name' => 'Petugas Badan Pangan', 'role_code' => 'ROLE_SUPERVISOR'],
             ['role_name' => 'Administrator', 'role_code' => 'ROLE_ADMIN'],
         ];

@@ -11,6 +11,9 @@ use App\Models\User;
 use App\Models\MasterProvinsi;
 use App\Models\MasterKota;
 use App\Models\RoleMaster;
+use App\Http\Controllers\LaporanPengaduanController;
+use App\Http\Requests\LaporanPengaduan\LaporanPengaduanAddRequest;
+use Illuminate\Http\Request;
 
 class LaporanPengaduanSeeder extends Seeder
 {
@@ -101,39 +104,29 @@ class LaporanPengaduanSeeder extends Seeder
             ],
         ];
 
-        foreach ($laporanData as $data) {
-            $workflow = Workflow::create([
-                'id' => Str::uuid(),
-                'user_id_initiator' => $user->id,
-                'type' => 'pengaduan',
-                'status' => config('constant.LAPORAN_PENGADUAN_STATUS'),
-                'title' => 'Workflow untuk laporan: ' . $data['nama_pelapor'],
-                'current_assignee_id' => $assigneeUser->id,
-                'parent_id' => null,
-                'category' => config('constant.LAPORAN_PENGADUAN_CATEGORIES'),
-                'due_date' => now()->addDays(7),
-                'is_active' => true,
-                'created_by' => 'seeder',
-                'updated_by' => null,
-            ]);
+        $laporanController = new LaporanPengaduanController(
+            app(\App\Services\LaporanPengaduanService::class),
+            app(\App\Services\UserService::class)
+        );
 
-            LaporanPengaduan::create([
-                'id' => Str::uuid(),
-                'user_id' => $user->id,
-                'nama_pelapor' => $data['nama_pelapor'],
-                'nik_pelapor' => $data['nik_pelapor'],
-                'nomor_telepon_pelapor' => $data['nomor_telepon_pelapor'],
-                'email_pelapor' => $data['email_pelapor'],
-                'lokasi_kejadian' => $data['lokasi_kejadian'],
+        foreach ($laporanData as $data) {
+            $mockRequest = Request::create('/dummy-url', 'POST', $data);
+            $mockRequest->merge([
                 'provinsi_id' => $provinsi->id,
                 'kota_id' => $kota->id,
-                'isi_laporan' => $data['isi_laporan'],
-                'tindak_lanjut_pertama' => $data['tindak_lanjut_pertama'],
-                'workflow_id' => $workflow->id,
-                'is_active' => true,
-                'created_by' => 'seeder',
-                'updated_by' => null,
+                'user_id' => $user->id,
             ]);
+
+            $laporanAddRequest = LaporanPengaduanAddRequest::createFromBase($mockRequest);
+            $laporanAddRequest->setUserResolver(function () use ($user) {
+                return $user;
+            });
+
+            // Manually set the validator for the request
+            $validator = \Illuminate\Support\Facades\Validator::make($laporanAddRequest->all(), $laporanAddRequest->rules());
+            $laporanAddRequest->setValidator($validator);
+
+            $laporanController->store($laporanAddRequest);
         }
     }
 }

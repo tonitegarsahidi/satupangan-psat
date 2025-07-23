@@ -16,6 +16,7 @@ class RoleUserSeeder extends Seeder
     {
          // Assign roles to users
          $roleIdUser = DB::table('role_master')->where('role_code', 'ROLE_USER')->value('id');
+         $roleIdPengusaha = DB::table('role_master')->where('role_code', 'ROLE_USER_BUSINESS')->value('id');
          $roleIdAdmin = DB::table('role_master')->where('role_code', 'ROLE_ADMIN')->value('id');
          $roleIdOperator = DB::table('role_master')->where('role_code', 'ROLE_OPERATOR')->value('id');
          $roleIdSupervisor = DB::table('role_master')->where('role_code', 'ROLE_SUPERVISOR')->value('id');// Assign roles to users
@@ -24,6 +25,8 @@ class RoleUserSeeder extends Seeder
          $userIdSuperAdmin  = DB::table('users')->where('email', 'superadmin@satupangan.id')->value('id');
          $userIdUser        = DB::table('users')->where('email', 'user@satupangan.id')->value('id');
          $userIdUser2        = DB::table('users')->where('email', 'user2@satupangan.id')->value('id');
+         $userIdPengusaha    = DB::table('users')->where('email', 'pengusaha@satupangan.id')->value('id');
+         $userIdPengusaha2   = DB::table('users')->where('email', 'pengusaha2@satupangan.id')->value('id');
          $userIdAdmin       = DB::table('users')->where('email', 'admin@satupangan.id')->value('id');
          $userIdOperator    = DB::table('users')->where('email', 'operator@satupangan.id')->value('id');
          $userIdSupervisor  = DB::table('users')->where('email', 'supervisor@satupangan.id')->value('id');
@@ -60,6 +63,11 @@ class RoleUserSeeder extends Seeder
 
              ['id' => Str::uuid(), 'user_id' => $userIdUser, 'role_id' => $roleIdUser],        // user has ROLE_USER
              ['id' => Str::uuid(), 'user_id' => $userIdUser2, 'role_id' => $roleIdUser],        // user has ROLE_USER
+
+             ['id' => Str::uuid(), 'user_id' => $userIdPengusaha, 'role_id' => $roleIdUser],        // pengusaha has ROLE_USER
+             ['id' => Str::uuid(), 'user_id' => $userIdPengusaha2, 'role_id' => $roleIdUser],        // pengusaha2 has ROLE_USER
+             ['id' => Str::uuid(), 'user_id' => $userIdPengusaha, 'role_id' => $roleIdPengusaha],        // pengusaha has ROLE_USER_BUSINESS
+             ['id' => Str::uuid(), 'user_id' => $userIdPengusaha2, 'role_id' => $roleIdPengusaha],        // pengusaha2 has ROLE_USER_BUSINESS
 
              ['id' => Str::uuid(), 'user_id' => $userIdKantorPusat, 'role_id' => $roleIdSupervisor], // Kantor Pusat has ROLE_SUPERVISOR
              ['id' => Str::uuid(), 'user_id' => $userIdKantorPusat, 'role_id' => $roleIdUser],       // Kantor Pusat has ROLE_USER
