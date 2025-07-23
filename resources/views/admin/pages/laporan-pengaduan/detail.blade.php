@@ -225,18 +225,14 @@
                         </div>
                         <div class="mb-3" id="initiator-field" style="display: none;">
                             <label for="initiator_user_id" class="form-label">Initiator</label>
-                            <select class="form-select" id="initiator_user_id" name="initiator_user_id"
-                                style="width: 100%;">
-                                <option value="">-- Select Initiator --</option>
-                            </select>
                             @include('admin.components.notification.error-validation', [
-                                'field' => 'user_id_initiator',
+                                'field' => 'user_id_disposisi',
                             ])
-                            <select class="form-control" id="user_id_initiator" name="user_id_initiator" required>
+                            <select class="form-control" id="user_id_disposisi" name="user_id_disposisi" required>
                                 <option value="">-- Select Initiator --</option>
                                 @foreach ($users as $user)
                                     <option value="{{ $user->id }}"
-                                        {{-- {{ old('user_id_initiator', $workflow->user_id_initiator) == $user->id ? 'selected' : '' }}> --}}
+                                        {{ old('user_id_disposisi', $user->id) == $user->id ? 'selected' : '' }}>
                                         {{ $user->name }} ({{ $user->email }})
                                     </option>
                                 @endforeach

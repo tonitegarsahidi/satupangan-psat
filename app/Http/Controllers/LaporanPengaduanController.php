@@ -97,6 +97,9 @@ class LaporanPengaduanController extends Controller
         return view('admin.pages.laporan-pengaduan.edit', compact('breadcrumbs', 'laporan', 'provinsis', 'kotas'));
     }
 
+
+
+
     public function update(Request $request, $id)
     {
         $result = $this->LaporanPengaduanService->updateLaporanPengaduan($request->all(), $id);
