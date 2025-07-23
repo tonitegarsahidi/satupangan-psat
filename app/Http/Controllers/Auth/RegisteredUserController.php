@@ -7,6 +7,7 @@ use App\Models\RoleMaster;
 use App\Models\RoleUser;
 use App\Models\User;
 use App\Providers\RouteServiceProvider;
+use App\Repositories\UserProfileRepository;
 use App\Services\UserService;
 use Exception;
 use Illuminate\Auth\Events\Registered;
@@ -99,34 +100,34 @@ class RegisteredUserController extends Controller
         //start insert operation
         try {
             DB::beginTransaction();
-//find the roles ID (defaults role)
-$roleId = RoleMaster::where('role_code', '=', config('constant.NEW_USER_DEFAULT_ROLES'))->first("id")->id;
+            //find the roles ID (defaults role)
+            $roleId = RoleMaster::where('role_code', '=', config('constant.NEW_USER_DEFAULT_ROLES'))->first("id")->id;
 
-//insert into database
-$user = $this->userService->addNewUser(
-    [
-        'name' => $validatedData["name"],
-        'email' => $validatedData["email"],
-        'password' => Hash::make($validatedData["password"]),
-        'is_active' => config('constant.NEW_USER_STATUS_ACTIVE'),
-        'phone_number' => $validatedData['no_hp'],
-        'roles'     => [$roleId]
-    ]
-);
+            //insert into database
+            $user = $this->userService->addNewUser(
+                [
+                    'name' => $validatedData["name"],
+                    'email' => $validatedData["email"],
+                    'password' => Hash::make($validatedData["password"]),
+                    'is_active' => config('constant.NEW_USER_STATUS_ACTIVE'),
+                    'phone_number' => $validatedData['no_hp'],
+                    'roles'     => [$roleId]
+                ]
+            );
 
-// Insert ke user_profiles
-app(\App\Repositories\UserProfileRepository::class)->create([
-    'user_id' => $user->id,
-    'gender' => $validatedData['jenis_kelamin'],
-    'pekerjaan' => $validatedData['pekerjaan'],
-    'address' => $validatedData['alamat_domisili'],
-    'provinsi_id' => $validatedData['provinsi_id'],
-    'kota_id' => $validatedData['kota_id'],
-]);
+            // Insert ke user_profiles
+            app(UserProfileRepository::class)->create([
+                'user_id' => $user->id,
+                'gender' => $validatedData['jenis_kelamin'],
+                'pekerjaan' => $validatedData['pekerjaan'],
+                'address' => $validatedData['alamat_domisili'],
+                'provinsi_id' => $validatedData['provinsi_id'],
+                'kota_id' => $validatedData['kota_id'],
+            ]);
 
-DB::commit();
+            DB::commit();
 
-event(new Registered($user));
+            event(new Registered($user));
 
 
             // HANDLE REDIRECTS AFTER USER REGISTER
