@@ -298,3 +298,16 @@ require __DIR__ . '/auth.php';
 if (config('saas.SAAS_ACTIVATED')) {
     require __DIR__ . '/saas.php';
 }
+
+// Register List Page
+Route::get('/register-list', function () {
+    return view('admin.auth.register-list');
+})->name('register.list');
+
+// Register Business
+Route::get('/register-business', [\App\Http\Controllers\Auth\RegisteredUserController::class, 'createBusiness'])->name('register-business');
+Route::post('/register-business', [\App\Http\Controllers\Auth\RegisteredUserController::class, 'storeBusiness']);
+
+// Register Petugas
+Route::get('/register-petugas', [\App\Http\Controllers\Auth\RegisteredUserController::class, 'createPetugas'])->name('register-petugas');
+Route::post('/register-petugas', [\App\Http\Controllers\Auth\RegisteredUserController::class, 'storePetugas']);

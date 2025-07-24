@@ -46,7 +46,7 @@
                         <a class="btn ml-2" style="background-color: #FFD700; color: #2E8B57;" href="{{ route('login') }}">Login</a>
                     </li>
                     <li class="nav-item">
-                        <a class="btn ml-2" style="background-color: #F0F0F0; color: #2E8B57;" href="{{ route('register') }}">Register</a>
+                        <a class="btn ml-2" style="background-color: #F0F0F0; color: #2E8B57;" href="{{ route('register.list') }}">Register</a>
                     </li>
                 </ul>
             </div>
