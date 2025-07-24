@@ -152,7 +152,6 @@ class RegisteredUserController extends Controller
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'jenis_kelamin' => ['required', 'in:male,female'],
             'no_hp' => ['required', 'string', 'max:20'],
-            'pekerjaan' => ['required', 'string', 'max:100'],
             'alamat_domisili' => ['required', 'string', 'max:255'],
             'provinsi_id' => ['required', 'exists:master_provinsis,id'],
             'kota_id' => ['required', 'exists:master_kotas,id'],
@@ -183,7 +182,6 @@ class RegisteredUserController extends Controller
             app(UserProfileRepository::class)->create([
                 'user_id' => $user->id,
                 'gender' => $validatedData['jenis_kelamin'],
-                'pekerjaan' => $validatedData['pekerjaan'],
                 'address' => $validatedData['alamat_domisili'],
                 'provinsi_id' => $validatedData['provinsi_id'],
                 'kota_id' => $validatedData['kota_id'],
@@ -233,5 +231,74 @@ class RegisteredUserController extends Controller
         return redirect(RouteServiceProvider::HOME);
     }
 
-    // TODO: Implement createPetugas and storePetugas for /register-petugas
+    /**
+     * Show the registration form for petugas.
+     */
+    public function createPetugas()
+    {
+        $provinsis = \App\Models\MasterProvinsi::where('is_active', 1)->orderBy('nama_provinsi')->get();
+        $kotas = collect();
+        return view('admin.auth.register-petugas', compact('provinsis', 'kotas'));
+    }
+
+    /**
+     * Handle the registration for petugas.
+     */
+    public function storePetugas(Request $request)
+    {
+        $validatedData = $request->validate([
+            'name' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'jenis_kelamin' => ['required', 'in:male,female'],
+            'no_hp' => ['required', 'string', 'max:20'],
+            'pekerjaan' => ['required', 'string', 'max:100'],
+            'alamat_domisili' => ['required', 'string', 'max:255'],
+            'provinsi_id' => ['required', 'exists:master_provinsis,id'],
+            'kota_id' => ['required', 'exists:master_kotas,id'],
+            'password' => ['required', Rules\Password::defaults()],
+            'agree' => 'accepted',
+        ]);
+
+        try {
+            DB::beginTransaction();
+            $roleId = RoleMaster::where('role_code', '=', config('constant.NEW_USER_DEFAULT_ROLES'))->first("id")->id; // Adjust role for petugas if needed
+
+            $user = $this->userService->addNewUser([
+                'name' => $validatedData["name"],
+                'email' => $validatedData["email"],
+                'password' => Hash::make($validatedData["password"]),
+                'is_active' => config('constant.NEW_USER_STATUS_ACTIVE'),
+                'phone_number' => $validatedData['no_hp'],
+                'roles'     => [$roleId]
+            ]);
+
+            app(UserProfileRepository::class)->create([
+                'user_id' => $user->id,
+                'gender' => $validatedData['jenis_kelamin'],
+                'pekerjaan' => $validatedData['pekerjaan'],
+                'address' => $validatedData['alamat_domisili'],
+                'provinsi_id' => $validatedData['provinsi_id'],
+                'kota_id' => $validatedData['kota_id'],
+            ]);
+
+            DB::commit();
+
+            event(new Registered($user));
+
+            if (config('constant.NEW_USER_STATUS_ACTIVE') && !config('constant.NEW_USER_NEED_VERIFY_EMAIL')) {
+                Auth::login($user);
+                return redirect(RouteServiceProvider::HOME);
+            } elseif (!config('constant.NEW_USER_STATUS_ACTIVE')) {
+                return redirect(route('register.needactivation'));
+            } elseif (config('constant.NEW_USER_NEED_VERIFY_EMAIL')) {
+                return redirect(route('verification.notice'));
+            }
+        } catch (Exception $e) {
+            Log::error("error in registration petugas : ", ["exception" => $e]);
+            DB::rollback();
+            return back()->withErrors(['register' => 'Terjadi kesalahan saat registrasi petugas. Silakan coba lagi.']);
+        }
+
+        return redirect(RouteServiceProvider::HOME);
+    }
 }

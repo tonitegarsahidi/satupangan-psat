@@ -5,7 +5,7 @@
 @section('main-content')
 <div class="container-xxl">
     <div class="authentication-wrapper authentication-basic container-p-y">
-        <div class="authentication-inner">
+        <div class="authentication-inner" style="max-width: 600px; margin: auto;">
             <div class="card">
                 <div class="card-body text-center">
                     @include('admin.auth.logo')

@@ -37,6 +37,7 @@
 
                         <form id="formAuthentication" class="mb-3" action="{{ route('register-business') }}" method="POST">
                             @csrf
+                            <h5 class="mb-3">Data Pribadi User</h5>
                             <div class="mb-3">
                                 <label for="name" class="form-label">Nama Lengkap <span class="text-danger">*</span></label>
                                 <input type="text" class="form-control" id="name" name="name" value="{{old('name')}}"
@@ -59,11 +60,6 @@
                                 <label for="no_hp" class="form-label">No. HP <span class="text-danger">*</span></label>
                                 <input type="text" class="form-control" id="no_hp" name="no_hp" value="{{old('no_hp')}}"
                                     placeholder="Masukkan nomor HP aktif Anda" required />
-                            </div>
-                            <div class="mb-3">
-                                <label for="pekerjaan" class="form-label">Pekerjaan <span class="text-danger">*</span></label>
-                                <input type="text" class="form-control" id="pekerjaan" name="pekerjaan" value="{{old('pekerjaan')}}"
-                                    placeholder="Masukkan pekerjaan Anda" required />
                             </div>
                             <div class="mb-3">
                                 <label for="alamat_domisili" class="form-label">Alamat Domisili <span class="text-danger">*</span></label>
@@ -95,6 +91,7 @@
                                 </select>
                             </div>
                             <hr>
+                            <h5 class="mb-3">Data Perusahaan</h5>
                             <div class="mb-3">
                                 <label for="nama_perusahaan" class="form-label">Nama Perusahaan <span class="text-danger">*</span></label>
                                 <input type="text" class="form-control" id="nama_perusahaan" name="nama_perusahaan" value="{{old('nama_perusahaan')}}"
@@ -116,15 +113,16 @@
                                     placeholder="Nomor Induk Berusaha" />
                             </div>
                             <div class="mb-3">
-                                <label for="jenispsat_id" class="form-label">Jenis PSAT <span class="text-danger">*</span></label>
-                                <select id="jenispsat_id" name="jenispsat_id[]" class="form-select" multiple required>
-                                    @foreach ($jenispsats as $jenispsat)
-                                        <option value="{{ $jenispsat->id }}"
-                                            {{ (collect(old('jenispsat_id'))->contains($jenispsat->id)) ? 'selected' : '' }}>
+                                <label class="form-label">Jenis PSAT <span class="text-danger">*</span></label>
+                                @foreach ($jenispsats as $jenispsat)
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" name="jenispsat_id[]" value="{{ $jenispsat->id }}" id="jenispsat_{{ $jenispsat->id }}"
+                                            {{ (is_array(old('jenispsat_id')) && in_array($jenispsat->id, old('jenispsat_id'))) ? 'checked' : '' }}>
+                                        <label class="form-check-label" for="jenispsat_{{ $jenispsat->id }}">
                                             {{ $jenispsat->nama_jenis_pangan_segar }}
-                                        </option>
-                                    @endforeach
-                                </select>
+                                        </label>
+                                    </div>
+                                @endforeach
                                 <small class="text-muted">Pilih satu atau lebih jenis PSAT yang relevan.</small>
                             </div>
                             <div class="mb-3 form-password-toggle">
