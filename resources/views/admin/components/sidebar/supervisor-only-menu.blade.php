@@ -10,4 +10,12 @@
         'menuIcon' => 'bx bx-briefcase-alt',
         'subMenuData' => null,
     ])
+    {{-- PETUGAS PROFILE MENU --}}
+    @include('admin.components.sidebar.item', [
+        'menuId' => 'menu-petugas-profile',
+        'menuText' => 'Data Petugas',
+        'menuUrl' => route('petugas.profile.index'),
+        'menuIcon' => 'bx bx-id-card',
+        'subMenuData' => null,
+    ])
 @endif

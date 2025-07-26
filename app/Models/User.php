@@ -84,6 +84,18 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->hasOne(UserProfile::class);
     }
 
+    // Define the one-to-one relationship with Petugas
+    public function petugas()
+    {
+        return $this->hasOne(Petugas::class);
+    }
+
+    // Define the one-to-one relationship with Business
+    public function business()
+    {
+        return $this->hasOne(Business::class);
+    }
+
     public function listRoles()
     {
         return $this->roles()->pluck('role_name');

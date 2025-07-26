@@ -11,6 +11,17 @@
         'subMenuData' => null,
     ]) --}}
 
+@include('admin.components.sidebar.menu-header', ['textMenuHeader' => 'Profil Bisnis'])
+
+{{-- BUSINESS PROFILE MENU --}}
+@include('admin.components.sidebar.item', [
+    'menuId' => 'menu-business-profile',
+    'menuText' => 'Profil Bisnis',
+    'menuUrl' => route('business.profile.index'),
+    'menuIcon' => 'bx bx-building',
+    'subMenuData' => null,
+])
+
 @include('admin.components.sidebar.menu-header', ['textMenuHeader' => 'Laporan Pengaduan'])
 
 @include('admin.components.sidebar.item', [
