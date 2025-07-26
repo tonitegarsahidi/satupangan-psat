@@ -26,25 +26,24 @@ class MasterJenisPanganSegarSeeder extends Seeder
             // Kacang-Kacangan, Polong-Polongan, Biji-Bijian, dan Biji/Buah Berminyak
             ['kode' => 'JP003', 'nama' => 'Kacang-Kacangan', 'kelompok' => 'Kacang-Kacangan, Polong-Polongan, Biji-Bijian, dan Biji/Buah Berminyak'],
             ['kode' => 'JP004', 'nama' => 'Polong-Polongan', 'kelompok' => 'Kacang-Kacangan, Polong-Polongan, Biji-Bijian, dan Biji/Buah Berminyak'],
-            // Sayur, termasuk Jamur
-            ['kode' => 'JP005', 'nama' => 'Kubis-Kubisan', 'kelompok' => 'Sayur, termasuk Jamur'],
-            ['kode' => 'JP006', 'nama' => 'Umbi Lapis', 'kelompok' => 'Sayur, termasuk Jamur'],
+            // Sayur, termasuk Jamur (dikelompokkan dan diseragamkan)
+            ['kode' => 'JP005', 'nama' => 'Sayuran Kubis-Kubisan', 'kelompok' => 'Sayur, termasuk Jamur'],
+            ['kode' => 'JP006', 'nama' => 'Sayuran Umbi Lapis', 'kelompok' => 'Sayur, termasuk Jamur'],
             ['kode' => 'JP007', 'nama' => 'Sayuran Buah', 'kelompok' => 'Sayur, termasuk Jamur'],
             ['kode' => 'JP008', 'nama' => 'Sayuran Daun', 'kelompok' => 'Sayur, termasuk Jamur'],
             ['kode' => 'JP009', 'nama' => 'Sayuran Umbi dan Akar', 'kelompok' => 'Sayur, termasuk Jamur'],
             ['kode' => 'JP010', 'nama' => 'Sayuran Batang dan Tangkai', 'kelompok' => 'Sayur, termasuk Jamur'],
-            ['kode' => 'JP011', 'nama' => 'Sayuran Batang/Tangkai', 'kelompok' => 'Sayur, termasuk Jamur'],
             ['kode' => 'JP012', 'nama' => 'Sayuran Bunga', 'kelompok' => 'Sayur, termasuk Jamur'],
             // Buah
-            ['kode' => 'JP013', 'nama' => 'Buah dengan Kulit yang Tidak Dapat Dimakan', 'kelompok' => 'Buah'],
-            ['kode' => 'JP014', 'nama' => 'Beri-Berian dan Buah Kecil Lainnya', 'kelompok' => 'Buah'],
-            ['kode' => 'JP015', 'nama' => 'Jeruk (Citrus)', 'kelompok' => 'Buah'],
+            ['kode' => 'JP013', 'nama' => 'Buah Kulit Tidak Dimakan', 'kelompok' => 'Buah'],
+            ['kode' => 'JP014', 'nama' => 'Buah Beri dan Kecil Lainnya', 'kelompok' => 'Buah'],
+            ['kode' => 'JP015', 'nama' => 'Buah Jeruk (Citrus)', 'kelompok' => 'Buah'],
             ['kode' => 'JP016', 'nama' => 'Buah Pome', 'kelompok' => 'Buah'],
-            ['kode' => 'JP017', 'nama' => 'Buah dengan Biji atau Endokarp yang Keras/Stone Fruits', 'kelompok' => 'Buah'],
+            ['kode' => 'JP017', 'nama' => 'Buah Batu (Stone Fruits)', 'kelompok' => 'Buah'],
             // Rempah
-            ['kode' => 'JP018', 'nama' => 'Rempah Lainnya (Buah, Bunga, Batang-Kulit Batang, Rimpang, Biji)', 'kelompok' => 'Rempah'],
+            ['kode' => 'JP018', 'nama' => 'Rempah (Buah, Bunga, Batang, Rimpang, Biji)', 'kelompok' => 'Rempah'],
             // Bahan Penyegar dan Pemanis
-            ['kode' => 'JP019', 'nama' => 'Bahan Penyegar', 'kelompok' => 'Bahan Penyegar dan Pemanis'],
+            ['kode' => 'JP019', 'nama' => 'Bahan Penyegar dan Pemanis', 'kelompok' => 'Bahan Penyegar dan Pemanis'],
         ];
 
         foreach ($jenisList as $jenis) {

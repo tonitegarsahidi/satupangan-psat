@@ -310,4 +310,4 @@ Route::post('/register-business', [\App\Http\Controllers\Auth\RegisteredUserCont
 
 // Register Petugas
 Route::get('/register-petugas', [\App\Http\Controllers\Auth\RegisteredUserController::class, 'createPetugas'])->name('register-petugas');
-Route::post('/register-petugas', [\App\Http\Controllers\Auth\RegisteredUserController::class, 'storePetugas']);
+Route::post('/register-petugas', [\App\Http\Controllers\Auth\RegisteredUserController::class, 'storePetugas'])->name('register-petugas-add');

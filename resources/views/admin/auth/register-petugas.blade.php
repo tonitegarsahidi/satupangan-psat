@@ -35,7 +35,7 @@
                         </div>
                         @endif
 
-                        <form id="formAuthentication" class="mb-3" action="{{ route('register-petugas') }}" method="POST">
+                        <form id="formAuthentication" class="mb-3" action="{{ route('register-petugas-add') }}" method="POST">
                             @csrf
                             <div class="mb-3">
                                 <label for="name" class="form-label">Nama Lengkap <span class="text-danger">*</span></label>

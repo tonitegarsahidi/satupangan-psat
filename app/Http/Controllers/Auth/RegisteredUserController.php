@@ -21,6 +21,9 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
+use App\Http\Requests\RegisterUserAddRequest;
+use App\Http\Requests\RegisterBusinessAddRequest;
+use App\Http\Requests\RegisterPetugasAddRequest;
 
 class RegisteredUserController extends Controller
 {
@@ -58,36 +61,9 @@ class RegisteredUserController extends Controller
      * Handle an incoming registration request.
      * ============================================================
      */
-    public function store(Request $request): RedirectResponse
+    public function store(RegisterUserAddRequest $request): RedirectResponse
     {
-        $validatedData = $request->validate([
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'jenis_kelamin' => ['required', 'in:male,female'],
-            'no_hp' => ['required', 'string', 'max:20'],
-            'pekerjaan' => ['required', 'string', 'max:100'],
-            'alamat_domisili' => ['required', 'string', 'max:255'],
-            'provinsi_id' => ['required', 'exists:master_provinsis,id'],
-            'kota_id' => ['required', 'exists:master_kotas,id'],
-            'password' => ['required', Rules\Password::defaults()],
-            'agree' => 'accepted',
-        ], [
-            'name.required' => 'Nama Lengkap wajib diisi.',
-            'email.required' => 'Email wajib diisi.',
-            'email.email' => 'Format email tidak valid.',
-            'email.unique' => 'Email sudah terdaftar.',
-            'jenis_kelamin.required' => 'Jenis Kelamin wajib dipilih.',
-            'jenis_kelamin.in' => 'Jenis Kelamin tidak valid.',
-            'no_hp.required' => 'No. HP wajib diisi.',
-            'pekerjaan.required' => 'Pekerjaan wajib diisi.',
-            'alamat_domisili.required' => 'Alamat Domisili wajib diisi.',
-            'provinsi_id.required' => 'Provinsi wajib dipilih.',
-            'provinsi_id.exists' => 'Provinsi tidak valid.',
-            'kota_id.required' => 'Kabupaten/Kota wajib dipilih.',
-            'kota_id.exists' => 'Kabupaten/Kota tidak valid.',
-            'password.required' => 'Password wajib diisi.',
-            'agree.accepted' => 'Anda harus menyetujui syarat dan ketentuan.',
-        ]);
+        $validatedData = $request->validated();
 
         try {
             DB::beginTransaction();
@@ -113,7 +89,7 @@ class RegisteredUserController extends Controller
 
             DB::commit();
 
-            event(new Registered($user));
+            // event(new Registered($user));
 
             if (config('constant.NEW_USER_STATUS_ACTIVE') && !config('constant.NEW_USER_NEED_VERIFY_EMAIL')) {
                 Auth::login($user);
@@ -145,30 +121,19 @@ class RegisteredUserController extends Controller
     /**
      * Handle the registration for business.
      */
-    public function storeBusiness(Request $request)
+    public function storeBusiness(RegisterBusinessAddRequest $request)
     {
-        $validatedData = $request->validate([
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'jenis_kelamin' => ['required', 'in:male,female'],
-            'no_hp' => ['required', 'string', 'max:20'],
-            'alamat_domisili' => ['required', 'string', 'max:255'],
-            'provinsi_id' => ['required', 'exists:master_provinsis,id'],
-            'kota_id' => ['required', 'exists:master_kotas,id'],
-            'password' => ['required', Rules\Password::defaults()],
-            'agree' => 'accepted',
-            'nama_perusahaan' => ['required', 'string', 'max:255'],
-            'alamat_perusahaan' => ['nullable', 'string', 'max:255'],
-            'jabatan_perusahaan' => ['nullable', 'string', 'max:100'],
-            'nib' => ['nullable', 'string', 'max:100'],
-            'jenispsat_id' => ['required', 'array'],
-            'jenispsat_id.*' => ['exists:master_jenis_pangan_segars,id'],
-        ]);
+        $validatedData = $request->validated();
 
         try {
             DB::beginTransaction();
 
-            $roleId = RoleMaster::where('role_code', '=', config('constant.NEW_USER_DEFAULT_ROLES'))->first("id")->id;
+            // Assign appropriate role for business users
+            $roleCode = 'ROLE_USER_BUSINESS'; // Business users should have ROLE_USER_BUSINESS
+            $roleId = RoleMaster::where('role_code', '=', $roleCode)->first("id")->id;
+
+            $roleCodeUser = 'ROLE_USER'; // Business users should have ROLE_USER_BUSINESS
+            $roleIdUser = RoleMaster::where('role_code', '=', $roleCodeUser)->first("id")->id;
 
             $user = $this->userService->addNewUser([
                 'name' => $validatedData["name"],
@@ -176,7 +141,7 @@ class RegisteredUserController extends Controller
                 'password' => Hash::make($validatedData["password"]),
                 'is_active' => config('constant.NEW_USER_STATUS_ACTIVE'),
                 'phone_number' => $validatedData['no_hp'],
-                'roles'     => [$roleId]
+                'roles'     => [$roleId, $roleIdUser]
             ]);
 
             app(UserProfileRepository::class)->create([
@@ -212,7 +177,7 @@ class RegisteredUserController extends Controller
 
             DB::commit();
 
-            event(new Registered($user));
+            // event(new Registered($user));
 
             if (config('constant.NEW_USER_STATUS_ACTIVE') && !config('constant.NEW_USER_NEED_VERIFY_EMAIL')) {
                 Auth::login($user);
@@ -244,24 +209,19 @@ class RegisteredUserController extends Controller
     /**
      * Handle the registration for petugas.
      */
-    public function storePetugas(Request $request)
+    public function storePetugas(RegisterPetugasAddRequest $request)
     {
-        $validatedData = $request->validate([
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'jenis_kelamin' => ['required', 'in:male,female'],
-            'no_hp' => ['required', 'string', 'max:20'],
-            'pekerjaan' => ['required', 'string', 'max:100'],
-            'alamat_domisili' => ['required', 'string', 'max:255'],
-            'provinsi_id' => ['required', 'exists:master_provinsis,id'],
-            'kota_id' => ['required', 'exists:master_kotas,id'],
-            'password' => ['required', Rules\Password::defaults()],
-            'agree' => 'accepted',
-        ]);
+        $validatedData = $request->validated();
 
         try {
             DB::beginTransaction();
-            $roleId = RoleMaster::where('role_code', '=', config('constant.NEW_USER_DEFAULT_ROLES'))->first("id")->id; // Adjust role for petugas if needed
+
+            // Assign appropriate role for petugas (ROLE_OPERATOR or ROLE_SUPERVISOR)
+            $roleCode = 'ROLE_OPERATOR'; // Default to operator, can be changed based on business logic
+            $roleId = RoleMaster::where('role_code', '=', $roleCode)->first("id")->id;
+
+            $roleCodeUser = 'ROLE_USER'; // Business users should have ROLE_USER_BUSINESS
+            $roleIdUser = RoleMaster::where('role_code', '=', $roleCodeUser)->first("id")->id;
 
             $user = $this->userService->addNewUser([
                 'name' => $validatedData["name"],
@@ -269,7 +229,7 @@ class RegisteredUserController extends Controller
                 'password' => Hash::make($validatedData["password"]),
                 'is_active' => config('constant.NEW_USER_STATUS_ACTIVE'),
                 'phone_number' => $validatedData['no_hp'],
-                'roles'     => [$roleId]
+                'roles'     => [$roleId, $roleIdUser]
             ]);
 
             app(UserProfileRepository::class)->create([
@@ -281,9 +241,22 @@ class RegisteredUserController extends Controller
                 'kota_id' => $validatedData['kota_id'],
             ]);
 
+            // Create Petugas record
+            \App\Models\Petugas::create([
+                'id' => Str::uuid(),
+                'user_id' => $user->id,
+                'unit_kerja' => $validatedData['unit_kerja'],
+                'jabatan' => $validatedData['jabatan'],
+                'is_kantor_pusat' => $validatedData['is_kantor_pusat'],
+                'penempatan' => $validatedData['is_kantor_pusat'] == '1' ? null : $validatedData['penempatan'],
+                'is_active' => true,
+                'created_by' => 'register-petugas',
+                'updated_by' => 'register-petugas',
+            ]);
+
             DB::commit();
 
-            event(new Registered($user));
+            // event(new Registered($user));
 
             if (config('constant.NEW_USER_STATUS_ACTIVE') && !config('constant.NEW_USER_NEED_VERIFY_EMAIL')) {
                 Auth::login($user);
@@ -296,7 +269,7 @@ class RegisteredUserController extends Controller
         } catch (Exception $e) {
             Log::error("error in registration petugas : ", ["exception" => $e]);
             DB::rollback();
-            return back()->withErrors(['register' => 'Terjadi kesalahan saat registrasi petugas. Silakan coba lagi.']);
+            return back()->withErrors(['register' => 'Terjadi kesalahan saat registrasi petugas. Silakan coba lagi.'])->withInput();
         }
 
         return redirect(RouteServiceProvider::HOME);
