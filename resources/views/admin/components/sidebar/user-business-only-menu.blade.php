@@ -22,23 +22,5 @@
     'subMenuData' => null,
 ])
 
-@include('admin.components.sidebar.menu-header', ['textMenuHeader' => 'Laporan Pengaduan'])
-
-@include('admin.components.sidebar.item', [
-        'menuId' => 'master-pengaduan',
-        'menuText' => 'Laporan Pengaduan',
-        'menuUrl' => '#',
-        'menuIcon' => 'bx bx-message-square-detail', //check here for the icons https://boxicons.com/cheatsheet
-        'subMenuData' => [
-            [
-                'subMenuText' => 'Lapor Pengaduan',
-                'subMenuUrl' => route('admin.laporan-pengaduan.add'),
-            ],
-            [
-                'subMenuText' => 'Histori Laporan Saya',
-                'subMenuUrl' => route('admin.laporan-pengaduan.index'),
-            ],
-        ],
-    ])
 
 @endif
