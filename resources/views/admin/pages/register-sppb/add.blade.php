@@ -109,6 +109,22 @@
                                 </div>
                             </div>
 
+                            {{-- RUANG LINGKUP PENANGANAN FIELD --}}
+                            <div class="row mb-3">
+                                <label class="col-sm-2 col-form-label" for="ruang_lingkup_penanganan">Ruang Lingkup Penanganan*</label>
+                                <div class="col-sm-10">
+                                    @include('admin.components.notification.error-validation', ['field' => 'ruang_lingkup_penanganan'])
+                                    <select name="ruang_lingkup_penanganan" id="ruang_lingkup_penanganan" class="form-control" required>
+                                        <option value="">-- Select Penanganan --</option>
+                                        @foreach($penanganans as $penanganan)
+                                            <option value="{{ $penanganan->id }}" {{ old('ruang_lingkup_penanganan') == $penanganan->id ? 'selected' : '' }}>
+                                                {{ $penanganan->nama_penanganan }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+
                             <div class="row justify-content-end">
                                 <div class="col-sm-10">
                                     <button type="submit" class="btn btn-primary">Send</button>

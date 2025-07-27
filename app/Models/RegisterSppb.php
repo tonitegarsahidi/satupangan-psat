@@ -31,6 +31,8 @@ class RegisterSppb extends Model
         'nib_unitusaha',
         'jenis_psat',
         'nama_komoditas',
+        'penanganan_id',
+        'penanganan_keterangan',
     ];
 
     public function business()

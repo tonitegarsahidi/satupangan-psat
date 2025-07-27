@@ -10,6 +10,7 @@ use App\Models\MasterProvinsi;
 use App\Models\MasterKota;
 use App\Models\MasterJenisPanganSegar;
 use App\Models\MasterKelompokPangan;
+use App\Models\MasterPenanganan;
 use Illuminate\Support\Str;
 
 class RegisterSppbSeeder extends Seeder
@@ -22,13 +23,14 @@ class RegisterSppbSeeder extends Seeder
         // Ensure there's at least one business, province, city, and jenis_psat for foreign keys
         $business = Business::first();
         if (!$business) {
+            $user = \App\Models\User::first();
             $business = Business::create([
                 'id' => Str::uuid(),
-                'nama_usaha' => 'Dummy Business',
-                'alamat_usaha' => 'Jl. Dummy No. 123',
-                'email_usaha' => 'dummy@example.com',
-                'nomor_telepon_usaha' => '081234567890',
-                'nib_usaha' => '123456789012345',
+                'user_id' => $user ? $user->id : null,
+                'nama_perusahaan' => 'Dummy Business',
+                'alamat_perusahaan' => 'Jl. Dummy No. 123',
+                'jabatan_perusahaan' => 'Owner',
+                'nib' => '123456789012345',
                 'is_active' => true,
             ]);
         }
@@ -47,7 +49,7 @@ class RegisterSppbSeeder extends Seeder
         if (!$kota) {
             $kota = MasterKota::create([
                 'id' => Str::uuid(),
-                'master_provinsi_id' => $provinsi->id,
+                'provinsi_id' => $provinsi->id,
                 'kode_kota' => 'DK',
                 'nama_kota' => 'Dummy Kota',
                 'is_active' => true,
@@ -91,6 +93,8 @@ class RegisterSppbSeeder extends Seeder
             'nib_unitusaha' => 'NIB-A-001',
             'jenis_psat' => $jenisPsat->id,
             'nama_komoditas' => 'Komoditas A',
+            'penanganan_id' => MasterPenanganan::first()?->id,
+            'penanganan_keterangan' => 'Keterangan Penanganan A',
         ]);
 
         RegisterSppb::create([
@@ -109,6 +113,8 @@ class RegisterSppbSeeder extends Seeder
             'nib_unitusaha' => null,
             'jenis_psat' => $jenisPsat->id,
             'nama_komoditas' => 'Komoditas B',
+            'penanganan_id' => MasterPenanganan::first()?->id,
+            'penanganan_keterangan' => 'Keterangan Penanganan B',
         ]);
     }
 }

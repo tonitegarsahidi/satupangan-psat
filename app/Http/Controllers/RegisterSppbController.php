@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\Business;
 use App\Models\MasterProvinsi;
 use App\Models\MasterJenisPanganSegar;
+use App\Models\MasterPenanganan;
 use App\Helpers\AlertHelper;
 use App\Http\Requests\RegisterSppb\RegisterSppbAddRequest;
 use App\Http\Requests\RegisterSppb\RegisterSppbEditRequest;
@@ -66,6 +67,7 @@ class RegisterSppbController extends Controller
         $business = $user->business; // Get the business relationship directly (hasOne)
         $provinsis = MasterProvinsi::all();
         $jenispsats = \App\Models\MasterJenisPanganSegar::all();
+        $penanganans = MasterPenanganan::all();
 
         // If business exists and has a provinsi_id, load the corresponding kotas
         $kotas = collect();
@@ -73,7 +75,7 @@ class RegisterSppbController extends Controller
             $kotas = \App\Models\MasterKota::where('provinsi_id', $business->provinsi_id)->get();
         }
 
-        return view('admin.pages.register-sppb.add', compact('breadcrumbs', 'business', 'provinsis', 'kotas'));
+        return view('admin.pages.register-sppb.add', compact('breadcrumbs', 'business', 'provinsis', 'kotas', 'jenispsats', 'penanganans'));
     }
 
     /**
