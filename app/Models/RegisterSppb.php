@@ -29,11 +29,23 @@ class RegisterSppb extends Model
         'provinsi_unitusaha',
         'kota_unitusaha',
         'nib_unitusaha',
+        'jenis_psat',
+        'nama_komoditas',
     ];
 
     public function business()
     {
         return $this->belongsTo(Business::class, 'business_id');
+    }
+
+    public function jenispsats()
+    {
+        return $this->belongsToMany(
+            MasterJenisPanganSegar::class,
+            'register_sppb_jenispsat',
+            'register_sppb_id',
+            'jenispsat_id'
+        );
     }
 
     public function provinsiUnitusaha()

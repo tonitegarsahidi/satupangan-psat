@@ -68,18 +68,23 @@
 document.addEventListener('DOMContentLoaded', function() {
     var provinsiSelect = document.getElementById('{{ $uniqueId }}_provinsi');
     var kotaSelect = document.getElementById('{{ $uniqueId }}_kota');
-    provinsiSelect.addEventListener('change', function() {
-        var provinsiId = this.value;
+
+    // Function to load kotas based on provinsi
+    function loadKotas(provinsiId) {
         kotaSelect.innerHTML = '<option value="">Memuat...</option>';
         if (provinsiId) {
             fetch('{{ $ajaxUrl }}' + provinsiId)
                 .then(response => response.json())
                 .then(data => {
                     kotaSelect.innerHTML = '<option value="">Pilih {{ $kotaLabel }}</option>';
+                    var selectedKotaId = '{{ $selectedKotaId }}';
                     data.forEach(function(kota) {
                         var option = document.createElement('option');
                         option.value = kota.id;
                         option.text = kota.nama_kota;
+                        if (kota.id === selectedKotaId) {
+                            option.selected = true;
+                        }
                         kotaSelect.appendChild(option);
                     });
                 })
@@ -89,7 +94,17 @@ document.addEventListener('DOMContentLoaded', function() {
         } else {
             kotaSelect.innerHTML = '<option value="">Pilih {{ $kotaLabel }}</option>';
         }
+    }
+
+    // Load kotas when provinsi changes
+    provinsiSelect.addEventListener('change', function() {
+        loadKotas(this.value);
     });
+
+    // Load kotas on page load if there's a selected provinsi
+    if (provinsiSelect.value) {
+        loadKotas(provinsiSelect.value);
+    }
 });
 </script>
 @endsection

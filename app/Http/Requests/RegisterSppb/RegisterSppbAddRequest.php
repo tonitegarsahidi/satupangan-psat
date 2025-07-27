@@ -34,6 +34,9 @@ class RegisterSppbAddRequest extends FormRequest
             'provinsi_unitusaha' => 'nullable|uuid|exists:master_provinsis,id',
             'kota_unitusaha' => 'nullable|uuid|exists:master_kotas,id',
             'nib_unitusaha' => 'nullable|string|max:100',
+            'jenispsat_id' => 'required|array',
+            'jenispsat_id.*' => 'exists:master_jenis_pangan_segars,id',
+            'nama_komoditas' => 'nullable|string|max:50',
         ];
     }
 }

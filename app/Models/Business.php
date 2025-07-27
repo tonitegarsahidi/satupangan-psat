@@ -26,6 +26,8 @@ class Business extends Model
         'is_active',
         'created_by',
         'updated_by',
+        'provinsi_id',
+        'kota_id',
     ];
 
     public function user()

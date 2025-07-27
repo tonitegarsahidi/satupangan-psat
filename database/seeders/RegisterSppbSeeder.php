@@ -8,6 +8,8 @@ use App\Models\RegisterSppb;
 use App\Models\Business;
 use App\Models\MasterProvinsi;
 use App\Models\MasterKota;
+use App\Models\MasterJenisPanganSegar;
+use App\Models\MasterKelompokPangan;
 use Illuminate\Support\Str;
 
 class RegisterSppbSeeder extends Seeder
@@ -17,7 +19,7 @@ class RegisterSppbSeeder extends Seeder
      */
     public function run(): void
     {
-        // Ensure there's at least one business, province, and city for foreign keys
+        // Ensure there's at least one business, province, city, and jenis_psat for foreign keys
         $business = Business::first();
         if (!$business) {
             $business = Business::create([
@@ -52,6 +54,27 @@ class RegisterSppbSeeder extends Seeder
             ]);
         }
 
+        $jenisPsat = MasterJenisPanganSegar::first();
+        if (!$jenisPsat) {
+            // Create a dummy jenis_psat if none exists
+            $kelompok = MasterKelompokPangan::first();
+            if (!$kelompok) {
+                $kelompok = MasterKelompokPangan::create([
+                    'id' => Str::uuid(),
+                    'kode_kelompok_pangan' => 'KP001',
+                    'nama_kelompok_pangan' => 'Dummy Kelompok',
+                    'is_active' => true,
+                ]);
+            }
+            $jenisPsat = MasterJenisPanganSegar::create([
+                'id' => Str::uuid(),
+                'kelompok_id' => $kelompok->id,
+                'kode_jenis_pangan_segar' => 'JP000',
+                'nama_jenis_pangan_segar' => 'Dummy Jenis Pangan Segar',
+                'is_active' => true,
+            ]);
+        }
+
         RegisterSppb::create([
             'id' => Str::uuid(),
             'business_id' => $business->id,
@@ -66,6 +89,8 @@ class RegisterSppbSeeder extends Seeder
             'provinsi_unitusaha' => $provinsi->id,
             'kota_unitusaha' => $kota->id,
             'nib_unitusaha' => 'NIB-A-001',
+            'jenis_psat' => $jenisPsat->id,
+            'nama_komoditas' => 'Komoditas A',
         ]);
 
         RegisterSppb::create([
@@ -82,6 +107,8 @@ class RegisterSppbSeeder extends Seeder
             'provinsi_unitusaha' => null,
             'kota_unitusaha' => null,
             'nib_unitusaha' => null,
+            'jenis_psat' => $jenisPsat->id,
+            'nama_komoditas' => 'Komoditas B',
         ]);
     }
 }

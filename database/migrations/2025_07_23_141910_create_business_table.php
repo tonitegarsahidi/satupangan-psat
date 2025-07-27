@@ -15,6 +15,8 @@ return new class extends Migration
             $table->string('alamat_perusahaan')->nullable();
             $table->string('jabatan_perusahaan')->nullable();
             $table->string('nib')->nullable();
+            $table->string('provinsi_id', 36)->nullable();
+            $table->string('kota_id', 36)->nullable();
             $table->boolean('is_active')->default(true);
             $table->timestamps();
             $table->string('created_by')->nullable()->default(null);

@@ -60,11 +60,17 @@ class RegisterSppbService
      * process add new RegisterSppb to database
      * =============================================
      */
-    public function addNewRegisterSppb(array $validatedData)
+    public function addNewRegisterSppb(array $validatedData, array $jenispsatIds = [])
     {
         DB::beginTransaction();
         try {
             $registerSppb = $this->RegisterSppbRepository->createRegisterSppb($validatedData);
+
+            // Attach the jenispsat relationships
+            if (!empty($jenispsatIds)) {
+                $registerSppb->jenispsats()->sync($jenispsatIds);
+            }
+
             DB::commit();
             return $registerSppb;
         } catch (\Exception $exception) {
@@ -79,13 +85,19 @@ class RegisterSppbService
      * process update RegisterSppb data
      * =============================================
      */
-    public function updateRegisterSppb(array $validatedData, $id)
+    public function updateRegisterSppb(array $validatedData, $id, array $jenispsatIds = [])
     {
         DB::beginTransaction();
         try {
             $registerSppb = RegisterSppb::findOrFail($id);
 
             $this->RegisterSppbRepository->update($id, $validatedData);
+
+            // Update the jenispsat relationships
+            if (!empty($jenispsatIds)) {
+                $registerSppb->jenispsats()->sync($jenispsatIds);
+            }
+
             DB::commit();
             return $registerSppb;
         } catch (\Exception $exception) {

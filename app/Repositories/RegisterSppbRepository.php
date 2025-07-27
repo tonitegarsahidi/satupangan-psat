@@ -3,6 +3,7 @@
 namespace App\Repositories;
 
 use App\Models\RegisterSppb;
+use App\Models\MasterJenisPanganSegar;
 use Exception;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Hash;

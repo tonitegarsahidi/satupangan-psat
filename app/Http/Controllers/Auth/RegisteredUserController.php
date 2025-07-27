@@ -162,6 +162,8 @@ class RegisteredUserController extends Controller
                 'is_active' => true,
                 'created_by' => 'register-business',
                 'updated_by' => 'register-business',
+                'provinsi_id' => $validatedData['provinsi_id'],
+                'kota_id' => $validatedData['kota_id'],
             ]);
 
             foreach ($validatedData['jenispsat_id'] as $jenispsatId) {

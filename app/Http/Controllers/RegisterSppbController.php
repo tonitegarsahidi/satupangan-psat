@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Business;
 use App\Models\MasterProvinsi;
+use App\Models\MasterJenisPanganSegar;
 use App\Helpers\AlertHelper;
 use App\Http\Requests\RegisterSppb\RegisterSppbAddRequest;
 use App\Http\Requests\RegisterSppb\RegisterSppbEditRequest;
@@ -62,9 +63,15 @@ class RegisterSppbController extends Controller
         $breadcrumbs = array_merge($this->mainBreadcrumbs, ['Add' => null]);
 
         $user = Auth::user();
-        $business = $user->business->first(); // Assuming a user has one business
+        $business = $user->business; // Get the business relationship directly (hasOne)
         $provinsis = MasterProvinsi::all();
-        $kotas = [];
+        $jenispsats = \App\Models\MasterJenisPanganSegar::all();
+
+        // If business exists and has a provinsi_id, load the corresponding kotas
+        $kotas = collect();
+        if ($business && $business->provinsi_id) {
+            $kotas = \App\Models\MasterKota::where('provinsi_id', $business->provinsi_id)->get();
+        }
 
         return view('admin.pages.register-sppb.add', compact('breadcrumbs', 'business', 'provinsis', 'kotas'));
     }
@@ -83,7 +90,12 @@ class RegisterSppbController extends Controller
         $validatedData['tanggal_terbit'] = null;
         $validatedData['tanggal_terakhir'] = null;
         $validatedData['is_unitusaha'] = true;
-        $result = $this->RegisterSppbService->addNewRegisterSppb($validatedData);
+
+        // Extract jenispsat_id array and remove it from validated data
+        $jenispsatIds = $validatedData['jenispsat_id'];
+        unset($validatedData['jenispsat_id']);
+
+        $result = $this->RegisterSppbService->addNewRegisterSppb($validatedData, $jenispsatIds);
 
         $alert = $result
             ? AlertHelper::createAlert('success', 'Data ' . $result->nomor_registrasi . ' successfully added')
@@ -130,7 +142,13 @@ class RegisterSppbController extends Controller
      */
     public function update(RegisterSppbEditRequest $request, $id)
     {
-        $result = $this->RegisterSppbService->updateRegisterSppb($request->validated(), $id);
+        $validatedData = $request->validated();
+
+        // Extract jenispsat_id array and remove it from validated data
+        $jenispsatIds = $validatedData['jenispsat_id'];
+        unset($validatedData['jenispsat_id']);
+
+        $result = $this->RegisterSppbService->updateRegisterSppb($validatedData, $id, $jenispsatIds);
 
         $alert = $result
             ? AlertHelper::createAlert('success', 'Data ' . $result->nomor_registrasi . ' successfully updated')
