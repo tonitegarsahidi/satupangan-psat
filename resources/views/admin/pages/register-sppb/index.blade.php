@@ -95,21 +95,13 @@
                                 </a>
                             </th>
                             <th>
-                                <a
-                                    href="{{ route('register-sppb.index', [
-                                        'sort_field' => 'is_unitusaha',
-                                        'sort_order' => $sortOrder == 'asc' ? 'desc' : 'asc',
-                                        'keyword' => $keyword,
-                                    ]) }}">
-                                    Is Unit Usaha
-                                    @include('components.arrow-sort', ['field' => 'is_unitusaha', 'sortField' => $sortField, 'sortOrder' => $sortOrder])
-                                </a>
+                                Komoditas
                             </th>
                             <th>
-                                Nama Unit Usaha
+                                Nama Penanganan
                             </th>
                             <th>
-                                NIB Unit Usaha
+                                Penanganan Keterangan
                             </th>
                             <th></th>
                             <th></th>
@@ -126,16 +118,22 @@
                             <tr>
                                 <td>{{ $startNumber++ }}</td>
                                 <td>{{ $registerSppb->nomor_registrasi }}</td>
-                                <td>{{ $registerSppb->status }}</td>
                                 <td>
-                                    @if ($registerSppb->is_unitusaha)
-                                        <span class="badge rounded-pill bg-success"> Yes </span>
+                                    @if ($registerSppb->status == config('workflow.sppb_statuses.DISETUJUI'))
+                                        <span class="badge rounded-pill bg-success">{{ $registerSppb->status }}</span>
+                                    @elseif ($registerSppb->status == config('workflow.sppb_statuses.DITOLAK'))
+                                        <span class="badge rounded-pill bg-danger">{{ $registerSppb->status }}</span>
+                                    @elseif ($registerSppb->status == config('workflow.sppb_statuses.DIAJUKAN'))
+                                        <span class="badge rounded-pill bg-info">{{ $registerSppb->status }}</span>
+                                    @elseif ($registerSppb->status == config('workflow.sppb_statuses.DIPERIKSA'))
+                                        <span class="badge rounded-pill bg-warning">{{ $registerSppb->status }}</span>
                                     @else
-                                        <span class="badge rounded-pill bg-danger"> No </span>
+                                        {{ $registerSppb->status }}
                                     @endif
                                 </td>
-                                <td>{{ $registerSppb->nama_unitusaha }}</td>
-                                <td>{{ $registerSppb->nib_unitusaha }}</td>
+                                <td>{{ $registerSppb->nama_komoditas }}</td>
+                                <td>{{ $registerSppb->penanganan->nama_penanganan }}</td>
+                                <td>{{ $registerSppb->penanganan_keterangan }}</td>
 
                                 {{-- ============ CRUD LINK ICON =============  --}}
                                 <td>

@@ -40,6 +40,11 @@ class RegisterSppb extends Model
         return $this->belongsTo(Business::class, 'business_id');
     }
 
+    public function penanganan()
+    {
+        return $this->belongsTo(MasterPenanganan::class, 'penanganan_id');
+    }
+
     public function jenispsats()
     {
         return $this->belongsToMany(
