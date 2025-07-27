@@ -35,6 +35,16 @@
 
 
 
+                            {{-- NOMOR REGISTRASI FIELD --}}
+                            <div class="row mb-3">
+                                <label class="col-sm-2 col-form-label" for="nomor_registrasi">Nomor Registrasi</label>
+                                <div class="col-sm-10">
+                                    @include('admin.components.notification.error-validation', ['field' => 'nomor_registrasi'])
+                                    <input type="text" name="nomor_registrasi" class="form-control" id="nomor_registrasi"
+                                        placeholder="e.g., SPPB-001" value="{{ old('nomor_registrasi') }}">
+                                </div>
+                            </div>
+
                             {{-- NAMA UNITUSAHA FIELD --}}
                             <div class="row mb-3">
                                 <label class="col-sm-2 col-form-label" for="nama_unitusaha">Nama Unit Usaha</label>
@@ -122,6 +132,26 @@
                                             </option>
                                         @endforeach
                                     </select>
+                                </div>
+                            </div>
+
+                            {{-- TANGGAL TERBIT SERTIFIKAT FIELD --}}
+                            <div class="row mb-3">
+                                <label class="col-sm-2 col-form-label" for="tanggal_terbit">Tanggal Terbit Sertifikat</label>
+                                <div class="col-sm-10">
+                                    @include('admin.components.notification.error-validation', ['field' => 'tanggal_terbit'])
+                                    <input type="date" name="tanggal_terbit" class="form-control" id="tanggal_terbit"
+                                        value="{{ old('tanggal_terbit') }}">
+                                </div>
+                            </div>
+
+                            {{-- TANGGAL BERAKHIR SERTIFIKAT FIELD --}}
+                            <div class="row mb-3">
+                                <label class="col-sm-2 col-form-label" for="tanggal_terakhir">Tanggal Berakhir Sertifikat</label>
+                                <div class="col-sm-10">
+                                    @include('admin.components.notification.error-validation', ['field' => 'tanggal_terakhir'])
+                                    <input type="date" name="tanggal_terakhir" class="form-control" id="tanggal_terakhir"
+                                        value="{{ old('tanggal_terakhir') }}">
                                 </div>
                             </div>
 

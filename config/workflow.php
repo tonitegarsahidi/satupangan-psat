@@ -43,4 +43,11 @@ return [
         'link' => 'link',
         'others' => 'others',
     ],
+
+    'sppb_statuses' => [
+        'DIAJUKAN' => 'DIAJUKAN',
+        'DIPERIKSA' => 'DIPERIKSA',
+        'DISETUJUI' => 'DISETUJI',
+        'EXPIRED' => 'EXPIRED',
+    ],
 ];

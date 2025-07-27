@@ -80,7 +80,7 @@ class RegisterSppbSeeder extends Seeder
         RegisterSppb::create([
             'id' => Str::uuid(),
             'business_id' => $business->id,
-            'status' => 'DRAFT',
+            'status' => config('workflow.sppb_statuses.DIAJUKAN'),
             'is_enabled' => true,
             'nomor_registrasi' => 'REG-SPPB-001',
             'tanggal_terbit' => '2025-01-01',
@@ -100,7 +100,7 @@ class RegisterSppbSeeder extends Seeder
         RegisterSppb::create([
             'id' => Str::uuid(),
             'business_id' => $business->id,
-            'status' => 'SUBMITTED',
+            'status' => config('workflow.sppb_statuses.DISETUJUI'),
             'is_enabled' => true,
             'nomor_registrasi' => 'REG-SPPB-002',
             'tanggal_terbit' => '2025-02-01',
