@@ -29,6 +29,9 @@ return new class extends Migration
             $table->string('nib_unitusaha', 100)->nullable();
 
             $table->timestamps();
+            $table->string('created_by')->nullable()->default(null);
+            $table->string('updated_by')->nullable()->default(null);
+            $table->softDeletes();
         });
     }
 

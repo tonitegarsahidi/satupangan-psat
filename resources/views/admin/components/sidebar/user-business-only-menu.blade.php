@@ -11,16 +11,26 @@
         'subMenuData' => null,
     ]) --}}
 
-@include('admin.components.sidebar.menu-header', ['textMenuHeader' => 'Profil Bisnis'])
+    @include('admin.components.sidebar.menu-header', ['textMenuHeader' => 'Profil Bisnis'])
 
-{{-- BUSINESS PROFILE MENU --}}
-@include('admin.components.sidebar.item', [
-    'menuId' => 'menu-business-profile',
-    'menuText' => 'Profil Bisnis',
-    'menuUrl' => route('business.profile.index'),
-    'menuIcon' => 'bx bx-building',
-    'subMenuData' => null,
-])
+    {{-- BUSINESS PROFILE MENU --}}
+    @include('admin.components.sidebar.item', [
+        'menuId' => 'menu-business-profile',
+        'menuText' => 'Profil Bisnis',
+        'menuUrl' => route('business.profile.index'),
+        'menuIcon' => 'bx bx-building',
+        'subMenuData' => null,
+    ])
 
+    {{-- REGISTRASI & MASTER DATA --}}
+    @include('admin.components.sidebar.menu-header', ['textMenuHeader' => 'Registrasi & Master Data'])
 
+    {{-- REGISTER SPPB MENU --}}
+    @include('admin.components.sidebar.item', [
+        'menuId' => 'menu-register-sppb',
+        'menuText' => 'Register SPPB',
+        'menuUrl' => route('register-sppb.index'),
+        'menuIcon' => 'bx bx-file',
+        'subMenuData' => null,
+    ])
 @endif

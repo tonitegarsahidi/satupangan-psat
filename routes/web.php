@@ -17,7 +17,9 @@ use App\Http\Controllers\MasterProvinsiController;
 use App\Http\Controllers\MasterKelompokPanganController;
 use App\Http\Controllers\MasterJenisPanganSegarController;
 use App\Http\Controllers\MasterBahanPanganSegarController;
+use App\Http\Controllers\RegisterSppbController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\MasterPenangananController;
 
 /*
 |--------------------------------------------------------------------------
@@ -54,6 +56,29 @@ Route::middleware('auth')->group(function () {
         Route::get('/profil-bisnis', [BusinessProfileController::class, 'index'])->name('business.profile.index');
         Route::put('/profil-bisnis', [BusinessProfileController::class, 'updateOrCreate'])->name('business.profile.update');
         Route::get('/profil-bisnis/kota-by-provinsi/{provinsiId}', [BusinessProfileController::class, 'getKotaByProvinsi'])->name('business.profile.kota_by_provinsi');
+        // REGISTER SPPB CRUD FOR ROLE_USER_BUSINESS
+
+        Route::prefix('/register-sppb')->group(function () {
+            Route::get('/', [RegisterSppbController::class, 'index'])->name('register-sppb.index');
+            Route::get('/add/new', [RegisterSppbController::class, 'create'])->name('register-sppb.add');
+            Route::post('/add/new', [RegisterSppbController::class, 'store'])->name('register-sppb.store');
+            Route::get('/detail/{id}', [RegisterSppbController::class, 'detail'])->name('register-sppb.detail');
+            Route::put('/edit/{id}', [RegisterSppbController::class, 'update'])->name('register-sppb.update');
+            Route::get('/edit/{id}', [RegisterSppbController::class, 'edit'])->name('register-sppb.edit');
+            Route::get('/delete/{id}', [RegisterSppbController::class, 'deleteConfirm'])->name('register-sppb.delete');
+            Route::delete('/delete/{id}', [RegisterSppbController::class, 'destroy'])->name('register-sppb.destroy');
+        });
+
+        Route::prefix('/master-penanganan')->group(function () {
+            Route::get('/', [MasterPenangananController::class, 'index'])->name('master-penanganan.index');
+            Route::get('/add/new', [MasterPenangananController::class, 'create'])->name('master-penanganan.add');
+            Route::post('/add/new', [MasterPenangananController::class, 'store'])->name('master-penanganan.store');
+            Route::get('/detail/{id}', [MasterPenangananController::class, 'detail'])->name('master-penanganan.detail');
+            Route::put('/edit/{id}', [MasterPenangananController::class, 'update'])->name('master-penanganan.update');
+            Route::get('/edit/{id}', [MasterPenangananController::class, 'edit'])->name('master-penanganan.edit');
+            Route::get('/delete/{id}', [MasterPenangananController::class, 'deleteConfirm'])->name('master-penanganan.delete');
+            Route::delete('/delete/{id}', [MasterPenangananController::class, 'destroy'])->name('master-penanganan.destroy');
+        });
     });
 
     //PETUGAS PROFILE SETTING
@@ -123,6 +148,8 @@ Route::middleware('auth')->group(function () {
                     Route::get('/delete/{id}',          [MasterProvinsiController::class, 'deleteConfirm'])->name('admin.master-provinsi.delete');
                     Route::delete('/delete/{id}',       [MasterProvinsiController::class, 'destroy'])->name('admin.master-provinsi.destroy');
                 });
+
+
 
             // MANAGE CEMARAN MIKROBA
             Route::prefix('/master-cemaran-mikroba')
@@ -220,6 +247,20 @@ Route::middleware('auth')->group(function () {
                     Route::get('/edit/{id}',            [\App\Http\Controllers\MasterCemaranMikrotoksinController::class, 'edit'])->name('admin.master-cemaran-mikrotoksin.edit');
                     Route::get('/delete/{id}',          [\App\Http\Controllers\MasterCemaranMikrotoksinController::class, 'deleteConfirm'])->name('admin.master-cemaran-mikrotoksin.delete');
                     Route::delete('/delete/{id}',       [\App\Http\Controllers\MasterCemaranMikrotoksinController::class, 'destroy'])->name('admin.master-cemaran-mikrotoksin.destroy');
+                });
+
+            // MANAGE MASTER PENANGANAN
+            Route::prefix('/master-penanganan')
+                ->group(function () {
+                    Route::get('/',                     [MasterPenangananController::class, 'index'])->name('admin.master-penanganan.index');
+                    Route::get('/add/new',              [MasterPenangananController::class, 'create'])->name('admin.master-penanganan.add');
+                    Route::post('/add/new',             [MasterPenangananController::class, 'store'])->name('admin.master-penanganan.store');
+
+                    Route::get('/detail/{id}',          [MasterPenangananController::class, 'detail'])->name('admin.master-penanganan.detail');
+                    Route::put('/edit/{id}',            [MasterPenangananController::class, 'update'])->name('admin.master-penanganan.update');
+                    Route::get('/edit/{id}',            [MasterPenangananController::class, 'edit'])->name('admin.master-penanganan.edit');
+                    Route::get('/delete/{id}',          [MasterPenangananController::class, 'deleteConfirm'])->name('admin.master-penanganan.delete');
+                    Route::delete('/delete/{id}',       [MasterPenangananController::class, 'destroy'])->name('admin.master-penanganan.destroy');
                 });
 
             // MANAGE KOTA

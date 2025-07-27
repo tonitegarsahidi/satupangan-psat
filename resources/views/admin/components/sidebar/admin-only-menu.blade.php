@@ -40,33 +40,33 @@
     ])
 
 
-@include('admin.components.sidebar.item', [
-    'menuId' => 'workflow-menu',
-    'menuText' => 'Workflow',
-    'menuUrl' => route('admin.workflow.index'),
-    'menuIcon' => 'bx bx-git-branch',
-    'subMenuData' => null
-])
-@include('admin.components.sidebar.item', [
-    'menuId' => 'master-bahan-pangan-segar',
-    'menuText' => 'Master Bahan',
-    'menuUrl' => '#',
-    'menuIcon' => 'bx bx-food-menu', //check here for the icons https://boxicons.com/cheatsheet
-    'subMenuData' => [
-        [
-            'subMenuText' => 'Kelompok Pangan',
-            'subMenuUrl' => route('admin.master-kelompok-pangan.index'),
+    @include('admin.components.sidebar.item', [
+        'menuId' => 'workflow-menu',
+        'menuText' => 'Workflow',
+        'menuUrl' => route('admin.workflow.index'),
+        'menuIcon' => 'bx bx-git-branch',
+        'subMenuData' => null,
+    ])
+    @include('admin.components.sidebar.item', [
+        'menuId' => 'master-bahan-pangan-segar',
+        'menuText' => 'Master Bahan',
+        'menuUrl' => '#',
+        'menuIcon' => 'bx bx-food-menu', //check here for the icons https://boxicons.com/cheatsheet
+        'subMenuData' => [
+            [
+                'subMenuText' => 'Kelompok Pangan',
+                'subMenuUrl' => route('admin.master-kelompok-pangan.index'),
+            ],
+            [
+                'subMenuText' => 'Jenis Pangan',
+                'subMenuUrl' => route('admin.master-jenis-pangan-segar.index'),
+            ],
+            [
+                'subMenuText' => 'Bahan Pangan',
+                'subMenuUrl' => route('admin.master-bahan-pangan-segar.index'),
+            ],
         ],
-        [
-            'subMenuText' => 'Jenis Pangan',
-            'subMenuUrl' => route('admin.master-jenis-pangan-segar.index'),
-        ],
-        [
-            'subMenuText' => 'Bahan Pangan',
-            'subMenuUrl' => route('admin.master-bahan-pangan-segar.index'),
-        ],
-    ],
-])
+    ])
 
     @include('admin.components.sidebar.item', [
         'menuId' => 'master-cemaran',
@@ -94,5 +94,16 @@
     ])
 
 
+    @include('admin.components.sidebar.item', [
+        'menuId' => 'master-registrasi',
+        'menuText' => 'Master Registrasi',
+        'menuUrl' => '#',
+        'menuIcon' => 'bx bx-food-menu', //check here for the icons https://boxicons.com/cheatsheet
+        'subMenuData' => [
+            [
+                'subMenuText' => 'Penanganan',
+                'subMenuUrl' => route('admin.master-penanganan.index'),
+            ],
+        ],
+    ])
 @endif
-

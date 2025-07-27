@@ -16,6 +16,9 @@ return new class extends Migration
             $table->foreignUuid('penanganan_id')->constrained('master_penanganan')->onDelete('cascade');
             $table->foreignUuid('sppb_id')->constrained('register_sppb')->onDelete('cascade');
             $table->timestamps();
+            $table->string('created_by')->nullable()->default(null);
+            $table->string('updated_by')->nullable()->default(null);
+            $table->softDeletes();
         });
     }
 

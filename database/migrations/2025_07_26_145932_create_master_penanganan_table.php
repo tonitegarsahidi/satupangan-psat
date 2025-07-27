@@ -15,6 +15,9 @@ return new class extends Migration
             $table->uuid('id')->primary();
             $table->string('nama_penanganan', 50)->nullable();
             $table->timestamps();
+            $table->string('created_by')->nullable()->default(null);
+            $table->string('updated_by')->nullable()->default(null);
+            $table->softDeletes();
         });
     }
 
