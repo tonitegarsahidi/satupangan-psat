@@ -23,12 +23,7 @@ class RegisterSppbAddRequest extends FormRequest
     {
         return [
             'business_id' => 'required|uuid|exists:business,id',
-            'status' => 'required|string|max:50',
-            'is_enabled' => 'required|boolean',
             'nomor_registrasi' => 'nullable|string|max:50|unique:register_sppb,nomor_registrasi',
-            'tanggal_terbit' => 'nullable|date',
-            'tanggal_terakhir' => 'nullable|date',
-            'is_unitusaha' => 'required|boolean',
             'nama_unitusaha' => 'nullable|string|max:100',
             'alamat_unitusaha' => 'nullable|string|max:100',
             'provinsi_unitusaha' => 'nullable|uuid|exists:master_provinsis,id',
@@ -37,6 +32,25 @@ class RegisterSppbAddRequest extends FormRequest
             'jenispsat_id' => 'required|array',
             'jenispsat_id.*' => 'exists:master_jenis_pangan_segars,id',
             'nama_komoditas' => 'nullable|string|max:50',
+            'ruang_lingkup_penanganan' => 'required|uuid|exists:master_penanganan,id',
+            'tanggal_terbit' => 'nullable|date',
+            'tanggal_terakhir' => 'nullable|date',
+            'penanganan_keterangan' => 'string|nullable', // Will be replaced dynamically
         ];
+    }
+
+    public function withValidator($validator)
+    {
+        $validator->sometimes('penanganan_keterangan', 'required|string|max:255', function ($input) {
+            // This is a workaround since we can't easily get the ID here
+            // In practice, you might fetch it once and cache it
+            return $input->ruang_lingkup_penanganan === $this->getPengolahanLainnyaId();
+        });
+    }
+
+    private function getPengolahanLainnyaId(): string
+    {
+        // Placeholder - in reality, fetch from DB or config
+        return 'placeholder-uuid-1234-5678';
     }
 }

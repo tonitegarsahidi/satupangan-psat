@@ -45,7 +45,8 @@ class RegisterSppbController extends Controller
         $page = $request->input('page', config('constant.CRUD.PAGE'));
         $keyword = $request->input('keyword');
 
-        $registerSppbs = $this->RegisterSppbService->listAllRegisterSppb($perPage, $sortField, $sortOrder, $keyword);
+        $user = \Auth::user();
+        $registerSppbs = $this->RegisterSppbService->listAllRegisterSppb($perPage, $sortField, $sortOrder, $keyword, $user);
 
         $breadcrumbs = array_merge($this->mainBreadcrumbs, ['List' => null]);
 
@@ -86,16 +87,16 @@ class RegisterSppbController extends Controller
     public function store(RegisterSppbAddRequest $request)
     {
         $validatedData = $request->validated();
-        // Set default values for removed fields
-        $validatedData['status'] = true;
-        $validatedData['nomor_registrasi'] = null;
-        $validatedData['tanggal_terbit'] = null;
-        $validatedData['tanggal_terakhir'] = null;
-        $validatedData['is_unitusaha'] = true;
 
-        // Extract jenispsat_id array and remove it from validated data
-        $jenispsatIds = $validatedData['jenispsat_id'];
+        // Extract jenispsat_id and ruang_lingkup_penanganan from validated data
+        $jenispsatIds = $validatedData['jenispsat_id'] ?? [];
+        $ruangLingkupPenanganan = $validatedData['ruang_lingkup_penanganan'] ?? null;
         unset($validatedData['jenispsat_id']);
+        unset($validatedData['ruang_lingkup_penanganan']);
+
+        // Add ruang_lingkup_penanganan to validated data
+        $validatedData['status'] = config('workflow.sppb_statuses.DIAJUKAN');
+        $validatedData['penanganan_id'] = $ruangLingkupPenanganan;
 
         $result = $this->RegisterSppbService->addNewRegisterSppb($validatedData, $jenispsatIds);
 

@@ -135,6 +135,16 @@
                                 </div>
                             </div>
 
+                            {{-- PENANGANAN KETERANGAN FIELD (conditionally shown) --}}
+                            <div class="row mb-3" id="penanganan_keterangan_row" style="display: none;">
+                                <label class="col-sm-2 col-form-label" for="penanganan_keterangan">Keterangan Penanganan*</label>
+                                <div class="col-sm-10">
+                                    @include('admin.components.notification.error-validation', ['field' => 'penanganan_keterangan'])
+                                    <input type="text" name="penanganan_keterangan" class="form-control" id="penanganan_keterangan"
+                                        placeholder="Sebutkan jenis pengolahan minimal lainnya" value="{{ old('penanganan_keterangan') }}" required>
+                                </div>
+                            </div>
+
                             {{-- TANGGAL TERBIT SERTIFIKAT FIELD --}}
                             <div class="row mb-3">
                                 <label class="col-sm-2 col-form-label" for="tanggal_terbit">Tanggal Terbit Sertifikat</label>
@@ -155,6 +165,8 @@
                                 </div>
                             </div>
 
+
+
                             <div class="row justify-content-end">
                                 <div class="col-sm-10">
                                     <button type="submit" class="btn btn-primary">Send</button>
@@ -167,5 +179,30 @@
 
         </div>
 
-    </div>
-@endsection
+        </div>
+
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                const ruangLingkupSelect = document.getElementById('ruang_lingkup_penanganan');
+                const keteranganRow = document.getElementById('penanganan_keterangan_row');
+                const keteranganInput = document.getElementById('penanganan_keterangan');
+
+                function toggleKeteranganField() {
+                    const selectedOption = ruangLingkupSelect.options[ruangLingkupSelect.selectedIndex];
+                    if (selectedOption.text === 'Pengolahan minimal lainnya (sebutkan)') {
+                        keteranganRow.style.display = 'flex';
+                        keteranganInput.setAttribute('required', 'required');
+                    } else {
+                        keteranganRow.style.display = 'none';
+                        keteranganInput.removeAttribute('required');
+                    }
+                }
+
+                // Initial check on page load
+                toggleKeteranganField();
+
+                // Listen for changes
+                ruangLingkupSelect.addEventListener('change', toggleKeteranganField);
+            });
+        </script>
+        @endsection

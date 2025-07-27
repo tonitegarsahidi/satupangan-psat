@@ -28,10 +28,10 @@ class RegisterSppbService
      *  list all RegisterSppb along with filter, sort, etc
      * =============================================
      */
-    public function listAllRegisterSppb($perPage, string $sortField = null, string $sortOrder = null, string $keyword = null): LengthAwarePaginator
+    public function listAllRegisterSppb($perPage, string $sortField = null, string $sortOrder = null, string $keyword = null, $user = null): LengthAwarePaginator
     {
         $perPage = !is_null($perPage) ? $perPage : config('constant.CRUD.PER_PAGE');
-        return $this->RegisterSppbRepository->getAllRegisterSppbs($perPage, $sortField, $sortOrder, $keyword);
+        return $this->RegisterSppbRepository->getAllRegisterSppbs($perPage, $sortField, $sortOrder, $keyword, $user);
     }
 
     /**

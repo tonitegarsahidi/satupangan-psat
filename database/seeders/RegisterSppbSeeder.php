@@ -23,7 +23,7 @@ class RegisterSppbSeeder extends Seeder
         // Ensure there's at least one business, province, city, and jenis_psat for foreign keys
         $business = Business::first();
         if (!$business) {
-            $user = \App\Models\User::first();
+            $user = \App\Models\User::where('email', 'pengusaha@satupangan.id')->first();
             $business = Business::create([
                 'id' => Str::uuid(),
                 'user_id' => $user ? $user->id : null,

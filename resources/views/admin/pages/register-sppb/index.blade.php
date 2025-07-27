@@ -101,7 +101,7 @@
                                 Nama Penanganan
                             </th>
                             <th>
-                                Penanganan Keterangan
+                                Unit Usaha
                             </th>
                             <th></th>
                             <th></th>
@@ -133,7 +133,7 @@
                                 </td>
                                 <td>{{ $registerSppb->nama_komoditas }}</td>
                                 <td>{{ $registerSppb->penanganan->nama_penanganan }}</td>
-                                <td>{{ $registerSppb->penanganan_keterangan }}</td>
+                                <td>{{ $registerSppb->nama_unitusaha }}</td>
 
                                 {{-- ============ CRUD LINK ICON =============  --}}
                                 <td>
@@ -143,16 +143,20 @@
                                     </a>
                                 </td>
                                 <td>
-                                    <a class="action-icon" href="{{ route('register-sppb.edit', ['id' => $registerSppb->id]) }}"
-                                        title="edit">
-                                        <i class='bx bx-pencil'></i>
-                                    </a>
+                                    @if ($registerSppb->status == config('workflow.sppb_statuses.DIAJUKAN'))
+                                        <a class="action-icon" href="{{ route('register-sppb.edit', ['id' => $registerSppb->id]) }}"
+                                            title="edit">
+                                            <i class='bx bx-pencil'></i>
+                                        </a>
+                                    @endif
                                 </td>
                                 <td>
-                                    <a class="action-icon" href="{{ route('register-sppb.delete', ['id' => $registerSppb->id]) }}"
-                                        title="delete">
-                                        <i class='bx bx-trash'></i>
-                                    </a>
+                                    @if ($registerSppb->status == config('workflow.sppb_statuses.DIAJUKAN'))
+                                        <a class="action-icon" href="{{ route('register-sppb.delete', ['id' => $registerSppb->id]) }}"
+                                            title="delete">
+                                            <i class='bx bx-trash'></i>
+                                        </a>
+                                    @endif
                                 </td>
                             </tr>
                         @endforeach
