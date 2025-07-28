@@ -94,27 +94,75 @@
                                 </tr>
                                 <tr>
                                     <th scope="col" class="bg-dark text-white">Foto 1</th>
-                                    <td>{{ $data->foto_1 ?? '-' }}</td>
+                                    <td>
+                                        @if($data->foto_1)
+                                            <a href="{{ $data->foto_1 }}" target="_blank">
+                                                <img src="{{ $data->foto_1 }}" alt="Foto 1" style="max-width: 400px; height: auto;">
+                                            </a>
+                                        @else
+                                            -
+                                        @endif
+                                    </td>
                                 </tr>
                                 <tr>
                                     <th scope="col" class="bg-dark text-white">Foto 2</th>
-                                    <td>{{ $data->foto_2 ?? '-' }}</td>
+                                    <td>
+                                        @if($data->foto_2)
+                                            <a href="{{ $data->foto_2 }}" target="_blank">
+                                                <img src="{{ $data->foto_2 }}" alt="Foto 2" style="max-width: 400px; height: auto;">
+                                            </a>
+                                        @else
+                                            -
+                                        @endif
+                                    </td>
                                 </tr>
                                 <tr>
                                     <th scope="col" class="bg-dark text-white">Foto 3</th>
-                                    <td>{{ $data->foto_3 ?? '-' }}</td>
+                                    <td>
+                                        @if($data->foto_3)
+                                            <a href="{{ $data->foto_3 }}" target="_blank">
+                                                <img src="{{ $data->foto_3 }}" alt="Foto 3" style="max-width: 400px; height: auto;">
+                                            </a>
+                                        @else
+                                            -
+                                        @endif
+                                    </td>
                                 </tr>
                                 <tr>
                                     <th scope="col" class="bg-dark text-white">Foto 4</th>
-                                    <td>{{ $data->foto_4 ?? '-' }}</td>
+                                    <td>
+                                        @if($data->foto_4)
+                                            <a href="{{ $data->foto_4 }}" target="_blank">
+                                                <img src="{{ $data->foto_4 }}" alt="Foto 4" style="max-width: 400px; height: auto;">
+                                            </a>
+                                        @else
+                                            -
+                                        @endif
+                                    </td>
                                 </tr>
                                 <tr>
                                     <th scope="col" class="bg-dark text-white">Foto 5</th>
-                                    <td>{{ $data->foto_5 ?? '-' }}</td>
+                                    <td>
+                                        @if($data->foto_5)
+                                            <a href="{{ $data->foto_5 }}" target="_blank">
+                                                <img src="{{ $data->foto_5 }}" alt="Foto 5" style="max-width: 400px; height: auto;">
+                                            </a>
+                                        @else
+                                            -
+                                        @endif
+                                    </td>
                                 </tr>
                                 <tr>
                                     <th scope="col" class="bg-dark text-white">Foto 6</th>
-                                    <td>{{ $data->foto_6 ?? '-' }}</td>
+                                    <td>
+                                        @if($data->foto_6)
+                                            <a href="{{ $data->foto_6 }}" target="_blank">
+                                                <img src="{{ $data->foto_6 }}" alt="Foto 6" style="max-width: 400px; height: auto;">
+                                            </a>
+                                        @else
+                                            -
+                                        @endif
+                                    </td>
                                 </tr>
                                 <tr>
                                     <th scope="col" class="bg-dark text-white">OKKP Penanggung Jawab</th>

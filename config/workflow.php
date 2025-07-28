@@ -50,4 +50,11 @@ return [
         'DISETUJUI' => 'DISETUJI',
         'EXPIRED' => 'EXPIRED',
     ],
+
+    'izinedar_statuses' => [
+        'DIAJUKAN' => 'DIAJUKAN',
+        'DIPERIKSA' => 'DIPERIKSA',
+        'DISETUJUI' => 'DISETUJI',
+        'EXPIRED' => 'EXPIRED',
+    ],
 ];

@@ -15,10 +15,27 @@
                     <div class="card-header d-flex align-items-center justify-content-between">
                         <h5 class="mb-0">Add Register Izin EDAR PSATPL</h5>
                         <small class="text-muted float-end">* : must be filled</small>
+
+                        <!-- Notification element -->
+                        @if ($errors->any() || session('loginError'))
+                            <div class="alert alert-danger" role="alert">
+                                <ul>
+                                    @if ($errors->any())
+                                        @foreach ($errors->all() as $error)
+                                            <li>{{ $error }}</li>
+                                        @endforeach
+                                    @endif
+                                    @if (session('loginError'))
+                                        <li>{{ session('loginError') }}</li>
+                                    @endif
+                                </ul>
+                            </div>
+                        @endif
                     </div>
                     <div class="card-body">
 
-                        <form method="POST" action="{{ route('register-izinedar-psatpl.store') }}">
+                        <form method="POST" action="{{ route('register-izinedar-psatpl.store') }}"
+                            enctype="multipart/form-data">
                             @csrf
 
                             {{-- BUSINESS ID FIELD (Hidden) --}}

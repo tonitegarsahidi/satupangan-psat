@@ -87,10 +87,11 @@ class RegisterIzinedarPsatplController extends Controller
      */
     public function store(Request $request)
     {
-        $validatedData = $request->validate([
+
+        // dd($request->all());
+        $request->validate([
             'business_id' => 'required|uuid|exists:business,id',
             'nomor_registrasi' => 'nullable|string|max:50',
-            'is_unitusaha' => 'required|boolean',
             'nama_unitusaha' => 'nullable|string|max:200',
             'alamat_unitusaha' => 'nullable|string|max:200',
             'alamat_unitpenanganan' => 'nullable|string|max:200',
@@ -105,18 +106,20 @@ class RegisterIzinedarPsatplController extends Controller
             'jenis_kemasan' => 'nullable|string|max:200',
             'ukuran_berat' => 'nullable|string|max:200',
             'klaim' => 'nullable|string|max:200',
-            'foto_1' => 'nullable|string|max:200',
-            'foto_2' => 'nullable|string|max:200',
-            'foto_3' => 'nullable|string|max:200',
-            'foto_4' => 'nullable|string|max:200',
-            'foto_5' => 'nullable|string|max:200',
-            'foto_6' => 'nullable|string|max:200',
+            'foto_1' => 'nullable|file|image|mimes:jpeg,jpg,png,gif|max:2048',
+            'foto_2' => 'nullable|file|image|mimes:jpeg,jpg,png,gif|max:2048',
+            'foto_3' => 'nullable|file|image|mimes:jpeg,jpg,png,gif|max:2048',
+            'foto_4' => 'nullable|file|image|mimes:jpeg,jpg,png,gif|max:2048',
+            'foto_5' => 'nullable|file|image|mimes:jpeg,jpg,png,gif|max:2048',
+            'foto_6' => 'nullable|file|image|mimes:jpeg,jpg,png,gif|max:2048',
             'okkp_penangungjawab' => 'nullable|uuid|exists:users,id',
             'tanggal_terbit' => 'nullable|date',
             'tanggal_terakhir' => 'nullable|date',
             'created_by' => 'nullable|string',
             'updated_by' => 'nullable|string',
         ]);
+
+        $validatedData = $request->except(['foto_1', 'foto_2', 'foto_3', 'foto_4', 'foto_5', 'foto_6']);
 
         $user = Auth::user();
         $validatedData['created_by'] = $user->id;
@@ -125,6 +128,27 @@ class RegisterIzinedarPsatplController extends Controller
         // Set default values for status and is_enabled
         $validatedData['status'] = 'DIAJUKAN';
         $validatedData['is_enabled'] = true;
+
+        // Handle file uploads for foto_1 to foto_6
+        $uploadPath = 'images/upload/register';
+        $publicPath = public_path($uploadPath);
+
+        // Create directory if it doesn't exist
+        if (!file_exists($publicPath)) {
+            mkdir($publicPath, 0755, true);
+        }
+
+        // Process each photo field
+        for ($i = 1; $i <= 6; $i++) {
+            $photoField = 'foto_' . $i;
+            if ($request->hasFile($photoField)) {
+                $file = $request->file($photoField);
+                $extension = $file->getClientOriginalExtension();
+                $filename = uniqid() . '.' . $extension;
+                $file->move($publicPath, $filename);
+                $validatedData[$photoField] = env('BASE_URL') . '/' . $uploadPath . '/' . $filename;
+            }
+        }
 
         $result = $this->registerIzinedarPsatplService->addNewRegisterIzinedarPsatpl($validatedData);
 
@@ -185,7 +209,6 @@ class RegisterIzinedarPsatplController extends Controller
         $validatedData = $request->validate([
             'business_id' => 'required|uuid|exists:business,id',
             'nomor_registrasi' => 'nullable|string|max:50',
-            'is_unitusaha' => 'required|boolean',
             'nama_unitusaha' => 'nullable|string|max:200',
             'alamat_unitusaha' => 'nullable|string|max:200',
             'alamat_unitpenanganan' => 'nullable|string|max:200',
@@ -216,7 +239,8 @@ class RegisterIzinedarPsatplController extends Controller
         $validatedData['updated_by'] = $user->id;
 
         // Ensure status and is_enabled are set (they might be removed from form)
-        $validatedData['status'] = $validatedData['status'] ?? 'DIAJUKAN';
+        $validatedData['status'] = $validatedData['status'] ?? config('workflow.izinedar_statuses.DIAJUKAN');
+        $validatedData['is_unitusaha'] = false;
         $validatedData['is_enabled'] = $validatedData['is_enabled'] ?? true;
 
         $result = $this->registerIzinedarPsatplService->updateRegisterIzinedarPsatpl($validatedData, $id);
