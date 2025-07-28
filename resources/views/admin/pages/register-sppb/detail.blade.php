@@ -30,19 +30,21 @@
                             <tbody>
                                 <tr>
                                     <th style="width: 250px;" scope="col" class="bg-dark text-white">Business Name</th>
-                                    <td>{{ $data->business->nama_usaha ?? '-' }}</td>
+                                    <td><a href="{{ route('business.profile.index') }}">{{ $data->business->nama_usaha ?? '-' }}</a></td>
                                 </tr>
                                 <tr>
                                     <th scope="col" class="bg-dark text-white">Status</th>
-                                    <td>{{ $data->status }}</td>
-                                </tr>
-                                <tr>
-                                    <th scope="col" class="bg-dark text-white">Is Enabled</th>
                                     <td>
-                                        @if ($data->is_enabled)
-                                            <span class="badge rounded-pill bg-success"> Yes </span>
+                                        @if ($data->status == config('workflow.sppb_statuses.DISETUJUI'))
+                                            <span class="badge rounded-pill bg-success">{{ $data->status }}</span>
+                                        @elseif ($data->status == config('workflow.sppb_statuses.DITOLAK'))
+                                            <span class="badge rounded-pill bg-danger">{{ $data->status }}</span>
+                                        @elseif ($data->status == config('workflow.sppb_statuses.DIAJUKAN'))
+                                            <span class="badge rounded-pill bg-info">{{ $data->status }}</span>
+                                        @elseif ($data->status == config('workflow.sppb_statuses.DIPERIKSA'))
+                                            <span class="badge rounded-pill bg-warning">{{ $data->status }}</span>
                                         @else
-                                            <span class="badge rounded-pill bg-danger"> No </span>
+                                            {{ $data->status }}
                                         @endif
                                     </td>
                                 </tr>
@@ -52,21 +54,23 @@
                                 </tr>
                                 <tr>
                                     <th scope="col" class="bg-dark text-white">Tanggal Terbit</th>
-                                    <td>{{ $data->tanggal_terbit ?? '-' }}</td>
+                                    <td>{{ $data->tanggal_terbit ? \Carbon\Carbon::parse($data->tanggal_terbit)->locale('id')->translatedFormat('j F Y') : '-' }}</td>
                                 </tr>
                                 <tr>
                                     <th scope="col" class="bg-dark text-white">Tanggal Terakhir</th>
-                                    <td>{{ $data->tanggal_terakhir ?? '-' }}</td>
+                                    <td>{{ $data->tanggal_terakhir ? \Carbon\Carbon::parse($data->tanggal_terakhir)->locale('id')->translatedFormat('j F Y') : '-' }}</td>
                                 </tr>
                                 <tr>
-                                    <th scope="col" class="bg-dark text-white">Is Unit Usaha</th>
-                                    <td>
-                                        @if ($data->is_unitusaha)
-                                            <span class="badge rounded-pill bg-success"> Yes </span>
-                                        @else
-                                            <span class="badge rounded-pill bg-danger"> No </span>
-                                        @endif
-                                    </td>
+                                    <th scope="col" class="bg-dark text-white">JENIS PSAT</th>
+                                    <td>{{ $data->jenis_psat ?? '-' }}</td>
+                                </tr>
+                                <tr>
+                                    <th scope="col" class="bg-dark text-white">Nama Komoditas</th>
+                                    <td>{{ $data->nama_komoditas ?? '-' }}</td>
+                                </tr>
+                                <tr>
+                                    <th scope="col" class="bg-dark text-white">Ruang Lingkup Penanganan</th>
+                                    <td>{{ $data->penanganan->nama_penanganan ?? '-' }}</td>
                                 </tr>
                                 <tr>
                                     <th scope="col" class="bg-dark text-white">Nama Unit Usaha</th>

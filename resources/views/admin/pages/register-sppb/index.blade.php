@@ -143,7 +143,8 @@
                                     </a>
                                 </td>
                                 <td>
-                                    @if ($registerSppb->status == config('workflow.sppb_statuses.DIAJUKAN'))
+                                    @if (Auth::user()->hasAnyRole(['ROLE_OPERATOR', 'ROLE_SUPERVISOR'])
+                                        || (Auth::user()->hasAnyRole(['ROLE_USER_BUSINESS']) && $registerSppb->status == config('workflow.sppb_statuses.DIAJUKAN')))
                                         <a class="action-icon" href="{{ route('register-sppb.edit', ['id' => $registerSppb->id]) }}"
                                             title="edit">
                                             <i class='bx bx-pencil'></i>
@@ -151,7 +152,7 @@
                                     @endif
                                 </td>
                                 <td>
-                                    @if ($registerSppb->status == config('workflow.sppb_statuses.DIAJUKAN'))
+                                    @if (Auth::user()->hasAnyRole(['ROLE_OPERATOR', 'ROLE_SUPERVISOR']))
                                         <a class="action-icon" href="{{ route('register-sppb.delete', ['id' => $registerSppb->id]) }}"
                                             title="delete">
                                             <i class='bx bx-trash'></i>
