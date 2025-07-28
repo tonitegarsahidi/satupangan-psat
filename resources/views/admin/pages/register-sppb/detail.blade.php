@@ -30,7 +30,7 @@
                             <tbody>
                                 <tr>
                                     <th style="width: 250px;" scope="col" class="bg-dark text-white">Business Name</th>
-                                    <td><a href="{{ route('business.profile.index') }}">{{ $data->business->nama_usaha ?? '-' }}</a></td>
+                                    <td><a href="{{ route('business.profile.index') }}">{{ $data->business->nama_perusahaan ?? '-' }}</a></td>
                                 </tr>
                                 <tr>
                                     <th scope="col" class="bg-dark text-white">Status</th>
@@ -62,7 +62,17 @@
                                 </tr>
                                 <tr>
                                     <th scope="col" class="bg-dark text-white">JENIS PSAT</th>
-                                    <td>{{ $data->jenis_psat ?? '-' }}</td>
+                                    <td>
+                                        @if($data->jenispsats && $data->jenispsats->isNotEmpty())
+                                            <ol>
+                                                @foreach($data->jenispsats as $jenispsat)
+                                                    <li>{{ $jenispsat->nama_jenis_pangan_segar }}</li>
+                                                @endforeach
+                                            </ol>
+                                        @else
+                                            -
+                                        @endif
+                                    </td>
                                 </tr>
                                 <tr>
                                     <th scope="col" class="bg-dark text-white">Nama Komoditas</th>
