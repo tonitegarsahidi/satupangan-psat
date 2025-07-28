@@ -36,6 +36,7 @@ class RegisterSppbAddRequest extends FormRequest
             'tanggal_terbit' => 'nullable|date',
             'tanggal_terakhir' => 'nullable|date',
             'penanganan_keterangan' => 'string|nullable', // Will be replaced dynamically
+            'alamat_unit_penanganan' => 'nullable|string|max:100',
         ];
     }
 

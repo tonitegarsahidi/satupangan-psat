@@ -95,6 +95,7 @@ class RegisterSppbSeeder extends Seeder
             'nama_komoditas' => 'Komoditas A',
             'penanganan_id' => MasterPenanganan::first()?->id,
             'penanganan_keterangan' => 'Keterangan Penanganan A',
+            'alamat_unit_penanganan' => 'Jl. Penanganan A No. 1',
         ]);
 
         RegisterSppb::create([
@@ -115,6 +116,7 @@ class RegisterSppbSeeder extends Seeder
             'nama_komoditas' => 'Komoditas B',
             'penanganan_id' => MasterPenanganan::first()?->id,
             'penanganan_keterangan' => 'Keterangan Penanganan B',
+            'alamat_unit_penanganan' => 'Jl. Penanganan B No. 2',
         ]);
     }
 }

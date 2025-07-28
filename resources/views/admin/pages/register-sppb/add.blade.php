@@ -65,6 +65,16 @@
                                 </div>
                             </div>
 
+                            {{-- ALAMAT UNIT PENANGANAN FIELD --}}
+                            <div class="row mb-3">
+                                <label class="col-sm-2 col-form-label" for="alamat_unit_penanganan">Alamat Unit Penanganan</label>
+                                <div class="col-sm-10">
+                                    @include('admin.components.notification.error-validation', ['field' => 'alamat_unit_penanganan'])
+                                    <input type="text" name="alamat_unit_penanganan" class="form-control" id="alamat_unit_penanganan"
+                                        placeholder="e.g., Jl. Contoh No. 1" value="{{ old('alamat_unit_penanganan') }}">
+                                </div>
+                            </div>
+
                             @include('components.provinsi-kota', [
                                 'provinsis' => $provinsis,
                                 'kotas' => $kotas ?? [],
@@ -164,6 +174,7 @@
                                         value="{{ old('tanggal_terakhir') }}">
                                 </div>
                             </div>
+
 
 
 

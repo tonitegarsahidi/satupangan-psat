@@ -33,6 +33,7 @@ class RegisterSppb extends Model
         'nama_komoditas',
         'penanganan_id',
         'penanganan_keterangan',
+        'alamat_unit_penanganan',
     ];
 
     public function business()

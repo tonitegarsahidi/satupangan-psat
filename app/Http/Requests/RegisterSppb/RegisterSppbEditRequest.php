@@ -45,6 +45,7 @@ class RegisterSppbEditRequest extends FormRequest
             'jenispsat_id' => 'required|array',
             'jenispsat_id.*' => 'exists:master_jenis_pangan_segars,id',
             'nama_komoditas' => 'nullable|string|max:50',
+            'alamat_unit_penanganan' => 'nullable|string|max:100',
         ];
     }
 }

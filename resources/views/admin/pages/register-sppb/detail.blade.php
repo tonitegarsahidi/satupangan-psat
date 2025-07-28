@@ -87,6 +87,10 @@
                                     <td>{{ $data->nama_unitusaha ?? '-' }}</td>
                                 </tr>
                                 <tr>
+                                    <th scope="col" class="bg-dark text-white">Alamat Unit Penanganan</th>
+                                    <td>{{ $data->alamat_unit_penanganan ?? '-' }}</td>
+                                </tr>
+                                <tr>
                                     <th scope="col" class="bg-dark text-white">Alamat Unit Usaha</th>
                                     <td>{{ $data->alamat_unitusaha ?? '-' }}</td>
                                 </tr>
