@@ -17,55 +17,16 @@
                     </div>
                     @include('admin.components.notification.error')
                     <div class="card-body">
-                        <form action="{{ route('register-sppb.update', $registerSppb->id) }}"  method="POST">
+                        <form method="POST" action="{{ route('register-sppb.update', $registerSppb->id) }}">
                             @method('PUT')
                             @csrf
 
-                            {{-- BUSINESS ID FIELD (Dropdown) --}}
+                            {{-- BUSINESS ID FIELD (Hidden) --}}
+                            <input type="hidden" name="business_id" id="business_id" value="{{ $registerSppb->business_id }}">
                             <div class="row mb-3">
-                                <label class="col-sm-2 col-form-label" for="business_id">Business*</label>
+                                <label class="col-sm-2 col-form-label">Business*</label>
                                 <div class="col-sm-10">
-                                    @include('admin.components.notification.error-validation', ['field' => 'business_id'])
-                                    <select name="business_id" id="business_id" class="form-select">
-                                        <option value="">Select Business</option>
-                                        {{-- Assuming $businesses is passed from controller --}}
-                                        @foreach ($businesses as $business)
-                                            <option value="{{ $business->id }}" {{ old('business_id', $registerSppb->business_id) == $business->id ? 'selected' : '' }}>
-                                                {{ $business->nama_usaha }}
-                                            </option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                            </div>
-
-                            {{-- STATUS FIELD --}}
-                            <div class="row mb-3">
-                                <label class="col-sm-2 col-form-label" for="status">Status*</label>
-                                <div class="col-sm-10">
-                                    @include('admin.components.notification.error-validation', ['field' => 'status'])
-                                    <input type="text" name="status" class="form-control" id="status"
-                                        placeholder="e.g., DRAFT" value="{{ old('status', $registerSppb->status) }}">
-                                </div>
-                            </div>
-
-                            {{-- IS_ENABLED RADIO BUTTONS --}}
-                            <div class="row mb-3">
-                                @php
-                                    $oldIsEnabled = old('is_enabled', $registerSppb->is_enabled);
-                                @endphp
-                                <label class="col-sm-2 col-form-label" for="is_enabled">Is Enabled*</label>
-                                <div class="col-sm-10">
-                                    @include('admin.components.notification.error-validation', ['field' => 'is_enabled'])
-                                    <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="radio" name="is_enabled" id="is_enabled_true" value="1"
-                                            {{ $oldIsEnabled == 1 ? 'checked' : ''}}>
-                                        <label class="form-check-label" for="is_enabled_true">Yes</label>
-                                    </div>
-                                    <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="radio" name="is_enabled" id="is_enabled_false" value="0"
-                                            {{ $oldIsEnabled == 0 ? 'checked' : ''}}>
-                                        <label class="form-check-label" for="is_enabled_false">No</label>
-                                    </div>
+                                    <div class="form-control-plaintext">{{ $registerSppb->business->nama_usaha }}</div>
                                 </div>
                             </div>
 
@@ -75,48 +36,7 @@
                                 <div class="col-sm-10">
                                     @include('admin.components.notification.error-validation', ['field' => 'nomor_registrasi'])
                                     <input type="text" name="nomor_registrasi" class="form-control" id="nomor_registrasi"
-                                        placeholder="e.g., REG-SPPB-001" value="{{ old('nomor_registrasi', $registerSppb->nomor_registrasi) }}">
-                                </div>
-                            </div>
-
-                            {{-- TANGGAL TERBIT FIELD --}}
-                            <div class="row mb-3">
-                                <label class="col-sm-2 col-form-label" for="tanggal_terbit">Tanggal Terbit</label>
-                                <div class="col-sm-10">
-                                    @include('admin.components.notification.error-validation', ['field' => 'tanggal_terbit'])
-                                    <input type="date" name="tanggal_terbit" class="form-control" id="tanggal_terbit"
-                                        value="{{ old('tanggal_terbit', $registerSppb->tanggal_terbit) }}">
-                                </div>
-                            </div>
-
-                            {{-- TANGGAL TERAKHIR FIELD --}}
-                            <div class="row mb-3">
-                                <label class="col-sm-2 col-form-label" for="tanggal_terakhir">Tanggal Terakhir</label>
-                                <div class="col-sm-10">
-                                    @include('admin.components.notification.error-validation', ['field' => 'tanggal_terakhir'])
-                                    <input type="date" name="tanggal_terakhir" class="form-control" id="tanggal_terakhir"
-                                        value="{{ old('tanggal_terakhir', $registerSppb->tanggal_terakhir) }}">
-                                </div>
-                            </div>
-
-                            {{-- IS_UNITUSAHA RADIO BUTTONS --}}
-                            <div class="row mb-3">
-                                @php
-                                    $oldIsUnitusaha = old('is_unitusaha', $registerSppb->is_unitusaha);
-                                @endphp
-                                <label class="col-sm-2 col-form-label" for="is_unitusaha">Is Unit Usaha*</label>
-                                <div class="col-sm-10">
-                                    @include('admin.components.notification.error-validation', ['field' => 'is_unitusaha'])
-                                    <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="radio" name="is_unitusaha" id="is_unitusaha_true" value="1"
-                                            {{ $oldIsUnitusaha == 1 ? 'checked' : ''}}>
-                                        <label class="form-check-label" for="is_unitusaha_true">Yes</label>
-                                    </div>
-                                    <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="radio" name="is_unitusaha" id="is_unitusaha_false" value="0"
-                                            {{ $oldIsUnitusaha == 0 ? 'checked' : ''}}>
-                                        <label class="form-check-label" for="is_unitusaha_false">No</label>
-                                    </div>
+                                        placeholder="e.g., SPPB-001" value="{{ old('nomor_registrasi', $registerSppb->nomor_registrasi) }}">
                                 </div>
                             </div>
 
@@ -140,39 +60,18 @@
                                 </div>
                             </div>
 
-                            {{-- PROVINSI UNITUSAHA FIELD (Dropdown) --}}
-                            <div class="row mb-3">
-                                <label class="col-sm-2 col-form-label" for="provinsi_unitusaha">Provinsi Unit Usaha</label>
-                                <div class="col-sm-10">
-                                    @include('admin.components.notification.error-validation', ['field' => 'provinsi_unitusaha'])
-                                    <select name="provinsi_unitusaha" id="provinsi_unitusaha" class="form-select">
-                                        <option value="">Select Provinsi</option>
-                                        {{-- Assuming $provinsis is passed from controller --}}
-                                        @foreach ($provinsis as $provinsi)
-                                            <option value="{{ $provinsi->id }}" {{ old('provinsi_unitusaha', $registerSppb->provinsi_unitusaha) == $provinsi->id ? 'selected' : '' }}>
-                                                {{ $provinsi->nama_provinsi }}
-                                            </option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                            </div>
-
-                            {{-- KOTA UNITUSAHA FIELD (Dropdown) --}}
-                            <div class="row mb-3">
-                                <label class="col-sm-2 col-form-label" for="kota_unitusaha">Kota Unit Usaha</label>
-                                <div class="col-sm-10">
-                                    @include('admin.components.notification.error-validation', ['field' => 'kota_unitusaha'])
-                                    <select name="kota_unitusaha" id="kota_unitusaha" class="form-select">
-                                        <option value="">Select Kota</option>
-                                        {{-- Assuming $kotas is passed from controller --}}
-                                        @foreach ($kotas as $kota)
-                                            <option value="{{ $kota->id }}" {{ old('kota_unitusaha', $registerSppb->kota_unitusaha) == $kota->id ? 'selected' : '' }}>
-                                                {{ $kota->nama_kota }}
-                                            </option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                            </div>
+                            @include('components.provinsi-kota', [
+                                'provinsis' => $provinsis,
+                                'kotas' => $kotas ?? [],
+                                'selectedProvinsiId' => old('provinsi_unitusaha', $registerSppb->provinsi_unitusaha),
+                                'selectedKotaId' => old('kota_unitusaha', $registerSppb->kota_unitusaha),
+                                'provinsiFieldName' => 'provinsi_unitusaha',
+                                'kotaFieldName' => 'kota_unitusaha',
+                                'provinsiLabel' => 'Provinsi Unit Usaha',
+                                'kotaLabel' => 'Kota Unit Usaha',
+                                'required' => false,
+                                'ajaxUrl' => '/register/kota-by-provinsi/'
+                            ])
 
                             {{-- NIB UNITUSAHA FIELD --}}
                             <div class="row mb-3">
@@ -181,6 +80,83 @@
                                     @include('admin.components.notification.error-validation', ['field' => 'nib_unitusaha'])
                                     <input type="text" name="nib_unitusaha" class="form-control" id="nib_unitusaha"
                                         placeholder="e.g., 1234567890" value="{{ old('nib_unitusaha', $registerSppb->nib_unitusaha) }}">
+                                </div>
+                            </div>
+
+                            {{-- JENIS PSAT FIELD --}}
+                            <div class="row mb-3">
+                                <label class="col-sm-2 col-form-label">Jenis PSAT*</label>
+                                <div class="col-sm-10">
+                                    @include('admin.components.notification.error-validation', ['field' => 'jenispsat_id'])
+                                    <div class="row">
+                                        @foreach($jenispsats as $jenispsat)
+                                            <div class="col-md-4 mb-2">
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="checkbox" name="jenispsat_id[]" value="{{ $jenispsat->id }}" id="jenispsat_{{ $jenispsat->id }}"
+                                                        {{ in_array($jenispsat->id, old('jenispsat_id', $registerSppb->jenispsats->pluck('id')->toArray())) ? 'checked' : '' }}>
+                                                    <label class="form-check-label" for="jenispsat_{{ $jenispsat->id }}">
+                                                        {{ $jenispsat->nama_jenis_pangan_segar }}
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        @endforeach
+                                    </div>
+                                </div>
+                            </div>
+
+                            {{-- NAMA KOMODITAS FIELD --}}
+                            <div class="row mb-3">
+                                <label class="col-sm-2 col-form-label" for="nama_komoditas">Nama Komoditas</label>
+                                <div class="col-sm-10">
+                                    @include('admin.components.notification.error-validation', ['field' => 'nama_komoditas'])
+                                    <input type="text" name="nama_komoditas" class="form-control" id="nama_komoditas"
+                                        placeholder="e.g., Beras" value="{{ old('nama_komoditas', $registerSppb->nama_komoditas) }}">
+                                </div>
+                            </div>
+
+                            {{-- RUANG LINGKUP PENANGANAN FIELD --}}
+                            <div class="row mb-3">
+                                <label class="col-sm-2 col-form-label" for="ruang_lingkup_penanganan">Ruang Lingkup Penanganan*</label>
+                                <div class="col-sm-10">
+                                    @include('admin.components.notification.error-validation', ['field' => 'ruang_lingkup_penanganan'])
+                                    <select name="ruang_lingkup_penanganan" id="ruang_lingkup_penanganan" class="form-control" required>
+                                        <option value="">-- Select Penanganan --</option>
+                                        @foreach($penanganans as $penanganan)
+                                            <option value="{{ $penanganan->id }}" {{ old('ruang_lingkup_penanganan', $registerSppb->penanganan_id) == $penanganan->id ? 'selected' : '' }}>
+                                                {{ $penanganan->nama_penanganan }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+
+                            {{-- PENANGANAN KETERANGAN FIELD (conditionally shown) --}}
+                            <div class="row mb-3" id="penanganan_keterangan_row" style="display: {{ $registerSppb->penanganan && $registerSppb->penanganan->nama_penanganan === 'Pengolahan minimal lainnya (sebutkan)' ? 'flex' : 'none' }};">
+                                <label class="col-sm-2 col-form-label" for="penanganan_keterangan">Keterangan Penanganan*</label>
+                                <div class="col-sm-10">
+                                    @include('admin.components.notification.error-validation', ['field' => 'penanganan_keterangan'])
+                                    <input type="text" name="penanganan_keterangan" class="form-control" id="penanganan_keterangan"
+                                        placeholder="Sebutkan jenis pengolahan minimal lainnya" value="{{ old('penanganan_keterangan', $registerSppb->penanganan_keterangan) }}" required>
+                                </div>
+                            </div>
+
+                            {{-- TANGGAL TERBIT SERTIFIKAT FIELD --}}
+                            <div class="row mb-3">
+                                <label class="col-sm-2 col-form-label" for="tanggal_terbit">Tanggal Terbit Sertifikat</label>
+                                <div class="col-sm-10">
+                                    @include('admin.components.notification.error-validation', ['field' => 'tanggal_terbit'])
+                                    <input type="date" name="tanggal_terbit" class="form-control" id="tanggal_terbit"
+                                        value="{{ old('tanggal_terbit', $registerSppb->tanggal_terbit) }}">
+                                </div>
+                            </div>
+
+                            {{-- TANGGAL BERAKHIR SERTIFIKAT FIELD --}}
+                            <div class="row mb-3">
+                                <label class="col-sm-2 col-form-label" for="tanggal_terakhir">Tanggal Berakhir Sertifikat</label>
+                                <div class="col-sm-10">
+                                    @include('admin.components.notification.error-validation', ['field' => 'tanggal_terakhir'])
+                                    <input type="date" name="tanggal_terakhir" class="form-control" id="tanggal_terakhir"
+                                        value="{{ old('tanggal_terakhir', $registerSppb->tanggal_terakhir) }}">
                                 </div>
                             </div>
 

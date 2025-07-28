@@ -9,6 +9,7 @@ use App\Models\Business;
 use App\Models\MasterProvinsi;
 use App\Models\MasterJenisPanganSegar;
 use App\Models\MasterPenanganan;
+use App\Models\MasterKota;
 use App\Helpers\AlertHelper;
 use App\Http\Requests\RegisterSppb\RegisterSppbAddRequest;
 use App\Http\Requests\RegisterSppb\RegisterSppbEditRequest;
@@ -45,7 +46,7 @@ class RegisterSppbController extends Controller
         $page = $request->input('page', config('constant.CRUD.PAGE'));
         $keyword = $request->input('keyword');
 
-        $user = \Auth::user();
+        $user = Auth::user();
         $registerSppbs = $this->RegisterSppbService->listAllRegisterSppb($perPage, $sortField, $sortOrder, $keyword, $user);
 
         $breadcrumbs = array_merge($this->mainBreadcrumbs, ['List' => null]);
@@ -135,7 +136,17 @@ class RegisterSppbController extends Controller
 
         $breadcrumbs = array_merge($this->mainBreadcrumbs, ['Edit' => null]);
 
-        return view('admin.pages.register-sppb.edit', compact('breadcrumbs', 'registerSppb'));
+        $provinsis = MasterProvinsi::all();
+        $jenispsats = MasterJenisPanganSegar::all();
+        $penanganans = MasterPenanganan::all();
+
+        // If business exists and has a provinsi_id, load the corresponding kotas
+        $kotas = collect();
+        if ($registerSppb->provinsi_unitusaha) {
+            $kotas = MasterKota::where('provinsi_id', $registerSppb->provinsi_unitusaha)->get();
+        }
+
+        return view('admin.pages.register-sppb.edit', compact('breadcrumbs', 'registerSppb', 'provinsis', 'kotas', 'jenispsats', 'penanganans'));
     }
 
     /**
