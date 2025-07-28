@@ -142,7 +142,7 @@ class RegisterSppbController extends Controller
 
         // If business exists and has a provinsi_id, load the corresponding kotas
         $kotas = collect();
-        if ($registerSppb->provinsi_unitusaha) {
+        if ($registerSppb && $registerSppb->provinsi_unitusaha) {
             $kotas = MasterKota::where('provinsi_id', $registerSppb->provinsi_unitusaha)->get();
         }
 

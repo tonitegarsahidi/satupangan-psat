@@ -18,6 +18,7 @@ use App\Http\Controllers\MasterKelompokPanganController;
 use App\Http\Controllers\MasterJenisPanganSegarController;
 use App\Http\Controllers\MasterBahanPanganSegarController;
 use App\Http\Controllers\RegisterSppbController;
+use App\Http\Controllers\RegisterIzinedarPsatplController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\MasterPenangananController;
 
@@ -67,6 +68,18 @@ Route::middleware('auth')->group(function () {
             Route::get('/edit/{id}', [RegisterSppbController::class, 'edit'])->name('register-sppb.edit');
             Route::get('/delete/{id}', [RegisterSppbController::class, 'deleteConfirm'])->name('register-sppb.delete');
             Route::delete('/delete/{id}', [RegisterSppbController::class, 'destroy'])->name('register-sppb.destroy');
+        });
+
+        // REGISTER IZIN EDAR PSATPL CRUD FOR ROLE_USER_BUSINESS
+        Route::prefix('/register-izinedar-psatpl')->group(function () {
+            Route::get('/', [RegisterIzinedarPsatplController::class, 'index'])->name('register-izinedar-psatpl.index');
+            Route::get('/add/new', [RegisterIzinedarPsatplController::class, 'create'])->name('register-izinedar-psatpl.add');
+            Route::post('/add/new', [RegisterIzinedarPsatplController::class, 'store'])->name('register-izinedar-psatpl.store');
+            Route::get('/detail/{id}', [RegisterIzinedarPsatplController::class, 'detail'])->name('register-izinedar-psatpl.detail');
+            Route::put('/edit/{id}', [RegisterIzinedarPsatplController::class, 'update'])->name('register-izinedar-psatpl.update');
+            Route::get('/edit/{id}', [RegisterIzinedarPsatplController::class, 'edit'])->name('register-izinedar-psatpl.edit');
+            Route::get('/delete/{id}', [RegisterIzinedarPsatplController::class, 'deleteConfirm'])->name('register-izinedar-psatpl.delete');
+            Route::delete('/delete/{id}', [RegisterIzinedarPsatplController::class, 'destroy'])->name('register-izinedar-psatpl.destroy');
         });
 
         Route::prefix('/master-penanganan')->group(function () {

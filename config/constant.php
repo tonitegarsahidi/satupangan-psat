@@ -69,4 +69,6 @@ return [
 'LAPORAN_PENGADUAN_ACTION_TYPE' => config('workflow.action_types.INIT'),
 
 
+'REGISTER_IZINEDAR_PL_ASSIGNEE' => 'kantorpusat@satupangan.id',
+
 ];

@@ -1,0 +1,186 @@
+@extends('admin.template-base', ['searchNavbar' => false])
+
+@section('page-title', 'Detail of Register Izin EDAR PSATPL')
+
+{{-- MAIN CONTENT PART --}}
+@section('main-content')
+    <div class="container-xxl flex-grow-1 container-p-y">
+
+        {{-- FOR BREADCRUMBS --}}
+        @include('admin.components.breadcrumb.simple', $breadcrumbs)
+
+        {{-- MAIN PARTS --}}
+
+        <div class="card">
+
+            {{-- FIRST ROW,  FOR TITLE AND ADD BUTTON --}}
+            <div class="d-flex justify-content-between">
+
+                <div class="bd-highlight">
+                    <h3 class="card-header">Detail of Register Izin EDAR PSATPL with id : {{ $data->id }}</h3>
+                </div>
+
+            </div>
+
+            <div class="row m-2">
+
+                <div class="col-md-8 col-xs-12">
+                    <div class="table-responsive text-nowrap">
+                        <table class="table table-hover">
+                            <tbody>
+                                <tr>
+                                    <th style="width: 250px;" scope="col" class="bg-dark text-white">Business Name</th>
+                                    <td><a href="{{ route('business.profile.index') }}">{{ $data->business->nama_perusahaan ?? '-' }}</a></td>
+                                </tr>
+                                <tr>
+                                    <th scope="col" class="bg-dark text-white">Status</th>
+                                    <td>
+                                        @if ($data->status == 'DISETUJUI')
+                                            <span class="badge rounded-pill bg-success">{{ $data->status }}</span>
+                                        @elseif ($data->status == 'DITOLAK')
+                                            <span class="badge rounded-pill bg-danger">{{ $data->status }}</span>
+                                        @elseif ($data->status == 'DIAJUKAN')
+                                            <span class="badge rounded-pill bg-info">{{ $data->status }}</span>
+                                        @elseif ($data->status == 'DIPERIKSA')
+                                            <span class="badge rounded-pill bg-warning">{{ $data->status }}</span>
+                                        @else
+                                            {{ $data->status }}
+                                        @endif
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th scope="col" class="bg-dark text-white">Nomor Registrasi</th>
+                                    <td>{{ $data->nomor_registrasi ?? '-' }}</td>
+                                </tr>
+                                <tr>
+                                    <th scope="col" class="bg-dark text-white">Tanggal Terbit</th>
+                                    <td>{{ $data->tanggal_terbit ? \Carbon\Carbon::parse($data->tanggal_terbit)->locale('id')->translatedFormat('j F Y') : '-' }}</td>
+                                </tr>
+                                <tr>
+                                    <th scope="col" class="bg-dark text-white">Tanggal Terakhir</th>
+                                    <td>{{ $data->tanggal_terakhir ? \Carbon\Carbon::parse($data->tanggal_terakhir)->locale('id')->translatedFormat('j F Y') : '-' }}</td>
+                                </tr>
+                                <tr>
+                                    <th scope="col" class="bg-dark text-white">Jenis PSAT</th>
+                                    <td>{{ $data->jenisPsat->nama_jenis_pangan_segar ?? '-' }}</td>
+                                </tr>
+                                <tr>
+                                    <th scope="col" class="bg-dark text-white">Nama Komoditas</th>
+                                    <td>{{ $data->nama_komoditas ?? '-' }}</td>
+                                </tr>
+                                <tr>
+                                    <th scope="col" class="bg-dark text-white">Nama Latin</th>
+                                    <td>{{ $data->nama_latin ?? '-' }}</td>
+                                </tr>
+                                <tr>
+                                    <th scope="col" class="bg-dark text-white">Negara Asal</th>
+                                    <td>{{ $data->negara_asal ?? '-' }}</td>
+                                </tr>
+                                <tr>
+                                    <th scope="col" class="bg-dark text-white">Merk Dagang</th>
+                                    <td>{{ $data->merk_dagang ?? '-' }}</td>
+                                </tr>
+                                <tr>
+                                    <th scope="col" class="bg-dark text-white">Jenis Kemasan</th>
+                                    <td>{{ $data->jenis_kemasan ?? '-' }}</td>
+                                </tr>
+                                <tr>
+                                    <th scope="col" class="bg-dark text-white">Ukuran Berat</th>
+                                    <td>{{ $data->ukuran_berat ?? '-' }}</td>
+                                </tr>
+                                <tr>
+                                    <th scope="col" class="bg-dark text-white">Klaim</th>
+                                    <td>{{ $data->klaim ?? '-' }}</td>
+                                </tr>
+                                <tr>
+                                    <th scope="col" class="bg-dark text-white">Foto 1</th>
+                                    <td>{{ $data->foto_1 ?? '-' }}</td>
+                                </tr>
+                                <tr>
+                                    <th scope="col" class="bg-dark text-white">Foto 2</th>
+                                    <td>{{ $data->foto_2 ?? '-' }}</td>
+                                </tr>
+                                <tr>
+                                    <th scope="col" class="bg-dark text-white">Foto 3</th>
+                                    <td>{{ $data->foto_3 ?? '-' }}</td>
+                                </tr>
+                                <tr>
+                                    <th scope="col" class="bg-dark text-white">Foto 4</th>
+                                    <td>{{ $data->foto_4 ?? '-' }}</td>
+                                </tr>
+                                <tr>
+                                    <th scope="col" class="bg-dark text-white">Foto 5</th>
+                                    <td>{{ $data->foto_5 ?? '-' }}</td>
+                                </tr>
+                                <tr>
+                                    <th scope="col" class="bg-dark text-white">Foto 6</th>
+                                    <td>{{ $data->foto_6 ?? '-' }}</td>
+                                </tr>
+                                <tr>
+                                    <th scope="col" class="bg-dark text-white">OKKP Penanggung Jawab</th>
+                                    <td>{{ $data->okkpPenanggungjawab->name ?? '-' }}</td>
+                                </tr>
+                                <tr>
+                                    <th scope="col" class="bg-dark text-white">Nama Unit Usaha</th>
+                                    <td>{{ $data->nama_unitusaha ?? '-' }}</td>
+                                </tr>
+                                <tr>
+                                    <th scope="col" class="bg-dark text-white">Alamat Unit Usaha</th>
+                                    <td>{{ $data->alamat_unitusaha ?? '-' }}</td>
+                                </tr>
+                                <tr>
+                                    <th scope="col" class="bg-dark text-white">Alamat Unit Penanganan</th>
+                                    <td>{{ $data->alamat_unitpenanganan ?? '-' }}</td>
+                                </tr>
+                                <tr>
+                                    <th scope="col" class="bg-dark text-white">Provinsi Unit Usaha</th>
+                                    <td>{{ $data->provinsiUnitusaha->nama_provinsi ?? '-' }}</td>
+                                </tr>
+                                <tr>
+                                    <th scope="col" class="bg-dark text-white">Kota Unit Usaha</th>
+                                    <td>{{ $data->kotaUnitusaha->nama_kota ?? '-' }}</td>
+                                </tr>
+                                <tr>
+                                    <th scope="col" class="bg-dark text-white">NIB Unit Usaha</th>
+                                    <td>{{ $data->nib_unitusaha ?? '-' }}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        @if (config('constant.CRUD.DISPLAY_TIMESTAMPS'))
+                            @include('components.crud-timestamps', $data)
+                        @endif
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            {{-- ROW FOR ADDITIONAL FUNCTIONALITY BUTTON --}}
+            <div class="m-4">
+                <a onclick="goBack()" class="btn btn-outline-secondary me-2"><i
+                        class="tf-icons bx bx-left-arrow-alt me-2"></i>Back</a>
+                <a class="btn btn-primary me-2" href="{{ route('register-izinedar-psatpl.edit', ['id' => $data->id]) }}"
+                    title="update this register izinedar psatpl">
+                    <i class='tf-icons bx bx-pencil me-2'></i>Edit</a>
+                <a class="btn btn-danger me-2" href="{{ route('register-izinedar-psatpl.delete', ['id' => $data->id]) }}"
+                    title="delete register izinedar psatpl">
+                    <i class='tf-icons bx bx-trash me-2'></i>Delete</a>
+            </div>
+
+        </div>
+    </div>
+
+@endsection
+
+@section('footer-code')
+
+    <script>
+        function goBack() {
+            window.history.back();
+        }
+    </script>
+
+@endsection

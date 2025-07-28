@@ -28,6 +28,7 @@ class DatabaseSeeder extends Seeder
             MasterProvinsiSeeder::class,
             MasterPenangananSeeder::class,
             RegisterSppbSeeder::class,
+            RegisterIzinedarPsatplSeeder::class,
             MasterKelompokPanganSeeder::class,
             MasterJenisPanganSegarSeeder::class,
             MasterBahanPanganSegarSeeder::class,
