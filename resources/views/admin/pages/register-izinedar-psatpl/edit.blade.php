@@ -17,7 +17,7 @@
                     </div>
                     @include('admin.components.notification.error')
                     <div class="card-body">
-                        <form method="POST" action="{{ route('register-izinedar-psatpl.update', $registerIzinedarPsatpl->id) }}">
+                        <form method="POST" action="{{ route('register-izinedar-psatpl.update', $registerIzinedarPsatpl->id) }}" enctype="multipart/form-data">
                             @method('PUT')
                             @csrf
 
