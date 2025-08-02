@@ -72,6 +72,17 @@
                                 </div>
                             </div>
 
+                            {{-- NAMA UNIT USAHA FIELD --}}
+                            <div class="row mb-3">
+                                <label class="col-sm-2 col-form-label" for="nama_unitusaha">Nama Unit Usaha</label>
+                                <div class="col-sm-10">
+                                    @include('admin.components.notification.error-validation', [
+                                        'field' => 'nama_unitusaha',
+                                    ])
+                                    <input type="text" name="nama_unitusaha" class="form-control" id="nama_unitusaha"
+                                        placeholder="e.g., PT Satu Pangan Sejahtera" value="{{ old('nama_unitusaha', $business->nama_perusahaan ?? '') }}">
+                                </div>
+                            </div>
 
                             {{-- ALAMAT UNIT USAHA FIELD --}}
                             <div class="row mb-3">
@@ -81,7 +92,7 @@
                                         'field' => 'alamat_unitusaha',
                                     ])
                                     <input type="text" name="alamat_unitusaha" class="form-control" id="alamat_unitusaha"
-                                        placeholder="e.g., Jl. Contoh No. 1" value="{{ old('alamat_unitusaha') }}">
+                                        placeholder="e.g., Jl. Contoh No. 1" value="{{ old('alamat_unitusaha', $business->alamat_perusahaan ?? '') }}">
                                 </div>
                             </div>
 
@@ -95,15 +106,15 @@
                                     ])
                                     <input type="text" name="alamat_unitpenanganan" class="form-control"
                                         id="alamat_unitpenanganan" placeholder="e.g., Jl. Contoh No. 1"
-                                        value="{{ old('alamat_unitpenanganan') }}">
+                                        value="{{ old('alamat_unitpenanganan', $business->alamat_perusahaan ?? '') }}">
                                 </div>
                             </div>
 
                             @include('components.provinsi-kota', [
                                 'provinsis' => $provinsis,
                                 'kotas' => $kotas ?? [],
-                                'selectedProvinsiId' => old('provinsi_unitusaha'),
-                                'selectedKotaId' => old('kota_unitusaha'),
+                                'selectedProvinsiId' => old('provinsi_unitusaha', $business->provinsi_id ?? ''),
+                                'selectedKotaId' => old('kota_unitusaha', $business->kota_id ?? ''),
                                 'provinsiFieldName' => 'provinsi_unitusaha',
                                 'kotaFieldName' => 'kota_unitusaha',
                                 'provinsiLabel' => 'Provinsi Unit Usaha',
@@ -121,7 +132,7 @@
                                         'field' => 'nib_unitusaha',
                                     ])
                                     <input type="text" name="nib_unitusaha" class="form-control" id="nib_unitusaha"
-                                        placeholder="e.g., 1234567890" value="{{ old('nib_unitusaha') }}">
+                                        placeholder="e.g., 1234567890" value="{{ old('nib_unitusaha', $business->nib ?? '') }}">
                                 </div>
                             </div>
 
@@ -394,7 +405,35 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // Removed unit usaha checkbox functionality since the checkbox has been removed
+            // Auto-populate alamat_unitpenanganan with alamat_unitusaha value
+            const alamatUnitUsahaField = document.getElementById('alamat_unitusaha');
+            const alamatUnitPenangananField = document.getElementById('alamat_unitpenanganan');
+
+            // Function to sync alamat_unitpenanganan with alamat_unitusaha
+            function syncAlamatUnitPenanganan() {
+                alamatUnitPenangananField.value = alamatUnitUsahaField.value;
+            }
+
+            // Initial sync on page load
+            syncAlamatUnitPenanganan();
+
+            // Listen for changes in alamat_unitusaha field
+            alamatUnitUsahaField.addEventListener('input', syncAlamatUnitPenanganan);
+
+            // Prevent manual editing of alamat_unitpenanganan
+            alamatUnitPenangananField.addEventListener('input', function(e) {
+                // Allow backspace, delete, tab, escape, enter
+                if ([8, 9, 27, 13].indexOf(e.keyCode) !== -1 ||
+                    // Allow Ctrl+A, Ctrl+C, Ctrl+V, Ctrl+X
+                    (e.keyCode === 65 && e.ctrlKey === true) ||
+                    (e.keyCode === 67 && e.ctrlKey === true) ||
+                    (e.keyCode === 86 && e.ctrlKey === true) ||
+                    (e.keyCode === 88 && e.ctrlKey === true)) {
+                    return;
+                }
+                // Otherwise, prevent the keypress
+                e.preventDefault();
+            });
         });
     </script>
 @endsection

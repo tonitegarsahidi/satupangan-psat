@@ -58,7 +58,7 @@ class RegisterIzinedarPsatplRepository
 
     public function getRegisterIzinedarPsatplById($registerIzinedarPsatplId): ?RegisterIzinedarPsatpl
     {
-        return RegisterIzinedarPsatpl::find($registerIzinedarPsatplId);
+        return RegisterIzinedarPsatpl::with(['business', 'provinsiUnitusaha', 'kotaUnitusaha', 'jenisPsat', 'okkpPenanggungjawab'])->find($registerIzinedarPsatplId);
     }
 
     public function createRegisterIzinedarPsatpl($data)
@@ -68,7 +68,7 @@ class RegisterIzinedarPsatplRepository
 
     public function update($registerIzinedarPsatplId, $data)
     {
-        $registerIzinedarPsatpl = RegisterIzinedarPsatpl::where('id', $registerIzinedarPsatplId)->first();
+        $registerIzinedarPsatpl = RegisterIzinedarPsatpl::with(['business', 'provinsiUnitusaha', 'kotaUnitusaha', 'jenisPsat', 'okkpPenanggungjawab'])->where('id', $registerIzinedarPsatplId)->first();
         if ($registerIzinedarPsatpl) {
             $registerIzinedarPsatpl->update($data);
             return $registerIzinedarPsatpl;
@@ -80,7 +80,7 @@ class RegisterIzinedarPsatplRepository
     public function deleteRegisterIzinedarPsatplById($registerIzinedarPsatplId): ?bool
     {
         try {
-            $registerIzinedarPsatpl = RegisterIzinedarPsatpl::findOrFail($registerIzinedarPsatplId);
+            $registerIzinedarPsatpl = RegisterIzinedarPsatpl::with(['business', 'provinsiUnitusaha', 'kotaUnitusaha', 'jenisPsat', 'okkpPenanggungjawab'])->findOrFail($registerIzinedarPsatplId);
             $registerIzinedarPsatpl->delete();
             return true;
         } catch (\Exception $e) {

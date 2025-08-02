@@ -5,6 +5,10 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use App\Models\MasterProvinsi;
+use App\Models\MasterKota;
+use App\Models\MasterJenisPanganSegar;
+use App\Models\User;
 
 class RegisterIzinedarPsatpl extends Model
 {
@@ -61,5 +65,37 @@ class RegisterIzinedarPsatpl extends Model
     public function business()
     {
         return $this->belongsTo(Business::class, 'business_id');
+    }
+
+    /**
+     * Get the provinsi that owns the unit usaha.
+     */
+    public function provinsiUnitusaha()
+    {
+        return $this->belongsTo(MasterProvinsi::class, 'provinsi_unitusaha');
+    }
+
+    /**
+     * Get the kota that owns the unit usaha.
+     */
+    public function kotaUnitusaha()
+    {
+        return $this->belongsTo(MasterKota::class, 'kota_unitusaha');
+    }
+
+    /**
+     * Get the jenis psat that owns the registration.
+     */
+    public function jenisPsat()
+    {
+        return $this->belongsTo(MasterJenisPanganSegar::class, 'jenis_psat');
+    }
+
+    /**
+     * Get the okkp penanggung jawab that owns the registration.
+     */
+    public function okkpPenanggungjawab()
+    {
+        return $this->belongsTo(User::class, 'okkp_penangungjawab');
     }
 }

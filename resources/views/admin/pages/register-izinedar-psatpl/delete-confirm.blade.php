@@ -48,43 +48,147 @@
                             <tbody>
                                 <tr>
                                     <th style="width: 250px;" scope="col" class="bg-dark text-white">Business Name</th>
-                                    <td>{{ $data->business->nama_usaha ?? '-' }}</td>
+                                    <td><a href="{{ route('business.profile.index') }}">{{ $data->business->nama_perusahaan ?? '-' }}</a></td>
                                 </tr>
                                 <tr>
                                     <th scope="col" class="bg-dark text-white">Status</th>
-                                    <td>{{ $data->status }}</td>
-                                </tr>
-                                <tr>
-                                    <th scope="col" class="bg-dark text-white">Is Enabled</th>
                                     <td>
-                                        @if ($data->is_enabled)
-                                            <span class="badge rounded-pill bg-success"> Yes </span>
+                                        @if ($data->status == 'DISETUJUI')
+                                            <span class="badge rounded-pill bg-success">{{ $data->status }}</span>
+                                        @elseif ($data->status == 'DITOLAK')
+                                            <span class="badge rounded-pill bg-danger">{{ $data->status }}</span>
+                                        @elseif ($data->status == 'DIAJUKAN')
+                                            <span class="badge rounded-pill bg-info">{{ $data->status }}</span>
+                                        @elseif ($data->status == 'DIPERIKSA')
+                                            <span class="badge rounded-pill bg-warning">{{ $data->status }}</span>
                                         @else
-                                            <span class="badge rounded-pill bg-danger"> No </span>
+                                            {{ $data->status }}
                                         @endif
                                     </td>
                                 </tr>
                                 <tr>
-                                    <th scope="col" class="bg-dark text-white">Nomor Registrasi</th>
-                                    <td>{{ $data->nomor_registrasi ?? '-' }}</td>
+                                    <th scope="col" class="bg-dark text-white">Nomor SPPB</th>
+                                    <td>{{ $data->nomor_sppb ?? '-' }}</td>
+                                </tr>
+                                <tr>
+                                    <th scope="col" class="bg-dark text-white">Nomor Izin EDAR PL</th>
+                                    <td>{{ $data->nomor_izinedar_pl ?? '-' }}</td>
                                 </tr>
                                 <tr>
                                     <th scope="col" class="bg-dark text-white">Tanggal Terbit</th>
-                                    <td>{{ $data->tanggal_terbit ?? '-' }}</td>
+                                    <td>{{ $data->tanggal_terbit ? \Carbon\Carbon::parse($data->tanggal_terbit)->locale('id')->translatedFormat('j F Y') : '-' }}</td>
                                 </tr>
                                 <tr>
                                     <th scope="col" class="bg-dark text-white">Tanggal Terakhir</th>
-                                    <td>{{ $data->tanggal_terakhir ?? '-' }}</td>
+                                    <td>{{ $data->tanggal_terakhir ? \Carbon\Carbon::parse($data->tanggal_terakhir)->locale('id')->translatedFormat('j F Y') : '-' }}</td>
                                 </tr>
                                 <tr>
-                                    <th scope="col" class="bg-dark text-white">Is Unit Usaha</th>
+                                    <th scope="col" class="bg-dark text-white">Jenis PSAT</th>
+                                    <td>{{ $data->jenisPsat->nama_jenis_pangan_segar ?? '-' }}</td>
+                                </tr>
+                                <tr>
+                                    <th scope="col" class="bg-dark text-white">Nama Komoditas>
+                                    <td>{{ $data->nama_komoditas ?? '-' }}</td>
+                                </tr>
+                                <tr>
+                                    <th scope="col" class="bg-dark text-white">Nama Latin</th>
+                                    <td>{{ $data->nama_latin ?? '-' }}</td>
+                                </tr>
+                                <tr>
+                                    <th scope="col" class="bg-dark text-white">Negara Asal</th>
+                                    <td>{{ $data->negara_asal ?? '-' }}</td>
+                                </tr>
+                                <tr>
+                                    <th scope="col" class="bg-dark text-white">Merk Dagang</th>
+                                    <td>{{ $data->merk_dagang ?? '-' }}</td>
+                                </tr>
+                                <tr>
+                                    <th scope="col" class="bg-dark text-white">Jenis Kemasan</th>
+                                    <td>{{ $data->jenis_kemasan ?? '-' }}</td>
+                                </tr>
+                                <tr>
+                                    <th scope="col" class="bg-dark text-white">Ukuran Berat>
+                                    <td>{{ $data->ukuran_berat ?? '-' }}</td>
+                                </tr>
+                                <tr>
+                                    <th scope="col" class="bg-dark text-white">Klaim</th>
+                                    <td>{{ $data->klaim ?? '-' }}</td>
+                                </tr>
+                                <tr>
+                                    <th scope="col" class="bg-dark text-white">Foto 1</th>
                                     <td>
-                                        @if ($data->is_unitusaha)
-                                            <span class="badge rounded-pill bg-success"> Yes </span>
+                                        @if($data->foto_1)
+                                            <a href="{{ $data->foto_1 }}" target="_blank">
+                                                <img src="{{ $data->foto_1 }}" alt="Foto 1" style="max-width: 400px; height: auto;">
+                                            </a>
                                         @else
-                                            <span class="badge rounded-pill bg-danger"> No </span>
+                                            -
                                         @endif
                                     </td>
+                                </tr>
+                                <tr>
+                                    <th scope="col" class="bg-dark text-white">Foto 2</th>
+                                    <td>
+                                        @if($data->foto_2)
+                                            <a href="{{ $data->foto_2 }}" target="_blank">
+                                                <img src="{{ $data->foto_2 }}" alt="Foto 2" style="max-width: 400px; height: auto;">
+                                            </a>
+                                        @else
+                                            -
+                                        @endif
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th scope="col" class="bg-dark text-white">Foto 3</th>
+                                    <td>
+                                        @if($data->foto_3)
+                                            <a href="{{ $data->foto_3 }}" target="_blank">
+                                                <img src="{{ $data->foto_3 }}" alt="Foto 3" style="max-width: 400px; height: auto;">
+                                            </a>
+                                        @else
+                                            -
+                                        @endif
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th scope="col" class="bg-dark text-white">Foto 4</th>
+                                    <td>
+                                        @if($data->foto_4)
+                                            <a href="{{ $data->foto_4 }}" target="_blank">
+                                                <img src="{{ $data->foto_4 }}" alt="Foto 4" style="max-width: 400px; height: auto;">
+                                            </a>
+                                        @else
+                                            -
+                                        @endif
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th scope="col" class="bg-dark text-white">Foto 5</th>
+                                    <td>
+                                        @if($data->foto_5)
+                                            <a href="{{ $data->foto_5 }}" target="_blank">
+                                                <img src="{{ $data->foto_5 }}" alt="Foto 5" style="max-width: 400px; height: auto;">
+                                            </a>
+                                        @else
+                                            -
+                                        @endif
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th scope="col" class="bg-dark text-white">Foto 6</th>
+                                    <td>
+                                        @if($data->foto_6)
+                                            <a href="{{ $data->foto_6 }}" target="_blank">
+                                                <img src="{{ $data->foto_6 }}" alt="Foto 6" style="max-width: 400px; height: auto;">
+                                            </a>
+                                        @else
+                                            -
+                                        @endif
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th scope="col" class="bg-dark text-white">OKKP Penanggung Jawab</th>
+                                    <td>{{ $data->okkpPenanggungjawab->name ?? '-' }}</td>
                                 </tr>
                                 <tr>
                                     <th scope="col" class="bg-dark text-white">Nama Unit Usaha</th>
@@ -93,6 +197,10 @@
                                 <tr>
                                     <th scope="col" class="bg-dark text-white">Alamat Unit Usaha</th>
                                     <td>{{ $data->alamat_unitusaha ?? '-' }}</td>
+                                </tr>
+                                <tr>
+                                    <th scope="col" class="bg-dark text-white">Alamat Unit Penanganan</th>
+                                    <td>{{ $data->alamat_unitpenanganan ?? '-' }}</td>
                                 </tr>
                                 <tr>
                                     <th scope="col" class="bg-dark text-white">Provinsi Unit Usaha</th>
@@ -106,11 +214,49 @@
                                     <th scope="col" class="bg-dark text-white">NIB Unit Usaha</th>
                                     <td>{{ $data->nib_unitusaha ?? '-' }}</td>
                                 </tr>
+                                <tr>
+                                    <th scope="col" class="bg-dark text-white">File NIB</th>
+                                    <td>
+                                        @if($data->file_nib)
+                                            <a href="{{ $data->file_nib }}" target="_blank" class="btn btn-sm btn-outline-primary">
+                                                <i class="bx bx-file-pdf me-1"></i> Lihat File NIB
+                                            </a>
+                                        @else
+                                            -
+                                        @endif
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th scope="col" class="bg-dark text-white">File SPPB</th>
+                                    <td>
+                                        @if($data->file_sppb)
+                                            <a href="{{ $data->file_sppb }}" target="_blank" class="btn btn-sm btn-outline-primary">
+                                                <i class="bx bx-file-pdf me-1"></i> Lihat File SPPB
+                                            </a>
+                                        @else
+                                            -
+                                        @endif
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th scope="col" class="bg-dark text-white">File Izin EDAR PSATPL</th>
+                                    <td>
+                                        @if($data->file_izinedar_psatpl)
+                                            <a href="{{ $data->file_izinedar_psatpl }}" target="_blank" class="btn btn-sm btn-outline-primary">
+                                                <i class="bx bx-file-pdf me-1"></i> Lihat File Izin EDAR PSATPL
+                                            </a>
+                                        @else
+                                            -
+                                        @endif
+                                    </td>
+                                </tr>
                             </tbody>
                         </table>
+
                         @if (config('constant.CRUD.DISPLAY_TIMESTAMPS'))
                             @include('components.crud-timestamps', $data)
                         @endif
+
                     </div>
 
                 </div>
