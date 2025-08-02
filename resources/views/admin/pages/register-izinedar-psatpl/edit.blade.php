@@ -230,63 +230,112 @@
                                 </div>
                             </div>
 
-                            {{-- FOTO 1 FIELD --}}
+                            {{-- FOTO FIELDS GROUP --}}
                             <div class="row mb-3">
-                                <label class="col-sm-2 col-form-label" for="foto_1">Foto 1</label>
+                                <label class="col-sm-2 col-form-label">Foto Produk</label>
                                 <div class="col-sm-10">
-                                    @include('admin.components.notification.error-validation', ['field' => 'foto_1'])
-                                    <input type="text" name="foto_1" class="form-control" id="foto_1"
-                                        placeholder="e.g., photos/izinedar/1.jpg" value="{{ old('foto_1', $registerIzinedarPsatpl->foto_1) }}">
-                                </div>
-                            </div>
-
-                            {{-- FOTO 2 FIELD --}}
-                            <div class="row mb-3">
-                                <label class="col-sm-2 col-form-label" for="foto_2">Foto 2</label>
-                                <div class="col-sm-10">
-                                    @include('admin.components.notification.error-validation', ['field' => 'foto_2'])
-                                    <input type="text" name="foto_2" class="form-control" id="foto_2"
-                                        placeholder="e.g., photos/izinedar/2.jpg" value="{{ old('foto_2', $registerIzinedarPsatpl->foto_2) }}">
-                                </div>
-                            </div>
-
-                            {{-- FOTO 3 FIELD --}}
-                            <div class="row mb-3">
-                                <label class="col-sm-2 col-form-label" for="foto_3">Foto 3</label>
-                                <div class="col-sm-10">
-                                    @include('admin.components.notification.error-validation', ['field' => 'foto_3'])
-                                    <input type="text" name="foto_3" class="form-control" id="foto_3"
-                                        placeholder="e.g., photos/izinedar/3.jpg" value="{{ old('foto_3', $registerIzinedarPsatpl->foto_3) }}">
-                                </div>
-                            </div>
-
-                            {{-- FOTO 4 FIELD --}}
-                            <div class="row mb-3">
-                                <label class="col-sm-2 col-form-label" for="foto_4">Foto 4</label>
-                                <div class="col-sm-10">
-                                    @include('admin.components.notification.error-validation', ['field' => 'foto_4'])
-                                    <input type="text" name="foto_4" class="form-control" id="foto_4"
-                                        placeholder="e.g., photos/izinedar/4.jpg" value="{{ old('foto_4', $registerIzinedarPsatpl->foto_4) }}">
-                                </div>
-                            </div>
-
-                            {{-- FOTO 5 FIELD --}}
-                            <div class="row mb-3">
-                                <label class="col-sm-2 col-form-label" for="foto_5">Foto 5</label>
-                                <div class="col-sm-10">
-                                    @include('admin.components.notification.error-validation', ['field' => 'foto_5'])
-                                    <input type="text" name="foto_5" class="form-control" id="foto_5"
-                                        placeholder="e.g., photos/izinedar/5.jpg" value="{{ old('foto_5', $registerIzinedarPsatpl->foto_5) }}">
-                                </div>
-                            </div>
-
-                            {{-- FOTO 6 FIELD --}}
-                            <div class="row mb-3">
-                                <label class="col-sm-2 col-form-label" for="foto_6">Foto 6</label>
-                                <div class="col-sm-10">
-                                    @include('admin.components.notification.error-validation', ['field' => 'foto_6'])
-                                    <input type="text" name="foto_6" class="form-control" id="foto_6"
-                                        placeholder="e.g., photos/izinedar/6.jpg" value="{{ old('foto_6', $registerIzinedarPsatpl->foto_6) }}">
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <div class="row">
+                                                <div class="col-md-6 mb-3">
+                                                    <label class="form-label">Foto Produk (wajib)</label>
+                                                    @if($registerIzinedarPsatpl->foto_1)
+                                                        <div class="mb-2">
+                                                            <a href="{{ $registerIzinedarPsatpl->foto_1 }}" target="_blank">
+                                                                <img src="{{ $registerIzinedarPsatpl->foto_1 }}" alt="Foto 1" style="max-width: 200px; height: auto;" class="img-thumbnail">
+                                                            </a>
+                                                        </div>
+                                                    @endif
+                                                    <input type="file" name="foto_1" class="form-control">
+                                                    <small class="text-muted">Kosongkan jika tidak ingin mengubah.</small>
+                                                    @include(
+                                                        'admin.components.notification.error-validation',
+                                                        ['field' => 'foto_1']
+                                                    )
+                                                </div>
+                                                <div class="col-md-6 mb-3">
+                                                    <label class="form-label">Foto Kemasan (wajib)</label>
+                                                    @if($registerIzinedarPsatpl->foto_2)
+                                                        <div class="mb-2">
+                                                            <a href="{{ $registerIzinedarPsatpl->foto_2 }}" target="_blank">
+                                                                <img src="{{ $registerIzinedarPsatpl->foto_2 }}" alt="Foto 2" style="max-width: 200px; height: auto;" class="img-thumbnail">
+                                                            </a>
+                                                        </div>
+                                                    @endif
+                                                    <input type="file" name="foto_2" class="form-control">
+                                                    <small class="text-muted">Kosongkan jika tidak ingin mengubah.</small>
+                                                    @include(
+                                                        'admin.components.notification.error-validation',
+                                                        ['field' => 'foto_2']
+                                                    )
+                                                </div>
+                                                <div class="col-md-6 mb-3">
+                                                    <label class="form-label">Foto Label (wajib)</label>
+                                                    @if($registerIzinedarPsatpl->foto_3)
+                                                        <div class="mb-2">
+                                                            <a href="{{ $registerIzinedarPsatpl->foto_3 }}" target="_blank">
+                                                                <img src="{{ $registerIzinedarPsatpl->foto_3 }}" alt="Foto 3" style="max-width: 200px; height: auto;" class="img-thumbnail">
+                                                            </a>
+                                                        </div>
+                                                    @endif
+                                                    <input type="file" name="foto_3" class="form-control">
+                                                    <small class="text-muted">Kosongkan jika tidak ingin mengubah.</small>
+                                                    @include(
+                                                        'admin.components.notification.error-validation',
+                                                        ['field' => 'foto_3']
+                                                    )
+                                                </div>
+                                                <div class="col-md-6 mb-3">
+                                                    <label class="form-label">Foto Tambahan 1</label>
+                                                    @if($registerIzinedarPsatpl->foto_4)
+                                                        <div class="mb-2">
+                                                            <a href="{{ $registerIzinedarPsatpl->foto_4 }}" target="_blank">
+                                                                <img src="{{ $registerIzinedarPsatpl->foto_4 }}" alt="Foto 4" style="max-width: 200px; height: auto;" class="img-thumbnail">
+                                                            </a>
+                                                        </div>
+                                                    @endif
+                                                    <input type="file" name="foto_4" class="form-control">
+                                                    <small class="text-muted">Kosongkan jika tidak ingin mengubah.</small>
+                                                    @include(
+                                                        'admin.components.notification.error-validation',
+                                                        ['field' => 'foto_4']
+                                                    )
+                                                </div>
+                                                <div class="col-md-6 mb-3">
+                                                    <label class="form-label">Foto Tambahan 2</label>
+                                                    @if($registerIzinedarPsatpl->foto_5)
+                                                        <div class="mb-2">
+                                                            <a href="{{ $registerIzinedarPsatpl->foto_5 }}" target="_blank">
+                                                                <img src="{{ $registerIzinedarPsatpl->foto_5 }}" alt="Foto 5" style="max-width: 200px; height: auto;" class="img-thumbnail">
+                                                            </a>
+                                                        </div>
+                                                    @endif
+                                                    <input type="file" name="foto_5" class="form-control">
+                                                    <small class="text-muted">Kosongkan jika tidak ingin mengubah.</small>
+                                                    @include(
+                                                        'admin.components.notification.error-validation',
+                                                        ['field' => 'foto_5']
+                                                    )
+                                                </div>
+                                                <div class="col-md-6 mb-3">
+                                                    <label class="form-label">Foto Tambahan 3</label>
+                                                    @if($registerIzinedarPsatpl->foto_6)
+                                                        <div class="mb-2">
+                                                            <a href="{{ $registerIzinedarPsatpl->foto_6 }}" target="_blank">
+                                                                <img src="{{ $registerIzinedarPsatpl->foto_6 }}" alt="Foto 6" style="max-width: 200px; height: auto;" class="img-thumbnail">
+                                                            </a>
+                                                        </div>
+                                                    @endif
+                                                    <input type="file" name="foto_6" class="form-control">
+                                                    <small class="text-muted">Kosongkan jika tidak ingin mengubah.</small>
+                                                    @include(
+                                                        'admin.components.notification.error-validation',
+                                                        ['field' => 'foto_6']
+                                                    )
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
 
@@ -302,8 +351,8 @@
                                             </a>
                                         </div>
                                     @endif
-                                    <input type="file" name="file_nib" class="form-control" accept=".pdf">
-                                    <small class="text-muted">Format: PDF, Maks: 2MB. Kosongkan jika tidak ingin mengubah.</small>
+                                    <input type="file" name="file_nib" class="form-control" accept=".pdf,.jpeg,.jpg,.doc,.docx,.png">
+                                    <small class="text-muted">Format: PDF, JPEG, JPG, DOC, DOCX, PNG, Maks: 2MB. Kosongkan jika tidak ingin mengubah.</small>
                                 </div>
                             </div>
 
@@ -319,8 +368,8 @@
                                             </a>
                                         </div>
                                     @endif
-                                    <input type="file" name="file_sppb" class="form-control" accept=".pdf">
-                                    <small class="text-muted">Format: PDF, Maks: 2MB. Kosongkan jika tidak ingin mengubah.</small>
+                                    <input type="file" name="file_sppb" class="form-control" accept=".pdf,.jpeg,.jpg,.doc,.docx,.png">
+                                    <small class="text-muted">Format: PDF, JPEG, JPG, DOC, DOCX, PNG, Maks: 2MB. Kosongkan jika tidak ingin mengubah.</small>
                                 </div>
                             </div>
 
@@ -336,8 +385,8 @@
                                             </a>
                                         </div>
                                     @endif
-                                    <input type="file" name="file_izinedar_psatpl" class="form-control" accept=".pdf">
-                                    <small class="text-muted">Format: PDF, Maks: 2MB. Kosongkan jika tidak ingin mengubah.</small>
+                                    <input type="file" name="file_izinedar_psatpl" class="form-control" accept=".pdf,.jpeg,.jpg,.doc,.docx,.png">
+                                    <small class="text-muted">Format: PDF, JPEG, JPG, DOC, DOCX, PNG, Maks: 2MB. Kosongkan jika tidak ingin mengubah.</small>
                                 </div>
                             </div>
 
@@ -345,9 +394,19 @@
                             <div class="row mb-3">
                                 <label class="col-sm-2 col-form-label" for="okkp_penangungjawab">OKKP Penanggung Jawab</label>
                                 <div class="col-sm-10">
-                                    @include('admin.components.notification.error-validation', ['field' => 'okkp_penangungjawab'])
-                                    <input type="text" name="okkp_penangungjawab" class="form-control" id="okkp_penangungjawab"
-                                        placeholder="e.g., User ID" value="{{ old('okkp_penangungjawab', $registerIzinedarPsatpl->okkp_penangungjawab) }}">
+                                    @include('admin.components.notification.error-validation', [
+                                        'field' => 'okkp_penangungjawab',
+                                    ])
+                                    <select name="okkp_penangungjawab" id="okkp_penangungjawab" class="form-control"
+                                        required>
+                                        <option value="">-- Select OKKP Penanggung Jawab --</option>
+                                        @foreach ($assignees as $user)
+                                            <option value="{{ $user->id }}"
+                                                {{ old('okkp_penangungjawab', $registerIzinedarPsatpl->okkp_penangungjawab) == $user->id ? 'selected' : '' }}>
+                                                {{ $user->name }} ({{ $user->email }})
+                                            </option>
+                                        @endforeach
+                                    </select>
                                 </div>
                             </div>
 

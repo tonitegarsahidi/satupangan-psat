@@ -10,7 +10,7 @@ use App\Models\MasterProvinsi;
 use App\Models\MasterJenisPanganSegar;
 use App\Models\MasterKota;
 use App\Helpers\AlertHelper;
-use Illuminate\Validation\ValidationException;
+use App\Http\Requests\RegisterIzinedarPsatplRequest;
 use App\Models\User;
 
 class RegisterIzinedarPsatplController extends Controller
@@ -85,44 +85,9 @@ class RegisterIzinedarPsatplController extends Controller
      *      proses "add new RegisterIzinedarPsatpl" from previous form
      * =============================================
      */
-    public function store(Request $request)
+    public function store(RegisterIzinedarPsatplRequest $request)
     {
-
         // dd($request->all());
-        $request->validate([
-            'business_id' => 'required|uuid|exists:business,id',
-            'nomor_sppb' => 'nullable|string|max:50',
-            'nomor_izinedar_pl' => 'nullable|string|max:50',
-            'nama_unitusaha' => 'nullable|string|max:200',
-            'alamat_unitusaha' => 'nullable|string|max:200',
-            'alamat_unitpenanganan' => 'nullable|string|max:200',
-            'provinsi_unitusaha' => 'nullable|uuid|exists:master_provinsis,id',
-            'kota_unitusaha' => 'nullable|uuid|exists:master_kotas,id',
-            'nib_unitusaha' => 'nullable|string|max:200',
-            'jenis_psat' => 'nullable|uuid|exists:master_jenis_pangan_segars,id',
-            'nama_komoditas' => 'nullable|string|max:200',
-            'nama_latin' => 'nullable|string|max:200',
-            'negara_asal' => 'nullable|string|max:200',
-            'merk_dagang' => 'nullable|string|max:200',
-            'jenis_kemasan' => 'nullable|string|max:200',
-            'ukuran_berat' => 'nullable|string|max:200',
-            'klaim' => 'nullable|string|max:200',
-            'foto_1' => 'nullable|file|image|mimes:jpeg,jpg,png,gif',
-            'foto_2' => 'nullable|file|image|mimes:jpeg,jpg,png,gif',
-            'foto_3' => 'nullable|file|image|mimes:jpeg,jpg,png,gif',
-            'foto_4' => 'nullable|file|image|mimes:jpeg,jpg,png,gif',
-            'foto_5' => 'nullable|file|image|mimes:jpeg,jpg,png,gif',
-            'foto_6' => 'nullable|file|image|mimes:jpeg,jpg,png,gif',
-            'file_nib' => 'nullable|file|mimes:pdf',
-            'file_sppb' => 'nullable|file|mimes:pdf',
-            'file_izinedar_psatpl' => 'nullable|file|mimes:pdf',
-            'okkp_penangungjawab' => 'nullable|uuid|exists:users,id',
-            'tanggal_terbit' => 'nullable|date',
-            'tanggal_terakhir' => 'nullable|date',
-            'created_by' => 'nullable|string',
-            'updated_by' => 'nullable|string',
-        ]);
-
         $validatedData = $request->except(['foto_1', 'foto_2', 'foto_3', 'foto_4', 'foto_5', 'foto_6', 'file_nib', 'file_sppb', 'file_izinedar_psatpl']);
 
         $user = Auth::user();
@@ -215,13 +180,17 @@ class RegisterIzinedarPsatplController extends Controller
         $provinsis = MasterProvinsi::all();
         $jenispsats = MasterJenisPanganSegar::all();
 
+        // Get assignee users from config
+        $assigneeEmail = config('constant.REGISTER_IZINEDAR_PL_ASSIGNEE');
+        $assignees = User::where('email', $assigneeEmail)->get();
+
         // If business exists and has a provinsi_id, load the corresponding kotas
         $kotas = collect();
         if ($registerIzinedarPsatpl->provinsi_unitusaha) {
             $kotas = MasterKota::where('provinsi_id', $registerIzinedarPsatpl->provinsi_unitusaha)->get();
         }
 
-        return view('admin.pages.register-izinedar-psatpl.edit', compact('breadcrumbs', 'registerIzinedarPsatpl', 'provinsis', 'kotas', 'jenispsats'));
+        return view('admin.pages.register-izinedar-psatpl.edit', compact('breadcrumbs', 'registerIzinedarPsatpl', 'provinsis', 'kotas', 'jenispsats', 'assignees'));
     }
 
     /**
@@ -229,40 +198,9 @@ class RegisterIzinedarPsatplController extends Controller
      *      process "edit RegisterIzinedarPsatpl" from previous form
      * =============================================
      */
-    public function update(Request $request, $id)
+    public function update(RegisterIzinedarPsatplRequest $request, $id)
     {
-        $validatedData = $request->validate([
-            'business_id' => 'required|uuid|exists:business,id',
-            'nomor_sppb' => 'nullable|string|max:50',
-            'nomor_izinedar_pl' => 'nullable|string|max:50',
-            'nama_unitusaha' => 'nullable|string|max:200',
-            'alamat_unitusaha' => 'nullable|string|max:200',
-            'alamat_unitpenanganan' => 'nullable|string|max:200',
-            'provinsi_unitusaha' => 'nullable|uuid|exists:master_provinsis,id',
-            'kota_unitusaha' => 'nullable|uuid|exists:master_kotas,id',
-            'nib_unitusaha' => 'nullable|string|max:200',
-            'jenis_psat' => 'nullable|uuid|exists:master_jenis_pangan_segars,id',
-            'nama_komoditas' => 'nullable|string|max:200',
-            'nama_latin' => 'nullable|string|max:200',
-            'negara_asal' => 'nullable|string|max:200',
-            'merk_dagang' => 'nullable|string|max:200',
-            'jenis_kemasan' => 'nullable|string|max:200',
-            'ukuran_berat' => 'nullable|string|max:200',
-            'klaim' => 'nullable|string|max:200',
-            'foto_1' => 'nullable|string|max:200',
-            'foto_2' => 'nullable|string|max:200',
-            'foto_3' => 'nullable|string|max:200',
-            'foto_4' => 'nullable|string|max:200',
-            'foto_5' => 'nullable|string|max:200',
-            'foto_6' => 'nullable|string|max:200',
-            'file_nib' => 'nullable|string|max:200',
-            'file_sppb' => 'nullable|string|max:200',
-            'file_izinedar_psatpl' => 'nullable|string|max:200',
-            'okkp_penangungjawab' => 'nullable|uuid|exists:users,id',
-            'tanggal_terbit' => 'nullable|date',
-            'tanggal_terakhir' => 'nullable|date',
-            'updated_by' => 'nullable|string',
-        ]);
+        $validatedData = $request->validated();
 
         $user = Auth::user();
         $validatedData['updated_by'] = $user->id;

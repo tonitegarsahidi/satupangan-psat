@@ -299,8 +299,8 @@
                                             <div class="row">
                                                 <div class="col-md-6 mb-3">
                                                     <label class="form-label">File NIB</label>
-                                                    <input type="file" name="file_nib" class="form-control" accept=".pdf">
-                                                    <small class="text-muted">Format: PDF, Maks: 2MB</small>
+                                                    <input type="file" name="file_nib" class="form-control" accept=".pdf,.jpeg,.jpg,.doc,.docx,.png">
+                                                    <small class="text-muted">Format: PDF, JPEG, JPG, DOC, DOCX, PNG, Maks: 2MB</small>
                                                     @include(
                                                         'admin.components.notification.error-validation',
                                                         ['field' => 'file_nib']
@@ -308,8 +308,8 @@
                                                 </div>
                                                 <div class="col-md-6 mb-3">
                                                     <label class="form-label">File SPPB</label>
-                                                    <input type="file" name="file_sppb" class="form-control" accept=".pdf">
-                                                    <small class="text-muted">Format: PDF, Maks: 2MB</small>
+                                                    <input type="file" name="file_sppb" class="form-control" accept=".pdf,.jpeg,.jpg,.doc,.docx,.png">
+                                                    <small class="text-muted">Format: PDF, JPEG, JPG, DOC, DOCX, PNG, Maks: 2MB</small>
                                                     @include(
                                                         'admin.components.notification.error-validation',
                                                         ['field' => 'file_sppb']
@@ -317,8 +317,8 @@
                                                 </div>
                                                 <div class="col-md-6 mb-3">
                                                     <label class="form-label">File Izin EDAR PSATPL</label>
-                                                    <input type="file" name="file_izinedar_psatpl" class="form-control" accept=".pdf">
-                                                    <small class="text-muted">Format: PDF, Maks: 2MB</small>
+                                                    <input type="file" name="file_izinedar_psatpl" class="form-control" accept=".pdf,.jpeg,.jpg,.doc,.docx,.png">
+                                                    <small class="text-muted">Format: PDF, JPEG, JPG, DOC, DOCX, PNG, Maks: 2MB</small>
                                                     @include(
                                                         'admin.components.notification.error-validation',
                                                         ['field' => 'file_izinedar_psatpl']
