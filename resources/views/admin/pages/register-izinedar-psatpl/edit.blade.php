@@ -58,13 +58,23 @@
                                 </div>
                             </div>
 
-                            {{-- NOMOR REGISTRASI FIELD --}}
+                            {{-- NOMOR SPPB FIELD --}}
                             <div class="row mb-3">
-                                <label class="col-sm-2 col-form-label" for="nomor_registrasi">Nomor Registrasi</label>
+                                <label class="col-sm-2 col-form-label" for="nomor_sppb">Nomor SPPB</label>
                                 <div class="col-sm-10">
-                                    @include('admin.components.notification.error-validation', ['field' => 'nomor_registrasi'])
-                                    <input type="text" name="nomor_registrasi" class="form-control" id="nomor_registrasi"
-                                        placeholder="e.g., IZIN-EDAR-001" value="{{ old('nomor_registrasi', $registerIzinedarPsatpl->nomor_registrasi) }}">
+                                    @include('admin.components.notification.error-validation', ['field' => 'nomor_sppb'])
+                                    <input type="text" name="nomor_sppb" class="form-control" id="nomor_sppb"
+                                        placeholder="e.g., SPPB-001" value="{{ old('nomor_sppb', $registerIzinedarPsatpl->nomor_sppb) }}">
+                                </div>
+                            </div>
+
+                            {{-- NOMOR IZIN EDAR PL FIELD --}}
+                            <div class="row mb-3">
+                                <label class="col-sm-2 col-form-label" for="nomor_izinedar_pl">Nomor Izin EDAR PL</label>
+                                <div class="col-sm-10">
+                                    @include('admin.components.notification.error-validation', ['field' => 'nomor_izinedar_pl'])
+                                    <input type="text" name="nomor_izinedar_pl" class="form-control" id="nomor_izinedar_pl"
+                                        placeholder="e.g., IZIN-EDAR-001" value="{{ old('nomor_izinedar_pl', $registerIzinedarPsatpl->nomor_izinedar_pl) }}">
                                 </div>
                             </div>
 
@@ -277,6 +287,57 @@
                                     @include('admin.components.notification.error-validation', ['field' => 'foto_6'])
                                     <input type="text" name="foto_6" class="form-control" id="foto_6"
                                         placeholder="e.g., photos/izinedar/6.jpg" value="{{ old('foto_6', $registerIzinedarPsatpl->foto_6) }}">
+                                </div>
+                            </div>
+
+                            {{-- FILE NIB FIELD --}}
+                            <div class="row mb-3">
+                                <label class="col-sm-2 col-form-label" for="file_nib">File NIB</label>
+                                <div class="col-sm-10">
+                                    @include('admin.components.notification.error-validation', ['field' => 'file_nib'])
+                                    @if($registerIzinedarPsatpl->file_nib)
+                                        <div class="mb-2">
+                                            <a href="{{ $registerIzinedarPsatpl->file_nib }}" target="_blank" class="btn btn-sm btn-outline-primary">
+                                                <i class="bx bx-file-pdf me-1"></i> Lihat File NIB
+                                            </a>
+                                        </div>
+                                    @endif
+                                    <input type="file" name="file_nib" class="form-control" accept=".pdf">
+                                    <small class="text-muted">Format: PDF, Maks: 2MB. Kosongkan jika tidak ingin mengubah.</small>
+                                </div>
+                            </div>
+
+                            {{-- FILE SPPB FIELD --}}
+                            <div class="row mb-3">
+                                <label class="col-sm-2 col-form-label" for="file_sppb">File SPPB</label>
+                                <div class="col-sm-10">
+                                    @include('admin.components.notification.error-validation', ['field' => 'file_sppb'])
+                                    @if($registerIzinedarPsatpl->file_sppb)
+                                        <div class="mb-2">
+                                            <a href="{{ $registerIzinedarPsatpl->file_sppb }}" target="_blank" class="btn btn-sm btn-outline-primary">
+                                                <i class="bx bx-file-pdf me-1"></i> Lihat File SPPB
+                                            </a>
+                                        </div>
+                                    @endif
+                                    <input type="file" name="file_sppb" class="form-control" accept=".pdf">
+                                    <small class="text-muted">Format: PDF, Maks: 2MB. Kosongkan jika tidak ingin mengubah.</small>
+                                </div>
+                            </div>
+
+                            {{-- FILE IZIN EDAR PSATPL FIELD --}}
+                            <div class="row mb-3">
+                                <label class="col-sm-2 col-form-label" for="file_izinedar_psatpl">File Izin EDAR PSATPL</label>
+                                <div class="col-sm-10">
+                                    @include('admin.components.notification.error-validation', ['field' => 'file_izinedar_psatpl'])
+                                    @if($registerIzinedarPsatpl->file_izinedar_psatpl)
+                                        <div class="mb-2">
+                                            <a href="{{ $registerIzinedarPsatpl->file_izinedar_psatpl }}" target="_blank" class="btn btn-sm btn-outline-primary">
+                                                <i class="bx bx-file-pdf me-1"></i> Lihat File Izin EDAR PSATPL
+                                            </a>
+                                        </div>
+                                    @endif
+                                    <input type="file" name="file_izinedar_psatpl" class="form-control" accept=".pdf">
+                                    <small class="text-muted">Format: PDF, Maks: 2MB. Kosongkan jika tidak ingin mengubah.</small>
                                 </div>
                             </div>
 

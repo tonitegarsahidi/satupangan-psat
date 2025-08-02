@@ -49,8 +49,12 @@
                                     </td>
                                 </tr>
                                 <tr>
-                                    <th scope="col" class="bg-dark text-white">Nomor Registrasi</th>
-                                    <td>{{ $data->nomor_registrasi ?? '-' }}</td>
+                                    <th scope="col" class="bg-dark text-white">Nomor SPPB>
+                                    <td>{{ $data->nomor_sppb ?? '-' }}</td>
+                                </tr>
+                                <tr>
+                                    <th scope="col" class="bg-dark text-white">Nomor Izin EDAR PL</th>
+                                    <td>{{ $data->nomor_izinedar_pl ?? '-' }}</td>
                                 </tr>
                                 <tr>
                                     <th scope="col" class="bg-dark text-white">Tanggal Terbit</th>
@@ -191,6 +195,42 @@
                                 <tr>
                                     <th scope="col" class="bg-dark text-white">NIB Unit Usaha</th>
                                     <td>{{ $data->nib_unitusaha ?? '-' }}</td>
+                                </tr>
+                                <tr>
+                                    <th scope="col" class="bg-dark text-white">File NIB</th>
+                                    <td>
+                                        @if($data->file_nib)
+                                            <a href="{{ $data->file_nib }}" target="_blank" class="btn btn-sm btn-outline-primary">
+                                                <i class="bx bx-file-pdf me-1"></i> Lihat File NIB
+                                            </a>
+                                        @else
+                                            -
+                                        @endif
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th scope="col" class="bg-dark text-white">File SPPB</th>
+                                    <td>
+                                        @if($data->file_sppb)
+                                            <a href="{{ $data->file_sppb }}" target="_blank" class="btn btn-sm btn-outline-primary">
+                                                <i class="bx bx-file-pdf me-1"></i> Lihat File SPPB
+                                            </a>
+                                        @else
+                                            -
+                                        @endif
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th scope="col" class="bg-dark text-white">File Izin EDAR PSATPL</th>
+                                    <td>
+                                        @if($data->file_izinedar_psatpl)
+                                            <a href="{{ $data->file_izinedar_psatpl }}" target="_blank" class="btn btn-sm btn-outline-primary">
+                                                <i class="bx bx-file-pdf me-1"></i> Lihat File Izin EDAR PSATPL
+                                            </a>
+                                        @else
+                                            -
+                                        @endif
+                                    </td>
                                 </tr>
                             </tbody>
                         </table>

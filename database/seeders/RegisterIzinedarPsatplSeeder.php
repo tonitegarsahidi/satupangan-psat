@@ -47,7 +47,8 @@ class RegisterIzinedarPsatplSeeder extends Seeder
             'business_id' => $business->id,
             'status' => 'DIAJUKAN',
             'is_enabled' => true,
-            'nomor_registrasi' => 'REG-IZIN-001',
+            'nomor_sppb' => 'SPPB-SPPB-001',
+            'nomor_izinedar_pl' => 'REG-IZINPL-001',
 
             // Unit usaha data
             'is_unitusaha' => true,
@@ -73,6 +74,9 @@ class RegisterIzinedarPsatplSeeder extends Seeder
             'foto_4' => 'photos/izinedar/4.jpg',
             'foto_5' => 'photos/izinedar/5.jpg',
             'foto_6' => 'photos/izinedar/6.jpg',
+            'file_nib' => 'files/nib/NIB-MELON-001.pdf',
+            'file_sppb' => 'files/sppb/SPPB-MELON-001.pdf',
+            'file_izinedar_psatpl' => 'files/izinedar/IZIN-MELON-001.pdf',
 
             'okkp_penangungjawab' => $user->id,
 
@@ -89,7 +93,8 @@ class RegisterIzinedarPsatplSeeder extends Seeder
             'business_id' => $business->id,
             'status' => 'DISETUJUI',
             'is_enabled' => true,
-            'nomor_registrasi' => 'REG-IZIN-002',
+            'nomor_sppb' => 'SPPB-IZIN-002',
+            'nomor_izinedar_pl' => 'REG-IZIN-002',
 
             // Unit usaha data
             'is_unitusaha' => false,
@@ -115,6 +120,9 @@ class RegisterIzinedarPsatplSeeder extends Seeder
             'foto_4' => 'photos/izinedar/10.jpg',
             'foto_5' => 'photos/izinedar/11.jpg',
             'foto_6' => 'photos/izinedar/12.jpg',
+            'file_nib' => 'files/nib/NIB-SEMANGKA-001.pdf',
+            'file_sppb' => 'files/sppb/SPPB-SEMANGKA-001.pdf',
+            'file_izinedar_psatpl' => 'files/izinedar/IZIN-SEMANGKA-001.pdf',
 
             'okkp_penangungjawab' => $user->id,
 

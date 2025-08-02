@@ -48,15 +48,27 @@
                             </div>
 
 
-                            {{-- NOMOR REGISTRASI FIELD --}}
+                            {{-- NOMOR SPPB FIELD --}}
                             <div class="row mb-3">
-                                <label class="col-sm-2 col-form-label" for="nomor_registrasi">Nomor Registrasi</label>
+                                <label class="col-sm-2 col-form-label" for="nomor_sppb">Nomor SPPB</label>
                                 <div class="col-sm-10">
                                     @include('admin.components.notification.error-validation', [
-                                        'field' => 'nomor_registrasi',
+                                        'field' => 'nomor_sppb',
                                     ])
-                                    <input type="text" name="nomor_registrasi" class="form-control" id="nomor_registrasi"
-                                        placeholder="e.g., IZIN-EDAR-001" value="{{ old('nomor_registrasi') }}">
+                                    <input type="text" name="nomor_sppb" class="form-control" id="nomor_sppb"
+                                        placeholder="e.g., SPPB-001" value="{{ old('nomor_sppb') }}">
+                                </div>
+                            </div>
+
+                            {{-- NOMOR IZIN EDAR PL FIELD --}}
+                            <div class="row mb-3">
+                                <label class="col-sm-2 col-form-label" for="nomor_izinedar_pl">Nomor Izin EDAR PL</label>
+                                <div class="col-sm-10">
+                                    @include('admin.components.notification.error-validation', [
+                                        'field' => 'nomor_izinedar_pl',
+                                    ])
+                                    <input type="text" name="nomor_izinedar_pl" class="form-control" id="nomor_izinedar_pl"
+                                        placeholder="e.g., IZIN-EDAR-001" value="{{ old('nomor_izinedar_pl') }}">
                                 </div>
                             </div>
 
@@ -270,6 +282,46 @@
                                                     @include(
                                                         'admin.components.notification.error-validation',
                                                         ['field' => 'foto_6']
+                                                    )
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            {{-- FILE FIELDS GROUP --}}
+                            <div class="row mb-3">
+                                <label class="col-sm-2 col-form-label">File Dokumen</label>
+                                <div class="col-sm-10">
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <div class="row">
+                                                <div class="col-md-6 mb-3">
+                                                    <label class="form-label">File NIB</label>
+                                                    <input type="file" name="file_nib" class="form-control" accept=".pdf">
+                                                    <small class="text-muted">Format: PDF, Maks: 2MB</small>
+                                                    @include(
+                                                        'admin.components.notification.error-validation',
+                                                        ['field' => 'file_nib']
+                                                    )
+                                                </div>
+                                                <div class="col-md-6 mb-3">
+                                                    <label class="form-label">File SPPB</label>
+                                                    <input type="file" name="file_sppb" class="form-control" accept=".pdf">
+                                                    <small class="text-muted">Format: PDF, Maks: 2MB</small>
+                                                    @include(
+                                                        'admin.components.notification.error-validation',
+                                                        ['field' => 'file_sppb']
+                                                    )
+                                                </div>
+                                                <div class="col-md-6 mb-3">
+                                                    <label class="form-label">File Izin EDAR PSATPL</label>
+                                                    <input type="file" name="file_izinedar_psatpl" class="form-control" accept=".pdf">
+                                                    <small class="text-muted">Format: PDF, Maks: 2MB</small>
+                                                    @include(
+                                                        'admin.components.notification.error-validation',
+                                                        ['field' => 'file_izinedar_psatpl']
                                                     )
                                                 </div>
                                             </div>

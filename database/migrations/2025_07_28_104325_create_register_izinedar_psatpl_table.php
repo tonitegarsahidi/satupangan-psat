@@ -17,7 +17,8 @@ return new class extends Migration
             $table->string('status', 50);
             $table->boolean('is_enabled')->default(true);
 
-            $table->string('nomor_registrasi', 50)->nullable();
+            $table->string('nomor_sppb', 50)->nullable();
+            $table->string('nomor_izinedar_pl', 50)->nullable();
 
             // Tambahan kolom unit usaha
             $table->boolean('is_unitusaha')->default(false);
@@ -43,6 +44,11 @@ return new class extends Migration
             $table->string('foto_4', 200)->nullable();
             $table->string('foto_5', 200)->nullable();
             $table->string('foto_6', 200)->nullable();
+
+            // File columns
+            $table->string('file_nib', 200)->nullable();
+            $table->string('file_sppb', 200)->nullable();
+            $table->string('file_izinedar_psatpl', 200)->nullable();
 
             $table->foreignUuid('okkp_penangungjawab')->nullable()->constrained('users')->onDelete('set null');
 

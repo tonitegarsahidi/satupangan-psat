@@ -45,12 +45,12 @@ class RegisterIzinedarPsatplService
 
     /**
      * =============================================
-     * Check if certain nomor_registrasi is exists or not
-     * YOU CAN ALSO BLACKLIST some nomor_registrasi in this logic
+     * Check if certain nomor_izinedar_pl is exists or not
+     * YOU CAN ALSO BLACKLIST some nomor_izinedar_pl in this logic
      * =============================================
      */
-    public function checkRegisterIzinedarPsatplExist(string $nomor_registrasi): bool{
-        return $this->registerIzinedarPsatplRepository->isRegisterIzinedarPsatplExist($nomor_registrasi);
+    public function checkRegisterIzinedarPsatplExist(string $nomor_izinedar_pl): bool{
+        return $this->registerIzinedarPsatplRepository->isRegisterIzinedarPsatplExist($nomor_izinedar_pl);
     }
 
     /**
@@ -62,6 +62,11 @@ class RegisterIzinedarPsatplService
     {
         DB::beginTransaction();
         try {
+            // Set default values for file fields if not provided
+            $validatedData['file_nib'] = $validatedData['file_nib'] ?? null;
+            $validatedData['file_sppb'] = $validatedData['file_sppb'] ?? null;
+            $validatedData['file_izinedar_psatpl'] = $validatedData['file_izinedar_psatpl'] ?? null;
+
             $registerIzinedarPsatpl = $this->registerIzinedarPsatplRepository->createRegisterIzinedarPsatpl($validatedData);
 
             DB::commit();
@@ -83,6 +88,17 @@ class RegisterIzinedarPsatplService
         DB::beginTransaction();
         try {
             $registerIzinedarPsatpl = RegisterIzinedarPsatpl::findOrFail($id);
+
+            // Preserve existing file paths if not provided in the update
+            if (!isset($validatedData['file_nib'])) {
+                $validatedData['file_nib'] = $registerIzinedarPsatpl->file_nib;
+            }
+            if (!isset($validatedData['file_sppb'])) {
+                $validatedData['file_sppb'] = $registerIzinedarPsatpl->file_sppb;
+            }
+            if (!isset($validatedData['file_izinedar_psatpl'])) {
+                $validatedData['file_izinedar_psatpl'] = $registerIzinedarPsatpl->file_izinedar_psatpl;
+            }
 
             $this->registerIzinedarPsatplRepository->update($id, $validatedData);
 

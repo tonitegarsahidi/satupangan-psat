@@ -37,8 +37,12 @@ class RegisterIzinedarPsatplRepository
 
         if (!is_null($keyword)) {
             $queryResult->where(function($q) use ($keyword) {
-                $q->whereRaw('lower(nomor_registrasi) LIKE ?', ['%' . strtolower($keyword) . '%'])
-                  ->orWhereRaw('lower(status) LIKE ?', ['%' . strtolower($keyword) . '%']);
+                $q->whereRaw('lower(nomor_sppb) LIKE ?', ['%' . strtolower($keyword) . '%'])
+                  ->orWhereRaw('lower(nomor_izinedar_pl) LIKE ?', ['%' . strtolower($keyword) . '%'])
+                  ->orWhereRaw('lower(status) LIKE ?', ['%' . strtolower($keyword) . '%'])
+                  ->orWhereRaw('lower(file_nib) LIKE ?', ['%' . strtolower($keyword) . '%'])
+                  ->orWhereRaw('lower(file_sppb) LIKE ?', ['%' . strtolower($keyword) . '%'])
+                  ->orWhereRaw('lower(file_izinedar_psatpl) LIKE ?', ['%' . strtolower($keyword) . '%']);
             });
         }
 
@@ -48,8 +52,8 @@ class RegisterIzinedarPsatplRepository
         return $paginator;
     }
 
-    public function isRegisterIzinedarPsatplExist(String $nomor_registrasi){
-        return RegisterIzinedarPsatpl::where('nomor_registrasi', $nomor_registrasi)->exists();
+    public function isRegisterIzinedarPsatplExist(String $nomor_izinedar_pl){
+        return RegisterIzinedarPsatpl::where('nomor_izinedar_pl', $nomor_izinedar_pl)->exists();
     }
 
     public function getRegisterIzinedarPsatplById($registerIzinedarPsatplId): ?RegisterIzinedarPsatpl

@@ -91,7 +91,8 @@ class RegisterIzinedarPsatplController extends Controller
         // dd($request->all());
         $request->validate([
             'business_id' => 'required|uuid|exists:business,id',
-            'nomor_registrasi' => 'nullable|string|max:50',
+            'nomor_sppb' => 'nullable|string|max:50',
+            'nomor_izinedar_pl' => 'nullable|string|max:50',
             'nama_unitusaha' => 'nullable|string|max:200',
             'alamat_unitusaha' => 'nullable|string|max:200',
             'alamat_unitpenanganan' => 'nullable|string|max:200',
@@ -106,12 +107,15 @@ class RegisterIzinedarPsatplController extends Controller
             'jenis_kemasan' => 'nullable|string|max:200',
             'ukuran_berat' => 'nullable|string|max:200',
             'klaim' => 'nullable|string|max:200',
-            'foto_1' => 'nullable|file|image|mimes:jpeg,jpg,png,gif|max:2048',
-            'foto_2' => 'nullable|file|image|mimes:jpeg,jpg,png,gif|max:2048',
-            'foto_3' => 'nullable|file|image|mimes:jpeg,jpg,png,gif|max:2048',
-            'foto_4' => 'nullable|file|image|mimes:jpeg,jpg,png,gif|max:2048',
-            'foto_5' => 'nullable|file|image|mimes:jpeg,jpg,png,gif|max:2048',
-            'foto_6' => 'nullable|file|image|mimes:jpeg,jpg,png,gif|max:2048',
+            'foto_1' => 'nullable|file|image|mimes:jpeg,jpg,png,gif',
+            'foto_2' => 'nullable|file|image|mimes:jpeg,jpg,png,gif',
+            'foto_3' => 'nullable|file|image|mimes:jpeg,jpg,png,gif',
+            'foto_4' => 'nullable|file|image|mimes:jpeg,jpg,png,gif',
+            'foto_5' => 'nullable|file|image|mimes:jpeg,jpg,png,gif',
+            'foto_6' => 'nullable|file|image|mimes:jpeg,jpg,png,gif',
+            'file_nib' => 'nullable|file|mimes:pdf',
+            'file_sppb' => 'nullable|file|mimes:pdf',
+            'file_izinedar_psatpl' => 'nullable|file|mimes:pdf',
             'okkp_penangungjawab' => 'nullable|uuid|exists:users,id',
             'tanggal_terbit' => 'nullable|date',
             'tanggal_terakhir' => 'nullable|date',
@@ -119,7 +123,7 @@ class RegisterIzinedarPsatplController extends Controller
             'updated_by' => 'nullable|string',
         ]);
 
-        $validatedData = $request->except(['foto_1', 'foto_2', 'foto_3', 'foto_4', 'foto_5', 'foto_6']);
+        $validatedData = $request->except(['foto_1', 'foto_2', 'foto_3', 'foto_4', 'foto_5', 'foto_6', 'file_nib', 'file_sppb', 'file_izinedar_psatpl']);
 
         $user = Auth::user();
         $validatedData['created_by'] = $user->id;
@@ -150,11 +154,32 @@ class RegisterIzinedarPsatplController extends Controller
             }
         }
 
+        // Handle file uploads for file_nib, file_sppb, and file_izinedar_psatpl
+        $fileUploadPath = 'files/upload/register';
+        $filePublicPath = public_path($fileUploadPath);
+
+        // Create directory if it doesn't exist
+        if (!file_exists($filePublicPath)) {
+            mkdir($filePublicPath, 0755, true);
+        }
+
+        // Process each file field
+        $fileFields = ['file_nib', 'file_sppb', 'file_izinedar_psatpl'];
+        foreach ($fileFields as $fileField) {
+            if ($request->hasFile($fileField)) {
+                $file = $request->file($fileField);
+                $extension = $file->getClientOriginalExtension();
+                $filename = uniqid() . '.' . $extension;
+                $file->move($filePublicPath, $filename);
+                $validatedData[$fileField] = env('BASE_URL') . '/' . $fileUploadPath . '/' . $filename;
+            }
+        }
+
         $result = $this->registerIzinedarPsatplService->addNewRegisterIzinedarPsatpl($validatedData);
 
         $alert = $result
-            ? AlertHelper::createAlert('success', 'Data ' . $result->nomor_registrasi . ' successfully added')
-            : AlertHelper::createAlert('danger', 'Data ' . $request->nomor_registrasi . ' failed to be added');
+            ? AlertHelper::createAlert('success', 'Data ' . $result->nomor_izinedar_pl . ' successfully added')
+            : AlertHelper::createAlert('danger', 'Data ' . $request->nomor_izinedar_pl . ' failed to be added');
 
         return redirect()->route('register-izinedar-psatpl.index')->with([
             'alerts'        => [$alert],
@@ -208,7 +233,8 @@ class RegisterIzinedarPsatplController extends Controller
     {
         $validatedData = $request->validate([
             'business_id' => 'required|uuid|exists:business,id',
-            'nomor_registrasi' => 'nullable|string|max:50',
+            'nomor_sppb' => 'nullable|string|max:50',
+            'nomor_izinedar_pl' => 'nullable|string|max:50',
             'nama_unitusaha' => 'nullable|string|max:200',
             'alamat_unitusaha' => 'nullable|string|max:200',
             'alamat_unitpenanganan' => 'nullable|string|max:200',
@@ -229,6 +255,9 @@ class RegisterIzinedarPsatplController extends Controller
             'foto_4' => 'nullable|string|max:200',
             'foto_5' => 'nullable|string|max:200',
             'foto_6' => 'nullable|string|max:200',
+            'file_nib' => 'nullable|string|max:200',
+            'file_sppb' => 'nullable|string|max:200',
+            'file_izinedar_psatpl' => 'nullable|string|max:200',
             'okkp_penangungjawab' => 'nullable|uuid|exists:users,id',
             'tanggal_terbit' => 'nullable|date',
             'tanggal_terakhir' => 'nullable|date',
@@ -246,8 +275,8 @@ class RegisterIzinedarPsatplController extends Controller
         $result = $this->registerIzinedarPsatplService->updateRegisterIzinedarPsatpl($validatedData, $id);
 
         $alert = $result
-            ? AlertHelper::createAlert('success', 'Data ' . $result->nomor_registrasi . ' successfully updated')
-            : AlertHelper::createAlert('danger', 'Data ' . $request->nomor_registrasi . ' failed to be updated');
+            ? AlertHelper::createAlert('success', 'Data ' . $result->nomor_izinedar_pl . ' successfully updated')
+            : AlertHelper::createAlert('danger', 'Data ' . $request->nomor_izinedar_pl . ' failed to be updated');
 
         return redirect()->route('register-izinedar-psatpl.index')->with([
             'alerts' => [$alert],
@@ -287,7 +316,7 @@ class RegisterIzinedarPsatplController extends Controller
         }
 
         $alert = $result
-            ? AlertHelper::createAlert('success', 'Data ' . $registerIzinedarPsatpl->nomor_registrasi . ' successfully deleted')
+            ? AlertHelper::createAlert('success', 'Data ' . $registerIzinedarPsatpl->nomor_izinedar_pl . ' successfully deleted')
             : AlertHelper::createAlert('danger', 'Oops! failed to be deleted');
 
         return redirect()->route('register-izinedar-psatpl.index')->with('alerts', [$alert]);
