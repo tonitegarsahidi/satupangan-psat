@@ -17,7 +17,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::middleware('auth')->group(function () {
     // BUSINESS-ONLY ROUTES
-    Route::middleware('role:ROLE_USER_BUSINESS')->group(function () {
+    Route::middleware('role:ROLE_USER_BUSINESS,ROLE_OPERATOR,ROLE_SUPERVISOR,ROLE_ADMIN')->group(function () {
         // REGISTER SPPB CRUD FOR ROLE_USER_BUSINESS
         Route::prefix('/register-sppb')->group(function () {
             Route::get('/', [RegisterSppbController::class, 'index'])->name('register-sppb.index');

@@ -30,6 +30,8 @@
                                 </div>
                             </div>
 
+                            {{-- TAMPILKAN AREA INI HANYA UNTUK ADMIN/OPERATOR/SUPERVISOR --}}
+                            @if (auth()->user()->hasAnyRole(['ROLE_ADMIN', 'ROLE_OPERATOR', 'ROLE_SUPERVISOR']))
                             {{-- STATUS FIELD --}}
                             <div class="row mb-3">
                                 <label class="col-sm-2 col-form-label" for="status">Status*</label>
@@ -45,6 +47,7 @@
                                 </div>
                             </div>
 
+
                             {{-- IS ENABLED FIELD --}}
                             <div class="row mb-3">
                                 <label class="col-sm-2 col-form-label" for="is_enabled">Is Enabled</label>
@@ -57,6 +60,7 @@
                                     </div>
                                 </div>
                             </div>
+                            @endif
 
                             {{-- NOMOR SPPB FIELD --}}
                             <div class="row mb-3">
@@ -78,21 +82,8 @@
                                 </div>
                             </div>
 
-                            {{-- IS UNIT USAHA FIELD --}}
-                            <div class="row mb-3">
-                                <label class="col-sm-2 col-form-label" for="is_unitusaha">Unit Usaha</label>
-                                <div class="col-sm-10">
-                                    @include('admin.components.notification.error-validation', ['field' => 'is_unitusaha'])
-                                    <div class="form-check">
-                                        <input type="hidden" name="is_unitusaha" value="0">
-                                        <input type="checkbox" name="is_unitusaha" class="form-check-input" id="is_unitusaha" value="1" {{ old('is_unitusaha', $registerIzinedarPsatpl->is_unitusaha) ? 'checked' : '' }}>
-                                        <label class="form-check-label" for="is_unitusaha">This registration has a different unit usaha</label>
-                                    </div>
-                                </div>
-                            </div>
-
                             {{-- NAMA UNITUSAHA FIELD --}}
-                            <div class="row mb-3" id="nama_unitusaha_row" style="{{ old('is_unitusaha', $registerIzinedarPsatpl->is_unitusaha) ? 'display: flex' : 'display: none' }}">
+                            <div class="row mb-3">
                                 <label class="col-sm-2 col-form-label" for="nama_unitusaha">Nama Unit Usaha</label>
                                 <div class="col-sm-10">
                                     @include('admin.components.notification.error-validation', ['field' => 'nama_unitusaha'])
@@ -102,7 +93,7 @@
                             </div>
 
                             {{-- ALAMAT UNITUSAHA FIELD --}}
-                            <div class="row mb-3" id="alamat_unitusaha_row" style="{{ old('is_unitusaha', $registerIzinedarPsatpl->is_unitusaha) ? 'display: flex' : 'display: none' }}">
+                            <div class="row mb-3">
                                 <label class="col-sm-2 col-form-label" for="alamat_unitusaha">Alamat Unit Usaha</label>
                                 <div class="col-sm-10">
                                     @include('admin.components.notification.error-validation', ['field' => 'alamat_unitusaha'])
@@ -135,7 +126,7 @@
                             ])
 
                             {{-- NIB UNITUSAHA FIELD --}}
-                            <div class="row mb-3" id="nib_unitusaha_row" style="{{ old('is_unitusaha', $registerIzinedarPsatpl->is_unitusaha) ? 'display: flex' : 'display: none' }}">
+                            <div class="row mb-3">
                                 <label class="col-sm-2 col-form-label" for="nib_unitusaha">NIB Unit Usaha</label>
                                 <div class="col-sm-10">
                                     @include('admin.components.notification.error-validation', ['field' => 'nib_unitusaha'])
@@ -443,25 +434,4 @@
 
     </div>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            const isUnitUsahaCheckbox = document.getElementById('is_unitusaha');
-            const namaUnitUsahaRow = document.getElementById('nama_unitusaha_row');
-            const alamatUnitUsahaRow = document.getElementById('alamat_unitusaha_row');
-            const nibUnitUsahaRow = document.getElementById('nib_unitusaha_row');
-
-            function toggleUnitUsahaFields() {
-                const isChecked = isUnitUsahaCheckbox.checked;
-                namaUnitUsahaRow.style.display = isChecked ? 'flex' : 'none';
-                alamatUnitUsahaRow.style.display = isChecked ? 'flex' : 'none';
-                nibUnitUsahaRow.style.display = isChecked ? 'flex' : 'none';
-            }
-
-            // Initial check on page load
-            toggleUnitUsahaFields();
-
-            // Listen for changes
-            isUnitUsahaCheckbox.addEventListener('change', toggleUnitUsahaFields);
-        });
-    </script>
 @endsection

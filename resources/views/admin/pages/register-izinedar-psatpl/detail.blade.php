@@ -49,7 +49,7 @@
                                     </td>
                                 </tr>
                                 <tr>
-                                    <th scope="col" class="bg-dark text-white">Nomor SPPB>
+                                    <th scope="col" class="bg-dark text-white">Nomor SPPB</th>
                                     <td>{{ $data->nomor_sppb ?? '-' }}</td>
                                 </tr>
                                 <tr>
@@ -57,12 +57,28 @@
                                     <td>{{ $data->nomor_izinedar_pl ?? '-' }}</td>
                                 </tr>
                                 <tr>
-                                    <th scope="col" class="bg-dark text-white">Tanggal Terbit</th>
-                                    <td>{{ $data->tanggal_terbit ? \Carbon\Carbon::parse($data->tanggal_terbit)->locale('id')->translatedFormat('j F Y') : '-' }}</td>
+                                    <th scope="col" class="bg-dark text-white">Nama Unit Usaha</th>
+                                    <td>{{ $data->nama_unitusaha ?? '-' }}</td>
                                 </tr>
                                 <tr>
-                                    <th scope="col" class="bg-dark text-white">Tanggal Terakhir</th>
-                                    <td>{{ $data->tanggal_terakhir ? \Carbon\Carbon::parse($data->tanggal_terakhir)->locale('id')->translatedFormat('j F Y') : '-' }}</td>
+                                    <th scope="col" class="bg-dark text-white">Alamat Unit Usaha</th>
+                                    <td>{{ $data->alamat_unitusaha ?? '-' }}</td>
+                                </tr>
+                                <tr>
+                                    <th scope="col" class="bg-dark text-white">Alamat Unit Penanganan</th>
+                                    <td>{{ $data->alamat_unitpenanganan ?? '-' }}</td>
+                                </tr>
+                                <tr>
+                                    <th scope="col" class="bg-dark text-white">Provinsi Unit Usaha</th>
+                                    <td>{{ $data->provinsiUnitusaha->nama_provinsi ?? '-' }}</td>
+                                </tr>
+                                <tr>
+                                    <th scope="col" class="bg-dark text-white">Kota Unit Usaha</th>
+                                    <td>{{ $data->kotaUnitusaha->nama_kota ?? '-' }}</td>
+                                </tr>
+                                <tr>
+                                    <th scope="col" class="bg-dark text-white">NIB Unit Usaha</th>
+                                    <td>{{ $data->nib_unitusaha ?? '-' }}</td>
                                 </tr>
                                 <tr>
                                     <th scope="col" class="bg-dark text-white">Jenis PSAT</th>
@@ -109,7 +125,7 @@
                                     </td>
                                 </tr>
                                 <tr>
-                                    <th scope="col" class="bg-dark text-white">Foto 2</th>
+                                    <th scope="col" class="bg-dark text-white">Foto 2>
                                     <td>
                                         @if($data->foto_2)
                                             <a href="{{ $data->foto_2 }}" target="_blank">
@@ -121,7 +137,7 @@
                                     </td>
                                 </tr>
                                 <tr>
-                                    <th scope="col" class="bg-dark text-white">Foto 3</th>
+                                    <th scope="col" class="bg-dark text-white">Foto 3>
                                     <td>
                                         @if($data->foto_3)
                                             <a href="{{ $data->foto_3 }}" target="_blank">
@@ -133,7 +149,7 @@
                                     </td>
                                 </tr>
                                 <tr>
-                                    <th scope="col" class="bg-dark text-white">Foto 4</th>
+                                    <th scope="col" class="bg-dark text-white">Foto 4>
                                     <td>
                                         @if($data->foto_4)
                                             <a href="{{ $data->foto_4 }}" target="_blank">
@@ -169,34 +185,6 @@
                                     </td>
                                 </tr>
                                 <tr>
-                                    <th scope="col" class="bg-dark text-white">OKKP Penanggung Jawab</th>
-                                    <td>{{ $data->okkpPenanggungjawab->name ?? '-' }}</td>
-                                </tr>
-                                <tr>
-                                    <th scope="col" class="bg-dark text-white">Nama Unit Usaha</th>
-                                    <td>{{ $data->nama_unitusaha ?? '-' }}</td>
-                                </tr>
-                                <tr>
-                                    <th scope="col" class="bg-dark text-white">Alamat Unit Usaha</th>
-                                    <td>{{ $data->alamat_unitusaha ?? '-' }}</td>
-                                </tr>
-                                <tr>
-                                    <th scope="col" class="bg-dark text-white">Alamat Unit Penanganan</th>
-                                    <td>{{ $data->alamat_unitpenanganan ?? '-' }}</td>
-                                </tr>
-                                <tr>
-                                    <th scope="col" class="bg-dark text-white">Provinsi Unit Usaha</th>
-                                    <td>{{ $data->provinsiUnitusaha->nama_provinsi ?? '-' }}</td>
-                                </tr>
-                                <tr>
-                                    <th scope="col" class="bg-dark text-white">Kota Unit Usaha</th>
-                                    <td>{{ $data->kotaUnitusaha->nama_kota ?? '-' }}</td>
-                                </tr>
-                                <tr>
-                                    <th scope="col" class="bg-dark text-white">NIB Unit Usaha</th>
-                                    <td>{{ $data->nib_unitusaha ?? '-' }}</td>
-                                </tr>
-                                <tr>
                                     <th scope="col" class="bg-dark text-white">File NIB</th>
                                     <td>
                                         @if($data->file_nib)
@@ -221,7 +209,7 @@
                                     </td>
                                 </tr>
                                 <tr>
-                                    <th scope="col" class="bg-dark text-white">File Izin EDAR PSATPL</th>
+                                    <th scope="col" class="bg-dark text-white">File Izin EDAR PSATPL>
                                     <td>
                                         @if($data->file_izinedar_psatpl)
                                             <a href="{{ $data->file_izinedar_psatpl }}" target="_blank" class="btn btn-sm btn-outline-primary">
@@ -231,6 +219,18 @@
                                             -
                                         @endif
                                     </td>
+                                </tr>
+                                <tr>
+                                    <th scope="col" class="bg-dark text-white">OKKP Penanggung Jawab</th>
+                                    <td>{{ $data->okkpPenanggungjawab->name ?? '-' }}</td>
+                                </tr>
+                                <tr>
+                                    <th scope="col" class="bg-dark text-white">Tanggal Terbit</th>
+                                    <td>{{ $data->tanggal_terbit ? \Carbon\Carbon::parse($data->tanggal_terbit)->locale('id')->translatedFormat('j F Y') : '-' }}</td>
+                                </tr>
+                                <tr>
+                                    <th scope="col" class="bg-dark text-white">Tanggal Terakhir</th>
+                                    <td>{{ $data->tanggal_terakhir ? \Carbon\Carbon::parse($data->tanggal_terakhir)->locale('id')->translatedFormat('j F Y') : '-' }}</td>
                                 </tr>
                             </tbody>
                         </table>
