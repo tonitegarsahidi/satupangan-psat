@@ -3,6 +3,7 @@
 use App\Http\Controllers\RegisterSppbController;
 use App\Http\Controllers\RegisterIzinedarPsatplController;
 use App\Http\Controllers\RegisterIzinedarPsatpdController;
+use App\Http\Controllers\RegisterIzinedarPsatpdukController;
 use App\Http\Controllers\MasterPenangananController;
 use Illuminate\Support\Facades\Route;
 
@@ -53,6 +54,18 @@ Route::middleware('auth')->group(function () {
             Route::get('/edit/{id}', [RegisterIzinedarPsatpdController::class, 'edit'])->name('register-izinedar-psatpd.edit');
             Route::get('/delete/{id}', [RegisterIzinedarPsatpdController::class, 'deleteConfirm'])->name('register-izinedar-psatpd.delete');
             Route::delete('/delete/{id}', [RegisterIzinedarPsatpdController::class, 'destroy'])->name('register-izinedar-psatpd.destroy');
+        });
+
+        // REGISTER IZIN EDAR PSATPDUK CRUD FOR ROLE_USER_BUSINESS
+        Route::prefix('/register-izinedar-psatpduk')->group(function () {
+            Route::get('/', [RegisterIzinedarPsatpdukController::class, 'index'])->name('register-izinedar-psatpduk.index');
+            Route::get('/add/new', [RegisterIzinedarPsatpdukController::class, 'create'])->name('register-izinedar-psatpduk.add');
+            Route::post('/add/new', [RegisterIzinedarPsatpdukController::class, 'store'])->name('register-izinedar-psatpduk.store');
+            Route::get('/detail/{id}', [RegisterIzinedarPsatpdukController::class, 'detail'])->name('register-izinedar-psatpduk.detail');
+            Route::put('/edit/{id}', [RegisterIzinedarPsatpdukController::class, 'update'])->name('register-izinedar-psatpduk.update');
+            Route::get('/edit/{id}', [RegisterIzinedarPsatpdukController::class, 'edit'])->name('register-izinedar-psatpduk.edit');
+            Route::get('/delete/{id}', [RegisterIzinedarPsatpdukController::class, 'deleteConfirm'])->name('register-izinedar-psatpduk.delete');
+            Route::delete('/delete/{id}', [RegisterIzinedarPsatpdukController::class, 'destroy'])->name('register-izinedar-psatpduk.destroy');
         });
 
         // MASTER PENANGANAN FOR ROLE_USER_BUSINESS

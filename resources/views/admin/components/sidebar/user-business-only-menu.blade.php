@@ -51,4 +51,13 @@
         'menuIcon' => 'bx bx-file',
         'subMenuData' => null,
     ])
+
+    {{-- REGISTER IZIN EDAR PSATPDUK MENU --}}
+    @include('admin.components.sidebar.item', [
+        'menuId' => 'menu-register-izinedar-psatpduk',
+        'menuText' => 'Izin Edar PDUK',
+        'menuUrl' => route('register-izinedar-psatpduk.index'),
+        'menuIcon' => 'bx bx-file',
+        'subMenuData' => null,
+    ])
 @endif
