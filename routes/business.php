@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\RegisterSppbController;
 use App\Http\Controllers\RegisterIzinedarPsatplController;
+use App\Http\Controllers\RegisterIzinedarPsatpdController;
 use App\Http\Controllers\MasterPenangananController;
 use Illuminate\Support\Facades\Route;
 
@@ -40,6 +41,18 @@ Route::middleware('auth')->group(function () {
             Route::get('/edit/{id}', [RegisterIzinedarPsatplController::class, 'edit'])->name('register-izinedar-psatpl.edit');
             Route::get('/delete/{id}', [RegisterIzinedarPsatplController::class, 'deleteConfirm'])->name('register-izinedar-psatpl.delete');
             Route::delete('/delete/{id}', [RegisterIzinedarPsatplController::class, 'destroy'])->name('register-izinedar-psatpl.destroy');
+        });
+
+        // REGISTER IZIN EDAR PSATPD CRUD FOR ROLE_USER_BUSINESS
+        Route::prefix('/register-izinedar-psatpd')->group(function () {
+            Route::get('/', [RegisterIzinedarPsatpdController::class, 'index'])->name('register-izinedar-psatpd.index');
+            Route::get('/add/new', [RegisterIzinedarPsatpdController::class, 'create'])->name('register-izinedar-psatpd.add');
+            Route::post('/add/new', [RegisterIzinedarPsatpdController::class, 'store'])->name('register-izinedar-psatpd.store');
+            Route::get('/detail/{id}', [RegisterIzinedarPsatpdController::class, 'detail'])->name('register-izinedar-psatpd.detail');
+            Route::put('/edit/{id}', [RegisterIzinedarPsatpdController::class, 'update'])->name('register-izinedar-psatpd.update');
+            Route::get('/edit/{id}', [RegisterIzinedarPsatpdController::class, 'edit'])->name('register-izinedar-psatpd.edit');
+            Route::get('/delete/{id}', [RegisterIzinedarPsatpdController::class, 'deleteConfirm'])->name('register-izinedar-psatpd.delete');
+            Route::delete('/delete/{id}', [RegisterIzinedarPsatpdController::class, 'destroy'])->name('register-izinedar-psatpd.destroy');
         });
 
         // MASTER PENANGANAN FOR ROLE_USER_BUSINESS
