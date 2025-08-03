@@ -4,6 +4,7 @@ use App\Http\Controllers\RegisterSppbController;
 use App\Http\Controllers\RegisterIzinedarPsatplController;
 use App\Http\Controllers\RegisterIzinedarPsatpdController;
 use App\Http\Controllers\RegisterIzinedarPsatpdukController;
+use App\Http\Controllers\QrBadanPanganController;
 use App\Http\Controllers\MasterPenangananController;
 use Illuminate\Support\Facades\Route;
 
@@ -66,6 +67,20 @@ Route::middleware('auth')->group(function () {
             Route::get('/edit/{id}', [RegisterIzinedarPsatpdukController::class, 'edit'])->name('register-izinedar-psatpduk.edit');
             Route::get('/delete/{id}', [RegisterIzinedarPsatpdukController::class, 'deleteConfirm'])->name('register-izinedar-psatpduk.delete');
             Route::delete('/delete/{id}', [RegisterIzinedarPsatpdukController::class, 'destroy'])->name('register-izinedar-psatpduk.destroy');
+        });
+
+        // QR BADAN PANGAN CRUD FOR ROLE_USER_BUSINESS
+        Route::prefix('/qr-badan-pangan')->group(function () {
+            Route::get('/', [QrBadanPanganController::class, 'index'])->name('qr-badan-pangan.index');
+            Route::get('/add/new', [QrBadanPanganController::class, 'create'])->name('qr-badan-pangan.add');
+            Route::post('/add/new', [QrBadanPanganController::class, 'store'])->name('qr-badan-pangan.store');
+            Route::get('/detail/{id}', [QrBadanPanganController::class, 'detail'])->name('qr-badan-pangan.detail');
+            Route::put('/edit/{id}', [QrBadanPanganController::class, 'update'])->name('qr-badan-pangan.update');
+            Route::get('/edit/{id}', [QrBadanPanganController::class, 'edit'])->name('qr-badan-pangan.edit');
+            Route::get('/delete/{id}', [QrBadanPanganController::class, 'deleteConfirm'])->name('qr-badan-pangan.delete');
+            Route::delete('/delete/{id}', [QrBadanPanganController::class, 'destroy'])->name('qr-badan-pangan.destroy');
+            Route::post('/update-status/{id}', [QrBadanPanganController::class, 'updateStatus'])->name('qr-badan-pangan.update-status');
+            Route::post('/assign-user/{id}', [QrBadanPanganController::class, 'assignToUser'])->name('qr-badan-pangan.assign-user');
         });
 
         // MASTER PENANGANAN FOR ROLE_USER_BUSINESS

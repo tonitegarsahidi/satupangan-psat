@@ -23,6 +23,17 @@
     ])
 
     {{-- REGISTRASI & MASTER DATA --}}
+    @include('admin.components.sidebar.menu-header', ['textMenuHeader' => 'QR Code Badan Pangan'])
+    {{-- REGISTER SPPB MENU --}}
+    @include('admin.components.sidebar.item', [
+        'menuId' => 'menu-register-sppb',
+        'menuText' => 'QR Badan Pangan',
+        'menuUrl' => route('qr-badan-pangan.index'),
+        'menuIcon' => 'bx bx-qr',
+        'subMenuData' => null,
+    ])
+
+    {{-- REGISTRASI & MASTER DATA --}}
     @include('admin.components.sidebar.menu-header', ['textMenuHeader' => 'Dokumen Izin & Registrasi'])
 
     {{-- REGISTER SPPB MENU --}}

@@ -53,6 +53,7 @@ class DatabaseSeeder extends Seeder
             BusinessSeeder::class,
             BusinessJenispsatSeeder::class,
             PetugasSeeder::class,
+            QrBadanPanganSeeder::class,
         ]);
     }
 }
