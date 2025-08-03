@@ -200,7 +200,11 @@ class RegisterIzinedarPsatplController extends Controller
      */
     public function update(RegisterIzinedarPsatplRequest $request, $id)
     {
-        $validatedData = $request->validated();
+        // Get existing data first
+        $existingData = $this->registerIzinedarPsatplService->getRegisterIzinedarPsatplDetail($id);
+
+        // Get validated data except file fields
+        $validatedData = $request->except(['foto_1', 'foto_2', 'foto_3', 'foto_4', 'foto_5', 'foto_6', 'file_nib', 'file_sppb', 'file_izinedar_psatpl']);
 
         $user = Auth::user();
         $validatedData['updated_by'] = $user->id;
@@ -209,6 +213,54 @@ class RegisterIzinedarPsatplController extends Controller
         $validatedData['status'] = $validatedData['status'] ?? config('workflow.izinedar_statuses.DIAJUKAN');
         $validatedData['is_unitusaha'] = false;
         $validatedData['is_enabled'] = $validatedData['is_enabled'] ?? true;
+
+        // Handle file uploads for foto_1 to foto_6
+        $uploadPath = 'images/upload/register';
+        $publicPath = public_path($uploadPath);
+
+        // Create directory if it doesn't exist
+        if (!file_exists($publicPath)) {
+            mkdir($publicPath, 0755, true);
+        }
+
+        // Process each photo field
+        for ($i = 1; $i <= 6; $i++) {
+            $photoField = 'foto_' . $i;
+            if ($request->hasFile($photoField)) {
+                $file = $request->file($photoField);
+                $extension = $file->getClientOriginalExtension();
+                $filename = uniqid() . '.' . $extension;
+                $file->move($publicPath, $filename);
+                $validatedData[$photoField] = env('BASE_URL') . '/' . $uploadPath . '/' . $filename;
+            } else {
+                // Keep existing file if no new file is uploaded
+                $validatedData[$photoField] = $existingData->$photoField;
+            }
+        }
+
+        // Handle file uploads for file_nib, file_sppb, and file_izinedar_psatpl
+        $fileUploadPath = 'files/upload/register';
+        $filePublicPath = public_path($fileUploadPath);
+
+        // Create directory if it doesn't exist
+        if (!file_exists($filePublicPath)) {
+            mkdir($filePublicPath, 0755, true);
+        }
+
+        // Process each file field
+        $fileFields = ['file_nib', 'file_sppb', 'file_izinedar_psatpl'];
+        foreach ($fileFields as $fileField) {
+            if ($request->hasFile($fileField)) {
+                $file = $request->file($fileField);
+                $extension = $file->getClientOriginalExtension();
+                $filename = uniqid() . '.' . $extension;
+                $file->move($filePublicPath, $filename);
+                $validatedData[$fileField] = env('BASE_URL') . '/' . $fileUploadPath . '/' . $filename;
+            } else {
+                // Keep existing file if no new file is uploaded
+                $validatedData[$fileField] = $existingData->$fileField;
+            }
+        }
 
         $result = $this->registerIzinedarPsatplService->updateRegisterIzinedarPsatpl($validatedData, $id);
 

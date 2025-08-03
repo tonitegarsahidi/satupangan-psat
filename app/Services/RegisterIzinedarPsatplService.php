@@ -100,6 +100,14 @@ class RegisterIzinedarPsatplService
                 $validatedData['file_izinedar_psatpl'] = $registerIzinedarPsatpl->file_izinedar_psatpl;
             }
 
+            // Preserve existing photo paths if not provided in the update
+            for ($i = 1; $i <= 6; $i++) {
+                $photoField = 'foto_' . $i;
+                if (!isset($validatedData[$photoField])) {
+                    $validatedData[$photoField] = $registerIzinedarPsatpl->$photoField;
+                }
+            }
+
             $this->registerIzinedarPsatplRepository->update($id, $validatedData);
 
             DB::commit();
