@@ -45,12 +45,12 @@ class RegisterIzinedarPsatpdukService
 
     /**
      * =============================================
-     * Check if certain nomor_izinedar_pl is exists or not
-     * YOU CAN ALSO BLACKLIST some nomor_izinedar_pl in this logic
+     * Check if certain nomor_izinedar_pduk is exists or not
+     * YOU CAN ALSO BLACKLIST some nomor_izinedar_pduk in this logic
      * =============================================
      */
-    public function checkRegisterIzinedarPsatpdukExist(string $nomor_izinedar_pl): bool{
-        return $this->registerIzinedarPsatpdukRepository->isRegisterIzinedarPsatpdukExist($nomor_izinedar_pl);
+    public function checkRegisterIzinedarPsatpdukExist(string $nomor_izinedar_pduk): bool{
+        return $this->registerIzinedarPsatpdukRepository->isRegisterIzinedarPsatpdukExist($nomor_izinedar_pduk);
     }
 
     /**

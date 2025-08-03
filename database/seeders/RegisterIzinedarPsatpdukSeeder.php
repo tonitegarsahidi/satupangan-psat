@@ -48,7 +48,7 @@ class RegisterIzinedarPsatpdukSeeder extends Seeder
             'status' => 'DIAJUKAN',
             'is_enabled' => true,
             'nomor_sppb' => 'SPPB-SPPB-001',
-            'nomor_izinedar_pl' => 'REG-IZINPL-001',
+            'nomor_izinedar_pduk' => 'REG-IZINPL-001',
 
             // Unit usaha data
             'is_unitusaha' => true,
@@ -94,7 +94,7 @@ class RegisterIzinedarPsatpdukSeeder extends Seeder
             'status' => 'DISETUJUI',
             'is_enabled' => true,
             'nomor_sppb' => 'SPPB-IZIN-002',
-            'nomor_izinedar_pl' => 'REG-IZIN-002',
+            'nomor_izinedar_pduk' => 'REG-IZIN-002',
 
             // Unit usaha data
             'is_unitusaha' => false,

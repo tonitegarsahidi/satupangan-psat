@@ -146,8 +146,8 @@ class RegisterIzinedarPsatpdController extends Controller
         $result = $this->registerIzinedarPsatpdService->addNewRegisterIzinedarPsatpd($validatedData);
 
         $alert = $result
-            ? AlertHelper::createAlert('success', 'Data ' . $result->nomor_izinedar_pl . ' successfully added')
-            : AlertHelper::createAlert('danger', 'Data ' . $request->nomor_izinedar_pl . ' failed to be added');
+            ? AlertHelper::createAlert('success', 'Data ' . $result->nomor_izinedar_pd . ' successfully added')
+            : AlertHelper::createAlert('danger', 'Data ' . $request->nomor_izinedar_pd . ' failed to be added');
 
         return redirect()->route('register-izinedar-psatpd.index')->with([
             'alerts'        => [$alert],
@@ -272,8 +272,8 @@ class RegisterIzinedarPsatpdController extends Controller
         $result = $this->registerIzinedarPsatpdService->updateRegisterIzinedarPsatpd($validatedData, $id);
 
         $alert = $result
-            ? AlertHelper::createAlert('success', 'Data ' . $result->nomor_izinedar_pl . ' successfully updated')
-            : AlertHelper::createAlert('danger', 'Data ' . $request->nomor_izinedar_pl . ' failed to be updated');
+            ? AlertHelper::createAlert('success', 'Data ' . $result->nomor_izinedar_pd . ' successfully updated')
+            : AlertHelper::createAlert('danger', 'Data ' . $request->nomor_izinedar_pd . ' failed to be updated');
 
         return redirect()->route('register-izinedar-psatpd.index')->with([
             'alerts' => [$alert],
@@ -313,7 +313,7 @@ class RegisterIzinedarPsatpdController extends Controller
         }
 
         $alert = $result
-            ? AlertHelper::createAlert('success', 'Data ' . $registerIzinedarPsatpd->nomor_izinedar_pl . ' successfully deleted')
+            ? AlertHelper::createAlert('success', 'Data ' . $registerIzinedarPsatpd->nomor_izinedar_pd . ' successfully deleted')
             : AlertHelper::createAlert('danger', 'Oops! failed to be deleted');
 
         return redirect()->route('register-izinedar-psatpd.index')->with('alerts', [$alert]);

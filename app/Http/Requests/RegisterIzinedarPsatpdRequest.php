@@ -24,7 +24,7 @@ class RegisterIzinedarPsatpdRequest extends FormRequest
         return [
             'business_id' => 'required|uuid|exists:business,id',
             'nomor_sppb' => 'nullable|string|max:50',
-            'nomor_izinedar_pl' => 'nullable|string|max:50',
+            'nomor_izinedar_pd' => 'nullable|string|max:50',
             'nama_unitusaha' => 'nullable|string|max:200',
             'alamat_unitusaha' => 'nullable|string|max:200',
             'alamat_unitpenanganan' => 'nullable|string|max:200',
@@ -68,7 +68,7 @@ class RegisterIzinedarPsatpdRequest extends FormRequest
             'business_id.uuid' => 'Format ID business tidak valid',
             'business_id.exists' => 'Business tidak ditemukan',
             'nomor_sppb.max' => 'Nomor SPPB maksimal 50 karakter',
-            'nomor_izinedar_pl.max' => 'Nomor Izin EDAR PL maksimal 50 karakter',
+            'nomor_izinedar_pd.max' => 'Nomor Izin EDAR PL maksimal 50 karakter',
             'nama_unitusaha.max' => 'Nama unit usaha maksimal 200 karakter',
             'alamat_unitusaha.max' => 'Alamat unit usaha maksimal 200 karakter',
             'alamat_unitpenanganan.max' => 'Alamat unit penanganan maksimal 200 karakter',

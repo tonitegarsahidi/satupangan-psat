@@ -74,11 +74,11 @@
 
                             {{-- NOMOR IZIN EDAR PL FIELD --}}
                             <div class="row mb-3">
-                                <label class="col-sm-2 col-form-label" for="nomor_izinedar_pl">Nomor Izin EDAR PL</label>
+                                <label class="col-sm-2 col-form-label" for="nomor_izinedar_pduk">Nomor Izin EDAR PL</label>
                                 <div class="col-sm-10">
-                                    @include('admin.components.notification.error-validation', ['field' => 'nomor_izinedar_pl'])
-                                    <input type="text" name="nomor_izinedar_pl" class="form-control" id="nomor_izinedar_pl"
-                                        placeholder="e.g., IZIN-EDAR-001" value="{{ old('nomor_izinedar_pl', $registerIzinedarPsatpduk->nomor_izinedar_pl) }}">
+                                    @include('admin.components.notification.error-validation', ['field' => 'nomor_izinedar_pduk'])
+                                    <input type="text" name="nomor_izinedar_pduk" class="form-control" id="nomor_izinedar_pduk"
+                                        placeholder="e.g., IZIN-EDAR-001" value="{{ old('nomor_izinedar_pduk', $registerIzinedarPsatpduk->nomor_izinedar_pduk) }}">
                                 </div>
                             </div>
 

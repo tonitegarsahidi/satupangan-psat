@@ -11,14 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('register_izinedar_psatpduk', function (Blueprint $table) {
+        Schema::create('register_izinrumah_pengemasan', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->foreignUuid('business_id')->constrained('business')->onDelete('cascade');
             $table->string('status', 50);
             $table->boolean('is_enabled')->default(true);
 
             $table->string('nomor_sppb', 50)->nullable();
-            $table->string('nomor_izinedar_pduk', 50)->nullable();
+            $table->string('nomor_izinrumah_pl', 50)->nullable();
 
             // Tambahan kolom unit usaha
             $table->boolean('is_unitusaha')->default(false);
@@ -48,7 +48,7 @@ return new class extends Migration
             // File columns
             $table->string('file_nib', 200)->nullable();
             $table->string('file_sppb', 200)->nullable();
-            $table->string('file_izinedar_psatpduk', 200)->nullable();
+            $table->string('file_izinrumah_pengemasan', 200)->nullable();
 
             $table->foreignUuid('okkp_penangungjawab')->nullable()->constrained('users')->onDelete('set null');
 
@@ -67,6 +67,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('register_izinedar_psatpduk');
+        Schema::dropIfExists('register_izinrumah_pengemasan');
     }
 };

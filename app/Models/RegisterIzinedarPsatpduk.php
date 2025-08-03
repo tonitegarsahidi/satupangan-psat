@@ -25,7 +25,7 @@ class RegisterIzinedarPsatpduk extends Model
         'status',
         'is_enabled',
         'nomor_sppb',
-        'nomor_izinedar_pl',
+        'nomor_izinedar_pduk',
         'is_unitusaha',
         'nama_unitusaha',
         'alamat_unitusaha',

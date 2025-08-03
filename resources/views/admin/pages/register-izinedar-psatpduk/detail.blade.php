@@ -54,7 +54,7 @@
                                 </tr>
                                 <tr>
                                     <th scope="col" class="bg-dark text-white">Nomor Izin EDAR PL</th>
-                                    <td>{{ $data->nomor_izinedar_pl ?? '-' }}</td>
+                                    <td>{{ $data->nomor_izinedar_pduk ?? '-' }}</td>
                                 </tr>
                                 <tr>
                                     <th scope="col" class="bg-dark text-white">Nama Unit Usaha</th>

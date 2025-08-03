@@ -41,7 +41,7 @@
                     <form action="{{ url()->full() }}" method="get" class="d-flex align-items-center">
                         <i class="bx bx-search fs-4 lh-0"></i>
                         <input type="text" class="form-control border-1 shadow-none bg-light bg-gradient"
-                            placeholder="Search nomor SPPB, nomor izin EDAR PL, status, or file names.." aria-label="Search nomor_sppb, nomor_izinedar_pl, status, or file names..." name="keyword"
+                            placeholder="Search nomor SPPB, nomor izin EDAR PL, status, or file names.." aria-label="Search nomor_sppb, nomor_izinedar_pduk, status, or file names..." name="keyword"
                             value="{{ isset($keyword) ? $keyword : '' }}" />
                         <input type="hidden" name="sort_order" value="{{ request()->input('sort_order') }}" />
                         <input type="hidden" name="sort_field" value="{{ request()->input('sort_field') }}" />
@@ -81,12 +81,12 @@
                             <th>
                                 <a
                                     href="{{ route('register-izinedar-psatpduk.index', [
-                                        'sort_field' => 'nomor_izinedar_pl',
+                                        'sort_field' => 'nomor_izinedar_pduk',
                                         'sort_order' => $sortOrder == 'asc' ? 'desc' : 'asc',
                                         'keyword' => $keyword,
                                     ]) }}">
                                     Nomor Izin EDAR PL
-                                    @include('components.arrow-sort', ['field' => 'nomor_izinedar_pl', 'sortField' => $sortField, 'sortOrder' => $sortOrder])
+                                    @include('components.arrow-sort', ['field' => 'nomor_izinedar_pduk', 'sortField' => $sortField, 'sortOrder' => $sortOrder])
                                 </a>
                             </th>
                             <th>
@@ -129,7 +129,7 @@
                             <tr>
                                 <td>{{ $startNumber++ }}</td>
                                 <td>{{ $registerIzinedarPsatpduk->nomor_sppb }}</td>
-                                <td>{{ $registerIzinedarPsatpduk->nomor_izinedar_pl }}</td>
+                                <td>{{ $registerIzinedarPsatpduk->nomor_izinedar_pduk }}</td>
                                 <td>
                                     @if ($registerIzinedarPsatpduk->status == 'DISETUJUI')
                                         <span class="badge rounded-pill bg-success">{{ $registerIzinedarPsatpduk->status }}</span>

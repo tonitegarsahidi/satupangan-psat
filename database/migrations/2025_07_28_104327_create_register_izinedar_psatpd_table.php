@@ -18,7 +18,7 @@ return new class extends Migration
             $table->boolean('is_enabled')->default(true);
 
             $table->string('nomor_sppb', 50)->nullable();
-            $table->string('nomor_izinedar_pl', 50)->nullable();
+            $table->string('nomor_izinedar_pd', 50)->nullable();
 
             // Tambahan kolom unit usaha
             $table->boolean('is_unitusaha')->default(false);
