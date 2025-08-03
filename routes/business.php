@@ -57,7 +57,7 @@ Route::middleware('auth')->group(function () {
         });
 
         // REGISTER IZIN EDAR PSATPDUK CRUD FOR ROLE_USER_BUSINESS
-        Route::prefix('/register-izinedar-psatpduk')->group(function () {
+        Route::prefix('/register-izinedar-psat-pduk')->group(function () {
             Route::get('/', [RegisterIzinedarPsatpdukController::class, 'index'])->name('register-izinedar-psatpduk.index');
             Route::get('/add/new', [RegisterIzinedarPsatpdukController::class, 'create'])->name('register-izinedar-psatpduk.add');
             Route::post('/add/new', [RegisterIzinedarPsatpdukController::class, 'store'])->name('register-izinedar-psatpduk.store');

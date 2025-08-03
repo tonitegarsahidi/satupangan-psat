@@ -21,9 +21,9 @@ class RegisterIzinedarPsatpdSeeder extends Seeder
     public function run(): void
     {
         // Get the user with email pengusaha@satupangan.id
-        $user = User::where('email', 'pengusaha2@satupangan.id')->first();
+        $user = User::where('email', 'pengusaha@satupangan.id')->first();
         if (!$user) {
-            $this->command->error('User with email pengusaha2@satupangan.id not found. Please ensure the user exists before running this seeder.');
+            $this->command->error('User with email pengusaha@satupangan.id not found. Please ensure the user exists before running this seeder.');
             return;
         }
 

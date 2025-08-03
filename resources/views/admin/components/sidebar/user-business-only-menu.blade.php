@@ -23,7 +23,7 @@
     ])
 
     {{-- REGISTRASI & MASTER DATA --}}
-    @include('admin.components.sidebar.menu-header', ['textMenuHeader' => 'Registrasi & Master Data'])
+    @include('admin.components.sidebar.menu-header', ['textMenuHeader' => 'Dokumen Izin & Registrasi'])
 
     {{-- REGISTER SPPB MENU --}}
     @include('admin.components.sidebar.item', [

@@ -53,7 +53,7 @@
         {{-- =============================================== --}}
 
         {{-- EXAMPLE MENU HEADER FOR GROUPING --}}
-        @include('admin.components.sidebar.menu-header', ['textMenuHeader' => 'All Got These Menu'])
+        @include('admin.components.sidebar.menu-header', ['textMenuHeader' => 'Pengaturan Umum'])
 
         {{-- EXAMPLE MENU WITH SUB MENU --}}
         @include('admin.components.sidebar.item', [

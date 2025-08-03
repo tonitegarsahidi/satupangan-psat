@@ -32,6 +32,8 @@ class DatabaseSeeder extends Seeder
             RegisterIzinedarPsatplSeeder::class,
             RegisterIzinedarPsatpdSeeder::class,
             RegisterIzinedarPsatpdukSeeder::class,
+            RegisterSertifikatKeamananPanganSeeder::class,
+            RegisterIzinrumahPengemasanSeeder::class,
 
             MasterKelompokPanganSeeder::class,
             MasterJenisPanganSegarSeeder::class,
