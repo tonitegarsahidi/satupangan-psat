@@ -69,7 +69,10 @@ class RegisterIzinedarPsatpdController extends Controller
 
         // Get assignee users from config yang  roles nya operator, tapi bukan kantorpusat
         $notAssigneeEmail = config('constant.REGISTER_IZINEDAR_PL_ASSIGNEE');
-        $assignees = User::where('email', '!=', $notAssigneeEmail)-> get();
+        $assignees = User::where('email', '!=', $notAssigneeEmail)
+                        ->whereHas('roles', function($query) {
+                            $query->where('role_code', 'ROLE_OPERATOR');
+                        })->orderBy('name')->get();
 
         // If business exists and has a provinsi_id, load the corresponding kotas
         $kotas = collect();
@@ -180,9 +183,13 @@ class RegisterIzinedarPsatpdController extends Controller
         $provinsis = MasterProvinsi::all();
         $jenispsats = MasterJenisPanganSegar::all();
 
-        // Get assignee users from config
-        $assigneeEmail = config('constant.REGISTER_IZINEDAR_PL_ASSIGNEE');
-        $assignees = User::where('email', $assigneeEmail)->get();
+        // Get assignee users from config yang  roles nya operator, tapi bukan kantorpusat
+        $notAssigneeEmail = config('constant.REGISTER_IZINEDAR_PL_ASSIGNEE');
+        $assignees = User::where('email', '!=', $notAssigneeEmail)
+                        ->whereHas('roles', function($query) {
+                            $query->where('role_code', 'ROLE_OPERATOR');
+                        })->orderBy('name')->get();
+
 
         // If business exists and has a provinsi_id, load the corresponding kotas
         $kotas = collect();
