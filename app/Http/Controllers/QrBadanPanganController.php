@@ -3,22 +3,53 @@
 namespace App\Http\Controllers;
 
 use App\Services\QrBadanPanganService;
+use App\Services\RegisterIzinedarPsatplService;
+use App\Services\RegisterIzinedarPsatpdService;
+use App\Services\RegisterIzinedarPsatpdukService;
+// use App\Services\IzinrumahPengemasanService;
+// use App\Services\SertifikatKeamananPanganService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Business;
 use App\Models\MasterJenisPanganSegar;
 use App\Models\User;
+use App\Models\RegisterSppb;
+use App\Models\RegisterIzinedarPsatpl;
+use App\Models\RegisterIzinedarPsatpd;
+use App\Models\RegisterIzinedarPsatpduk;
+use App\Models\RegisterIzinrumahPengemasan;
+use App\Models\RegisterSertifikatKeamananPangan;
 use App\Helpers\AlertHelper;
 use App\Http\Requests\QrBadanPanganRequest;
+use App\Services\RegisterSppbService;
 
 class QrBadanPanganController extends Controller
 {
     private $qrBadanPanganService;
+    private $registerSppbService;
+    private $registerIzinedarPsatplService;
+    private $registerIzinedarPsatpdService;
+    private $registerIzinedarPsatpdukService;
+    private $izinrumahPengemasanService;
+    private $sertifikatKeamananPanganService;
     private $mainBreadcrumbs;
 
-    public function __construct(QrBadanPanganService $qrBadanPanganService)
+    public function __construct(QrBadanPanganService $qrBadanPanganService,
+                                RegisterSppbService $registerSppbService,
+                                RegisterIzinedarPsatplService $registerIzinedarPsatplService,
+                                RegisterIzinedarPsatpdService $registerIzinedarPsatpdService,
+                                RegisterIzinedarPsatpdukService $registerIzinedarPsatpdukService,
+                                // IzinrumahPengemasanService $izinrumahPengemasanService,
+                                // SertifikatKeamananPanganService $sertifikatKeamananPanganService
+                                )
     {
         $this->qrBadanPanganService = $qrBadanPanganService;
+        $this->registerSppbService = $registerSppbService;
+        $this->registerIzinedarPsatplService = $registerIzinedarPsatplService;
+        $this->registerIzinedarPsatpdService = $registerIzinedarPsatpdService;
+        $this->registerIzinedarPsatpdukService = $registerIzinedarPsatpdukService;
+        // $this->izinrumahPengemasanService = $izinrumahPengemasanService;
+        // $this->sertifikatKeamananPanganService = $sertifikatKeamananPanganService;
 
         // Store common breadcrumbs in the constructor
         $this->mainBreadcrumbs = [
@@ -62,13 +93,52 @@ class QrBadanPanganController extends Controller
 
         $user = Auth::user();
         $business = $user->business; // Get the business relationship directly (hasOne)
+        // dd($business);
+
         $jenispsats = MasterJenisPanganSegar::all();
 
         // Get assignee users from config
         $assigneeEmail = config('constant.QR_BADAN_PANGAN_ASSIGNEE');
         $assignees = User::where('email', $assigneeEmail)->get();
 
-        return view('admin.pages.qr-badan-pangan.add', compact('breadcrumbs', 'business', 'jenispsats', 'assignees'));
+        // Get reference data filtered by user and approved status
+        $sppbs = RegisterSppb::where('business_id', $business->id)
+                              ->where('status', 'approved')
+                              ->get();
+
+        $sppbs = $this->registerSppbService->listAllRegisterSppb(1000, "created_at", "asc", null, $user);
+
+
+        $izinedarPsatpls = $this->registerIzinedarPsatplService->listAllRegisterIzinedarPsatpl(1000, "created_at", "asc", null, $user);
+
+        // dd($izinedarPsatpls);
+
+
+
+        $izinedarPsatpds = $this->registerIzinedarPsatpdService->listAllRegisterIzinedarPsatpd(1000, "created_at", "asc", null, $user);
+
+        $izinedarPsatpduks = $this->registerIzinedarPsatpdukService->listAllRegisterIzinedarPsatpduk(1000, "created_at", "asc", null, $user);
+
+        // $izinrumahPengemasans = RegisterIzinrumahPengemasan::where('business_id', $business->id)
+        //                                                    ->where('status', 'approved')
+        //                                                    ->get();
+
+        // $sertifikatKeamananPangans = RegisterSertifikatKeamananPangan::where('business_id', $business->id)
+        //                                                            ->where('status', 'approved')
+        //                                                            ->get();
+
+        return view('admin.pages.qr-badan-pangan.add', compact(
+            'breadcrumbs',
+            'business',
+            'jenispsats',
+            'assignees',
+            'sppbs',
+            'izinedarPsatpls',
+            'izinedarPsatpds',
+            'izinedarPsatpduks',
+            // 'izinrumahPengemasans',
+            // 'sertifikatKeamananPangans'
+        ));
     }
 
     /**
@@ -154,7 +224,44 @@ class QrBadanPanganController extends Controller
         $assigneeEmail = config('constant.QR_BADAN_PANGAN_ASSIGNEE');
         $assignees = User::where('email', $assigneeEmail)->get();
 
-        return view('admin.pages.qr-badan-pangan.edit', compact('breadcrumbs', 'qrBadanPangan', 'jenispsats', 'assignees'));
+        // Get reference data filtered by user and approved status
+        $business = $qrBadanPangan->business;
+        $sppbs = RegisterSppb::where('business_id', $business->id)
+                              ->where('status', 'approved')
+                              ->get();
+
+        $izinedarPsatpls = RegisterIzinedarPsatpl::where('business_id', $business->id)
+                                                  ->where('status', 'approved')
+                                                  ->get();
+
+        $izinedarPsatpds = RegisterIzinedarPsatpd::where('business_id', $business->id)
+                                                 ->where('status', 'approved')
+                                                 ->get();
+
+        $izinedarPsatpduks = RegisterIzinedarPsatpduk::where('business_id', $business->id)
+                                                     ->where('status', 'approved')
+                                                     ->get();
+
+        $izinrumahPengemasans = RegisterIzinrumahPengemasan::where('business_id', $business->id)
+                                                           ->where('status', 'approved')
+                                                           ->get();
+
+        $sertifikatKeamananPangans = RegisterSertifikatKeamananPangan::where('business_id', $business->id)
+                                                                   ->where('status', 'approved')
+                                                                   ->get();
+
+        return view('admin.pages.qr-badan-pangan.edit', compact(
+            'breadcrumbs',
+            'qrBadanPangan',
+            'jenispsats',
+            'assignees',
+            'sppbs',
+            'izinedarPsatpls',
+            'izinedarPsatpds',
+            'izinedarPsatpduks',
+            'izinrumahPengemasans',
+            'sertifikatKeamananPangans'
+        ));
     }
 
     /**

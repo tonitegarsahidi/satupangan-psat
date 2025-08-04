@@ -41,7 +41,7 @@ return new class extends Migration
             $table->foreignUuid('jenis_psat')->nullable()->constrained('master_jenis_pangan_segars')->onDelete('set null');
 
             // Foreign key references
-            $table->foreignUuid('referensi_sppb')->nullable()->constrained('register_sppb_jenispsat')->onDelete('set null');
+            $table->foreignUuid('referensi_sppb')->nullable()->constrained('register_sppb')->onDelete('set null');
             $table->foreignUuid('referensi_izinedar_psatpl')->nullable()->constrained('register_izinedar_psatpl')->onDelete('set null');
             $table->foreignUuid('referensi_izinedar_psatpd')->nullable()->constrained('register_izinedar_psatpd')->onDelete('set null');
             $table->foreignUuid('referensi_izinedar_psatpduk')->nullable()->constrained('register_izinedar_psatpduk')->onDelete('set null');

@@ -22,7 +22,7 @@ class QrBadanPanganSeeder extends Seeder
         $business2 = DB::table('business')->where('nama_perusahaan', 'CV Sambo Importir')->first();
 
         // Get reference IDs
-        $sppb = DB::table('register_sppb_jenispsat')->first();
+        $sppb = DB::table('register_sppb')->first();
         $izinedarPsatpl = DB::table('register_izinedar_psatpl')->first();
         $izinedarPsatpd = DB::table('register_izinedar_psatpd')->first();
         $izinedarPsatpduk = DB::table('register_izinedar_psatpduk')->first();

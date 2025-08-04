@@ -95,6 +95,88 @@
                                     <label for="referensi_sppb" class="form-label">Referensi SPPB</label>
                                     <select class="form-select" id="referensi_sppb" name="referensi_sppb">
                                         <option value="">Select SPPB</option>
+                                        @foreach($sppbs as $sppb)
+                                            <option value="{{ $sppb->id }}" {{ $qrBadanPangan->referensi_sppb == $sppb->id ? 'selected' : '' }}>{{ $sppb->nama_komoditas ?? 'SPPB-' . $sppb->id }}</option>
+                                        @endforeach
+                                    </select>
+                                    @error('referensi_sppb')
+                                        <div class="invalid-feedback d-block">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="referensi_izinedar_psatpl" class="form-label">Referensi Izin EDAR PSATPL</label>
+                                    <select class="form-select" id="referensi_izinedar_psatpl" name="referensi_izinedar_psatpl">
+                                        <option value="">Select Izin EDAR PSATPL</option>
+                                        @foreach($izinedarPsatpls as $izinedarPsatpl)
+                                            <option value="{{ $izinedarPsatpl->id }}" {{ $qrBadanPangan->referensi_izinedar_psatpl == $izinedarPsatpl->id ? 'selected' : '' }}>{{ $izinedarPsatpl->nama_komoditas ?? 'Izin EDAR PSATPL-' . $izinedarPsatpl->id }}</option>
+                                        @endforeach
+                                    </select>
+                                    @error('referensi_izinedar_psatpl')
+                                        <div class="invalid-feedback d-block">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                            </div>
+
+                            <div class="row mb-4">
+                                <div class="col-md-6">
+                                    <label for="referensi_izinedar_psatpd" class="form-label">Referensi Izin EDAR PSATPD</label>
+                                    <select class="form-select" id="referensi_izinedar_psatpd" name="referensi_izinedar_psatpd">
+                                        <option value="">Select Izin EDAR PSATPD</option>
+                                        @foreach($izinedarPsatpds as $izinedarPsatpd)
+                                            <option value="{{ $izinedarPsatpd->id }}" {{ $qrBadanPangan->referensi_izinedar_psatpd == $izinedarPsatpd->id ? 'selected' : '' }}>{{ $izinedarPsatpd->nama_komoditas ?? 'Izin EDAR PSATPD-' . $izinedarPsatpd->id }}</option>
+                                        @endforeach
+                                    </select>
+                                    @error('referensi_izinedar_psatpd')
+                                        <div class="invalid-feedback d-block">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="referensi_izinedar_psatpduk" class="form-label">Referensi Izin EDAR PSATPDUK</label>
+                                    <select class="form-select" id="referensi_izinedar_psatpduk" name="referensi_izinedar_psatpduk">
+                                        <option value="">Select Izin EDAR PSATPDUK</option>
+                                        @foreach($izinedarPsatpduks as $izinedarPsatpduk)
+                                            <option value="{{ $izinedarPsatpduk->id }}" {{ $qrBadanPangan->referensi_izinedar_psatpduk == $izinedarPsatpduk->id ? 'selected' : '' }}>{{ $izinedarPsatpduk->nama_komoditas ?? 'Izin EDAR PSATPDUK-' . $izinedarPsatpduk->id }}</option>
+                                        @endforeach
+                                    </select>
+                                    @error('referensi_izinedar_psatpduk')
+                                        <div class="invalid-feedback d-block">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                            </div>
+
+                            <div class="row mb-4">
+                                <div class="col-md-6">
+                                    <label for="referensi_izinrumah_pengemasan" class="form-label">Referensi Izin Rumah Pengemasan</label>
+                                    <select class="form-select" id="referensi_izinrumah_pengemasan" name="referensi_izinrumah_pengemasan">
+                                        <option value="">Select Izin Rumah Pengemasan</option>
+                                        @foreach($izinrumahPengemasans as $izinrumahPengemasan)
+                                            <option value="{{ $izinrumahPengemasan->id }}" {{ $qrBadanPangan->referensi_izinrumah_pengemasan == $izinrumahPengemasan->id ? 'selected' : '' }}>{{ $izinrumahPengemasan->nama_komoditas ?? 'Izin Rumah Pengemasan-' . $izinrumahPengemasan->id }}</option>
+                                        @endforeach
+                                    </select>
+                                    @error('referensi_izinrumah_pengemasan')
+                                        <div class="invalid-feedback d-block">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="referensi_sertifikat_keamanan_pangan" class="form-label">Referensi Sertifikat Keamanan Pangan</label>
+                                    <select class="form-select" id="referensi_sertifikat_keamanan_pangan" name="referensi_sertifikat_keamanan_pangan">
+                                        <option value="">Select Sertifikat Keamanan Pangan</option>
+                                        @foreach($sertifikatKeamananPangans as $sertifikatKeamananPangan)
+                                            <option value="{{ $sertifikatKeamananPangan->id }}" {{ $qrBadanPangan->referensi_sertifikat_keamanan_pangan == $sertifikatKeamananPangan->id ? 'selected' : '' }}>{{ $sertifikatKeamananPangan->nama_komoditas ?? 'Sertifikat Keamanan Pangan-' . $sertifikatKeamananPangan->id }}</option>
+                                        @endforeach
+                                    </select>
+                                    @error('referensi_sertifikat_keamanan_pangan')
+                                        <div class="invalid-feedback d-block">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                            </div>
+
+                            <!-- References -->
+                            <div class="row mb-4">
+                                <div class="col-md-6">
+                                    <label for="referensi_sppb" class="form-label">Referensi SPPB</label>
+                                    <select class="form-select" id="referensi_sppb" name="referensi_sppb">
+                                        <option value="">Select SPPB</option>
                                         <option value="{{ $qrBadanPangan->referensi_sppb }}" {{ $qrBadanPangan->referensi_sppb ? 'selected' : '' }}>Current Reference</option>
                                     </select>
                                     @error('referensi_sppb')
