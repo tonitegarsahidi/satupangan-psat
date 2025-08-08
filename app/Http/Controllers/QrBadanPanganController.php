@@ -95,7 +95,7 @@ class QrBadanPanganController extends Controller
         $business = $user->business; // Get the business relationship directly (hasOne)
         // dd($business);
 
-        $jenispsats = MasterJenisPanganSegar::all();
+        $jenispsats = MasterJenisPanganSegar::orderBy('nama_jenis_pangan_segar', 'asc')->get();
 
         // Get assignee users from config
         $assigneeEmail = config('constant.QR_BADAN_PANGAN_ASSIGNEE');
@@ -218,7 +218,7 @@ class QrBadanPanganController extends Controller
 
         $breadcrumbs = array_merge($this->mainBreadcrumbs, ['Edit' => null]);
 
-        $jenispsats = MasterJenisPanganSegar::all();
+        $jenispsats = MasterJenisPanganSegar::orderBy('nama_jenis_pangan_segar', 'asc')->get();
 
         // Get assignee users from config
         $assigneeEmail = config('constant.QR_BADAN_PANGAN_ASSIGNEE');

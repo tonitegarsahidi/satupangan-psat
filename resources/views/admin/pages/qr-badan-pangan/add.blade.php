@@ -43,7 +43,9 @@
                             <div class="row mb-3">
                                 <label class="col-sm-2 col-form-label">Business*</label>
                                 <div class="col-sm-10">
-                                    <div class="form-control-plaintext">{{ $business->nama_usaha }}</div>
+                                    <a href="{{ route('business.profile.index') }}" class="form-control-plaintext text-primary" style="cursor: pointer; text-decoration: none;">
+                                        {{ $business->nama_perusahaan }}
+                                    </a>
                                 </div>
                             </div>
 
