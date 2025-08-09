@@ -21,7 +21,7 @@
                             enctype="multipart/form-data">
                             @csrf
                             @method('PUT')
-                            
+
                             <h5 class="mb-3">Informasi Perusahaan</h5>
                             <div class="row">
                                 <!-- Nama Perusahaan -->
@@ -57,6 +57,23 @@
                                         placeholder="Nomor Induk Berusaha" />
                                 </div>
 
+                                <!-- Apakah Anda UMKM? -->
+                                <div class="mb-3 col-md-6">
+                                    <label class="form-label">Apakah Anda UMKM?</label>
+                                    @include('admin.components.notification.error-validation', [
+                                        'field' => 'is_umkm',
+                                    ])
+                                    <div class="d-flex align-items-center">
+                                        <div class="form-check form-switch me-3">
+                                            <input class="form-check-input" type="checkbox" name="is_umkm" id="is_umkm"
+                                                value="1" {{ old('is_umkm', $business->is_umkm ? 'checked' : '') }}>
+                                            <label class="form-check-label" for="is_umkm">UMKM</label>
+                                        </div>
+                                        {{-- <span class="text-muted">Tidak</span> --}}
+                                    </div>
+                                    <small class="text-muted">Centang jika usaha Anda termasuk UMKM (Usaha Mikro, Kecil, dan Menengah).</small>
+                                </div>
+
                                 <!-- Alamat Perusahaan -->
                                 <div class="mb-3 col-md-6">
                                     <label for="alamat_perusahaan" class="form-label">Alamat Perusahaan</label>
@@ -78,7 +95,7 @@
                                         @foreach ($jenispsats as $jenispsat)
                                             <div class="col-md-6 col-lg-4">
                                                 <div class="form-check mb-2">
-                                                    <input class="form-check-input" type="checkbox" name="jenispsat_id[]" 
+                                                    <input class="form-check-input" type="checkbox" name="jenispsat_id[]"
                                                         value="{{ $jenispsat->id }}" id="jenispsat_{{ $jenispsat->id }}"
                                                         {{ (is_array(old('jenispsat_id')) && in_array($jenispsat->id, old('jenispsat_id'))) || $selectedJenispsats->contains($jenispsat->id) ? 'checked' : '' }}>
                                                     <label class="form-check-label" for="jenispsat_{{ $jenispsat->id }}">

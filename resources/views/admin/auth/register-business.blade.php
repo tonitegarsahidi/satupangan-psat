@@ -113,6 +113,18 @@
                                     placeholder="Nomor Induk Berusaha" />
                             </div>
                             <div class="mb-3">
+                                <label class="form-label">Apakah Anda UMKM?</label>
+                                <div class="d-flex align-items-center">
+                                    <div class="form-check form-switch me-3">
+                                        <input class="form-check-input" type="checkbox" name="is_umkm" id="is_umkm"
+                                            value="1" {{ old('is_umkm') ? 'checked' : '' }}>
+                                        <label class="form-check-label" for="is_umkm">UMKM</label>
+                                    </div>
+                                    {{-- <span class="text-muted">Tidak</span> --}}
+                                </div>
+                                <small class="text-muted">Centang jika usaha Anda termasuk UMKM (Usaha Mikro, Kecil, dan Menengah).</small>
+                            </div>
+                            <div class="mb-3">
                                 <label class="form-label">Jenis PSAT <span class="text-danger">*</span></label>
                                 @foreach ($jenispsats as $jenispsat)
                                     <div class="form-check">

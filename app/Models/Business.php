@@ -24,6 +24,7 @@ class Business extends Model
         'jabatan_perusahaan',
         'nib',
         'is_active',
+        'is_umkm',
         'created_by',
         'updated_by',
         'provinsi_id',

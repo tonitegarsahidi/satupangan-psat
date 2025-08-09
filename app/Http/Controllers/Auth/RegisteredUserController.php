@@ -160,6 +160,7 @@ class RegisteredUserController extends Controller
                 'jabatan_perusahaan' => $validatedData['jabatan_perusahaan'],
                 'nib' => $validatedData['nib'],
                 'is_active' => true,
+                'is_umkm' => $validatedData['is_umkm'] ?? false,
                 'created_by' => 'register-business',
                 'updated_by' => 'register-business',
                 'provinsi_id' => $validatedData['provinsi_id'],

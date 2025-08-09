@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('provinsi_id', 36)->nullable();
             $table->string('kota_id', 36)->nullable();
             $table->boolean('is_active')->default(true);
+            $table->boolean('is_umkm')->default(false);
             $table->timestamps();
             $table->string('created_by')->nullable()->default(null);
             $table->string('updated_by')->nullable()->default(null);
