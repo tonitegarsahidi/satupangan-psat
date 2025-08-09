@@ -23,7 +23,7 @@ Route::middleware('auth')->group(function () {
     // BUSINESS PROFILE SETTING
     Route::middleware('role:ROLE_USER_BUSINESS')->group(function () {
         Route::get('/profil-bisnis', [BusinessProfileController::class, 'index'])->name('business.profile.index');
-        Route::put('/profil-bisnis', [BusinessProfileController::class, 'updateOrCreate'])->name('business.profile.update');
+        Route::put('/profil-bisnis', [BusinessProfileController::class, 'updateBusiness'])->name('business.profile.update');
         Route::get('/profil-bisnis/kota-by-provinsi/{provinsiId}', [BusinessProfileController::class, 'getKotaByProvinsi'])->name('business.profile.kota_by_provinsi');
     });
 

@@ -13,6 +13,7 @@ use App\Models\MasterJenisPanganSegar;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\View\View;
 
 /**
@@ -59,7 +60,7 @@ class BusinessProfileController extends Controller
         $user = Auth::user();
         $profile = $this->userProfileService->getUserProfile($user->id);
         $business = Business::where('user_id', $user->id)->first();
-        
+
         $breadcrumbs = array_merge($this->mainBreadcrumbs, ['Profil Bisnis' => null]);
         $alerts = AlertHelper::getAlerts();
 
@@ -106,8 +107,14 @@ class BusinessProfileController extends Controller
                 $validated['profile_picture'] = null;
             }
 
+            // Separate profile data from business data
+            $profileData = array_intersect_key($validated, array_flip([
+                'date_of_birth', 'gender', 'address', 'provinsi_id', 'kota_id',
+                'pekerjaan', 'profile_picture'
+            ]));
+
             // Update or create user profile
-            $profileResult = $this->userProfileService->updateOrCreate($userId, $validated);
+            $profileResult = $this->userProfileService->updateOrCreate($userId, $profileData);
 
             // Update or create business data
             $businessData = [
@@ -115,6 +122,7 @@ class BusinessProfileController extends Controller
                 'alamat_perusahaan' => $validated['alamat_perusahaan'],
                 'jabatan_perusahaan' => $validated['jabatan_perusahaan'],
                 'nib' => $validated['nib'],
+                'is_umkm' => $validated['is_umkm'] ?? false,
                 'updated_by' => $userId,
             ];
 
@@ -141,6 +149,63 @@ class BusinessProfileController extends Controller
 
         } catch (Exception $e) {
             // Handle any exceptions (e.g. upload errors)
+            $alert = AlertHelper::createAlert('danger', 'Terjadi kesalahan: ' . $e->getMessage());
+        }
+
+        // Redirect back with the alert
+        return redirect()->route('business.profile.index')->with(['alerts' => [$alert]]);
+    }
+
+    /**
+     * =============================================
+     *     process update business data only (without user profile)
+     * =============================================
+     */
+    public function updateBusiness(BusinessProfileUpdateRequest $request)
+    {
+        // The validated data will be available via $request->validated()
+        $validated = $request->validated();
+        $userId = Auth::user()->id;
+
+        try {
+            DB::beginTransaction();
+
+            // Update business data only
+            $businessData = [
+                'nama_perusahaan' => $validated['nama_perusahaan'],
+                'alamat_perusahaan' => $validated['alamat_perusahaan'],
+                'jabatan_perusahaan' => $validated['jabatan_perusahaan'],
+                'nib' => $validated['nib'],
+                'is_umkm' => $validated['is_umkm'] ?? false,
+                'provinsi_id' => $validated['provinsi_id'],
+                'kota_id' => $validated['kota_id'],
+                'updated_by' => $userId,
+            ];
+
+            $business = Business::where('user_id', $userId)->first();
+            if ($business) {
+                $business->update($businessData);
+                $businessResult = true;
+            } else {
+                $businessData['user_id'] = $userId;
+                $businessData['created_by'] = $userId;
+                $business = Business::create($businessData);
+                $businessResult = true;
+            }
+
+            // Update jenis PSAT relationships
+            if (isset($validated['jenispsat_id']) && $business) {
+                $business->jenispsats()->sync($validated['jenispsat_id']);
+            }
+
+            DB::commit();
+
+            // Create success alert
+            $alert = AlertHelper::createAlert('success', 'Profil bisnis berhasil diperbarui.');
+
+        } catch (Exception $e) {
+            DB::rollback();
+            // Handle any exceptions
             $alert = AlertHelper::createAlert('danger', 'Terjadi kesalahan: ' . $e->getMessage());
         }
 

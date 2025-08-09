@@ -67,11 +67,45 @@
                                         <div class="form-check form-switch me-3">
                                             <input class="form-check-input" type="checkbox" name="is_umkm" id="is_umkm"
                                                 value="1" {{ old('is_umkm', $business->is_umkm ? 'checked' : '') }}>
-                                            <label class="form-check-label" for="is_umkm">UMKM</label>
+                                            <label class="form-check-label" for="is_umkm">Ya</label>
                                         </div>
-                                        {{-- <span class="text-muted">Tidak</span> --}}
+                                        <span class="text-muted">Tidak</span>
                                     </div>
                                     <small class="text-muted">Centang jika usaha Anda termasuk UMKM (Usaha Mikro, Kecil, dan Menengah).</small>
+                                </div>
+
+                                <!-- Provinsi -->
+                                <div class="mb-3 col-md-6">
+                                    <label for="provinsi_id" class="form-label">Provinsi <span class="text-danger">*</span></label>
+                                    @include('admin.components.notification.error-validation', [
+                                        'field' => 'provinsi_id',
+                                    ])
+                                    <select id="provinsi_id" name="provinsi_id" class="form-select" required>
+                                        <option value="">Pilih Provinsi</option>
+                                        @foreach ($provinsis as $provinsi)
+                                            <option value="{{ $provinsi->id }}"
+                                                {{ old('provinsi_id', $business->provinsi_id ?? $profile->provinsi_id ?? '') == $provinsi->id ? 'selected' : '' }}>
+                                                {{ $provinsi->nama_provinsi }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                </div>
+
+                                <!-- Kota -->
+                                <div class="mb-3 col-md-6">
+                                    <label for="kota_id" class="form-label">Kabupaten/Kota <span class="text-danger">*</span></label>
+                                    @include('admin.components.notification.error-validation', [
+                                        'field' => 'kota_id',
+                                    ])
+                                    <select id="kota_id" name="kota_id" class="form-select" required>
+                                        <option value="">Pilih Kabupaten/Kota</option>
+                                        @foreach ($kotas as $kota)
+                                            <option value="{{ $kota->id }}"
+                                                {{ old('kota_id', $business->kota_id ?? $profile->kota_id ?? '') == $kota->id ? 'selected' : '' }}>
+                                                {{ $kota->nama_kota }}
+                                            </option>
+                                        @endforeach
+                                    </select>
                                 </div>
 
                                 <!-- Alamat Perusahaan -->
@@ -122,4 +156,34 @@
         </div>
 
     </div>
+@endsection
+
+
+@section('footer-code')
+<script>
+    // Dependent dropdown: Provinsi -> Kota
+    document.getElementById('provinsi_id').addEventListener('change', function() {
+        var provinsiId = this.value;
+        var kotaSelect = document.getElementById('kota_id');
+        kotaSelect.innerHTML = '<option value="">Memuat...</option>';
+        if (provinsiId) {
+            fetch('/profil-bisnis/kota-by-provinsi/' + provinsiId)
+                .then(response => response.json())
+                .then(data => {
+                    kotaSelect.innerHTML = '<option value="">Pilih Kabupaten/Kota</option>';
+                    data.forEach(function(kota) {
+                        var option = document.createElement('option');
+                        option.value = kota.id;
+                        option.text = kota.nama_kota;
+                        kotaSelect.appendChild(option);
+                    });
+                })
+                .catch(() => {
+                    kotaSelect.innerHTML = '<option value="">Gagal memuat kota</option>';
+                });
+        } else {
+            kotaSelect.innerHTML = '<option value="">Pilih Kabupaten/Kota</option>';
+        }
+    });
+</script>
 @endsection
