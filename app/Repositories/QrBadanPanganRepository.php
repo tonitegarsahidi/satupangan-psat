@@ -95,4 +95,12 @@ class QrBadanPanganRepository
                             ->orderBy('created_at', 'desc')
                             ->get();
     }
+
+    public function getQrBadanPanganByCategory($qrCategory)
+    {
+        return QrBadanPangan::where('qr_category', $qrCategory)
+                            ->with(['business', 'currentAssignee', 'requestedBy', 'reviewedBy', 'approvedBy', 'jenisPsat'])
+                            ->orderBy('created_at', 'desc')
+                            ->get();
+    }
 }

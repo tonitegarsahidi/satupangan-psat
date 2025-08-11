@@ -71,4 +71,10 @@ return [
 
 'REGISTER_IZINEDAR_PL_ASSIGNEE' => 'kantorpusat@panganaman.my.id',
 
+    'QR_CATEGORY' => [
+        "Produk Dalam Negeri" => 1,
+        "Produk Impor" => 2,
+        "Masa Simpan maks 7 Hari" => 3,
+    ],
+
 ];

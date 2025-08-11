@@ -86,6 +86,11 @@ class QrBadanPanganService
         return $this->qrBadanPanganRepository->getQrBadanPanganByAssignee($assigneeId);
     }
 
+    public function getQrBadanPanganByCategory($qrCategory)
+    {
+        return $this->qrBadanPanganRepository->getQrBadanPanganByCategory($qrCategory);
+    }
+
     public function updateStatus($id, $status, $userId = null)
     {
         DB::beginTransaction();

@@ -97,6 +97,9 @@ class QrBadanPanganController extends Controller
 
         $jenispsats = MasterJenisPanganSegar::orderBy('nama_jenis_pangan_segar', 'asc')->get();
 
+        // Get QR categories
+        $qrCategories = config('constant.QR_CATEGORY');
+
         // Get assignee users from config
         $assigneeEmail = config('constant.QR_BADAN_PANGAN_ASSIGNEE');
         $assignees = User::where('email', $assigneeEmail)->get();
@@ -131,6 +134,7 @@ class QrBadanPanganController extends Controller
             'breadcrumbs',
             'business',
             'jenispsats',
+            'qrCategories',
             'assignees',
             'sppbs',
             'izinedarPsatpls',
@@ -156,9 +160,10 @@ class QrBadanPanganController extends Controller
         $validatedData['requested_by'] = $user->id;
         $validatedData['requested_at'] = now();
 
-        // Set default values for status and is_published
+        // Set default values for status, is_published, and qr_category
         $validatedData['status'] = 'pending';
         $validatedData['is_published'] = false;
+        $validatedData['qr_category'] = 1; // Default to "Produk Dalam Negeri"
 
         // Handle file uploads for file_lampiran1 to file_lampiran5
         $uploadPath = 'files/upload/qr-badan-pangan';
@@ -220,6 +225,9 @@ class QrBadanPanganController extends Controller
 
         $jenispsats = MasterJenisPanganSegar::orderBy('nama_jenis_pangan_segar', 'asc')->get();
 
+        // Get QR categories
+        $qrCategories = config('constant.QR_CATEGORY');
+
         // Get assignee users from config
         $assigneeEmail = config('constant.QR_BADAN_PANGAN_ASSIGNEE');
         $assignees = User::where('email', $assigneeEmail)->get();
@@ -254,6 +262,7 @@ class QrBadanPanganController extends Controller
             'breadcrumbs',
             'qrBadanPangan',
             'jenispsats',
+            'qrCategories',
             'assignees',
             'sppbs',
             'izinedarPsatpls',
@@ -392,5 +401,28 @@ class QrBadanPanganController extends Controller
             : AlertHelper::createAlert('danger', 'Failed to assign QR Badan Pangan');
 
         return redirect()->route('qr-badan-pangan.index')->with('alerts', [$alert]);
+    }
+
+    /**
+     * =============================================
+     *      filter by qr_category
+     * =============================================
+     */
+    public function filterByCategory(Request $request)
+    {
+        $qrCategory = $request->input('qr_category');
+
+        if ($qrCategory) {
+            $qrBadanPangans = $this->qrBadanPanganService->getQrBadanPanganByCategory($qrCategory);
+            $alert = AlertHelper::createAlert('success', 'Filtered by QR Category: ' . array_search($qrCategory, config('constant.QR_CATEGORY')));
+        } else {
+            $qrBadanPangans = $this->qrBadanPanganService->listAllQrBadanPangan(config('constant.CRUD.PER_PAGE'));
+            $alert = AlertHelper::createAlert('info', 'Showing all QR Badan Pangan records');
+        }
+
+        $breadcrumbs = array_merge($this->mainBreadcrumbs, ['Filter' => null]);
+
+        return view('admin.pages.qr-badan-pangan.index', compact('qrBadanPangans', 'breadcrumbs', 'alert'))
+            ->with('qr_category_filter', $qrCategory);
     }
 }

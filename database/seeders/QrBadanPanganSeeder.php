@@ -18,8 +18,8 @@ class QrBadanPanganSeeder extends Seeder
         $supervisor = DB::table('users')->where('email', 'supervisor@panganaman.my.id')->first();
 
         // Get business IDs
-        $business1 = DB::table('business')->where('nama_perusahaan', 'PT Melon Segar')->first();
-        $business2 = DB::table('business')->where('nama_perusahaan', 'CV Sambo Importir')->first();
+        $business1 = DB::table('business')->where('nama_perusahaan', 'PT Buah Raja Segar')->first();
+        $business2 = DB::table('business')->where('nama_perusahaan', 'UD Petani Jeruk')->first();
 
         // Get reference IDs
         $sppb = DB::table('register_sppb')->first();
@@ -45,6 +45,7 @@ class QrBadanPanganSeeder extends Seeder
                 'approved_at' => $now->copy()->subDays(1),
                 'status' => 'approved',
                 'is_published' => true,
+                'qr_category' => 1, // Produk Dalam Negeri
                 'business_id' => $business1 ? $business1->id : null,
                 'nama_komoditas' => 'Melon',
                 'nama_latin' => 'Cucumis melo',
@@ -79,6 +80,7 @@ class QrBadanPanganSeeder extends Seeder
                 'approved_at' => null,
                 'status' => 'pending',
                 'is_published' => false,
+                'qr_category' => 2, // Produk Impor
                 'business_id' => $business2 ? $business2->id : null,
                 'nama_komoditas' => 'Mangga',
                 'nama_latin' => 'Mangifera indica',
@@ -113,6 +115,7 @@ class QrBadanPanganSeeder extends Seeder
                 'approved_at' => null,
                 'status' => 'reviewed',
                 'is_published' => false,
+                'qr_category' => 3, // Masa Simpan maks 7 Hari
                 'business_id' => $business1 ? $business1->id : null,
                 'nama_komoditas' => 'Pisang',
                 'nama_latin' => 'Musa',

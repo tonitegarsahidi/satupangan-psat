@@ -28,6 +28,7 @@ class QrBadanPangan extends Model
         'approved_at',
         'status',
         'is_published',
+        'qr_category',
         'business_id',
         'nama_komoditas',
         'nama_latin',

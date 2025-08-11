@@ -28,13 +28,6 @@ class DatabaseSeeder extends Seeder
             MasterProvinsiSeeder::class,
             MasterPenangananSeeder::class,
 
-            RegisterSppbSeeder::class,
-            RegisterIzinedarPsatplSeeder::class,
-            RegisterIzinedarPsatpdSeeder::class,
-            RegisterIzinedarPsatpdukSeeder::class,
-            RegisterSertifikatKeamananPanganSeeder::class,
-            RegisterIzinrumahPengemasanSeeder::class,
-
             MasterKelompokPanganSeeder::class,
             MasterJenisPanganSegarSeeder::class,
             MasterBahanPanganSegarSeeder::class,
@@ -53,6 +46,15 @@ class DatabaseSeeder extends Seeder
             BusinessSeeder::class,
             BusinessJenispsatSeeder::class,
             PetugasSeeder::class,
+
+
+            RegisterSppbSeeder::class,
+            RegisterIzinedarPsatplSeeder::class,
+            RegisterIzinedarPsatpdSeeder::class,
+            RegisterIzinedarPsatpdukSeeder::class,
+            RegisterSertifikatKeamananPanganSeeder::class,
+            RegisterIzinrumahPengemasanSeeder::class,
+
             QrBadanPanganSeeder::class,
         ]);
     }
