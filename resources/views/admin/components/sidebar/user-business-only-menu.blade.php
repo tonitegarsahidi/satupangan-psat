@@ -63,7 +63,7 @@
             'menuIcon' => 'bx bx-file',
             'subMenuData' => null,
         ])
-        @endif
+    @endif
 
     {{-- REGISTER IZIN EDAR PSATPDUK MENU --}}
     @include('admin.components.sidebar.item', [
