@@ -41,7 +41,7 @@
                             {{-- BUSINESS ID FIELD (Hidden) --}}
                             <input type="hidden" name="business_id" id="business_id" value="{{ $business->id }}">
                             <div class="row mb-3">
-                                <label class="col-sm-2 col-form-label">Business*</label>
+                                <label class="col-sm-2 col-form-label">Nama Pelaku Usaha</label>
                                 <div class="col-sm-10">
                                     <a href="{{ route('business.profile.index') }}" class="form-control-plaintext text-primary" style="cursor: pointer; text-decoration: none;">
                                         {{ $business->nama_perusahaan }}
@@ -58,7 +58,7 @@
                                         'field' => 'qr_code',
                                     ])
                                     <input type="text" name="qr_code" class="form-control" id="qr_code"
-                                        placeholder="e.g., QR-001" value="{{ old('qr_code') }}">
+                                        placeholder="contoh:  QR-001" value="{{ old('qr_code') }}">
                                 </div>
                             </div> --}}
 
@@ -90,7 +90,7 @@
                                         'field' => 'nama_komoditas',
                                     ])
                                     <input type="text" name="nama_komoditas" class="form-control" id="nama_komoditas"
-                                        placeholder="e.g., Melon" value="{{ old('nama_komoditas') }}" required>
+                                        placeholder="contoh:  Melon" value="{{ old('nama_komoditas') }}" required>
                                 </div>
                             </div>
 
@@ -102,7 +102,7 @@
                                         'field' => 'nama_latin',
                                     ])
                                     <input type="text" name="nama_latin" class="form-control" id="nama_latin"
-                                        placeholder="e.g., Cucumis melo" value="{{ old('nama_latin') }}" required>
+                                        placeholder="contoh:  Cucumis melo" value="{{ old('nama_latin') }}" required>
                                 </div>
                             </div>
 
@@ -114,7 +114,7 @@
                                         'field' => 'merk_dagang',
                                     ])
                                     <input type="text" name="merk_dagang" class="form-control" id="merk_dagang"
-                                        placeholder="e.g., PanganAman" value="{{ old('merk_dagang') }}" required>
+                                        placeholder="contoh:  PanganAman" value="{{ old('merk_dagang') }}" required>
                                 </div>
                             </div>
 
@@ -125,14 +125,14 @@
                                     <div class="card">
                                         <div class="card-body">
                                             <div class="row">
-                                                <div class="col-md-6 mb-3">
+                                                <div class="col-md-10 mb-3">
                                                     <label class="form-label">Referensi SPPB</label>
                                                     <select name="referensi_sppb" class="form-control">
                                                         <option value="">-- Select SPPB --</option>
                                                         @foreach ($sppbs as $sppb)
                                                             <option value="{{ $sppb->id }}"
                                                                 {{ old('referensi_sppb') == $sppb->id ? 'selected' : '' }}>
-                                                                {{ $sppb->nomor_sppb }}
+                                                                {{ $sppb->nomor_registrasi }} - {{ $sppb->nama_komoditas }}
                                                             </option>
                                                         @endforeach
                                                     </select>
@@ -141,14 +141,14 @@
                                                         ['field' => 'referensi_sppb']
                                                     )
                                                 </div>
-                                                <div class="col-md-6 mb-3">
+                                                <div class="col-md-10 mb-3">
                                                     <label class="form-label">Referensi Izin EDAR PSATPL</label>
                                                     <select name="referensi_izinedar_psatpl" class="form-control">
                                                         <option value="">-- Select Izin EDAR PSATPL --</option>
                                                         @foreach ($izinedarPsatpls as $izinedarPsatpl)
                                                             <option value="{{ $izinedarPsatpl->id }}"
                                                                 {{ old('referensi_izinedar_psatpl') == $izinedarPsatpl->id ? 'selected' : '' }}>
-                                                                {{ $izinedarPsatpl->nomor_izinedar_pl }}
+                                                                {{ $izinedarPsatpl->nomor_izinedar_pl }} - {{ $izinedarPsatpl->merk_dagang }} - {{ $izinedarPsatpl->nama_komoditas }}
                                                             </option>
                                                         @endforeach
                                                     </select>
@@ -157,14 +157,14 @@
                                                         ['field' => 'referensi_izinedar_psatpl']
                                                     )
                                                 </div>
-                                                <div class="col-md-6 mb-3">
+                                                <div class="col-md-10 mb-3">
                                                     <label class="form-label">Referensi Izin EDAR PSATPD</label>
                                                     <select name="referensi_izinedar_psatpd" class="form-control">
                                                         <option value="">-- Select Izin EDAR PSATPD --</option>
                                                         @foreach ($izinedarPsatpds as $izinedarPsatpd)
                                                             <option value="{{ $izinedarPsatpd->id }}"
                                                                 {{ old('referensi_izinedar_psatpd') == $izinedarPsatpd->id ? 'selected' : '' }}>
-                                                                {{ $izinedarPsatpd->nomor_izinedar_pd }}
+                                                                {{ $izinedarPsatpd->nomor_izinedar_pd }} - {{ $izinedarPsatpd->merk_dagang }} - {{ $izinedarPsatpd->nama_komoditas }}
                                                             </option>
                                                         @endforeach
                                                     </select>
@@ -173,14 +173,14 @@
                                                         ['field' => 'referensi_izinedar_psatpd']
                                                     )
                                                 </div>
-                                                <div class="col-md-6 mb-3">
+                                                <div class="col-md-10 mb-3">
                                                     <label class="form-label">Referensi Izin EDAR PSATPDUK</label>
                                                     <select name="referensi_izinedar_psatpduk" class="form-control">
                                                         <option value="">-- Select Izin EDAR PSATPDUK --</option>
                                                         @foreach ($izinedarPsatpduks as $izinedarPsatpduk)
                                                             <option value="{{ $izinedarPsatpduk->id }}"
                                                                 {{ old('referensi_izinedar_psatpduk') == $izinedarPsatpduk->id ? 'selected' : '' }}>
-                                                                {{ $izinedarPsatpduk->nomor_izinedar_pduk }}
+                                                                {{ $izinedarPsatpduk->nomor_izinedar_pduk }} - {{ $izinedarPsatpduk->merk_dagang }} - {{ $izinedarPsatpduk->nama_komoditas }}
                                                             </option>
                                                         @endforeach
                                                     </select>

@@ -32,7 +32,7 @@
 
                                     {{-- input form --}}
                                     <input type="text" name="kode_cemaran_mikrotoksin" class="form-control" id="kode_cemaran_mikrotoksin"
-                                        placeholder="e.g., CMT001" value="{{ old('kode_cemaran_mikrotoksin', isset($kode_cemaran_mikrotoksin) ? $kode_cemaran_mikrotoksin : '') }}">
+                                        placeholder="contoh:  CMT001" value="{{ old('kode_cemaran_mikrotoksin', isset($kode_cemaran_mikrotoksin) ? $kode_cemaran_mikrotoksin : '') }}">
                                 </div>
                             </div>
 
@@ -45,7 +45,7 @@
 
                                     {{-- input form --}}
                                     <input type="text" name="nama_cemaran_mikrotoksin" class="form-control" id="nama_cemaran_mikrotoksin"
-                                        placeholder="e.g., Aflatoksin" value="{{ old('nama_cemaran_mikrotoksin', isset($nama_cemaran_mikrotoksin) ? $nama_cemaran_mikrotoksin : '') }}">
+                                        placeholder="contoh:  Aflatoksin" value="{{ old('nama_cemaran_mikrotoksin', isset($nama_cemaran_mikrotoksin) ? $nama_cemaran_mikrotoksin : '') }}">
                                 </div>
                             </div>
 

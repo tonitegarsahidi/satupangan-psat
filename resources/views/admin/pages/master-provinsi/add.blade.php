@@ -32,7 +32,7 @@
 
                                     {{-- input form --}}
                                     <input type="text" name="kode_provinsi" class="form-control" id="kode_provinsi"
-                                        placeholder="e.g., 11" value="{{ old('kode_provinsi', isset($kode_provinsi) ? $kode_provinsi : '') }}">
+                                        placeholder="contoh:  11" value="{{ old('kode_provinsi', isset($kode_provinsi) ? $kode_provinsi : '') }}">
                                 </div>
                             </div>
 
@@ -45,7 +45,7 @@
 
                                     {{-- input form --}}
                                     <input type="text" name="nama_provinsi" class="form-control" id="nama_provinsi"
-                                        placeholder="e.g., Aceh" value="{{ old('nama_provinsi', isset($nama_provinsi) ? $nama_provinsi : '') }}">
+                                        placeholder="contoh:  Aceh" value="{{ old('nama_provinsi', isset($nama_provinsi) ? $nama_provinsi : '') }}">
                                 </div>
                             </div>
 

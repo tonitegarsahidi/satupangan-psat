@@ -23,7 +23,7 @@
                                 <div class="col-sm-10">
                                     @include('admin.components.notification.error-validation', ['field' => 'nama_penanganan'])
                                     <input type="text" name="nama_penanganan" class="form-control" id="nama_penanganan"
-                                        placeholder="e.g., Cuci dengan air bersih" value="{{ old('nama_penanganan') }}">
+                                        placeholder="contoh:  Cuci dengan air bersih" value="{{ old('nama_penanganan') }}">
                                 </div>
                             </div>
 

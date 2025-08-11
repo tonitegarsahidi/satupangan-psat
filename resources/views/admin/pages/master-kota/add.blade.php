@@ -44,7 +44,7 @@
                                 <div class="col-sm-10">
                                     @include('admin.components.notification.error-validation', ['field' => 'kode_kota'])
                                     <input type="text" name="kode_kota" class="form-control" id="kode_kota"
-                                        placeholder="e.g., 1101" value="{{ old('kode_kota', isset($kode_kota) ? $kode_kota : '') }}">
+                                        placeholder="contoh:  1101" value="{{ old('kode_kota', isset($kode_kota) ? $kode_kota : '') }}">
                                 </div>
                             </div>
 
@@ -54,7 +54,7 @@
                                 <div class="col-sm-10">
                                     @include('admin.components.notification.error-validation', ['field' => 'nama_kota'])
                                     <input type="text" name="nama_kota" class="form-control" id="nama_kota"
-                                        placeholder="e.g., Banda Aceh" value="{{ old('nama_kota', isset($nama_kota) ? $nama_kota : '') }}">
+                                        placeholder="contoh:  Banda Aceh" value="{{ old('nama_kota', isset($nama_kota) ? $nama_kota : '') }}">
                                 </div>
                             </div>
 

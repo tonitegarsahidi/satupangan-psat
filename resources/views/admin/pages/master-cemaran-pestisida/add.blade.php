@@ -27,7 +27,7 @@
                                 <div class="col-sm-10">
                                     @include('admin.components.notification.error-validation', ['field' => 'kode_cemaran_pestisida'])
                                     <input type="text" name="kode_cemaran_pestisida" class="form-control" id="kode_cemaran_pestisida"
-                                        placeholder="e.g., PST001" value="{{ old('kode_cemaran_pestisida', isset($kode_cemaran_pestisida) ? $kode_cemaran_pestisida : '') }}">
+                                        placeholder="contoh:  PST001" value="{{ old('kode_cemaran_pestisida', isset($kode_cemaran_pestisida) ? $kode_cemaran_pestisida : '') }}">
                                 </div>
                             </div>
 
@@ -37,7 +37,7 @@
                                 <div class="col-sm-10">
                                     @include('admin.components.notification.error-validation', ['field' => 'nama_cemaran_pestisida'])
                                     <input type="text" name="nama_cemaran_pestisida" class="form-control" id="nama_cemaran_pestisida"
-                                        placeholder="e.g., Karbofuran" value="{{ old('nama_cemaran_pestisida', isset($nama_cemaran_pestisida) ? $nama_cemaran_pestisida : '') }}">
+                                        placeholder="contoh:  Karbofuran" value="{{ old('nama_cemaran_pestisida', isset($nama_cemaran_pestisida) ? $nama_cemaran_pestisida : '') }}">
                                 </div>
                             </div>
 

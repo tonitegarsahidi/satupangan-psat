@@ -24,7 +24,7 @@
                             {{-- BUSINESS ID FIELD (Hidden) --}}
                             <input type="hidden" name="business_id" id="business_id" value="{{ $registerSppb->business_id }}">
                             <div class="row mb-3">
-                                <label class="col-sm-2 col-form-label">Business*</label>
+                                <label class="col-sm-2 col-form-label">Nama Unit Usaha</label>
                                 <div class="col-sm-10">
                                     <div class="form-control-plaintext">{{ $registerSppb->business->nama_usaha }}</div>
                                 </div>
@@ -36,7 +36,7 @@
                                 <div class="col-sm-10">
                                     @include('admin.components.notification.error-validation', ['field' => 'nomor_registrasi'])
                                     <input type="text" name="nomor_registrasi" class="form-control" id="nomor_registrasi"
-                                        placeholder="e.g., SPPB-001" value="{{ old('nomor_registrasi', $registerSppb->nomor_registrasi) }}">
+                                        placeholder="contoh:  SPPB-001" value="{{ old('nomor_registrasi', $registerSppb->nomor_registrasi) }}">
                                 </div>
                             </div>
 
@@ -46,7 +46,7 @@
                                 <div class="col-sm-10">
                                     @include('admin.components.notification.error-validation', ['field' => 'nama_unitusaha'])
                                     <input type="text" name="nama_unitusaha" class="form-control" id="nama_unitusaha"
-                                        placeholder="e.g., PT. Contoh Jaya" value="{{ old('nama_unitusaha', $registerSppb->nama_unitusaha) }}">
+                                        placeholder="contoh:  PT. Contoh Jaya" value="{{ old('nama_unitusaha', $registerSppb->nama_unitusaha) }}">
                                 </div>
                             </div>
 
@@ -56,7 +56,7 @@
                                 <div class="col-sm-10">
                                     @include('admin.components.notification.error-validation', ['field' => 'alamat_unitusaha'])
                                     <input type="text" name="alamat_unitusaha" class="form-control" id="alamat_unitusaha"
-                                        placeholder="e.g., Jl. Contoh No. 1" value="{{ old('alamat_unitusaha', $registerSppb->alamat_unitusaha) }}">
+                                        placeholder="contoh:  Jl. Contoh No. 1" value="{{ old('alamat_unitusaha', $registerSppb->alamat_unitusaha) }}">
                                 </div>
                             </div>
 
@@ -66,7 +66,7 @@
                                 <div class="col-sm-10">
                                     @include('admin.components.notification.error-validation', ['field' => 'alamat_unit_penanganan'])
                                     <input type="text" name="alamat_unit_penanganan" class="form-control" id="alamat_unit_penanganan"
-                                        placeholder="e.g., Jl. Contoh No. 1" value="{{ old('alamat_unit_penanganan', $registerSppb->alamat_unit_penanganan) }}">
+                                        placeholder="contoh:  Jl. Contoh No. 1" value="{{ old('alamat_unit_penanganan', $registerSppb->alamat_unit_penanganan) }}">
                                 </div>
                             </div>
 
@@ -89,7 +89,7 @@
                                 <div class="col-sm-10">
                                     @include('admin.components.notification.error-validation', ['field' => 'nib_unitusaha'])
                                     <input type="text" name="nib_unitusaha" class="form-control" id="nib_unitusaha"
-                                        placeholder="e.g., 1234567890" value="{{ old('nib_unitusaha', $registerSppb->nib_unitusaha) }}">
+                                        placeholder="contoh:  1234567890" value="{{ old('nib_unitusaha', $registerSppb->nib_unitusaha) }}">
                                 </div>
                             </div>
 
@@ -120,7 +120,7 @@
                                 <div class="col-sm-10">
                                     @include('admin.components.notification.error-validation', ['field' => 'nama_komoditas'])
                                     <input type="text" name="nama_komoditas" class="form-control" id="nama_komoditas"
-                                        placeholder="e.g., Beras" value="{{ old('nama_komoditas', $registerSppb->nama_komoditas) }}">
+                                        placeholder="contoh:  Beras" value="{{ old('nama_komoditas', $registerSppb->nama_komoditas) }}">
                                 </div>
                             </div>
 

@@ -29,7 +29,7 @@
                                         'field' => 'kode_cemaran_pestisida',
                                     ])
                                     <input type="text" name="kode_cemaran_pestisida" class="form-control" id="kode_cemaran_pestisida"
-                                        placeholder="e.g., PST001"
+                                        placeholder="contoh:  PST001"
                                         value="{{ old('kode_cemaran_pestisida', isset($cemaranPestisida->kode_cemaran_pestisida) ? $cemaranPestisida->kode_cemaran_pestisida : '') }}">
                                 </div>
                             </div>
@@ -42,7 +42,7 @@
                                         'field' => 'nama_cemaran_pestisida',
                                     ])
                                     <input type="text" name="nama_cemaran_pestisida" class="form-control" id="nama_cemaran_pestisida"
-                                        placeholder="e.g., Karbofuran"
+                                        placeholder="contoh:  Karbofuran"
                                         value="{{ old('nama_cemaran_pestisida', isset($cemaranPestisida->nama_cemaran_pestisida) ? $cemaranPestisida->nama_cemaran_pestisida : '') }}">
                                 </div>
                             </div>

@@ -44,7 +44,7 @@
                                         'field' => 'kode_kota',
                                     ])
                                     <input type="text" name="kode_kota" class="form-control" id="kode_kota"
-                                        placeholder="e.g., 1101"
+                                        placeholder="contoh:  1101"
                                         value="{{ old('kode_kota', isset($kota->kode_kota) ? $kota->kode_kota : '') }}">
                                 </div>
                             </div>
@@ -57,7 +57,7 @@
                                         'field' => 'nama_kota',
                                     ])
                                     <input type="text" name="nama_kota" class="form-control" id="nama_kota"
-                                        placeholder="e.g., Banda Aceh"
+                                        placeholder="contoh:  Banda Aceh"
                                         value="{{ old('nama_kota', isset($kota->nama_kota) ? $kota->nama_kota : '') }}">
                                 </div>
                             </div>

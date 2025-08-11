@@ -32,7 +32,7 @@
 
                                     {{-- input form --}}
                                     <input type="text" name="kode_cemaran_mikroba" class="form-control" id="kode_cemaran_mikroba"
-                                        placeholder="e.g., CM001" value="{{ old('kode_cemaran_mikroba', isset($kode_cemaran_mikroba) ? $kode_cemaran_mikroba : '') }}">
+                                        placeholder="contoh:  CM001" value="{{ old('kode_cemaran_mikroba', isset($kode_cemaran_mikroba) ? $kode_cemaran_mikroba : '') }}">
                                 </div>
                             </div>
 
@@ -45,7 +45,7 @@
 
                                     {{-- input form --}}
                                     <input type="text" name="nama_cemaran_mikroba" class="form-control" id="nama_cemaran_mikroba"
-                                        placeholder="e.g., Salmonella" value="{{ old('nama_cemaran_mikroba', isset($nama_cemaran_mikroba) ? $nama_cemaran_mikroba : '') }}">
+                                        placeholder="contoh:  Salmonella" value="{{ old('nama_cemaran_mikroba', isset($nama_cemaran_mikroba) ? $nama_cemaran_mikroba : '') }}">
                                 </div>
                             </div>
 

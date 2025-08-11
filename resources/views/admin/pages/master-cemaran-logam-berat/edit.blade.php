@@ -32,7 +32,7 @@
 
                                     {{-- input form --}}
                                     <input type="text" name="kode_cemaran_logam_berat" class="form-control" id="kode_cemaran_logam_berat"
-                                        placeholder="e.g., CLB001"
+                                        placeholder="contoh:  CLB001"
                                         value="{{ old('kode_cemaran_logam_berat', isset($cemaranLogamBerat->kode_cemaran_logam_berat) ? $cemaranLogamBerat->kode_cemaran_logam_berat : '') }}">
                                 </div>
                             </div>
@@ -48,7 +48,7 @@
 
                                     {{-- input form --}}
                                     <input type="text" name="nama_cemaran_logam_berat" class="form-control" id="nama_cemaran_logam_berat"
-                                        placeholder="e.g., Timbal"
+                                        placeholder="contoh:  Timbal"
                                         value="{{ old('nama_cemaran_logam_berat', isset($cemaranLogamBerat->nama_cemaran_logam_berat) ? $cemaranLogamBerat->nama_cemaran_logam_berat : '') }}">
                                 </div>
                             </div>

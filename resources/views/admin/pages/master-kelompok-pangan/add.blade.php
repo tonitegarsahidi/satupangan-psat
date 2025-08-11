@@ -32,7 +32,7 @@
 
                                     {{-- input form --}}
                                     <input type="text" name="kode_kelompok_pangan" class="form-control" id="kode_kelompok_pangan"
-                                        placeholder="e.g., 11" value="{{ old('kode_kelompok_pangan', isset($kode_kelompok_pangan) ? $kode_kelompok_pangan : '') }}">
+                                        placeholder="contoh:  11" value="{{ old('kode_kelompok_pangan', isset($kode_kelompok_pangan) ? $kode_kelompok_pangan : '') }}">
                                 </div>
                             </div>
 
@@ -45,7 +45,7 @@
 
                                     {{-- input form --}}
                                     <input type="text" name="nama_kelompok_pangan" class="form-control" id="nama_kelompok_pangan"
-                                        placeholder="e.g., Serealia" value="{{ old('nama_kelompok_pangan', isset($nama_kelompok_pangan) ? $nama_kelompok_pangan : '') }}">
+                                        placeholder="contoh:  Serealia" value="{{ old('nama_kelompok_pangan', isset($nama_kelompok_pangan) ? $nama_kelompok_pangan : '') }}">
                                 </div>
                             </div>
 
@@ -57,7 +57,7 @@
                                     @include('admin.components.notification.error-validation', ['field' => 'keterangan'])
 
                                     {{-- input form --}}
-                                    <textarea name="keterangan" class="form-control" id="keterangan" placeholder="e.g., Kelompok pangan yang termasuk serealia">{{ old('keterangan', isset($keterangan) ? $keterangan : '') }}</textarea>
+                                    <textarea name="keterangan" class="form-control" id="keterangan" placeholder="contoh:  Kelompok pangan yang termasuk serealia">{{ old('keterangan', isset($keterangan) ? $keterangan : '') }}</textarea>
                                 </div>
                             </div>
 

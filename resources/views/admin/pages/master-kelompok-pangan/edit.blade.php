@@ -32,7 +32,7 @@
 
                                     {{-- input form --}}
                                     <input type="text" name="kode_kelompok_pangan" class="form-control" id="kode_kelompok_pangan"
-                                        placeholder="e.g., 11"
+                                        placeholder="contoh:  11"
                                         value="{{ old('kode_kelompok_pangan', isset($kelompokPangan->kode_kelompok_pangan) ? $kelompokPangan->kode_kelompok_pangan : '') }}">
                                 </div>
                             </div>
@@ -48,7 +48,7 @@
 
                                     {{-- input form --}}
                                     <input type="text" name="nama_kelompok_pangan" class="form-control" id="nama_kelompok_pangan"
-                                        placeholder="e.g., Serealia"
+                                        placeholder="contoh:  Serealia"
                                         value="{{ old('nama_kelompok_pangan', isset($kelompokPangan->nama_kelompok_pangan) ? $kelompokPangan->nama_kelompok_pangan : '') }}">
                                 </div>
                             </div>
@@ -61,7 +61,7 @@
                                     @include('admin.components.notification.error-validation', ['field' => 'keterangan'])
 
                                     {{-- input form --}}
-                                    <textarea name="keterangan" class="form-control" id="keterangan" placeholder="e.g., Kelompok pangan yang termasuk serealia">{{ old('keterangan', isset($kelompokPangan->keterangan) ? $kelompokPangan->keterangan : '') }}</textarea>
+                                    <textarea name="keterangan" class="form-control" id="keterangan" placeholder="contoh:  Kelompok pangan yang termasuk serealia">{{ old('keterangan', isset($kelompokPangan->keterangan) ? $kelompokPangan->keterangan : '') }}</textarea>
                                 </div>
                             </div>
 

@@ -24,7 +24,7 @@
                             {{-- BUSINESS ID FIELD (Hidden) --}}
                             <input type="hidden" name="business_id" id="business_id" value="{{ $registerIzinedarPsatpduk->business_id }}">
                             <div class="row mb-3">
-                                <label class="col-sm-2 col-form-label">Business*</label>
+                                <label class="col-sm-2 col-form-label">Nama Unit Usaha</label>
                                 <div class="col-sm-10">
                                     <div class="form-control-plaintext">{{ $registerIzinedarPsatpduk->business->nama_usaha }}</div>
                                 </div>
@@ -68,7 +68,7 @@
                                 <div class="col-sm-10">
                                     @include('admin.components.notification.error-validation', ['field' => 'nomor_sppb'])
                                     <input type="text" name="nomor_sppb" class="form-control" id="nomor_sppb"
-                                        placeholder="e.g., SPPB-001" value="{{ old('nomor_sppb', $registerIzinedarPsatpduk->nomor_sppb) }}">
+                                        placeholder="contoh:  SPPB-001" value="{{ old('nomor_sppb', $registerIzinedarPsatpduk->nomor_sppb) }}">
                                 </div>
                             </div>
 
@@ -78,7 +78,7 @@
                                 <div class="col-sm-10">
                                     @include('admin.components.notification.error-validation', ['field' => 'nomor_izinedar_pduk'])
                                     <input type="text" name="nomor_izinedar_pduk" class="form-control" id="nomor_izinedar_pduk"
-                                        placeholder="e.g., IZIN-EDAR-001" value="{{ old('nomor_izinedar_pduk', $registerIzinedarPsatpduk->nomor_izinedar_pduk) }}">
+                                        placeholder="contoh:  IZIN-EDAR-001" value="{{ old('nomor_izinedar_pduk', $registerIzinedarPsatpduk->nomor_izinedar_pduk) }}">
                                 </div>
                             </div>
 
@@ -88,7 +88,7 @@
                                 <div class="col-sm-10">
                                     @include('admin.components.notification.error-validation', ['field' => 'nama_unitusaha'])
                                     <input type="text" name="nama_unitusaha" class="form-control" id="nama_unitusaha"
-                                        placeholder="e.g., PT. Contoh Jaya" value="{{ old('nama_unitusaha', $registerIzinedarPsatpduk->nama_unitusaha) }}">
+                                        placeholder="contoh:  PT. Contoh Jaya" value="{{ old('nama_unitusaha', $registerIzinedarPsatpduk->nama_unitusaha) }}">
                                 </div>
                             </div>
 
@@ -98,7 +98,7 @@
                                 <div class="col-sm-10">
                                     @include('admin.components.notification.error-validation', ['field' => 'alamat_unitusaha'])
                                     <input type="text" name="alamat_unitusaha" class="form-control" id="alamat_unitusaha"
-                                        placeholder="e.g., Jl. Contoh No. 1" value="{{ old('alamat_unitusaha', $registerIzinedarPsatpduk->alamat_unitusaha) }}">
+                                        placeholder="contoh:  Jl. Contoh No. 1" value="{{ old('alamat_unitusaha', $registerIzinedarPsatpduk->alamat_unitusaha) }}">
                                 </div>
                             </div>
 
@@ -108,7 +108,7 @@
                                 <div class="col-sm-10">
                                     @include('admin.components.notification.error-validation', ['field' => 'alamat_unitpenanganan'])
                                     <input type="text" name="alamat_unitpenanganan" class="form-control" id="alamat_unitpenanganan"
-                                        placeholder="e.g., Jl. Contoh No. 1" value="{{ old('alamat_unitpenanganan', $registerIzinedarPsatpduk->alamat_unitpenanganan) }}">
+                                        placeholder="contoh:  Jl. Contoh No. 1" value="{{ old('alamat_unitpenanganan', $registerIzinedarPsatpduk->alamat_unitpenanganan) }}">
                                 </div>
                             </div>
 
@@ -131,7 +131,7 @@
                                 <div class="col-sm-10">
                                     @include('admin.components.notification.error-validation', ['field' => 'nib_unitusaha'])
                                     <input type="text" name="nib_unitusaha" class="form-control" id="nib_unitusaha"
-                                        placeholder="e.g., 1234567890" value="{{ old('nib_unitusaha', $registerIzinedarPsatpduk->nib_unitusaha) }}">
+                                        placeholder="contoh:  1234567890" value="{{ old('nib_unitusaha', $registerIzinedarPsatpduk->nib_unitusaha) }}">
                                 </div>
                             </div>
 
@@ -157,7 +157,7 @@
                                 <div class="col-sm-10">
                                     @include('admin.components.notification.error-validation', ['field' => 'nama_komoditas'])
                                     <input type="text" name="nama_komoditas" class="form-control" id="nama_komoditas"
-                                        placeholder="e.g., Melon" value="{{ old('nama_komoditas', $registerIzinedarPsatpduk->nama_komoditas) }}">
+                                        placeholder="contoh:  Melon" value="{{ old('nama_komoditas', $registerIzinedarPsatpduk->nama_komoditas) }}">
                                 </div>
                             </div>
 
@@ -167,7 +167,7 @@
                                 <div class="col-sm-10">
                                     @include('admin.components.notification.error-validation', ['field' => 'nama_latin'])
                                     <input type="text" name="nama_latin" class="form-control" id="nama_latin"
-                                        placeholder="e.g., Cucumis melo" value="{{ old('nama_latin', $registerIzinedarPsatpduk->nama_latin) }}">
+                                        placeholder="contoh:  Cucumis melo" value="{{ old('nama_latin', $registerIzinedarPsatpduk->nama_latin) }}">
                                 </div>
                             </div>
 
@@ -177,7 +177,7 @@
                                 <div class="col-sm-10">
                                     @include('admin.components.notification.error-validation', ['field' => 'negara_asal'])
                                     <input type="text" name="negara_asal" class="form-control" id="negara_asal"
-                                        placeholder="e.g., Indonesia" value="{{ old('negara_asal', $registerIzinedarPsatpduk->negara_asal) }}">
+                                        placeholder="contoh:  Indonesia" value="{{ old('negara_asal', $registerIzinedarPsatpduk->negara_asal) }}">
                                 </div>
                             </div>
 
@@ -187,7 +187,7 @@
                                 <div class="col-sm-10">
                                     @include('admin.components.notification.error-validation', ['field' => 'merk_dagang'])
                                     <input type="text" name="merk_dagang" class="form-control" id="merk_dagang"
-                                        placeholder="e.g., PanganAman" value="{{ old('merk_dagang', $registerIzinedarPsatpduk->merk_dagang) }}">
+                                        placeholder="contoh:  PanganAman" value="{{ old('merk_dagang', $registerIzinedarPsatpduk->merk_dagang) }}">
                                 </div>
                             </div>
 
@@ -197,7 +197,7 @@
                                 <div class="col-sm-10">
                                     @include('admin.components.notification.error-validation', ['field' => 'jenis_kemasan'])
                                     <input type="text" name="jenis_kemasan" class="form-control" id="jenis_kemasan"
-                                        placeholder="e.g., Plastik Wrap" value="{{ old('jenis_kemasan', $registerIzinedarPsatpduk->jenis_kemasan) }}">
+                                        placeholder="contoh:  Plastik Wrap" value="{{ old('jenis_kemasan', $registerIzinedarPsatpduk->jenis_kemasan) }}">
                                 </div>
                             </div>
 
@@ -207,7 +207,7 @@
                                 <div class="col-sm-10">
                                     @include('admin.components.notification.error-validation', ['field' => 'ukuran_berat'])
                                     <input type="text" name="ukuran_berat" class="form-control" id="ukuran_berat"
-                                        placeholder="e.g., 1.5 kg per buah" value="{{ old('ukuran_berat', $registerIzinedarPsatpduk->ukuran_berat) }}">
+                                        placeholder="contoh:  1.5 kg per buah" value="{{ old('ukuran_berat', $registerIzinedarPsatpduk->ukuran_berat) }}">
                                 </div>
                             </div>
 

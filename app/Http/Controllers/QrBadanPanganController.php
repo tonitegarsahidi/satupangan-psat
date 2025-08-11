@@ -102,9 +102,9 @@ class QrBadanPanganController extends Controller
         $assignees = User::where('email', $assigneeEmail)->get();
 
         // Get reference data filtered by user and approved status
-        $sppbs = RegisterSppb::where('business_id', $business->id)
-                              ->where('status', 'approved')
-                              ->get();
+        // $sppbs = RegisterSppb::where('business_id', $business->id)
+        //                       ->where('status', 'approved')
+        //                       ->get();
 
         $sppbs = $this->registerSppbService->listAllRegisterSppb(1000, "created_at", "asc", null, $user);
 

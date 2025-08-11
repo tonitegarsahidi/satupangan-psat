@@ -29,7 +29,7 @@ class BusinessSeeder extends Seeder
             [
                 'id' => Str::uuid(),
                 'user_id' => $user1 ? $user1->id : null,
-                'nama_perusahaan' => 'PT Melon Segar',
+                'nama_perusahaan' => 'PT Buah Raja Segar',
                 'alamat_perusahaan' => 'Jl. Buah Segar No. 1',
                 'jabatan_perusahaan' => 'Direktur',
                 'nib' => '1234567890',
@@ -46,7 +46,7 @@ class BusinessSeeder extends Seeder
             [
                 'id' => Str::uuid(),
                 'user_id' => $user2 ? $user2->id : null,
-                'nama_perusahaan' => 'CV Sambo Importir',
+                'nama_perusahaan' => 'UD Petani Jeruk',
                 'alamat_perusahaan' => 'Jl. Impor No. 2',
                 'jabatan_perusahaan' => 'Owner',
                 'nib' => '0987654321',

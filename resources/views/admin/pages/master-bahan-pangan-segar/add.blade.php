@@ -51,7 +51,7 @@
 
                                     {{-- input form --}}
                                     <input type="text" name="kode_bahan_pangan_segar" class="form-control" id="kode_bahan_pangan_segar"
-                                        placeholder="e.g., 11" value="{{ old('kode_bahan_pangan_segar', isset($kode_bahan_pangan_segar) ? $kode_bahan_pangan_segar : '') }}">
+                                        placeholder="contoh:  11" value="{{ old('kode_bahan_pangan_segar', isset($kode_bahan_pangan_segar) ? $kode_bahan_pangan_segar : '') }}">
                                 </div>
                             </div>
 
@@ -64,7 +64,7 @@
 
                                     {{-- input form --}}
                                     <input type="text" name="nama_bahan_pangan_segar" class="form-control" id="nama_bahan_pangan_segar"
-                                        placeholder="e.g., Beras Putih" value="{{ old('nama_bahan_pangan_segar', isset($nama_bahan_pangan_segar) ? $nama_bahan_pangan_segar : '') }}">
+                                        placeholder="contoh:  Beras Putih" value="{{ old('nama_bahan_pangan_segar', isset($nama_bahan_pangan_segar) ? $nama_bahan_pangan_segar : '') }}">
                                 </div>
                             </div>
 

@@ -36,7 +36,7 @@
     {{-- REGISTRASI & MASTER DATA --}}
     @include('admin.components.sidebar.menu-header', ['textMenuHeader' => 'Kelengkapan Dokumen'])
 
-    @if (auth()->user()->business && !auth()->user()->business->is_umkm)
+    @if ((auth()->user()->business && !auth()->user()->business->is_umkm) || (auth()->user()->hasAnyRole(['ROLE_OPERATOR', 'ROLE_SUPERVISOR'])))
         {{-- REGISTER SPPB MENU --}}
         @include('admin.components.sidebar.item', [
             'menuId' => 'menu-register-sppb',
@@ -63,7 +63,7 @@
             'menuIcon' => 'bx bx-file',
             'subMenuData' => null,
         ])
-    @endif
+    @elseif ((auth()->user()->business && auth()->user()->business->is_umkm) || (auth()->user()->hasAnyRole(['ROLE_OPERATOR', 'ROLE_SUPERVISOR'])))
 
     {{-- REGISTER IZIN EDAR PSATPDUK MENU --}}
     @include('admin.components.sidebar.item', [
@@ -73,4 +73,6 @@
         'menuIcon' => 'bx bx-file',
         'subMenuData' => null,
     ])
+
+    @endif
 @endif

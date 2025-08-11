@@ -26,7 +26,7 @@
                                 <div class="col-sm-10">
                                     @include('admin.components.notification.error-validation', ['field' => 'title'])
                                     <input type="text" name="title" class="form-control" id="title"
-                                        placeholder="e.g., Laporan Kendala"
+                                        placeholder="contoh:  Laporan Kendala"
                                         value="{{ old('title', isset($workflow->title) ? $workflow->title : '') }}">
                                 </div>
                             </div>
