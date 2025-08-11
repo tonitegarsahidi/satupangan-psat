@@ -20,17 +20,17 @@ class RegisterIzinedarPsatpdukSeeder extends Seeder
      */
     public function run(): void
     {
-        // Get the user with email pengusaha@panganaman.my.id
-        $user = User::where('email', 'pengusaha@panganaman.my.id')->first();
+        // Get the user with email pengusaha2@panganaman.my.id
+        $user = User::where('email', 'pengusaha2@panganaman.my.id')->first();
         if (!$user) {
-            $this->command->error('User with email pengusaha@panganaman.my.id not found. Please ensure the user exists before running this seeder.');
+            $this->command->error('User with email pengusaha2@panganaman.my.id not found. Please ensure the user exists before running this seeder.');
             return;
         }
 
         // Get the business associated with this user
         $business = Business::where('user_id', $user->id)->first();
         if (!$business) {
-            $this->command->error('No business found for user pengusaha@panganaman.my.id. Please ensure the business exists before running this seeder.');
+            $this->command->error('No business found for user pengusaha2@panganaman.my.id. Please ensure the business exists before running this seeder.');
             return;
         }
 
@@ -52,21 +52,21 @@ class RegisterIzinedarPsatpdukSeeder extends Seeder
 
             // Unit usaha data
             'is_unitusaha' => true,
-            'nama_unitusaha' => 'Unit Usaha Melon',
-            'alamat_unitusaha' => 'Jl. Melon Manis No. 1',
-            'alamat_unitpenanganan' => 'Jl. Pengolahan Melon No. 2',
+            'nama_unitusaha' => 'Unit Usaha Sayuran Segar',
+            'alamat_unitusaha' => 'Jl. Sayuran Organik No. 1',
+            'alamat_unitpenanganan' => 'Jl. Pengolahan Sayuran No. 2',
             'provinsi_unitusaha' => $provinsi?->id,
             'kota_unitusaha' => $kota?->id,
             'nib_unitusaha' => 'NIB-MELON-001',
 
             'jenis_psat' => $jenisPsat?->id,
 
-            'nama_komoditas' => 'Melon Honeydew',
-            'nama_latin' => 'Cucumis melo',
+            'nama_komoditas' => 'Tomat Segar',
+            'nama_latin' => 'Solanum lycopersicum',
             'negara_asal' => 'Indonesia',
-            'merk_dagang' => 'Melon PanganAman',
-            'jenis_kemasan' => 'Plastik Wrap',
-            'ukuran_berat' => '1.5 kg per buah',
+            'merk_dagang' => 'Tomat Petani',
+            'jenis_kemasan' => 'Plastik Cling',
+            'ukuran_berat' => '1 kg per plastik',
             'kategorilabel' => 'Label Hijau',
             'foto_1' => 'photos/izinedar/1.jpg',
             'foto_2' => 'photos/izinedar/2.jpg',
@@ -100,19 +100,19 @@ class RegisterIzinedarPsatpdukSeeder extends Seeder
             'is_unitusaha' => false,
             'nama_unitusaha' => null,
             'alamat_unitusaha' => null,
-            'alamat_unitpenanganan' => 'Jl. Pengolahan Semangka No. 5',
+            'alamat_unitpenanganan' => 'Jl. Pengolahan Sayuran No. 5',
             'provinsi_unitusaha' => $provinsi?->id,
             'kota_unitusaha' => $kota?->id,
             'nib_unitusaha' => null,
 
             'jenis_psat' => $jenisPsat?->id,
 
-            'nama_komoditas' => 'Semangka Kuning',
-            'nama_latin' => 'Citrullus lanatus',
+            'nama_komoditas' => 'Cabe Rawit',
+            'nama_latin' => 'Capsicum frutescens',
             'negara_asal' => 'Indonesia',
-            'merk_dagang' => 'Semangka PanganAman',
-            'jenis_kemasan' => 'Kardus',
-            'ukuran_berat' => '3 kg per buah',
+            'merk_dagang' => 'Cabe Pedas',
+            'jenis_kemasan' => 'Plastik Gantung',
+            'ukuran_berat' => '500 gram per ikat',
             'kategorilabel' => 'Label Putih',
             'foto_1' => 'photos/izinedar/7.jpg',
             'foto_2' => 'photos/izinedar/8.jpg',
