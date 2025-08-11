@@ -1,5 +1,5 @@
 {{-- ROLE SPECIFIC MENU -- USER --}}
-@if (auth()->user()->hasRole('ROLE_USER_BUSINESS'))
+@if (auth()->user()->hasAnyRole(['ROLE_USER_BUSINESS', 'ROLE_OPERATOR', 'ROLE_SUPERVISOR']))
     {{-- EXAMPLE MENU HEADER FOR GROUPING --}}
     {{-- @include('admin.components.sidebar.menu-header', ['textMenuHeader' => 'User Only Menu']) --}}
     {{-- USER ONLY MENU --}}
@@ -34,34 +34,36 @@
     ])
 
     {{-- REGISTRASI & MASTER DATA --}}
-    @include('admin.components.sidebar.menu-header', ['textMenuHeader' => 'Dokumen Izin & Registrasi'])
+    @include('admin.components.sidebar.menu-header', ['textMenuHeader' => 'Kelengkapan Dokumen'])
 
-    {{-- REGISTER SPPB MENU --}}
-    @include('admin.components.sidebar.item', [
-        'menuId' => 'menu-register-sppb',
-        'menuText' => 'Register SPPB',
-        'menuUrl' => route('register-sppb.index'),
-        'menuIcon' => 'bx bx-file',
-        'subMenuData' => null,
-    ])
+    @if (auth()->user()->business && !auth()->user()->business->is_umkm)
+        {{-- REGISTER SPPB MENU --}}
+        @include('admin.components.sidebar.item', [
+            'menuId' => 'menu-register-sppb',
+            'menuText' => 'Register SPPB',
+            'menuUrl' => route('register-sppb.index'),
+            'menuIcon' => 'bx bx-file',
+            'subMenuData' => null,
+        ])
 
-    {{-- REGISTER IZIN EDAR PSATPL MENU --}}
-    @include('admin.components.sidebar.item', [
-        'menuId' => 'menu-register-izinedar-psatpl',
-        'menuText' => 'Izin Edar PL',
-        'menuUrl' => route('register-izinedar-psatpl.index'),
-        'menuIcon' => 'bx bx-file',
-        'subMenuData' => null,
-    ])
+        {{-- REGISTER IZIN EDAR PSATPL MENU --}}
+        @include('admin.components.sidebar.item', [
+            'menuId' => 'menu-register-izinedar-psatpl',
+            'menuText' => 'Izin Edar PL',
+            'menuUrl' => route('register-izinedar-psatpl.index'),
+            'menuIcon' => 'bx bx-file',
+            'subMenuData' => null,
+        ])
 
-     {{-- REGISTER IZIN EDAR PSATPD MENU --}}
-    @include('admin.components.sidebar.item', [
-        'menuId' => 'menu-register-izinedar-psatpd',
-        'menuText' => 'Izin Edar PD',
-        'menuUrl' => route('register-izinedar-psatpd.index'),
-        'menuIcon' => 'bx bx-file',
-        'subMenuData' => null,
-    ])
+        {{-- REGISTER IZIN EDAR PSATPD MENU --}}
+        @include('admin.components.sidebar.item', [
+            'menuId' => 'menu-register-izinedar-psatpd',
+            'menuText' => 'Izin Edar PD',
+            'menuUrl' => route('register-izinedar-psatpd.index'),
+            'menuIcon' => 'bx bx-file',
+            'subMenuData' => null,
+        ])
+        @endif
 
     {{-- REGISTER IZIN EDAR PSATPDUK MENU --}}
     @include('admin.components.sidebar.item', [

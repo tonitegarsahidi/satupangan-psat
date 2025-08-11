@@ -12,10 +12,10 @@ class QrBadanPanganSeeder extends Seeder
     public function run()
     {
         // Get user IDs for various roles
-        $user1 = DB::table('users')->where('email', 'pengusaha@satupangan.id')->first();
-        $user2 = DB::table('users')->where('email', 'pengusaha2@satupangan.id')->first();
-        $petugas = DB::table('users')->where('email', 'petugas@satupangan.id')->first();
-        $supervisor = DB::table('users')->where('email', 'supervisor@satupangan.id')->first();
+        $user1 = DB::table('users')->where('email', 'pengusaha@panganaman.my.id')->first();
+        $user2 = DB::table('users')->where('email', 'pengusaha2@panganaman.my.id')->first();
+        $petugas = DB::table('users')->where('email', 'petugas@panganaman.my.id')->first();
+        $supervisor = DB::table('users')->where('email', 'supervisor@panganaman.my.id')->first();
 
         // Get business IDs
         $business1 = DB::table('business')->where('nama_perusahaan', 'PT Melon Segar')->first();

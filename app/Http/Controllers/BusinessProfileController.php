@@ -69,7 +69,7 @@ class BusinessProfileController extends Controller
 
         // Ambil kota dari provinsi terpilih, atau kosong jika belum ada
         $kotas = collect();
-        $selectedProvinsiId = old('provinsi_id', $profile->provinsi_id ?? null);
+        $selectedProvinsiId = old('provinsi_id', $business->provinsi_id ?? $profile->provinsi_id ?? null);
         if ($selectedProvinsiId) {
             $kotas = \App\Models\MasterKota::where('provinsi_id', $selectedProvinsiId)->where('is_active', 1)->orderBy('nama_kota')->get();
         }

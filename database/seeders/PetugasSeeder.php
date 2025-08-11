@@ -16,7 +16,7 @@ class PetugasSeeder extends Seeder
         // Get all users with "kantor" in their name or email
         $users = DB::table('users')
             ->where('name', 'like', 'Kantor%')
-            ->orWhere('email', 'like', 'kantor%@satupangan.id')
+            ->orWhere('email', 'like', 'kantor%@panganaman.my.id')
             ->get();
 
         // Get a list of provinsi IDs for penempatan

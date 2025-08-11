@@ -80,7 +80,7 @@
                                         'field' => 'nama_unitusaha',
                                     ])
                                     <input type="text" name="nama_unitusaha" class="form-control" id="nama_unitusaha"
-                                        placeholder="e.g., PT Satu Pangan Sejahtera" value="{{ old('nama_unitusaha', $business->nama_perusahaan ?? '') }}">
+                                        placeholder="e.g., PT Pangan Aman Sejahtera" value="{{ old('nama_unitusaha', $business->nama_perusahaan ?? '') }}">
                                 </div>
                             </div>
 
@@ -200,7 +200,7 @@
                                         'field' => 'merk_dagang',
                                     ])
                                     <input type="text" name="merk_dagang" class="form-control" id="merk_dagang"
-                                        placeholder="e.g., SatuPangan" value="{{ old('merk_dagang') }}">
+                                        placeholder="e.g., PanganAman" value="{{ old('merk_dagang') }}">
                                 </div>
                             </div>
 
@@ -228,15 +228,18 @@
                                 </div>
                             </div>
 
-                            {{-- KLAIM FIELD --}}
+                            {{-- KATEGORI LABEL FIELD --}}
                             <div class="row mb-3">
-                                <label class="col-sm-2 col-form-label" for="klaim">Klaim</label>
+                                <label class="col-sm-2 col-form-label" for="kategorilabel">Kategori Label</label>
                                 <div class="col-sm-10">
                                     @include('admin.components.notification.error-validation', [
-                                        'field' => 'klaim',
+                                        'field' => 'kategorilabel',
                                     ])
-                                    <input type="text" name="klaim" class="form-control" id="klaim"
-                                        placeholder="e.g., Organik, Tanpa Pestisida" value="{{ old('klaim') }}">
+                                    <select name="kategorilabel" id="kategorilabel" class="form-control">
+                                        <option value="">-- Pilih Kategori Label --</option>
+                                        <option value="Label Putih" {{ old('kategorilabel') == 'Label Putih' ? 'selected' : '' }}>Label Putih</option>
+                                        <option value="Label Hijau" {{ old('kategorilabel') == 'Label Hijau' ? 'selected' : '' }}>Label Hijau</option>
+                                    </select>
                                 </div>
                             </div>
 

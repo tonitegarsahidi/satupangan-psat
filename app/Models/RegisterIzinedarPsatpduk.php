@@ -40,7 +40,7 @@ class RegisterIzinedarPsatpduk extends Model
         'merk_dagang',
         'jenis_kemasan',
         'ukuran_berat',
-        'klaim',
+        'kategorilabel',
         'foto_1',
         'foto_2',
         'foto_3',

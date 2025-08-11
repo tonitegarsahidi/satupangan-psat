@@ -20,17 +20,17 @@ class RegisterIzinedarPsatpdukSeeder extends Seeder
      */
     public function run(): void
     {
-        // Get the user with email pengusaha@satupangan.id
-        $user = User::where('email', 'pengusaha@satupangan.id')->first();
+        // Get the user with email pengusaha@panganaman.my.id
+        $user = User::where('email', 'pengusaha@panganaman.my.id')->first();
         if (!$user) {
-            $this->command->error('User with email pengusaha@satupangan.id not found. Please ensure the user exists before running this seeder.');
+            $this->command->error('User with email pengusaha@panganaman.my.id not found. Please ensure the user exists before running this seeder.');
             return;
         }
 
         // Get the business associated with this user
         $business = Business::where('user_id', $user->id)->first();
         if (!$business) {
-            $this->command->error('No business found for user pengusaha@satupangan.id. Please ensure the business exists before running this seeder.');
+            $this->command->error('No business found for user pengusaha@panganaman.my.id. Please ensure the business exists before running this seeder.');
             return;
         }
 
@@ -64,10 +64,10 @@ class RegisterIzinedarPsatpdukSeeder extends Seeder
             'nama_komoditas' => 'Melon Honeydew',
             'nama_latin' => 'Cucumis melo',
             'negara_asal' => 'Indonesia',
-            'merk_dagang' => 'Melon SatuPangan',
+            'merk_dagang' => 'Melon PanganAman',
             'jenis_kemasan' => 'Plastik Wrap',
             'ukuran_berat' => '1.5 kg per buah',
-            'klaim' => 'Organik, Tanpa Pestisida',
+            'kategorilabel' => 'Label Hijau',
             'foto_1' => 'photos/izinedar/1.jpg',
             'foto_2' => 'photos/izinedar/2.jpg',
             'foto_3' => 'photos/izinedar/3.jpg',
@@ -110,10 +110,10 @@ class RegisterIzinedarPsatpdukSeeder extends Seeder
             'nama_komoditas' => 'Semangka Kuning',
             'nama_latin' => 'Citrullus lanatus',
             'negara_asal' => 'Indonesia',
-            'merk_dagang' => 'Semangka SatuPangan',
+            'merk_dagang' => 'Semangka PanganAman',
             'jenis_kemasan' => 'Kardus',
             'ukuran_berat' => '3 kg per buah',
-            'klaim' => 'Manis, Segar',
+            'kategorilabel' => 'Label Putih',
             'foto_1' => 'photos/izinedar/7.jpg',
             'foto_2' => 'photos/izinedar/8.jpg',
             'foto_3' => 'photos/izinedar/9.jpg',

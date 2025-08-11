@@ -12,8 +12,8 @@ class BusinessSeeder extends Seeder
     public function run()
     {
         // Get user IDs for business users
-        $user1 = DB::table('users')->where('email', 'pengusaha@satupangan.id')->first();
-        $user2 = DB::table('users')->where('email', 'pengusaha2@satupangan.id')->first();
+        $user1 = DB::table('users')->where('email', 'pengusaha@panganaman.my.id')->first();
+        $user2 = DB::table('users')->where('email', 'pengusaha2@panganaman.my.id')->first();
 
         // Get provinsi_id for Jawa Timur
         $provinsi = DB::table('master_provinsis')->where('nama_provinsi', 'Jawa Timur')->first();

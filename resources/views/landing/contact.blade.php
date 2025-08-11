@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hubungi Kami - SatuPangan</title>
+    <title>Hubungi Kami - PanganAman</title>
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="{{ asset('assets/vendor/fonts/boxicons.css') }}" />
@@ -74,10 +74,10 @@
     <div class="container px-4 py-5">
         <div class="row row-cols-1 g-4 pt-4">
             <div class="col text-center">
-                <p><strong>Email:</strong> kontak@satupangan.id</p>
+                <p><strong>Email:</strong> kontak@panganaman.my.id</p>
                 <p><strong>Whatsapp:</strong> +62-812-xxx-xxxx</p>
                 <p><strong>Alamat:</strong> Sekretariat Sistem PSAT, Jakarta, Indonesia</p>
-                <p><strong>Media Sosial:</strong> @satupangan.id</p>
+                <p><strong>Media Sosial:</strong> @panganaman.my.id</p>
             </div>
         </div>
     </div>
@@ -86,7 +86,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-12">
-                    SatuPangan - Dikembangkan untuk mendukung keamanan pangan di Indonesia.
+                    PanganAman - Dikembangkan untuk mendukung keamanan pangan di Indonesia.
                 </div>
             </div>
         </div>

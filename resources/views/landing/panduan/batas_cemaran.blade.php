@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Batas Cemaran & Residu - SatuPangan</title>
+    <title>Batas Cemaran & Residu - PanganAman</title>
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="{{ asset('assets/vendor/fonts/boxicons.css') }}" />
@@ -85,7 +85,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-12">
-                    SatuPangan - Dikembangkan untuk mendukung keamanan pangan di Indonesia.
+                    PanganAman - Dikembangkan untuk mendukung keamanan pangan di Indonesia.
                 </div>
             </div>
         </div>

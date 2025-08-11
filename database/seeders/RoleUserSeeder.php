@@ -22,28 +22,28 @@ class RoleUserSeeder extends Seeder
          $roleIdSupervisor = DB::table('role_master')->where('role_code', 'ROLE_SUPERVISOR')->value('id');// Assign roles to users
 
          //find the id of the users
-         $userIdSuperAdmin  = DB::table('users')->where('email', 'superadmin@satupangan.id')->value('id');
-         $userIdUser        = DB::table('users')->where('email', 'user@satupangan.id')->value('id');
-         $userIdUser2        = DB::table('users')->where('email', 'user2@satupangan.id')->value('id');
-         $userIdPengusaha    = DB::table('users')->where('email', 'pengusaha@satupangan.id')->value('id');
-         $userIdPengusaha2   = DB::table('users')->where('email', 'pengusaha2@satupangan.id')->value('id');
-         $userIdAdmin       = DB::table('users')->where('email', 'admin@satupangan.id')->value('id');
-         $userIdOperator    = DB::table('users')->where('email', 'operator@satupangan.id')->value('id');
-         $userIdSupervisor  = DB::table('users')->where('email', 'supervisor@satupangan.id')->value('id');
+         $userIdSuperAdmin  = DB::table('users')->where('email', 'superadmin@panganaman.my.id')->value('id');
+         $userIdUser        = DB::table('users')->where('email', 'user@panganaman.my.id')->value('id');
+         $userIdUser2        = DB::table('users')->where('email', 'user2@panganaman.my.id')->value('id');
+         $userIdPengusaha    = DB::table('users')->where('email', 'pengusaha@panganaman.my.id')->value('id');
+         $userIdPengusaha2   = DB::table('users')->where('email', 'pengusaha2@panganaman.my.id')->value('id');
+         $userIdAdmin       = DB::table('users')->where('email', 'admin@panganaman.my.id')->value('id');
+         $userIdOperator    = DB::table('users')->where('email', 'operator@panganaman.my.id')->value('id');
+         $userIdSupervisor  = DB::table('users')->where('email', 'supervisor@panganaman.my.id')->value('id');
 
-         $userIdKantorPusat = DB::table('users')->where('email', 'kantorpusat@satupangan.id')->value('id');
-         $userIdKantorJatim = DB::table('users')->where('email', 'kantorjatim@satupangan.id')->value('id');
-         $userIdKantorJateng = DB::table('users')->where('email', 'kantorjateng@satupangan.id')->value('id');
-         $userIdKantorJogja = DB::table('users')->where('email', 'kantorjogja@satupangan.id')->value('id');
-         $userIdKantorJabar = DB::table('users')->where('email', 'kantorjabar@satupangan.id')->value('id');
-         $userIdKantorBanten = DB::table('users')->where('email', 'kantorbanten@satupangan.id')->value('id');
-         $userIdKantorJakarta = DB::table('users')->where('email', 'kantorjakarta@satupangan.id')->value('id');
-         $userIdKantorSumatera = DB::table('users')->where('email', 'kantorsumatera@satupangan.id')->value('id');
-         $userIdKantorKalimantan = DB::table('users')->where('email', 'kantorkalimantan@satupangan.id')->value('id');
-         $userIdKantorSulawesi = DB::table('users')->where('email', 'kantorsulawesi@satupangan.id')->value('id');
-         $userIdKantorBali = DB::table('users')->where('email', 'kantorbali@satupangan.id')->value('id');
-         $userIdKantorNTT = DB::table('users')->where('email', 'kantorntt@satupangan.id')->value('id');
-         $userIdKantorNTB = DB::table('users')->where('email', 'kantorntb@satupangan.id')->value('id');
+         $userIdKantorPusat = DB::table('users')->where('email', 'kantorpusat@panganaman.my.id')->value('id');
+         $userIdKantorJatim = DB::table('users')->where('email', 'kantorjatim@panganaman.my.id')->value('id');
+         $userIdKantorJateng = DB::table('users')->where('email', 'kantorjateng@panganaman.my.id')->value('id');
+         $userIdKantorJogja = DB::table('users')->where('email', 'kantorjogja@panganaman.my.id')->value('id');
+         $userIdKantorJabar = DB::table('users')->where('email', 'kantorjabar@panganaman.my.id')->value('id');
+         $userIdKantorBanten = DB::table('users')->where('email', 'kantorbanten@panganaman.my.id')->value('id');
+         $userIdKantorJakarta = DB::table('users')->where('email', 'kantorjakarta@panganaman.my.id')->value('id');
+         $userIdKantorSumatera = DB::table('users')->where('email', 'kantorsumatera@panganaman.my.id')->value('id');
+         $userIdKantorKalimantan = DB::table('users')->where('email', 'kantorkalimantan@panganaman.my.id')->value('id');
+         $userIdKantorSulawesi = DB::table('users')->where('email', 'kantorsulawesi@panganaman.my.id')->value('id');
+         $userIdKantorBali = DB::table('users')->where('email', 'kantorbali@panganaman.my.id')->value('id');
+         $userIdKantorNTT = DB::table('users')->where('email', 'kantorntt@panganaman.my.id')->value('id');
+         $userIdKantorNTB = DB::table('users')->where('email', 'kantorntb@panganaman.my.id')->value('id');
 
 
          $userRoles = [

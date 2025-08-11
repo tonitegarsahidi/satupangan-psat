@@ -1,7 +1,7 @@
 # Registration System Documentation
 
 ## Overview
-Sistem registrasi SATUPANGAN mendukung tiga jenis registrasi pengguna dengan validasi yang terpisah menggunakan Form Request classes:
+Sistem registrasi PANGANAMAN mendukung tiga jenis registrasi pengguna dengan validasi yang terpisah menggunakan Form Request classes:
 
 1. **Registrasi Pengunjung Biasa** (`/register`) - `RegisterUserAddRequest`
 2. **Registrasi Pengusaha** (`/register-business`) - `RegisterBusinessAddRequest`

@@ -31,7 +31,7 @@ class FakeUserSeeder extends Seeder
             $emailName = strtolower(str_replace(' ', '.', preg_replace('/[^a-zA-Z\s]/', '', $name)));
 
             // Combine with a domain to create the email
-            $email = $emailName . '@satupangan.id';
+            $email = $emailName . '@panganaman.my.id';
 
             $user = User::create([
                  'name' => $name,

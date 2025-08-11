@@ -114,7 +114,7 @@
                                         'field' => 'merk_dagang',
                                     ])
                                     <input type="text" name="merk_dagang" class="form-control" id="merk_dagang"
-                                        placeholder="e.g., SatuPangan" value="{{ old('merk_dagang') }}" required>
+                                        placeholder="e.g., PanganAman" value="{{ old('merk_dagang') }}" required>
                                 </div>
                             </div>
 

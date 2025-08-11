@@ -187,7 +187,7 @@
                                 <div class="col-sm-10">
                                     @include('admin.components.notification.error-validation', ['field' => 'merk_dagang'])
                                     <input type="text" name="merk_dagang" class="form-control" id="merk_dagang"
-                                        placeholder="e.g., SatuPangan" value="{{ old('merk_dagang', $registerIzinedarPsatpd->merk_dagang) }}">
+                                        placeholder="e.g., PanganAman" value="{{ old('merk_dagang', $registerIzinedarPsatpd->merk_dagang) }}">
                                 </div>
                             </div>
 

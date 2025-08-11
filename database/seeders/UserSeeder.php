@@ -22,7 +22,7 @@ class UserSeeder extends Seeder
             [
                 'id' => Str::uuid(),
                 'name' => 'Super Admin',
-                'email' => 'superadmin@satupangan.id',
+                'email' => 'superadmin@panganaman.my.id',
                 'password' => Hash::make('password123'),
                 'is_active' => true,
                 'email_verified_at' => Carbon::now(),
@@ -33,7 +33,7 @@ class UserSeeder extends Seeder
             [
                 'id' => Str::uuid(),
                 'name' => 'Pak Bon Admin',
-                'email' => 'admin@satupangan.id',
+                'email' => 'admin@panganaman.my.id',
                 'password' => Hash::make('password123'),
                 'is_active' => true,
                 'email_verified_at' => Carbon::now(),
@@ -44,7 +44,7 @@ class UserSeeder extends Seeder
             [
                 'id' => Str::uuid(),
                 'name' => 'Si Tegar Supervisor',
-                'email' => 'supervisor@satupangan.id',
+                'email' => 'supervisor@panganaman.my.id',
                 'password' => Hash::make('password123'),
                 'is_active' => true,
                 'email_verified_at' => Carbon::now(),
@@ -55,7 +55,7 @@ class UserSeeder extends Seeder
             [
                 'id' => Str::uuid(),
                 'name' => 'Sam Didi Operator',
-                'email' => 'operator@satupangan.id',
+                'email' => 'operator@panganaman.my.id',
                 'password' => Hash::make('password123'),
                 'is_active' => true,
                 'email_verified_at' => Carbon::now(),
@@ -66,7 +66,7 @@ class UserSeeder extends Seeder
             [
                 'id' => Str::uuid(),
                 'name' => 'Sam Toni User',
-                'email' => 'user@satupangan.id',
+                'email' => 'user@panganaman.my.id',
                 'password' => Hash::make('password123'),
                 'is_active' => true,
                 'email_verified_at' => Carbon::now(),
@@ -77,7 +77,7 @@ class UserSeeder extends Seeder
             [
                 'id' => Str::uuid(),
                 'name' => 'Sam Toni User',
-                'email' => 'user2@satupangan.id',
+                'email' => 'user2@panganaman.my.id',
                 'password' => Hash::make('password123'),
                 'is_active' => true,
                 'email_verified_at' => Carbon::now(),
@@ -88,7 +88,7 @@ class UserSeeder extends Seeder
             [
                 'id' => Str::uuid(),
                 'name' => 'Pak Melon',
-                'email' => 'pengusaha@satupangan.id',
+                'email' => 'pengusaha@panganaman.my.id',
                 'password' => Hash::make('password123'),
                 'is_active' => true,
                 'email_verified_at' => Carbon::now(),
@@ -99,7 +99,7 @@ class UserSeeder extends Seeder
             [
                 'id' => Str::uuid(),
                 'name' => 'Pas Sambo Importir',
-                'email' => 'pengusaha2@satupangan.id',
+                'email' => 'pengusaha2@panganaman.my.id',
                 'password' => Hash::make('password123'),
                 'is_active' => true,
                 'email_verified_at' => Carbon::now(),
@@ -110,7 +110,7 @@ class UserSeeder extends Seeder
             [
                 'id' => Str::uuid(),
                 'name' => 'Kantor Pusat',
-                'email' => 'kantorpusat@satupangan.id',
+                'email' => 'kantorpusat@panganaman.my.id',
                 'password' => Hash::make('password123'),
                 'is_active' => true,
                 'email_verified_at' => Carbon::now(),
@@ -121,7 +121,7 @@ class UserSeeder extends Seeder
             [
                 'id' => Str::uuid(),
                 'name' => 'Kantor Jatim',
-                'email' => 'kantorjatim@satupangan.id',
+                'email' => 'kantorjatim@panganaman.my.id',
                 'password' => Hash::make('password123'),
                 'is_active' => true,
                 'email_verified_at' => Carbon::now(),
@@ -132,7 +132,7 @@ class UserSeeder extends Seeder
             [
                 'id' => Str::uuid(),
                 'name' => 'Kantor Jateng',
-                'email' => 'kantorjateng@satupangan.id',
+                'email' => 'kantorjateng@panganaman.my.id',
                 'password' => Hash::make('password123'),
                 'is_active' => true,
                 'email_verified_at' => Carbon::now(),
@@ -143,7 +143,7 @@ class UserSeeder extends Seeder
             [
                 'id' => Str::uuid(),
                 'name' => 'Kantor Jogja',
-                'email' => 'kantorjogja@satupangan.id',
+                'email' => 'kantorjogja@panganaman.my.id',
                 'password' => Hash::make('password123'),
                 'is_active' => true,
                 'email_verified_at' => Carbon::now(),
@@ -154,7 +154,7 @@ class UserSeeder extends Seeder
             [
                 'id' => Str::uuid(),
                 'name' => 'Kantor Jabar',
-                'email' => 'kantorjabar@satupangan.id',
+                'email' => 'kantorjabar@panganaman.my.id',
                 'password' => Hash::make('password123'),
                 'is_active' => true,
                 'email_verified_at' => Carbon::now(),
@@ -165,7 +165,7 @@ class UserSeeder extends Seeder
             [
                 'id' => Str::uuid(),
                 'name' => 'Kantor Banten',
-                'email' => 'kantorbanten@satupangan.id',
+                'email' => 'kantorbanten@panganaman.my.id',
                 'password' => Hash::make('password123'),
                 'is_active' => true,
                 'email_verified_at' => Carbon::now(),
@@ -176,7 +176,7 @@ class UserSeeder extends Seeder
             [
                 'id' => Str::uuid(),
                 'name' => 'Kantor Jakarta',
-                'email' => 'kantorjakarta@satupangan.id',
+                'email' => 'kantorjakarta@panganaman.my.id',
                 'password' => Hash::make('password123'),
                 'is_active' => true,
                 'email_verified_at' => Carbon::now(),
@@ -187,7 +187,7 @@ class UserSeeder extends Seeder
             [
                 'id' => Str::uuid(),
                 'name' => 'Kantor Sumatera',
-                'email' => 'kantorsumatera@satupangan.id',
+                'email' => 'kantorsumatera@panganaman.my.id',
                 'password' => Hash::make('password123'),
                 'is_active' => true,
                 'email_verified_at' => Carbon::now(),
@@ -198,7 +198,7 @@ class UserSeeder extends Seeder
             [
                 'id' => Str::uuid(),
                 'name' => 'Kantor Kalimantan',
-                'email' => 'kantorkalimantan@satupangan.id',
+                'email' => 'kantorkalimantan@panganaman.my.id',
                 'password' => Hash::make('password123'),
                 'is_active' => true,
                 'email_verified_at' => Carbon::now(),
@@ -209,7 +209,7 @@ class UserSeeder extends Seeder
             [
                 'id' => Str::uuid(),
                 'name' => 'Kantor Sulawesi',
-                'email' => 'kantorsulawesi@satupangan.id',
+                'email' => 'kantorsulawesi@panganaman.my.id',
                 'password' => Hash::make('password123'),
                 'is_active' => true,
                 'email_verified_at' => Carbon::now(),
@@ -220,7 +220,7 @@ class UserSeeder extends Seeder
             [
                 'id' => Str::uuid(),
                 'name' => 'Kantor Bali',
-                'email' => 'kantorbali@satupangan.id',
+                'email' => 'kantorbali@panganaman.my.id',
                 'password' => Hash::make('password123'),
                 'is_active' => true,
                 'email_verified_at' => Carbon::now(),
@@ -231,7 +231,7 @@ class UserSeeder extends Seeder
             [
                 'id' => Str::uuid(),
                 'name' => 'Kantor NTT',
-                'email' => 'kantorntt@satupangan.id',
+                'email' => 'kantorntt@panganaman.my.id',
                 'password' => Hash::make('password123'),
                 'is_active' => true,
                 'email_verified_at' => Carbon::now(),
@@ -242,7 +242,7 @@ class UserSeeder extends Seeder
             [
                 'id' => Str::uuid(),
                 'name' => 'Kantor NTB',
-                'email' => 'kantorntb@satupangan.id',
+                'email' => 'kantorntb@panganaman.my.id',
                 'password' => Hash::make('password123'),
                 'is_active' => true,
                 'email_verified_at' => Carbon::now(),

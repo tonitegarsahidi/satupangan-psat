@@ -118,11 +118,11 @@ After seeding the database, the following default users will be available:
 
 | Email                         | Role                                                  | Password        |
 | ----------------------------- | ----------------------------------------------------- | --------------- |
-| superadmin@satupangan.id | ROLE_ADMIN, ROLE_SUPERVISOR, ROLE_OPERATOR, ROLE_USER | *`password123`* |
-| admin@satupangan.id      | ROLE_ADMIN, ROLE_USER                                 | *`password123`* |
-| supervisor@satupangan.id | ROLE_SUPERVISOR, ROLE_USER                            | *`password123`* |
-| operator@satupangan.id   | ROLE_OPERATOR, ROLE_USER                              | *`password123`* |
-| user@satupangan.id       | ROLE_USER                                             | *`password123`* |
+| superadmin@panganaman.id | ROLE_ADMIN, ROLE_SUPERVISOR, ROLE_OPERATOR, ROLE_USER | *`password123`* |
+| admin@panganaman.id      | ROLE_ADMIN, ROLE_USER                                 | *`password123`* |
+| supervisor@panganaman.id | ROLE_SUPERVISOR, ROLE_USER                            | *`password123`* |
+| operator@panganaman.id   | ROLE_OPERATOR, ROLE_USER                              | *`password123`* |
+| user@panganaman.id       | ROLE_USER                                             | *`password123`* |
 
 
 - Only admin and superadmin which has ROLE_ADMIN roles. 

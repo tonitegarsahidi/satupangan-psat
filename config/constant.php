@@ -62,13 +62,13 @@ return [
 
 
 'LAPORAN_PENGADUAN_TITLE' => 'Laporan Pengaduan Dibuat',
-'LAPORAN_PENGADUAN_ASSIGNEE' => 'kantorpusat@satupangan.id',
+'LAPORAN_PENGADUAN_ASSIGNEE' => 'kantorpusat@panganaman.my.id',
 'LAPORAN_PENGADUAN_STATUS' => config('workflow.statuses.DIBUAT'),
 'LAPORAN_PENGADUAN_TYPE' => config('workflow.types.LAPORAN'),
 'LAPORAN_PENGADUAN_CATEGORIES' => config('workflow.categories.'),
 'LAPORAN_PENGADUAN_ACTION_TYPE' => config('workflow.action_types.INIT'),
 
 
-'REGISTER_IZINEDAR_PL_ASSIGNEE' => 'kantorpusat@satupangan.id',
+'REGISTER_IZINEDAR_PL_ASSIGNEE' => 'kantorpusat@panganaman.my.id',
 
 ];

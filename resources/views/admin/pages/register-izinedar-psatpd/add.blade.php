@@ -80,7 +80,7 @@
                                         'field' => 'nama_unitusaha',
                                     ])
                                     <input type="text" name="nama_unitusaha" class="form-control" id="nama_unitusaha"
-                                        placeholder="e.g., PT Satu Pangan Sejahtera" value="{{ old('nama_unitusaha', $business->nama_perusahaan ?? '') }}">
+                                        placeholder="e.g., PT Pangan Aman Sejahtera" value="{{ old('nama_unitusaha', $business->nama_perusahaan ?? '') }}">
                                 </div>
                             </div>
 
@@ -200,7 +200,7 @@
                                         'field' => 'merk_dagang',
                                     ])
                                     <input type="text" name="merk_dagang" class="form-control" id="merk_dagang"
-                                        placeholder="e.g., SatuPangan" value="{{ old('merk_dagang') }}">
+                                        placeholder="e.g., PanganAman" value="{{ old('merk_dagang') }}">
                                 </div>
                             </div>
 

@@ -37,7 +37,7 @@ return new class extends Migration
             $table->string('merk_dagang', 200)->nullable();
             $table->string('jenis_kemasan', 200)->nullable();
             $table->string('ukuran_berat', 200)->nullable();
-            $table->string('klaim', 200)->nullable();
+            $table->string('kategorilabel', 200)->nullable();
             $table->string('foto_1', 200)->nullable();
             $table->string('foto_2', 200)->nullable();
             $table->string('foto_3', 200)->nullable();

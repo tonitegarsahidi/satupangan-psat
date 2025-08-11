@@ -89,7 +89,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-6">
-                    <img src="{{asset('assets/img/illustrations/satu pangan illustration.png')}}" alt="SatuPangan Hero Image"
+                    <img src="{{asset('assets/img/illustrations/satu pangan illustration.png')}}" alt="PanganAman Hero Image"
                         class="img-fluid rounded">
                 </div>
                 <div class="col-md-6">
@@ -183,10 +183,10 @@
     <div class="row row-cols-1 g-4 pt-4">
         <div class="col text-center">
             <p>Untuk pertanyaan, laporan, atau dukungan teknis:</p>
-            <p><strong>Email:</strong> kontak@satupangan.id</p>
+            <p><strong>Email:</strong> kontak@panganaman.my.id</p>
             <p><strong>Whatsapp:</strong> +62-812-xxx-xxxx</p>
             <p><strong>Alamat:</strong> Sekretariat Sistem PSAT, Jakarta, Indonesia</p>
-            <p><strong>Media Sosial:</strong> @satupangan.id</p>
+            <p><strong>Media Sosial:</strong> @panganaman.my.id</p>
         </div>
     </div>
 </div>

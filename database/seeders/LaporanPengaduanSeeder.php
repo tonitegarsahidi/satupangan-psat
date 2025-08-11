@@ -20,7 +20,7 @@ class LaporanPengaduanSeeder extends Seeder
     public function run()
     {
         // Ensure default user exists for seeder and assignee
-        $defaultUserEmail = 'user2@satupangan.id';
+        $defaultUserEmail = 'user2@panganaman.my.id';
         $assigneeEmail = config('constant.LAPORAN_PENGADUAN_ASSIGNEE');
 
         $user = User::firstOrCreate(

@@ -1,8 +1,8 @@
     <nav class="navbar navbar-expand-lg navbar-dark" style="background-color: #2E8B57;"> {{-- Hijau gelap --}}
         <div class="container">
-            <img src="{{asset('assets/img/logo/logo.png')}}" alt="SatuPangan Logo" style="width: 45px">
+            <img src="{{asset('assets/img/logo/logo.png')}}" alt="PanganAman Logo" style="width: 45px">
             &nbsp;
-            <a class="navbar-brand" href="{{ route('home.index') }}"><h3>SatuPangan</h3></a>
+            <a class="navbar-brand" href="{{ route('home.index') }}"><h3>PanganAman</h3></a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
                 aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>

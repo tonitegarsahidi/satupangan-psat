@@ -109,8 +109,8 @@
                                     <td>{{ $data->ukuran_berat ?? '-' }}</td>
                                 </tr>
                                 <tr>
-                                    <th scope="col" class="bg-dark text-white">Klaim</th>
-                                    <td>{{ $data->klaim ?? '-' }}</td>
+                                    <th scope="col" class="bg-dark text-white">Kategori Label</th>
+                                    <td>{{ $data->kategorilabel ?? '-' }}</td>
                                 </tr>
                                 <tr>
                                     <th scope="col" class="bg-dark text-white">Foto 1</th>
