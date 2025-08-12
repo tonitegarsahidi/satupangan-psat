@@ -118,14 +118,35 @@
                                 </div>
                             </div>
 
+                            {{-- QR CATEGORY FIELD --}}
+                            <div class="row mb-3" id="qr-category-field">
+                                <label class="col-sm-2 col-form-label">Kategori Produk</label>
+                                <div class="col-sm-8">
+                                    @include('admin.components.notification.error-validation', [
+                                        'field' => 'qr_category',
+                                    ])
+                                    <div class="form-check ml-100">
+                                        @foreach($qrCategories as $key => $value)
+                                            <div class="form-check mb-2">
+                                                <input class="form-check-input" type="radio" name="qr_category" id="qr_category_{{ $value }}" value="{{ $value }}"
+                                                    {{ old('qr_category') == $value ? 'checked' : (empty(old('qr_category')) && $value == 1 ? 'checked' : '') }}>
+                                                <label class="form-check-label" for="qr_category_{{ $value }}">
+                                                    {{ $key }}
+                                                </label>
+                                            </div>
+                                        @endforeach
+                                    </div>
+                                </div>
+                            </div>
+
                             {{-- REFERENSI FIELDS GROUP --}}
                             <div class="row mb-3">
                                 <label class="col-sm-2 col-form-label">Referensi Dokumen</label>
                                 <div class="col-sm-10">
                                     <div class="card">
                                         <div class="card-body">
-                                            <div class="row">
-                                                <div class="col-md-10 mb-3">
+                                            <div class="row" id="reference-documents-container">
+                                                <div class="col-md-10 mb-3" id="sppb-field">
                                                     <label class="form-label">Referensi SPPB</label>
                                                     <select name="referensi_sppb" class="form-control">
                                                         <option value="">-- Select SPPB --</option>
@@ -141,7 +162,7 @@
                                                         ['field' => 'referensi_sppb']
                                                     )
                                                 </div>
-                                                <div class="col-md-10 mb-3">
+                                                <div class="col-md-10 mb-3" id="izinedar-psatpl-field">
                                                     <label class="form-label">Referensi Izin EDAR PSATPL</label>
                                                     <select name="referensi_izinedar_psatpl" class="form-control">
                                                         <option value="">-- Select Izin EDAR PSATPL --</option>
@@ -157,7 +178,7 @@
                                                         ['field' => 'referensi_izinedar_psatpl']
                                                     )
                                                 </div>
-                                                <div class="col-md-10 mb-3">
+                                                <div class="col-md-10 mb-3" id="izinedar-psatpd-field">
                                                     <label class="form-label">Referensi Izin EDAR PSATPD</label>
                                                     <select name="referensi_izinedar_psatpd" class="form-control">
                                                         <option value="">-- Select Izin EDAR PSATPD --</option>
@@ -173,7 +194,7 @@
                                                         ['field' => 'referensi_izinedar_psatpd']
                                                     )
                                                 </div>
-                                                <div class="col-md-10 mb-3">
+                                                <div class="col-md-10 mb-3" id="izinedar-psatpduk-field">
                                                     <label class="form-label">Referensi Izin EDAR PSATPDUK</label>
                                                     <select name="referensi_izinedar_psatpduk" class="form-control">
                                                         <option value="">-- Select Izin EDAR PSATPDUK --</option>
@@ -310,6 +331,55 @@
                                 </div>
                             </div>
                         </form>
+
+                        <script>
+                            document.addEventListener('DOMContentLoaded', function() {
+                                const isUmkm = {{ json_encode($business->is_umkm) }};
+                                const qrCategoryField = document.getElementById('qr-category-field');
+                                const sppbField = document.getElementById('sppb-field');
+                                const izinedarPsatplField = document.getElementById('izinedar-psatpl-field');
+                                const izinedarPsatpdField = document.getElementById('izinedar-psatpd-field');
+                                const izinedarPsatpdukField = document.getElementById('izinedar-psatpduk-field');
+                                const qrCategoryRadios = document.querySelectorAll('input[name="qr_category"]');
+
+                                function hideAllRefs() {
+                                    sppbField.style.display = 'none';
+                                    izinedarPsatplField.style.display = 'none';
+                                    izinedarPsatpdField.style.display = 'none';
+                                    izinedarPsatpdukField.style.display = 'none';
+                                }
+
+                                function updateFields() {
+                                    if (isUmkm) {
+                                        qrCategoryField.style.display = 'none';
+                                        hideAllRefs();
+                                        izinedarPsatpdukField.style.display = 'block';
+                                    } else {
+                                        qrCategoryField.style.display = 'block';
+                                        // Get selected QR category
+                                        let selectedCategory = 1;
+                                        qrCategoryRadios.forEach(radio => {
+                                            if (radio.checked) selectedCategory = parseInt(radio.value);
+                                        });
+                                        hideAllRefs();
+                                        if (selectedCategory === 1) { // Produk Dalam Negeri
+                                            sppbField.style.display = 'block';
+                                            izinedarPsatpdField.style.display = 'block';
+                                        } else if (selectedCategory === 2) { // Produk Impor
+                                            sppbField.style.display = 'block';
+                                            izinedarPsatplField.style.display = 'block';
+                                        } else if (selectedCategory === 3) { // Masa Simpan maks 7 Hari
+                                            sppbField.style.display = 'block';
+                                        }
+                                    }
+                                }
+
+                                updateFields();
+                                qrCategoryRadios.forEach(radio => {
+                                    radio.addEventListener('change', updateFields);
+                                });
+                            });
+                        </script>
                     </div>
                 </div>
             </div>

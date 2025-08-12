@@ -73,6 +73,27 @@
                                 </div>
                             </div>
 
+                            <!-- QR Category -->
+                            <div class="row mb-4">
+                                <div class="col-md-12">
+                                    <label class="form-label">QR Category</label>
+                                    <div>
+                                        @foreach($qrCategories as $key => $value)
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="qr_category" id="qr_category_{{ $value }}" value="{{ $value }}"
+                                                    {{ old('qr_category') == $value ? 'checked' : ($qrBadanPangan->qr_category == $value ? 'checked' : '') }}>
+                                                <label class="form-check-label" for="qr_category_{{ $value }}">
+                                                    {{ $key }}
+                                                </label>
+                                            </div>
+                                        @endforeach
+                                    </div>
+                                    @error('qr_category')
+                                        <div class="invalid-feedback d-block">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                            </div>
+
                             <!-- Jenis PSAT -->
                             <div class="row mb-4">
                                 <div class="col-md-12">
@@ -91,7 +112,7 @@
 
                             <!-- References -->
                             <div class="row mb-4">
-                                <div class="col-md-6">
+                                <div class="col-md-6" id="sppb-field-edit">
                                     <label for="referensi_sppb" class="form-label">Referensi SPPB</label>
                                     <select class="form-select" id="referensi_sppb" name="referensi_sppb">
                                         <option value="">Select SPPB</option>
@@ -103,7 +124,7 @@
                                         <div class="invalid-feedback d-block">{{ $message }}</div>
                                     @enderror
                                 </div>
-                                <div class="col-md-6">
+                                <div class="col-md-6" id="izinedar-psatpl-field-edit">
                                     <label for="referensi_izinedar_psatpl" class="form-label">Referensi Izin EDAR PSATPL</label>
                                     <select class="form-select" id="referensi_izinedar_psatpl" name="referensi_izinedar_psatpl">
                                         <option value="">Select Izin EDAR PSATPL</option>
@@ -118,7 +139,7 @@
                             </div>
 
                             <div class="row mb-4">
-                                <div class="col-md-6">
+                                <div class="col-md-6" id="izinedar-psatpd-field-edit">
                                     <label for="referensi_izinedar_psatpd" class="form-label">Referensi Izin EDAR PSATPD</label>
                                     <select class="form-select" id="referensi_izinedar_psatpd" name="referensi_izinedar_psatpd">
                                         <option value="">Select Izin EDAR PSATPD</option>
@@ -130,7 +151,7 @@
                                         <div class="invalid-feedback d-block">{{ $message }}</div>
                                     @enderror
                                 </div>
-                                <div class="col-md-6">
+                                <div class="col-md-6" id="izinedar-psatpduk-field-edit">
                                     <label for="referensi_izinedar_psatpduk" class="form-label">Referensi Izin EDAR PSATPDUK</label>
                                     <select class="form-select" id="referensi_izinedar_psatpduk" name="referensi_izinedar_psatpduk">
                                         <option value="">Select Izin EDAR PSATPDUK</option>
