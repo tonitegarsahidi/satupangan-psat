@@ -13,7 +13,7 @@
             <div class="col-xxl">
                 <div class="card mb-4">
                     <div class="card-header d-flex align-items-center justify-content-between">
-                        <h5 class="mb-0">Add QR Badan Pangan</h5>
+                        <h5 class="mb-0">Ajukan Pembuatan QR Badan Pangan</h5>
                         <small class="text-muted float-end">* : must be filled</small>
 
                         <!-- Notification element -->
@@ -155,8 +155,8 @@
                                         <div class="card-body">
                                             <div class="row" id="reference-documents-container">
                                                 <div class="col-md-10 mb-3" id="sppb-field">
-                                                    <label class="form-label {{ empty(old('referensi_sppb')) ? 'text-danger' : '' }}">Referensi SPPB</label>
-                                                    <select name="referensi_sppb" class="form-control {{ empty(old('referensi_sppb')) ? 'border-danger' : '' }}">
+                                                    <label class="form-label {{ $sppbs->isEmpty() ? 'text-danger' : '' }}">Referensi SPPB</label>
+                                                    <select name="referensi_sppb" class="form-control {{ $sppbs->isEmpty() ? 'border-danger' : '' }}">
                                                         <option value="">-- Select SPPB --</option>
                                                         @foreach ($sppbs as $sppb)
                                                             <option value="{{ $sppb->id }}"
@@ -171,8 +171,8 @@
                                                     )
                                                 </div>
                                                 <div class="col-md-10 mb-3" id="izinedar-psatpl-field">
-                                                    <label class="form-label {{ empty(old('referensi_izinedar_psatpl')) ? 'text-danger' : '' }}">Referensi Izin EDAR PSATPL</label>
-                                                    <select name="referensi_izinedar_psatpl" class="form-control {{ empty(old('referensi_izinedar_psatpl')) ? 'border-danger' : '' }}">
+                                                    <label class="form-label {{ $izinedarPsatpls->isEmpty() ? 'text-danger' : '' }}">Referensi Izin EDAR PSATPL</label>
+                                                    <select name="referensi_izinedar_psatpl" class="form-control {{ $izinedarPsatpls->isEmpty() ? 'border-danger' : '' }}">
                                                         <option value="">-- Select Izin EDAR PSATPL --</option>
                                                         @foreach ($izinedarPsatpls as $izinedarPsatpl)
                                                             <option value="{{ $izinedarPsatpl->id }}"
@@ -187,8 +187,8 @@
                                                     )
                                                 </div>
                                                 <div class="col-md-10 mb-3" id="izinedar-psatpd-field">
-                                                    <label class="form-label {{ empty(old('referensi_izinedar_psatpd')) ? 'text-danger' : '' }}">Referensi Izin EDAR PSATPD</label>
-                                                    <select name="referensi_izinedar_psatpd" class="form-control {{ empty(old('referensi_izinedar_psatpd')) ? 'border-danger' : '' }}">
+                                                    <label class="form-label {{ $izinedarPsatpds->isEmpty() ? 'text-danger' : '' }}">Referensi Izin EDAR PSATPD</label>
+                                                    <select name="referensi_izinedar_psatpd" class="form-control {{ $izinedarPsatpds->isEmpty() ? 'border-danger' : '' }}">
                                                         <option value="">-- Select Izin EDAR PSATPD --</option>
                                                         @foreach ($izinedarPsatpds as $izinedarPsatpd)
                                                             <option value="{{ $izinedarPsatpd->id }}"
@@ -203,8 +203,8 @@
                                                     )
                                                 </div>
                                                 <div class="col-md-10 mb-3" id="izinedar-psatpduk-field">
-                                                    <label class="form-label {{ empty(old('referensi_izinedar_psatpduk')) ? 'text-danger' : '' }}">Referensi Izin EDAR PSATPDUK</label>
-                                                    <select name="referensi_izinedar_psatpduk" class="form-control {{ empty(old('referensi_izinedar_psatpduk')) ? 'border-danger' : '' }}">
+                                                    <label class="form-label {{ $izinedarPsatpduks->isEmpty() ? 'text-danger' : '' }}">Referensi Izin EDAR PSATPDUK</label>
+                                                    <select name="referensi_izinedar_psatpduk" class="form-control {{ $izinedarPsatpduks->isEmpty() ? 'border-danger' : '' }}">
                                                         <option value="">-- Select Izin EDAR PSATPDUK --</option>
                                                         @foreach ($izinedarPsatpduks as $izinedarPsatpduk)
                                                             <option value="{{ $izinedarPsatpduk->id }}"
