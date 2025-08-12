@@ -120,7 +120,7 @@
 
                             {{-- QR CATEGORY FIELD --}}
                             <div class="row mb-3" id="qr-category-field">
-                                <label class="col-sm-2 col-form-label">Kategori Produk</label>
+                                <label class="col-sm-2 col-form-label">Kategori QR</label>
                                 <div class="col-sm-8">
                                     @include('admin.components.notification.error-validation', [
                                         'field' => 'qr_category',
@@ -141,32 +141,12 @@
 
                             {{-- REFERENSI FIELDS GROUP --}}
                             {{-- ALERT FOR EMPTY REFERENSI --}}
-                            @php
-                                $refEmpty = [];
-                                if ($sppbs->isEmpty()) $refEmpty['SPPB'] = true;
-                                if ($izinedarPsatpls->isEmpty()) $refEmpty['PSATPL'] = true;
-                                if ($izinedarPsatpds->isEmpty()) $refEmpty['PSATPD'] = true;
-                                if ($izinedarPsatpduks->isEmpty()) $refEmpty['PSATPDUK'] = true;
-                            @endphp
-                            @if (in_array(true, $refEmpty))
-                                <div class="alert alert-danger" id="referensi-alert">
-                                    <strong>Lengkapi Referensi Dokumen terlebih dahulu!</strong>
-                                    <ul class="mb-0">
-                                        @if (!empty($refEmpty['SPPB']))
-                                            <li>Referensi SPPB kosong. <a href="{{ route('register-sppb.index') }}" class="text-danger text-decoration-underline">Tambah SPPB</a></li>
-                                        @endif
-                                        @if (!empty($refEmpty['PSATPL']))
-                                            <li>Referensi Izin EDAR PSATPL kosong. <a href="{{ route('register-izinedar-psatpl.index') }}" class="text-danger text-decoration-underline">Tambah Izin EDAR PSATPL</a></li>
-                                        @endif
-                                        @if (!empty($refEmpty['PSATPD']))
-                                            <li>Referensi Izin EDAR PSATPD kosong. <a href="{{ route('register-izinedar-psatpd.index') }}" class="text-danger text-decoration-underline">Tambah Izin EDAR PSATPD</a></li>
-                                        @endif
-                                        @if (!empty($refEmpty['PSATPDUK']))
-                                            <li>Referensi Izin EDAR PSATPDUK kosong. <a href="{{ route('register-izinedar-psatpduk.index') }}" class="text-danger text-decoration-underline">Tambah Izin EDAR PSATPDUK</a></li>
-                                        @endif
-                                    </ul>
-                                </div>
-                            @endif
+                            <div class="alert alert-danger" id="referensi-alert" style="display: none;">
+                                <strong>Lengkapi Referensi Dokumen terlebih dahulu!</strong>
+                                <ul class="mb-0" id="referensi-alert-list">
+                                    <!-- Dynamic content will be inserted here by JavaScript -->
+                                </ul>
+                            </div>
 
                             <div class="row mb-3">
                                 <label class="col-sm-2 col-form-label">Referensi Dokumen</label>
@@ -355,9 +335,7 @@
 
                             <div class="row justify-content-end">
                                 <div class="col-sm-10">
-                                    <button type="submit" class="btn btn-primary" id="submit-qr-btn"
-                                        @if (in_array(true, $refEmpty)) disabled @endif
-                                    >Ajukan QR Badan Pangan</button>
+                                    <button type="submit" class="btn btn-primary" id="submit-qr-btn">Ajukan QR Badan Pangan</button>
                                 </div>
                             </div>
                         </form>
@@ -373,6 +351,13 @@
                                 const qrCategoryRadios = document.querySelectorAll('input[name="qr_category"]');
                                 const submitBtn = document.getElementById('submit-qr-btn');
                                 const referensiAlert = document.getElementById('referensi-alert');
+                                const referensiAlertList = document.getElementById('referensi-alert-list');
+
+                                // Check if collections are empty from server-side
+                                const sppbsEmpty = {{ json_encode($sppbs->isEmpty()) }};
+                                const izinedarPsatplsEmpty = {{ json_encode($izinedarPsatpls->isEmpty()) }};
+                                const izinedarPsatpdsEmpty = {{ json_encode($izinedarPsatpds->isEmpty()) }};
+                                const izinedarPsatpduksEmpty = {{ json_encode($izinedarPsatpduks->isEmpty()) }};
 
                                 function hideAllRefs() {
                                     sppbField.style.display = 'none';
@@ -381,23 +366,100 @@
                                     izinedarPsatpdukField.style.display = 'none';
                                 }
 
+                                function updateReferensiAlert(requiredDocs, emptyDocs) {
+                                    if (referensiAlertList) {
+                                        referensiAlertList.innerHTML = '';
+                                        let hasEmptyRequired = false;
+
+                                        requiredDocs.forEach(doc => {
+                                            if (emptyDocs[doc]) {
+                                                hasEmptyRequired = true;
+                                                let listItem = document.createElement('li');
+                                                let link = document.createElement('a');
+
+                                                if (doc === 'SPPB') {
+                                                    listItem.textContent = 'Referensi SPPB kosong. ';
+                                                    link.href = "{{ route('register-sppb.index') }}";
+                                                    link.textContent = 'Tambah SPPB';
+                                                } else if (doc === 'PSATPL') {
+                                                    listItem.textContent = 'Referensi Izin EDAR PSATPL kosong. ';
+                                                    link.href = "{{ route('register-izinedar-psatpl.index') }}";
+                                                    link.textContent = 'Tambah Izin EDAR PSATPL';
+                                                } else if (doc === 'PSATPD') {
+                                                    listItem.textContent = 'Referensi Izin EDAR PSATPD kosong. ';
+                                                    link.href = "{{ route('register-izinedar-psatpd.index') }}";
+                                                    link.textContent = 'Tambah Izin EDAR PSATPD';
+                                                } else if (doc === 'PSATPDUK') {
+                                                    listItem.textContent = 'Referensi Izin EDAR PSATPDUK kosong. ';
+                                                    link.href = "{{ route('register-izinedar-psatpduk.index') }}";
+                                                    link.textContent = 'Tambah Izin EDAR PSATPDUK';
+                                                }
+
+                                                link.className = 'text-danger text-decoration-underline';
+                                                listItem.appendChild(link);
+                                                referensiAlertList.appendChild(listItem);
+                                            }
+                                        });
+
+                                        referensiAlert.style.display = hasEmptyRequired ? 'block' : 'none';
+                                        return hasEmptyRequired;
+                                    }
+                                    return false;
+                                }
+
                                 function checkReferensiEmpty() {
                                     let sppb = document.querySelector('select[name="referensi_sppb"]');
                                     let psatpl = document.querySelector('select[name="referensi_izinedar_psatpl"]');
                                     let psatpd = document.querySelector('select[name="referensi_izinedar_psatpd"]');
                                     let psatpduk = document.querySelector('select[name="referensi_izinedar_psatpduk"]');
-                                    let empty = false;
+
+                                    let emptyFields = [];
 
                                     // Only check visible fields
-                                    if (sppb && sppb.parentElement.parentElement.style.display !== 'none' && sppb.value === '') empty = true;
-                                    if (psatpl && psatpl.parentElement.parentElement.style.display !== 'none' && psatpl.value === '') empty = true;
-                                    if (psatpd && psatpd.parentElement.parentElement.style.display !== 'none' && psatpd.value === '') empty = true;
-                                    if (psatpduk && psatpduk.parentElement.parentElement.style.display !== 'none' && psatpduk.value === '') empty = true;
+                                    if (sppb && sppb.parentElement.parentElement.style.display !== 'none' && sppb.value === '') emptyFields.push('SPPB');
+                                    if (psatpl && psatpl.parentElement.parentElement.style.display !== 'none' && psatpl.value === '') emptyFields.push('PSATPL');
+                                    if (psatpd && psatpd.parentElement.parentElement.style.display !== 'none' && psatpd.value === '') emptyFields.push('PSATPD');
+                                    if (psatpduk && psatpduk.parentElement.parentElement.style.display !== 'none' && psatpduk.value === '') emptyFields.push('PSATPDUK');
 
-                                    submitBtn.disabled = empty;
-                                    if (referensiAlert) {
-                                        referensiAlert.style.display = empty ? 'block' : 'none';
+                                    // Determine required documents based on current state
+                                    let requiredDocs = [];
+                                    if (isUmkm) {
+                                        requiredDocs = ['PSATPDUK'];
+                                    } else {
+                                        let selectedCategory = 1;
+                                        qrCategoryRadios.forEach(radio => {
+                                            if (radio.checked) selectedCategory = parseInt(radio.value);
+                                        });
+
+                                        if (selectedCategory === 1) { // Produk Dalam Negeri
+                                            requiredDocs = ['SPPB', 'PSATPD'];
+                                        } else if (selectedCategory === 2) { // Produk Impor
+                                            requiredDocs = ['SPPB', 'PSATPL'];
+                                        } else if (selectedCategory === 3) { // Masa Simpan maks 7 Hari
+                                            requiredDocs = ['SPPB'];
+                                        }
                                     }
+
+                                    // Check if any required documents are empty
+                                    let hasEmptyRequired = false;
+                                    requiredDocs.forEach(doc => {
+                                        if (emptyFields.includes(doc)) hasEmptyRequired = true;
+                                    });
+
+                                    // Check if required document collections are empty
+                                    let emptyCollections = {};
+                                    requiredDocs.forEach(doc => {
+                                        if (doc === 'SPPB' && sppbsEmpty) emptyCollections[doc] = true;
+                                        else if (doc === 'PSATPL' && izinedarPsatplsEmpty) emptyCollections[doc] = true;
+                                        else if (doc === 'PSATPD' && izinedarPsatpdsEmpty) emptyCollections[doc] = true;
+                                        else if (doc === 'PSATPDUK' && izinedarPsatpduksEmpty) emptyCollections[doc] = true;
+                                    });
+
+                                    // Update alert with specific empty required documents
+                                    updateReferensiAlert(requiredDocs, emptyCollections);
+
+                                    // Disable submit button if any required field is empty or collection is empty
+                                    submitBtn.disabled = hasEmptyRequired || Object.keys(emptyCollections).length > 0;
                                 }
 
                                 function updateFields() {

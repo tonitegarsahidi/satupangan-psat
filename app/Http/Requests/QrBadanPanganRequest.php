@@ -38,7 +38,7 @@ class QrBadanPanganRequest extends FormRequest
             'nama_latin' => 'required|string|max:200',
             'merk_dagang' => 'required|string|max:200',
             'jenis_psat' => 'nullable|uuid|exists:master_jenis_pangan_segars,id',
-            'referensi_sppb' => 'nullable|uuid|exists:register_sppb_jenispsat,id',
+            'referensi_sppb' => 'nullable|uuid|exists:register_sppb,id',
             'referensi_izinedar_psatpl' => 'nullable|uuid|exists:register_izinedar_psatpl,id',
             'referensi_izinedar_psatpd' => 'nullable|uuid|exists:register_izinedar_psatpd,id',
             'referensi_izinedar_psatpduk' => 'nullable|uuid|exists:register_izinedar_psatpduk,id',
