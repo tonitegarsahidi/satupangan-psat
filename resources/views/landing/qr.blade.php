@@ -102,6 +102,16 @@
             font-size: 64px;
             margin-bottom: 20px;
         }
+
+        /* Style for clickable images */
+        .clickable-image {
+            cursor: pointer;
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .clickable-image:hover {
+            transform: scale(1.1);
+        }
     </style>
     <style>
         /* Custom CSS for hover dropdown */
@@ -187,32 +197,32 @@
                                         <div class="row">
                                             @if ($data->foto_1)
                                                 <div class="col-md-2 mb-3">
-                                                    <img src="{{ asset($data->foto_1) }}" alt="Foto 1" class="img-fluid rounded">
+                                                    <img src="{{ asset($data->foto_1) }}" alt="Foto 1" class="img-fluid rounded clickable-image" onclick="showImageModal('{{ asset($data->foto_1) }}', 'Foto 1')">
                                                 </div>
                                             @endif
                                             @if ($data->foto_2)
                                                 <div class="col-md-2 mb-3">
-                                                    <img src="{{ asset($data->foto_2) }}" alt="Foto 2" class="img-fluid rounded">
+                                                    <img src="{{ asset($data->foto_2) }}" alt="Foto 2" class="img-fluid rounded clickable-image" onclick="showImageModal('{{ asset($data->foto_2) }}', 'Foto 2')">
                                                 </div>
                                             @endif
                                             @if ($data->foto_3)
                                                 <div class="col-md-2 mb-3">
-                                                    <img src="{{ asset($data->foto_3) }}" alt="Foto 3" class="img-fluid rounded">
+                                                    <img src="{{ asset($data->foto_3) }}" alt="Foto 3" class="img-fluid rounded clickable-image" onclick="showImageModal('{{ asset($data->foto_3) }}', 'Foto 3')">
                                                 </div>
                                             @endif
                                             @if ($data->foto_4)
                                                 <div class="col-md-2 mb-3">
-                                                    <img src="{{ asset($data->foto_4) }}" alt="Foto 4" class="img-fluid rounded">
+                                                    <img src="{{ asset($data->foto_4) }}" alt="Foto 4" class="img-fluid rounded clickable-image" onclick="showImageModal('{{ asset($data->foto_4) }}', 'Foto 4')">
                                                 </div>
                                             @endif
                                             @if ($data->foto_5)
                                                 <div class="col-md-2 mb-3">
-                                                    <img src="{{ asset($data->foto_5) }}" alt="Foto 5" class="img-fluid rounded">
+                                                    <img src="{{ asset($data->foto_5) }}" alt="Foto 5" class="img-fluid rounded clickable-image" onclick="showImageModal('{{ asset($data->foto_5) }}', 'Foto 5')">
                                                 </div>
                                             @endif
                                             @if ($data->foto_6)
                                                 <div class="col-md-2 mb-3">
-                                                    <img src="{{ asset($data->foto_6) }}" alt="Foto 6" class="img-fluid rounded">
+                                                    <img src="{{ asset($data->foto_6) }}" alt="Foto 6" class="img-fluid rounded clickable-image" onclick="showImageModal('{{ asset($data->foto_6) }}', 'Foto 6')">
                                                 </div>
                                             @endif
                                         </div>
@@ -326,32 +336,32 @@
                                             <div class="row">
                                                 @if ($data->referensiIzinedarPsatpl->foto_1)
                                                     <div class="col-md-2 mb-3">
-                                                        <img src="{{ asset($data->referensiIzinedarPsatpl->foto_1) }}" alt="Foto 1" class="img-fluid rounded">
+                                                        <img src="{{ asset($data->referensiIzinedarPsatpl->foto_1) }}" alt="Foto 1" class="img-fluid rounded clickable-image" onclick="showImageModal('{{ asset($data->referensiIzinedarPsatpl->foto_1) }}', 'Foto 1')">
                                                     </div>
                                                 @endif
                                                 @if ($data->referensiIzinedarPsatpl->foto_2)
                                                     <div class="col-md-2 mb-3">
-                                                        <img src="{{ asset($data->referensiIzinedarPsatpl->foto_2) }}" alt="Foto 2" class="img-fluid rounded">
+                                                        <img src="{{ asset($data->referensiIzinedarPsatpl->foto_2) }}" alt="Foto 2" class="img-fluid rounded clickable-image" onclick="showImageModal('{{ asset($data->referensiIzinedarPsatpl->foto_2) }}', 'Foto 2')">
                                                     </div>
                                                 @endif
                                                 @if ($data->referensiIzinedarPsatpl->foto_3)
                                                     <div class="col-md-2 mb-3">
-                                                        <img src="{{ asset($data->referensiIzinedarPsatpl->foto_3) }}" alt="Foto 3" class="img-fluid rounded">
+                                                        <img src="{{ asset($data->referensiIzinedarPsatpl->foto_3) }}" alt="Foto 3" class="img-fluid rounded clickable-image" onclick="showImageModal('{{ asset($data->referensiIzinedarPsatpl->foto_3) }}', 'Foto 3')">
                                                     </div>
                                                 @endif
                                                 @if ($data->referensiIzinedarPsatpl->foto_4)
                                                     <div class="col-md-2 mb-3">
-                                                        <img src="{{ asset($data->referensiIzinedarPsatpl->foto_4) }}" alt="Foto 4" class="img-fluid rounded">
+                                                        <img src="{{ asset($data->referensiIzinedarPsatpl->foto_4) }}" alt="Foto 4" class="img-fluid rounded clickable-image" onclick="showImageModal('{{ asset($data->referensiIzinedarPsatpl->foto_4) }}', 'Foto 4')">
                                                     </div>
                                                 @endif
                                                 @if ($data->referensiIzinedarPsatpl->foto_5)
                                                     <div class="col-md-2 mb-3">
-                                                        <img src="{{ asset($data->referensiIzinedarPsatpl->foto_5) }}" alt="Foto 5" class="img-fluid rounded">
+                                                        <img src="{{ asset($data->referensiIzinedarPsatpl->foto_5) }}" alt="Foto 5" class="img-fluid rounded clickable-image" onclick="showImageModal('{{ asset($data->referensiIzinedarPsatpl->foto_5) }}', 'Foto 5')">
                                                     </div>
                                                 @endif
                                                 @if ($data->referensiIzinedarPsatpl->foto_6)
                                                     <div class="col-md-2 mb-3">
-                                                        <img src="{{ asset($data->referensiIzinedarPsatpl->foto_6) }}" alt="Foto 6" class="img-fluid rounded">
+                                                        <img src="{{ asset($data->referensiIzinedarPsatpl->foto_6) }}" alt="Foto 6" class="img-fluid rounded clickable-image" onclick="showImageModal('{{ asset($data->referensiIzinedarPsatpl->foto_6) }}', 'Foto 6')">
                                                     </div>
                                                 @endif
                                             </div>
@@ -451,32 +461,32 @@
                                             <div class="row">
                                                 @if ($data->referensiIzinedarPsatpd->foto_1)
                                                     <div class="col-md-2 mb-3">
-                                                        <img src="{{ asset($data->referensiIzinedarPsatpd->foto_1) }}" alt="Foto 1" class="img-fluid rounded">
+                                                        <img src="{{ asset($data->referensiIzinedarPsatpd->foto_1) }}" alt="Foto 1" class="img-fluid rounded clickable-image" onclick="showImageModal('{{ asset($data->referensiIzinedarPsatpd->foto_1) }}', 'Foto 1')">
                                                     </div>
                                                 @endif
                                                 @if ($data->referensiIzinedarPsatpd->foto_2)
                                                     <div class="col-md-2 mb-3">
-                                                        <img src="{{ asset($data->referensiIzinedarPsatpd->foto_2) }}" alt="Foto 2" class="img-fluid rounded">
+                                                        <img src="{{ asset($data->referensiIzinedarPsatpd->foto_2) }}" alt="Foto 2" class="img-fluid rounded clickable-image" onclick="showImageModal('{{ asset($data->referensiIzinedarPsatpd->foto_2) }}', 'Foto 2')">
                                                     </div>
                                                 @endif
                                                 @if ($data->referensiIzinedarPsatpd->foto_3)
                                                     <div class="col-md-2 mb-3">
-                                                        <img src="{{ asset($data->referensiIzinedarPsatpd->foto_3) }}" alt="Foto 3" class="img-fluid rounded">
+                                                        <img src="{{ asset($data->referensiIzinedarPsatpd->foto_3) }}" alt="Foto 3" class="img-fluid rounded clickable-image" onclick="showImageModal('{{ asset($data->referensiIzinedarPsatpd->foto_3) }}', 'Foto 3')">
                                                     </div>
                                                 @endif
                                                 @if ($data->referensiIzinedarPsatpd->foto_4)
                                                     <div class="col-md-2 mb-3">
-                                                        <img src="{{ asset($data->referensiIzinedarPsatpd->foto_4) }}" alt="Foto 4" class="img-fluid rounded">
+                                                        <img src="{{ asset($data->referensiIzinedarPsatpd->foto_4) }}" alt="Foto 4" class="img-fluid rounded clickable-image" onclick="showImageModal('{{ asset($data->referensiIzinedarPsatpd->foto_4) }}', 'Foto 4')">
                                                     </div>
                                                 @endif
                                                 @if ($data->referensiIzinedarPsatpd->foto_5)
                                                     <div class="col-md-2 mb-3">
-                                                        <img src="{{ asset($data->referensiIzinedarPsatpd->foto_5) }}" alt="Foto 5" class="img-fluid rounded">
+                                                        <img src="{{ asset($data->referensiIzinedarPsatpd->foto_5) }}" alt="Foto 5" class="img-fluid rounded clickable-image" onclick="showImageModal('{{ asset($data->referensiIzinedarPsatpd->foto_5) }}', 'Foto 5')">
                                                     </div>
                                                 @endif
                                                 @if ($data->referensiIzinedarPsatpd->foto_6)
                                                     <div class="col-md-2 mb-3">
-                                                        <img src="{{ asset($data->referensiIzinedarPsatpd->foto_6) }}" alt="Foto 6" class="img-fluid rounded">
+                                                        <img src="{{ asset($data->referensiIzinedarPsatpd->foto_6) }}" alt="Foto 6" class="img-fluid rounded clickable-image" onclick="showImageModal('{{ asset($data->referensiIzinedarPsatpd->foto_6) }}', 'Foto 6')">
                                                     </div>
                                                 @endif
                                             </div>
@@ -576,32 +586,32 @@
                                             <div class="row">
                                                 @if ($data->referensiIzinedarPsatpduk->foto_1)
                                                     <div class="col-md-2 mb-3">
-                                                        <img src="{{ asset($data->referensiIzinedarPsatpduk->foto_1) }}" alt="Foto 1" class="img-fluid rounded">
+                                                        <img src="{{ asset($data->referensiIzinedarPsatpduk->foto_1) }}" alt="Foto 1" class="img-fluid rounded clickable-image" onclick="showImageModal('{{ asset($data->referensiIzinedarPsatpduk->foto_1) }}', 'Foto 1')">
                                                     </div>
                                                 @endif
                                                 @if ($data->referensiIzinedarPsatpduk->foto_2)
                                                     <div class="col-md-2 mb-3">
-                                                        <img src="{{ asset($data->referensiIzinedarPsatpduk->foto_2) }}" alt="Foto 2" class="img-fluid rounded">
+                                                        <img src="{{ asset($data->referensiIzinedarPsatpduk->foto_2) }}" alt="Foto 2" class="img-fluid rounded clickable-image" onclick="showImageModal('{{ asset($data->referensiIzinedarPsatpduk->foto_2) }}', 'Foto 2')">
                                                     </div>
                                                 @endif
                                                 @if ($data->referensiIzinedarPsatpduk->foto_3)
                                                     <div class="col-md-2 mb-3">
-                                                        <img src="{{ asset($data->referensiIzinedarPsatpduk->foto_3) }}" alt="Foto 3" class="img-fluid rounded">
+                                                        <img src="{{ asset($data->referensiIzinedarPsatpduk->foto_3) }}" alt="Foto 3" class="img-fluid rounded clickable-image" onclick="showImageModal('{{ asset($data->referensiIzinedarPsatpduk->foto_3) }}', 'Foto 3')">
                                                     </div>
                                                 @endif
                                                 @if ($data->referensiIzinedarPsatpduk->foto_4)
                                                     <div class="col-md-2 mb-3">
-                                                        <img src="{{ asset($data->referensiIzinedarPsatpduk->foto_4) }}" alt="Foto 4" class="img-fluid rounded">
+                                                        <img src="{{ asset($data->referensiIzinedarPsatpduk->foto_4) }}" alt="Foto 4" class="img-fluid rounded clickable-image" onclick="showImageModal('{{ asset($data->referensiIzinedarPsatpduk->foto_4) }}', 'Foto 4')">
                                                     </div>
                                                 @endif
                                                 @if ($data->referensiIzinedarPsatpduk->foto_5)
                                                     <div class="col-md-2 mb-3">
-                                                        <img src="{{ asset($data->referensiIzinedarPsatpduk->foto_5) }}" alt="Foto 5" class="img-fluid rounded">
+                                                        <img src="{{ asset($data->referensiIzinedarPsatpduk->foto_5) }}" alt="Foto 5" class="img-fluid rounded clickable-image" onclick="showImageModal('{{ asset($data->referensiIzinedarPsatpduk->foto_5) }}', 'Foto 5')">
                                                     </div>
                                                 @endif
                                                 @if ($data->referensiIzinedarPsatpduk->foto_6)
                                                     <div class="col-md-2 mb-3">
-                                                        <img src="{{ asset($data->referensiIzinedarPsatpduk->foto_6) }}" alt="Foto 6" class="img-fluid rounded">
+                                                        <img src="{{ asset($data->referensiIzinedarPsatpduk->foto_6) }}" alt="Foto 6" class="img-fluid rounded clickable-image" onclick="showImageModal('{{ asset($data->referensiIzinedarPsatpduk->foto_6) }}', 'Foto 6')">
                                                     </div>
                                                 @endif
                                             </div>
@@ -714,6 +724,60 @@
             </div>
         </div>
     </footer>
+    <!-- Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <!-- Image Modal JavaScript -->
+    <script>
+        function showImageModal(imageSrc, imageAlt) {
+            // Create modal if it doesn't exist
+            let imageModal = document.getElementById('imageModal');
+            if (!imageModal) {
+                imageModal = document.createElement('div');
+                imageModal.id = 'imageModal';
+                imageModal.className = 'modal fade';
+                imageModal.setAttribute('tabindex', '-1');
+                imageModal.setAttribute('aria-labelledby', 'imageModalLabel');
+                imageModal.setAttribute('aria-hidden', 'true');
+
+                imageModal.innerHTML = `
+                    <div class="modal-dialog modal-lg modal-dialog-centered">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="imageModalLabel">${imageAlt}</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <img src="${imageSrc}" alt="${imageAlt}" class="img-fluid">
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+
+                document.body.appendChild(imageModal);
+            }
+
+            // Update modal content
+            const modalImage = imageModal.querySelector('.modal-body img');
+            const modalTitle = imageModal.querySelector('.modal-title');
+            modalImage.src = imageSrc;
+            modalImage.alt = imageAlt;
+            modalTitle.textContent = imageAlt;
+
+            // Show the modal
+            $(imageModal).modal('show');
+        }
+    </script>
+</body>
+
+</html>
 
     <!-- Bootstrap JS -->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
