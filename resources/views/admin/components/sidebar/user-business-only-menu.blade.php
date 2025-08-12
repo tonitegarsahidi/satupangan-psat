@@ -11,6 +11,7 @@
         'subMenuData' => null,
     ]) --}}
 
+    @if (auth()->user()->hasRole('ROLE_USER_BUSINESS') && !auth()->user()->hasAnyRole(['ROLE_OPERATOR', 'ROLE_SUPERVISOR']) )
     @include('admin.components.sidebar.menu-header', ['textMenuHeader' => 'Profil Bisnis'])
 
     {{-- BUSINESS PROFILE MENU --}}
@@ -21,6 +22,7 @@
         'menuIcon' => 'bx bx-building',
         'subMenuData' => null,
     ])
+    @endif
 
     {{-- REGISTRASI & MASTER DATA --}}
     @include('admin.components.sidebar.menu-header', ['textMenuHeader' => 'QR Code Badan Pangan'])

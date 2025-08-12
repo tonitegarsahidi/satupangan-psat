@@ -383,7 +383,7 @@ class QrBadanPanganController extends Controller
             ? AlertHelper::createAlert('success', 'Status successfully updated to ' . $status)
             : AlertHelper::createAlert('danger', 'Failed to update status');
 
-        return redirect()->route('qr-badan-pangan.index')->with('alerts', [$alert]);
+        return redirect()->route('qr-badan-pangan.detail', ['id' => $id])->with('alerts', [$alert]);
     }
 
     /**

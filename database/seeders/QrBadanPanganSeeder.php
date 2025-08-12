@@ -87,7 +87,7 @@ class QrBadanPanganSeeder extends Seeder
         $qrBadanPangans = [
             [
                 'id' => Str::uuid(),
-                'qr_code' => 'QR-BP-001',
+                'qr_code' => null,
                 'current_assignee' => $petugas ? $petugas->id : null,
                 'requested_by' => $user1 ? $user1->id : null,
                 'requested_at' => $now->copy()->subDays(5),
@@ -97,7 +97,7 @@ class QrBadanPanganSeeder extends Seeder
                 'approved_at' => $now->copy()->subDays(1),
                 'status' => 'pending',
                 'is_published' => true,
-                'qr_category' => 1, // Produk Dalam Negeri
+                'qr_category' => 2, // Produk Luar Negeri
                 'business_id' => $business1 ? $business1->id : null,
                 'nama_komoditas' => 'Melon',
                 'nama_latin' => 'Cucumis melo',
@@ -122,7 +122,7 @@ class QrBadanPanganSeeder extends Seeder
             ],
             [
                 'id' => Str::uuid(),
-                'qr_code' => 'QR-BP-002',
+                'qr_code' => null,
                 'current_assignee' => $petugas ? $petugas->id : null,
                 'requested_by' => $user1 ? $user1->id : null,
                 'requested_at' => $now->copy()->subDays(4),
@@ -132,7 +132,7 @@ class QrBadanPanganSeeder extends Seeder
                 'approved_at' => null,
                 'status' => 'pending',
                 'is_published' => false,
-                'qr_category' => 2, // Produk Impor
+                'qr_category' => 1, // Produk dalam Negeri
                 'business_id' => $business1 ? $business1->id : null,
                 'nama_komoditas' => 'Kentang',
                 'nama_latin' => 'Solanum tuberosum',
@@ -158,7 +158,7 @@ class QrBadanPanganSeeder extends Seeder
 
             [
                 'id' => Str::uuid(),
-                'qr_code' => 'QR-BP-004',
+                'qr_code' => null,
                 'current_assignee' => $petugas ? $petugas->id : null,
                 'requested_by' => $user2 ? $user2->id : null,
                 'requested_at' => $now->copy()->subDays(2),
@@ -168,7 +168,7 @@ class QrBadanPanganSeeder extends Seeder
                 'approved_at' => null,
                 'status' => 'pending',
                 'is_published' => false,
-                'qr_category' => 4, // Produk Sayuran
+                'qr_category' => 1, // Produk Sayuran
                 'business_id' => $business2 ? $business2->id : null,
                 'nama_komoditas' => 'Wortel',
                 'nama_latin' => 'Daucus carota',

@@ -6,6 +6,7 @@
 @section('main-content')
     <div class="container-xxl flex-grow-1 container-p-y">
 
+
         {{-- FOR BREADCRUMBS --}}
         @include('admin.components.breadcrumb.simple', $breadcrumbs)
 
@@ -16,9 +17,20 @@
                         <h4 class="card-title">Detail QR Badan Pangan</h4>
                         <p class="card-subtitle mb-4">View detailed information about this QR Badan Pangan</p>
 
+                        {{-- ALERTS --}}
+                        @if (session('alerts'))
+                            @foreach (session('alerts') as $alert)
+                                <div class="alert alert-{{ $alert['type'] }} alert-dismissible fade show text-black" role="alert">
+                                    {{ $alert['message'] }}
+                                    <button type="button" class="btn-close" data-bs-dismiss="alert"
+                                        aria-label="Close"></button>
+                                </div>
+                            @endforeach
+                        @endif
+
                         @if (Auth::user()->hasAnyRole(['ROLE_OPERATOR', 'ROLE_SUPERVISOR']))
                             <div class="alert alert-warning alert-dismissible fade show text-dark" role="alert">
-                                <strong>Aksi yang dpat dilakukan :</strong><br/>
+                                <strong>Aksi yang dpat dilakukan :</strong><br />
                                 Silakan review dan update status dari pengajuan QR Badan Pangan Nasional berikut
 
                                 <div class="row">
@@ -29,37 +41,37 @@
                                             @method('POST')
 
                                             {{-- <div class="row"> --}}
-                                                <div class="col-md-6">
-                                                    <div class="mb-3">
-                                                        {{-- <label for="status" class="form-label">Update Status</label> --}}
-                                                        <select class="form-select" id="status" name="status"
-                                                            @if ($data->status == 'approved' || $data->status == 'rejected') disabled @endif>
-                                                            @if ($data->status == 'pending')
-                                                                <option value="pending" selected>Pending</option>
-                                                                <option value="reviewed">Reviewed</option>
-                                                                <option value="approved">Approved</option>
-                                                                <option value="rejected">Rejected</option>
-                                                            @elseif ($data->status == 'reviewed')
-                                                                <option value="reviewed" selected>Reviewed</option>
-                                                                <option value="approved">Approved</option>
-                                                                <option value="rejected">Rejected</option>
-                                                            @else
-                                                                <option value="{{ $data->status }}" selected>
-                                                                    {{ ucfirst($data->status) }}</option>
-                                                            @endif
-                                                        </select>
-                                                        @if ($data->status == 'approved' || $data->status == 'rejected')
-                                                            <small class="form-text text-muted">Status cannot be changed
-                                                                once it's approved or rejected.</small>
-                                                        @endif
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-6 d-flex align-items-end">
-                                                    <button type="submit" class="btn btn-primary"
+                                            <div class="col-md-6">
+                                                <div class="mb-3">
+                                                    {{-- <label for="status" class="form-label">Update Status</label> --}}
+                                                    <select class="form-select" id="status" name="status"
                                                         @if ($data->status == 'approved' || $data->status == 'rejected') disabled @endif>
-                                                        Update Status
-                                                    </button>
+                                                        @if ($data->status == 'pending')
+                                                            <option value="pending" selected>Pending</option>
+                                                            <option value="reviewed">Reviewed</option>
+                                                            <option value="approved">Approved</option>
+                                                            <option value="rejected">Rejected</option>
+                                                        @elseif ($data->status == 'reviewed')
+                                                            <option value="reviewed" selected>Reviewed</option>
+                                                            <option value="approved">Approved</option>
+                                                            <option value="rejected">Rejected</option>
+                                                        @else
+                                                            <option value="{{ $data->status }}" selected>
+                                                                {{ ucfirst($data->status) }}</option>
+                                                        @endif
+                                                    </select>
+                                                    @if ($data->status == 'approved' || $data->status == 'rejected')
+                                                        <small class="form-text text-muted">Status cannot be changed
+                                                            once it's approved or rejected.</small>
+                                                    @endif
                                                 </div>
+                                            </div>
+                                            <div class="col-md-6 d-flex align-items-end">
+                                                <button type="submit" class="btn btn-primary"
+                                                    @if ($data->status == 'approved' || $data->status == 'rejected') disabled @endif>
+                                                    Update Status
+                                                </button>
+                                            </div>
                                             {{-- </div> --}}
                                         </form>
                                     </div>
@@ -127,8 +139,10 @@
                                                     <p>Loading QR Code...</p>
                                                 </div>
                                             </div>
-                                            <p class="text-muted">URL: {{ env('APP_URL', 'http://localhost') }}/qr/{{ $data->qr_code }}</p>
-                                            <button class="btn btn-sm btn-outline-primary" id="downloadQRBtn">Download QR Code</button>
+                                            <p class="text-muted">URL:
+                                                {{ env('APP_URL', 'http://localhost') }}/qr/{{ $data->qr_code }}</p>
+                                            <button class="btn btn-sm btn-outline-primary" id="downloadQRBtn">Download QR
+                                                Code</button>
                                         @else
                                             <p class="text-muted">QR Code will be generated when status is approved</p>
                                         @endif
@@ -369,137 +383,139 @@
     </div>
 
     @push('scripts')
-    <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js"></script>
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            @if ($data->qr_code)
-                const qrCodeElement = document.getElementById('qrcode');
-                const qrCanvasElement = document.getElementById('qrCanvas'); // Get the canvas element
-                const downloadBtn = document.getElementById('downloadQRBtn');
-                const url = '{{ env('APP_URL', 'http://localhost') }}/qr/{{ $data->qr_code }}';
-                const logoPath = '{{ asset('logo_badan_pangan.png') }}';
+        <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js"></script>
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                @if ($data->qr_code)
+                    const qrCodeElement = document.getElementById('qrcode');
+                    const qrCanvasElement = document.getElementById('qrCanvas'); // Get the canvas element
+                    const downloadBtn = document.getElementById('downloadQRBtn');
+                    const url = '{{ env('APP_URL', 'http://localhost') }}/qr/{{ $data->qr_code }}';
+                    const logoPath = '{{ asset('logo_badan_pangan.png') }}';
 
-                // Variable to store the canvas
-                let qrCanvas = null;
+                    // Variable to store the canvas
+                    let qrCanvas = null;
 
-                // Generate QR code with logo
-                QRCode.toCanvas(qrCanvasElement, url, { // Pass the canvas element directly
-                    width: 200,
-                    height: 200,
-                    margin: 1,
-                    color: {
-                        dark: '#000000',
-                        light: '#FFFFFF'
-                    },
-                    errorCorrectionLevel: 'H'
-                }, function(error) {
-                    if (error) {
-                        console.error("Error generating QR code canvas:", error);
-                        qrCodeElement.innerHTML = '<div class="alert alert-danger">Error generating QR code</div>';
-                    } else {
-                        console.log("QR Code canvas generated successfully.");
-                        qrCanvas = qrCanvasElement; // Store reference to canvas
-                        const ctx = qrCanvas.getContext('2d');
+                    // Generate QR code with logo
+                    QRCode.toCanvas(qrCanvasElement, url, { // Pass the canvas element directly
+                        width: 200,
+                        height: 200,
+                        margin: 1,
+                        color: {
+                            dark: '#000000',
+                            light: '#FFFFFF'
+                        },
+                        errorCorrectionLevel: 'H'
+                    }, function(error) {
+                        if (error) {
+                            console.error("Error generating QR code canvas:", error);
+                            qrCodeElement.innerHTML =
+                                '<div class="alert alert-danger">Error generating QR code</div>';
+                        } else {
+                            console.log("QR Code canvas generated successfully.");
+                            qrCanvas = qrCanvasElement; // Store reference to canvas
+                            const ctx = qrCanvas.getContext('2d');
 
-                        // Load logo image
-                        const logo = new Image();
-                        logo.crossOrigin = 'Anonymous';
-                        logo.onload = function() {
-                            console.log("Logo image loaded successfully.");
-                            // Calculate logo size (about 20% of QR code size)
-                            const logoSize = qrCanvas.width * 0.2;
-                            const x = (qrCanvas.width - logoSize) / 2;
-                            const y = (qrCanvas.height - logoSize) / 2;
+                            // Load logo image
+                            const logo = new Image();
+                            logo.crossOrigin = 'Anonymous';
+                            logo.onload = function() {
+                                console.log("Logo image loaded successfully.");
+                                // Calculate logo size (about 20% of QR code size)
+                                const logoSize = qrCanvas.width * 0.2;
+                                const x = (qrCanvas.width - logoSize) / 2;
+                                const y = (qrCanvas.height - logoSize) / 2;
 
-                            // Draw logo on top of QR code
-                            ctx.drawImage(logo, x, y, logoSize, logoSize);
-                            console.log("Logo drawn on QR code.");
-                            // Remove placeholder after QR code and logo are drawn
-                            const placeholder = qrCodeElement.querySelector('.qr-placeholder');
-                            if (placeholder) {
-                                placeholder.remove();
-                            }
-                        };
-                        logo.onerror = function() {
-                            console.error("Error loading logo image:", logoPath);
-                            qrCodeElement.innerHTML = '<div class="alert alert-warning">QR Code generated, but logo failed to load.</div>';
-                        };
-                        logo.src = logoPath;
+                                // Draw logo on top of QR code
+                                ctx.drawImage(logo, x, y, logoSize, logoSize);
+                                console.log("Logo drawn on QR code.");
+                                // Remove placeholder after QR code and logo are drawn
+                                const placeholder = qrCodeElement.querySelector('.qr-placeholder');
+                                if (placeholder) {
+                                    placeholder.remove();
+                                }
+                            };
+                            logo.onerror = function() {
+                                console.error("Error loading logo image:", logoPath);
+                                qrCodeElement.innerHTML =
+                                    '<div class="alert alert-warning">QR Code generated, but logo failed to load.</div>';
+                            };
+                            logo.src = logoPath;
+                        }
+                    });
+
+                    // Add click event to download button
+                    if (downloadBtn) {
+                        downloadBtn.addEventListener('click', downloadQRCode);
                     }
-                });
+                @endif
+            });
 
-                // Add click event to download button
-                if (downloadBtn) {
-                    downloadBtn.addEventListener('click', downloadQRCode);
+            function downloadQRCode() {
+                const displayCanvas = document.querySelector('#qrCanvas'); // Target the specific canvas
+                if (displayCanvas) {
+                    // Create a new canvas for high-resolution download
+                    const downloadCanvas = document.createElement('canvas');
+                    const downloadSize = 800; // 4x the display size (200 * 4)
+                    downloadCanvas.width = downloadSize;
+                    downloadCanvas.height = downloadSize;
+                    const ctx = downloadCanvas.getContext('2d');
+
+                    // Generate QR code on the high-resolution canvas
+                    const url = '{{ env('APP_URL', 'http://localhost') }}/qr/{{ $data->qr_code }}';
+                    const logoPath = '{{ asset('logo_badan_pangan.png') }}';
+
+                    QRCode.toCanvas(downloadCanvas, url, {
+                        width: downloadSize,
+                        height: downloadSize,
+                        margin: 1,
+                        color: {
+                            dark: '#000000',
+                            light: '#FFFFFF'
+                        },
+                        errorCorrectionLevel: 'H'
+                    }, function(error) {
+                        if (error) {
+                            console.error("Error generating QR code for download:", error);
+                            alert('Error generating QR code for download.');
+                        } else {
+                            // Add logo to the high-resolution QR code
+                            const logo = new Image();
+                            logo.crossOrigin = 'Anonymous';
+                            logo.onload = function() {
+                                // Calculate logo size (20% of the QR code size)
+                                const logoSize = downloadSize * 0.2;
+                                const x = (downloadSize - logoSize) / 2;
+                                const y = (downloadSize - logoSize) / 2;
+
+                                // Draw logo on top of QR code
+                                ctx.drawImage(logo, x, y, logoSize, logoSize);
+
+                                // Create download link
+                                const link = document.createElement('a');
+                                link.download = 'qr-code-{{ $data->qr_code }}.png';
+                                link.href = downloadCanvas.toDataURL('image/png');
+                                document.body.appendChild(link);
+                                link.click();
+                                document.body.removeChild(link);
+                            };
+                            logo.onerror = function() {
+                                console.error("Error loading logo image for download:", logoPath);
+                                // Proceed with download even if logo fails to load
+                                const link = document.createElement('a');
+                                link.download = 'qr-code-{{ $data->qr_code }}.png';
+                                link.href = downloadCanvas.toDataURL('image/png');
+                                document.body.appendChild(link);
+                                link.click();
+                                document.body.removeChild(link);
+                            };
+                            logo.src = logoPath;
+                        }
+                    });
+                } else {
+                    alert('QR code not ready for download yet. Please wait a moment and try again.');
                 }
-            @endif
-        });
-
-        function downloadQRCode() {
-            const displayCanvas = document.querySelector('#qrCanvas'); // Target the specific canvas
-            if (displayCanvas) {
-                // Create a new canvas for high-resolution download
-                const downloadCanvas = document.createElement('canvas');
-                const downloadSize = 800; // 4x the display size (200 * 4)
-                downloadCanvas.width = downloadSize;
-                downloadCanvas.height = downloadSize;
-                const ctx = downloadCanvas.getContext('2d');
-
-                // Generate QR code on the high-resolution canvas
-                const url = '{{ env('APP_URL', 'http://localhost') }}/qr/{{ $data->qr_code }}';
-                const logoPath = '{{ asset('logo_badan_pangan.png') }}';
-
-                QRCode.toCanvas(downloadCanvas, url, {
-                    width: downloadSize,
-                    height: downloadSize,
-                    margin: 1,
-                    color: {
-                        dark: '#000000',
-                        light: '#FFFFFF'
-                    },
-                    errorCorrectionLevel: 'H'
-                }, function(error) {
-                    if (error) {
-                        console.error("Error generating QR code for download:", error);
-                        alert('Error generating QR code for download.');
-                    } else {
-                        // Add logo to the high-resolution QR code
-                        const logo = new Image();
-                        logo.crossOrigin = 'Anonymous';
-                        logo.onload = function() {
-                            // Calculate logo size (20% of the QR code size)
-                            const logoSize = downloadSize * 0.2;
-                            const x = (downloadSize - logoSize) / 2;
-                            const y = (downloadSize - logoSize) / 2;
-
-                            // Draw logo on top of QR code
-                            ctx.drawImage(logo, x, y, logoSize, logoSize);
-
-                            // Create download link
-                            const link = document.createElement('a');
-                            link.download = 'qr-code-{{ $data->qr_code }}.png';
-                            link.href = downloadCanvas.toDataURL('image/png');
-                            document.body.appendChild(link);
-                            link.click();
-                            document.body.removeChild(link);
-                        };
-                        logo.onerror = function() {
-                            console.error("Error loading logo image for download:", logoPath);
-                            // Proceed with download even if logo fails to load
-                            const link = document.createElement('a');
-                            link.download = 'qr-code-{{ $data->qr_code }}.png';
-                            link.href = downloadCanvas.toDataURL('image/png');
-                            document.body.appendChild(link);
-                            link.click();
-                            document.body.removeChild(link);
-                        };
-                        logo.src = logoPath;
-                    }
-                });
-            } else {
-                alert('QR code not ready for download yet. Please wait a moment and try again.');
             }
-        }
-    </script>
+        </script>
     @endpush
 @endsection
