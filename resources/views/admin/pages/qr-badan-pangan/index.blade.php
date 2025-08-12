@@ -148,7 +148,7 @@
                                     @endif
                                 </td>
                                 <td>{{ $qrBadanPangan->business ? $qrBadanPangan->business->nama_perusahaan : '-' }}</td>
-                                <td>{{ \Carbon\Carbon::parse($qrBadanPangan->created_at)->format('d/m/Y H:i') }}</td>
+                                <td>{{ \Carbon\Carbon::parse($qrBadanPangan->created_at)->format('d M Y') }}</td>
 
                                 {{-- ============ CRUD LINK ICON =============  --}}
                                 <td>
