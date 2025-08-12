@@ -81,6 +81,7 @@ Route::middleware('auth')->group(function () {
             Route::delete('/delete/{id}', [QrBadanPanganController::class, 'destroy'])->name('qr-badan-pangan.destroy');
             Route::post('/update-status/{id}', [QrBadanPanganController::class, 'updateStatus'])->name('qr-badan-pangan.update-status');
             Route::post('/assign-user/{id}', [QrBadanPanganController::class, 'assignToUser'])->name('qr-badan-pangan.assign-user');
+            Route::get('/generate-qr/{id}', [QrBadanPanganController::class, 'generateQrCode'])->name('qr-badan-pangan.generate-qr');
         });
 
         // MASTER PENANGANAN FOR ROLE_USER_BUSINESS

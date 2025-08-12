@@ -23,7 +23,8 @@ use App\Helpers\AlertHelper;
 use App\Http\Requests\QrBadanPanganRequest;
 use App\Services\RegisterSppbService;
 use Illuminate\Support\Facades\Storage;
-use SimpleSoftwareIO\SimpleQrcode\QrCodeGenerator;
+use SimpleSoftwareIO\QrCode\Facades\QrCode;
+use Intervention\Image\Facades\Image;
 
 class QrBadanPanganController extends Controller
 {
@@ -425,5 +426,40 @@ class QrBadanPanganController extends Controller
 
         return view('admin.pages.qr-badan-pangan.index', compact('qrBadanPangans', 'breadcrumbs', 'alert'))
             ->with('qr_category_filter', $qrCategory);
+    }
+
+    /**
+     * =============================================
+     *      Generate QR code with custom logo
+     * =============================================
+     */
+    public function generateQrCode($id)
+    {
+        $data = $this->qrBadanPanganService->getQrBadanPanganDetail($id);
+
+        if (!$data || !$data->qr_code) {
+            return response()->json(['error' => 'QR Badan Pangan not found or QR code not generated'], 404);
+        }
+
+        $url = env('APP_URL', 'http://localhost') . '/qr/' . $data->qr_code;
+        $logoPath = public_path('logo_badan_pangan.png');
+
+        // Check if logo exists
+        if (!file_exists($logoPath)) {
+            return response()->json(['error' => 'Logo file not found'], 404);
+        }
+
+        try {
+            // Generate QR code with logo using JavaScript on the client side
+            // We'll pass the URL and logo path to the frontend
+            return response()->json([
+                'success' => true,
+                'url' => $url,
+                'logo_path' => asset('logo_badan_pangan.png'),
+                'qr_code' => $data->qr_code
+            ]);
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Failed to generate QR code: ' . $e->getMessage()], 500);
+        }
     }
 }

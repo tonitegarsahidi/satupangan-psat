@@ -120,9 +120,15 @@
                                 <div class="card">
                                     <div class="card-body text-center">
                                         @if ($data->qr_code)
-                                            <div id="qrcode" class="mb-3"></div>
+                                            <div id="qrcode" class="mb-3">
+                                                <canvas id="qrCanvas"></canvas>
+                                                <div class="qr-placeholder text-muted">
+                                                    <i class="bx bx-qr-scan bx-2x mb-2"></i>
+                                                    <p>Loading QR Code...</p>
+                                                </div>
+                                            </div>
                                             <p class="text-muted">URL: {{ env('APP_URL', 'http://localhost') }}/qr/{{ $data->qr_code }}</p>
-                                            <button class="btn btn-sm btn-outline-primary" onclick="downloadQRCode()">Download QR Code</button>
+                                            <button class="btn btn-sm btn-outline-primary" id="downloadQRBtn">Download QR Code</button>
                                         @else
                                             <p class="text-muted">QR Code will be generated when status is approved</p>
                                         @endif
@@ -368,33 +374,79 @@
         document.addEventListener('DOMContentLoaded', function() {
             @if ($data->qr_code)
                 const qrCodeElement = document.getElementById('qrcode');
+                const qrCanvasElement = document.getElementById('qrCanvas'); // Get the canvas element
+                const downloadBtn = document.getElementById('downloadQRBtn');
                 const url = '{{ env('APP_URL', 'http://localhost') }}/qr/{{ $data->qr_code }}';
+                const logoPath = '{{ asset('logo_badan_pangan.png') }}';
 
-                QRCode.toCanvas(qrCodeElement, url, {
+                // Variable to store the canvas
+                let qrCanvas = null;
+
+                // Generate QR code with logo
+                QRCode.toCanvas(qrCanvasElement, url, { // Pass the canvas element directly
                     width: 200,
                     height: 200,
                     margin: 1,
                     color: {
                         dark: '#000000',
                         light: '#FFFFFF'
-                    }
+                    },
+                    errorCorrectionLevel: 'H'
                 }, function(error) {
                     if (error) {
-                        console.error(error);
-                        qrCodeElement.innerHTML = 'Error generating QR code';
+                        console.error("Error generating QR code canvas:", error);
+                        qrCodeElement.innerHTML = '<div class="alert alert-danger">Error generating QR code</div>';
+                    } else {
+                        console.log("QR Code canvas generated successfully.");
+                        qrCanvas = qrCanvasElement; // Store reference to canvas
+                        const ctx = qrCanvas.getContext('2d');
+
+                        // Load logo image
+                        const logo = new Image();
+                        logo.crossOrigin = 'Anonymous';
+                        logo.onload = function() {
+                            console.log("Logo image loaded successfully.");
+                            // Calculate logo size (about 20% of QR code size)
+                            const logoSize = qrCanvas.width * 0.2;
+                            const x = (qrCanvas.width - logoSize) / 2;
+                            const y = (qrCanvas.height - logoSize) / 2;
+
+                            // Draw logo on top of QR code
+                            ctx.drawImage(logo, x, y, logoSize, logoSize);
+                            console.log("Logo drawn on QR code.");
+                            // Remove placeholder after QR code and logo are drawn
+                            const placeholder = qrCodeElement.querySelector('.qr-placeholder');
+                            if (placeholder) {
+                                placeholder.remove();
+                            }
+                        };
+                        logo.onerror = function() {
+                            console.error("Error loading logo image:", logoPath);
+                            qrCodeElement.innerHTML = '<div class="alert alert-warning">QR Code generated, but logo failed to load.</div>';
+                        };
+                        logo.src = logoPath;
                     }
                 });
+
+                // Add click event to download button
+                if (downloadBtn) {
+                    downloadBtn.addEventListener('click', downloadQRCode);
+                }
             @endif
         });
 
         function downloadQRCode() {
-            const canvas = document.querySelector('#qrcode canvas');
+            const canvas = document.querySelector('#qrCanvas'); // Target the specific canvas
             if (canvas) {
                 const url = canvas.toDataURL('image/png');
                 const link = document.createElement('a');
                 link.download = 'qr-code-{{ $data->qr_code }}.png';
                 link.href = url;
+                document.body.appendChild(link);
                 link.click();
+                document.body.removeChild(link);
+            } else {
+                alert('QR code not ready for download yet. Please wait a moment and try again.');
             }
         }
     </script>
