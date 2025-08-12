@@ -52,11 +52,11 @@
                                     </tr>
                                     <tr>
                                         <th>Created At>
-                                        <td>{{ $data->created_at ? $data->created_at->format('d M Y H:i') : '-' }}</td>
+                                        <td>{{ $data->created_at ? \Carbon\Carbon::parse($data->created_at)->format('d M Y H:i') : '-' }}</td>
                                     </tr>
                                     <tr>
                                         <th>Updated At</th>
-                                        <td>{{ $data->updated_at ? $data->updated_at->format('d M Y H:i') : '-' }}</td>
+                                        <td>{{ $data->updated_at ? \Carbon\Carbon::parse($data->updated_at)->format('d M Y H:i') : '-' }}</td>
                                     </tr>
                                 </table>
                             </div>
@@ -69,7 +69,7 @@
                                     </tr>
                                     <tr>
                                         <th>Requested At>
-                                        <td>{{ $data->requested_at ? $data->requested_at->format('d M Y H:i') : '-' }}</td>
+                                        <td>{{ $data->requested_at ? \Carbon\Carbon::parse($data->requested_at)->format('d M Y H:i') : '-' }}</td>
                                     </tr>
                                     <tr>
                                         <th>Current Assignee</th>
@@ -81,7 +81,7 @@
                                     </tr>
                                     <tr>
                                         <th>Reviewed At>
-                                        <td>{{ $data->reviewed_at ? $data->reviewed_at->format('d M Y H:i') : '-' }}</td>
+                                        <td>{{ $data->reviewed_at ? \Carbon\Carbon::parse($data->reviewed_at)->format('d M Y H:i') : '-' }}</td>
                                     </tr>
                                     <tr>
                                         <th>Approved By</th>
@@ -89,7 +89,7 @@
                                     </tr>
                                     <tr>
                                         <th>Approved At>
-                                        <td>{{ $data->approved_at ? $data->approved_at->format('d M Y H:i') : '-' }}</td>
+                                        <td>{{ $data->approved_at ? \Carbon\Carbon::parse($data->approved_at)->format('d M Y H:i') : '-' }}</td>
                                     </tr>
                                 </table>
                             </div>
