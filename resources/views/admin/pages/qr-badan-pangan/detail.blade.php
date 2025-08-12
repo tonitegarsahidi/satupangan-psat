@@ -16,6 +16,59 @@
                         <h4 class="card-title">Detail QR Badan Pangan</h4>
                         <p class="card-subtitle mb-4">View detailed information about this QR Badan Pangan</p>
 
+                        @if (Auth::user()->hasAnyRole(['ROLE_OPERATOR', 'ROLE_SUPERVISOR']))
+                            <div class="alert alert-warning alert-dismissible fade show text-dark" role="alert">
+                                <strong>Aksi yang dpat dilakukan :</strong><br/>
+                                Silakan review dan update status dari pengajuan QR Badan Pangan Nasional berikut
+
+                                <div class="row">
+                                    <div class="col-md-10">
+                                        <form action="{{ route('qr-badan-pangan.update-status', ['id' => $data->id]) }}"
+                                            method="POST" class="mb-4">
+                                            @csrf
+                                            @method('POST')
+
+                                            {{-- <div class="row"> --}}
+                                                <div class="col-md-6">
+                                                    <div class="mb-3">
+                                                        {{-- <label for="status" class="form-label">Update Status</label> --}}
+                                                        <select class="form-select" id="status" name="status"
+                                                            @if ($data->status == 'approved' || $data->status == 'rejected') disabled @endif>
+                                                            @if ($data->status == 'pending')
+                                                                <option value="pending" selected>Pending</option>
+                                                                <option value="reviewed">Reviewed</option>
+                                                                <option value="approved">Approved</option>
+                                                                <option value="rejected">Rejected</option>
+                                                            @elseif ($data->status == 'reviewed')
+                                                                <option value="reviewed" selected>Reviewed</option>
+                                                                <option value="approved">Approved</option>
+                                                                <option value="rejected">Rejected</option>
+                                                            @else
+                                                                <option value="{{ $data->status }}" selected>
+                                                                    {{ ucfirst($data->status) }}</option>
+                                                            @endif
+                                                        </select>
+                                                        @if ($data->status == 'approved' || $data->status == 'rejected')
+                                                            <small class="form-text text-muted">Status cannot be changed
+                                                                once it's approved or rejected.</small>
+                                                        @endif
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6 d-flex align-items-end">
+                                                    <button type="submit" class="btn btn-primary"
+                                                        @if ($data->status == 'approved' || $data->status == 'rejected') disabled @endif>
+                                                        Update Status
+                                                    </button>
+                                                </div>
+                                            {{-- </div> --}}
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                        @endif
+
                         <div class="row mb-4">
                             <div class="col-md-6">
                                 <h5 class="mb-3">Basic Information</h5>
@@ -52,11 +105,13 @@
                                     </tr>
                                     <tr>
                                         <th>Created At</th>
-                                        <td>{{ $data->created_at ? \Carbon\Carbon::parse($data->created_at)->format('d M Y H:i') : '-' }}</td>
+                                        <td>{{ $data->created_at ? \Carbon\Carbon::parse($data->created_at)->format('d M Y H:i') : '-' }}
+                                        </td>
                                     </tr>
                                     <tr>
                                         <th>Updated At</th>
-                                        <td>{{ $data->updated_at ? \Carbon\Carbon::parse($data->updated_at)->format('d M Y H:i') : '-' }}</td>
+                                        <td>{{ $data->updated_at ? \Carbon\Carbon::parse($data->updated_at)->format('d M Y H:i') : '-' }}
+                                        </td>
                                     </tr>
                                 </table>
                             </div>
@@ -124,107 +179,107 @@
                                     </thead>
                                     <tbody>
                                         @if ($data->referensiSppb)
-                                        <tr>
-                                            <td>SPPB</td>
-                                            <td>
-                                                <a href="{{ route('register-sppb.detail', ['id' => $data->referensiSppb->id]) }}">
-                                                    {{ $data->referensiSppb->nomor_registrasi ?? $data->referensiSppb->id }}
-                                                </a>
-                                            </td>
-                                            <td>
-                                                <span class="badge rounded-pill
-                                                    @if ($data->referensiSppb->status == 'approved')
-                                                        bg-success
+                                            <tr>
+                                                <td>SPPB</td>
+                                                <td>
+                                                    <a
+                                                        href="{{ route('register-sppb.detail', ['id' => $data->referensiSppb->id]) }}">
+                                                        {{ $data->referensiSppb->nomor_registrasi ?? $data->referensiSppb->id }}
+                                                    </a>
+                                                </td>
+                                                <td>
+                                                    <span
+                                                        class="badge rounded-pill
+                                                    @if ($data->referensiSppb->status == 'approved') bg-success
                                                     @elseif ($data->referensiSppb->status == 'rejected')
                                                         bg-danger
                                                     @elseif ($data->referensiSppb->status == 'pending')
                                                         bg-info
                                                     @else
-                                                        bg-secondary
-                                                    @endif
+                                                        bg-secondary @endif
                                                 ">
-                                                    {{ $data->referensiSppb->status }}
-                                                </span>
-                                            </td>
-                                        </tr>
+                                                        {{ $data->referensiSppb->status }}
+                                                    </span>
+                                                </td>
+                                            </tr>
                                         @endif
 
                                         @if ($data->referensiIzinedarPsatpl)
-                                        <tr>
-                                            <td>Izin EDAR PSATPL</td>
-                                            <td>
-                                                <a href="{{ route('register-izinedar-psatpl.detail', ['id' => $data->referensiIzinedarPsatpl->id]) }}">
-                                                    {{ $data->referensiIzinedarPsatpl->nomor_izinedar_pl ?? $data->referensiIzinedarPsatpl->id }}
-                                                </a>
-                                            </td>
-                                            <td>
-                                                <span class="badge rounded-pill
-                                                    @if ($data->referensiIzinedarPsatpl->status == 'approved')
-                                                        bg-success
+                                            <tr>
+                                                <td>Izin EDAR PSATPL</td>
+                                                <td>
+                                                    <a
+                                                        href="{{ route('register-izinedar-psatpl.detail', ['id' => $data->referensiIzinedarPsatpl->id]) }}">
+                                                        {{ $data->referensiIzinedarPsatpl->nomor_izinedar_pl ?? $data->referensiIzinedarPsatpl->id }}
+                                                    </a>
+                                                </td>
+                                                <td>
+                                                    <span
+                                                        class="badge rounded-pill
+                                                    @if ($data->referensiIzinedarPsatpl->status == 'approved') bg-success
                                                     @elseif ($data->referensiIzinedarPsatpl->status == 'rejected')
                                                         bg-danger
                                                     @elseif ($data->referensiIzinedarPsatpl->status == 'pending')
                                                         bg-info
                                                     @else
-                                                        bg-secondary
-                                                    @endif
+                                                        bg-secondary @endif
                                                 ">
-                                                    {{ $data->referensiIzinedarPsatpl->status }}
-                                                </span>
-                                            </td>
-                                        </tr>
+                                                        {{ $data->referensiIzinedarPsatpl->status }}
+                                                    </span>
+                                                </td>
+                                            </tr>
                                         @endif
 
                                         @if ($data->referensiIzinedarPsatpd)
-                                        <tr>
-                                            <td>Izin EDAR PSATPD</td>
-                                            <td>
-                                                <a href="{{ route('register-izinedar-psatpd.detail', ['id' => $data->referensiIzinedarPsatpd->id]) }}">
-                                                    {{ $data->referensiIzinedarPsatpd->nomor_izinedar_pd ?? $data->referensiIzinedarPsatpd->id }}
-                                                </a>
-                                            </td>
-                                            <td>
-                                                <span class="badge rounded-pill
-                                                    @if ($data->referensiIzinedarPsatpd->status == 'approved')
-                                                        bg-success
+                                            <tr>
+                                                <td>Izin EDAR PSATPD</td>
+                                                <td>
+                                                    <a
+                                                        href="{{ route('register-izinedar-psatpd.detail', ['id' => $data->referensiIzinedarPsatpd->id]) }}">
+                                                        {{ $data->referensiIzinedarPsatpd->nomor_izinedar_pd ?? $data->referensiIzinedarPsatpd->id }}
+                                                    </a>
+                                                </td>
+                                                <td>
+                                                    <span
+                                                        class="badge rounded-pill
+                                                    @if ($data->referensiIzinedarPsatpd->status == 'approved') bg-success
                                                     @elseif ($data->referensiIzinedarPsatpd->status == 'rejected')
                                                         bg-danger
                                                     @elseif ($data->referensiIzinedarPsatpd->status == 'pending')
                                                         bg-info
                                                     @else
-                                                        bg-secondary
-                                                    @endif
+                                                        bg-secondary @endif
                                                 ">
-                                                    {{ $data->referensiIzinedarPsatpd->status }}
-                                                </span>
-                                            </td>
-                                        </tr>
+                                                        {{ $data->referensiIzinedarPsatpd->status }}
+                                                    </span>
+                                                </td>
+                                            </tr>
                                         @endif
 
                                         @if ($data->referensiIzinedarPsatpduk)
-                                        <tr>
-                                            <td>Izin EDAR PSATPDUK</td>
-                                            <td>
-                                                <a href="{{ route('register-izinedar-psatpduk.detail', ['id' => $data->referensiIzinedarPsatpduk->id]) }}">
-                                                    {{ $data->referensiIzinedarPsatpduk->nomor_izinedar_pduk ?? $data->referensiIzinedarPsatpduk->id }}
-                                                </a>
-                                            </td>
-                                            <td>
-                                                <span class="badge rounded-pill
-                                                    @if ($data->referensiIzinedarPsatpduk->status == 'approved')
-                                                        bg-success
+                                            <tr>
+                                                <td>Izin EDAR PSATPDUK</td>
+                                                <td>
+                                                    <a
+                                                        href="{{ route('register-izinedar-psatpduk.detail', ['id' => $data->referensiIzinedarPsatpduk->id]) }}">
+                                                        {{ $data->referensiIzinedarPsatpduk->nomor_izinedar_pduk ?? $data->referensiIzinedarPsatpduk->id }}
+                                                    </a>
+                                                </td>
+                                                <td>
+                                                    <span
+                                                        class="badge rounded-pill
+                                                    @if ($data->referensiIzinedarPsatpduk->status == 'approved') bg-success
                                                     @elseif ($data->referensiIzinedarPsatpduk->status == 'rejected')
                                                         bg-danger
                                                     @elseif ($data->referensiIzinedarPsatpduk->status == 'pending')
                                                         bg-info
                                                     @else
-                                                        bg-secondary
-                                                    @endif
+                                                        bg-secondary @endif
                                                 ">
-                                                    {{ $data->referensiIzinedarPsatpduk->status }}
-                                                </span>
-                                            </td>
-                                        </tr>
+                                                        {{ $data->referensiIzinedarPsatpduk->status }}
+                                                    </span>
+                                                </td>
+                                            </tr>
                                         @endif
 
                                         {{-- @if ($data->referensiIzinrumahPengemasan)
@@ -288,9 +343,10 @@
                         <div class="row">
                             <div class="col-12">
                                 <a href="{{ route('qr-badan-pangan.index') }}" class="btn btn-secondary">Back to List</a>
-                                @if (Auth::user()->hasAnyRole(['ROLE_OPERATOR', 'ROLE_SUPERVISOR'])
-                                    || (Auth::user()->hasAnyRole(['ROLE_USER_BUSINESS']) && $data->status == 'pending'))
-                                    <a href="{{ route('qr-badan-pangan.edit', ['id' => $data->id]) }}" class="btn btn-primary">Edit</a>
+                                @if (Auth::user()->hasAnyRole(['ROLE_OPERATOR', 'ROLE_SUPERVISOR']) ||
+                                        (Auth::user()->hasAnyRole(['ROLE_USER_BUSINESS']) && $data->status == 'pending'))
+                                    <a href="{{ route('qr-badan-pangan.edit', ['id' => $data->id]) }}"
+                                        class="btn btn-primary">Edit</a>
                                 @endif
                             </div>
                         </div>
