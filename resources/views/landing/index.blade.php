@@ -267,6 +267,12 @@
             contentSection.innerHTML = content;
             document.querySelector('#about').insertAdjacentElement('afterend', contentSection);
 
+            // Auto scroll to the newly added content section
+            setTimeout(() => {
+                contentSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                console.log(`Scrolled to content section for: ${cardTitle}`);
+            }, 100);
+
             console.log(`Content section added for: ${cardTitle}`);
         }
 
