@@ -44,7 +44,12 @@ class DashboardController extends Controller
         $registerIzinedarPdukDiajukanDiperiksa = collect();
         $registerIzinedarPdukAllDiajukanDiperiksa = collect();
 
+        // Laporan Pengaduan lists
+        $laporanPengaduanDiajukanDiperiksa = collect();
+        $laporanPengaduanAllDiajukanDiperiksa = collect();
+
         // Check user roles
+        $hasUserRole = $user->hasRole('ROLE_USER');
         $hasUserRoleBusiness = $user->hasRole('ROLE_USER_BUSINESS');
         $hasUserRoleOperator = $user->hasRole('ROLE_OPERATOR');
         $hasUserRoleSupervisor = $user->hasRole('ROLE_SUPERVISOR');
@@ -97,7 +102,16 @@ class DashboardController extends Controller
             $registerIzinedarPdukDiajukanDiperiksa = \App\Models\RegisterIzinedarPsatpduk::whereIn('business_id', $businessIds)
                 ->whereIn('status', ['DIAJUKAN', 'DIPERIKSA'])
                 ->get();
+
+
         }
+
+          // Get laporan pengaduan for ROLE_USER_BUSINESS
+            $laporanPengaduanDiajukanDiperiksa = \App\Models\LaporanPengaduan::get();//where('user_id', $user->id)
+                // ->where('tindak_lanjut_pertama', null)
+                // ->get();
+        // Get laporan pengaduan for ROLE_OPERATOR or ROLE_SUPERVISOR
+            $laporanPengaduanAllDiajukanDiperiksa = \App\Models\LaporanPengaduan::where('tindak_lanjut_pertama', null)->get();
 
         // ROLE_OPERATOR or ROLE_SUPERVISOR: Get all data
         if ($hasUserRoleOperator || $hasUserRoleSupervisor) {
@@ -113,6 +127,8 @@ class DashboardController extends Controller
             $registerIzinedarPlAllDiajukanDiperiksa = \App\Models\RegisterIzinedarPsatpl::whereIn('status', ['DIAJUKAN', 'DIPERIKSA'])->get();
             $registerIzinedarPdAllDiajukanDiperiksa = \App\Models\RegisterIzinedarPsatpd::whereIn('status', ['DIAJUKAN', 'DIPERIKSA'])->get();
             $registerIzinedarPdukAllDiajukanDiperiksa = \App\Models\RegisterIzinedarPsatpduk::whereIn('status', ['DIAJUKAN', 'DIPERIKSA'])->get();
+
+
         }
 
         return view('admin.pages.dashboard.index', [
@@ -123,6 +139,7 @@ class DashboardController extends Controller
             'izinEdarPdCount' => $izinEdarPdCount,
             'izinEdarPdukCount' => $izinEdarPdukCount,
             'qrBadanPanganCount' => $qrBadanPanganCount,
+            'hasUserRole' => $hasUserRole,
             'hasUserRoleBusiness' => $hasUserRoleBusiness,
             'hasUserRoleOperator' => $hasUserRoleOperator,
             'hasUserRoleSupervisor' => $hasUserRoleSupervisor,
@@ -136,6 +153,8 @@ class DashboardController extends Controller
             'registerIzinedarPdAllDiajukanDiperiksa' => $registerIzinedarPdAllDiajukanDiperiksa,
             'registerIzinedarPdukDiajukanDiperiksa' => $registerIzinedarPdukDiajukanDiperiksa,
             'registerIzinedarPdukAllDiajukanDiperiksa' => $registerIzinedarPdukAllDiajukanDiperiksa,
+            'laporanPengaduanDiajukanDiperiksa' => $laporanPengaduanDiajukanDiperiksa,
+            'laporanPengaduanAllDiajukanDiperiksa' => $laporanPengaduanAllDiajukanDiperiksa,
         ]);
     }
 }

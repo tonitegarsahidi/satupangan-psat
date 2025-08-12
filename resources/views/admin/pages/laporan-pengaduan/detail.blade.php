@@ -87,7 +87,7 @@
                 </div>
             </div>
 
-            <div class="card mt-4">
+            {{-- <div class="card mt-4">
                 <div class="m-4">
                     <h4>Workflow Actions & Threads (Chronological)</h4>
                     <div class="timeline">
@@ -113,7 +113,7 @@
                         @endphp
 
                         @forelse($historyItems as $item)
-                            <div class="row align-items-stretch mb-2"> {{-- Reduced margin-bottom --}}
+                            <div class="row align-items-stretch mb-2">
                                 <div class="col-md-2 text-end pe-0">
                                     <div
                                         class="bg-light border rounded p-2 h-100 d-flex flex-column justify-content-center">
@@ -124,7 +124,7 @@
                                 </div>
                                 <div class="col-md-10 ps-0">
                                     <div class="card shadow-sm h-100">
-                                        <div class="card-body py-2"> {{-- Reduced padding-top/bottom --}}
+                                        <div class="card-body py-2">
                                             @if ($item['type'] === 'action')
                                                 <div class="d-flex align-items-center">
                                                     <span class="badge bg-info text-dark me-2"><i class="bx bx-bolt"></i>
@@ -199,7 +199,7 @@
                         @endforelse
                     </div>
                 </div>
-            </div>
+            </div> --}}
 
             <div class="card mt-4">
                 <div class="m-4">

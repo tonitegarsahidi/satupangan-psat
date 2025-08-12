@@ -85,7 +85,7 @@
             </div>
 
             <hr>
-            <div class="m-4">
+            {{-- <div class="m-4">
                 <h4>Workflow Actions & Threads (Chronological)</h4>
                 <div class="timeline">
                     @forelse($historyItems as $item)
@@ -172,7 +172,7 @@
                         <div class="alert alert-info">No actions or threads found.</div>
                     @endforelse
                 </div>
-            </div>
+            </div> --}}
         </div>
     </div>
 @endsection
