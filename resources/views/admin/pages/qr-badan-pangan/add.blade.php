@@ -140,6 +140,34 @@
                             </div>
 
                             {{-- REFERENSI FIELDS GROUP --}}
+                            {{-- ALERT FOR EMPTY REFERENSI --}}
+                            @php
+                                $refEmpty = [];
+                                if ($sppbs->isEmpty()) $refEmpty['SPPB'] = true;
+                                if ($izinedarPsatpls->isEmpty()) $refEmpty['PSATPL'] = true;
+                                if ($izinedarPsatpds->isEmpty()) $refEmpty['PSATPD'] = true;
+                                if ($izinedarPsatpduks->isEmpty()) $refEmpty['PSATPDUK'] = true;
+                            @endphp
+                            @if (in_array(true, $refEmpty))
+                                <div class="alert alert-danger" id="referensi-alert">
+                                    <strong>Lengkapi Referensi Dokumen terlebih dahulu!</strong>
+                                    <ul class="mb-0">
+                                        @if (!empty($refEmpty['SPPB']))
+                                            <li>Referensi SPPB kosong. <a href="{{ route('register-sppb.index') }}" class="text-danger text-decoration-underline">Tambah SPPB</a></li>
+                                        @endif
+                                        @if (!empty($refEmpty['PSATPL']))
+                                            <li>Referensi Izin EDAR PSATPL kosong. <a href="{{ route('register-izinedar-psatpl.index') }}" class="text-danger text-decoration-underline">Tambah Izin EDAR PSATPL</a></li>
+                                        @endif
+                                        @if (!empty($refEmpty['PSATPD']))
+                                            <li>Referensi Izin EDAR PSATPD kosong. <a href="{{ route('register-izinedar-psatpd.index') }}" class="text-danger text-decoration-underline">Tambah Izin EDAR PSATPD</a></li>
+                                        @endif
+                                        @if (!empty($refEmpty['PSATPDUK']))
+                                            <li>Referensi Izin EDAR PSATPDUK kosong. <a href="{{ route('register-izinedar-psatpduk.index') }}" class="text-danger text-decoration-underline">Tambah Izin EDAR PSATPDUK</a></li>
+                                        @endif
+                                    </ul>
+                                </div>
+                            @endif
+
                             <div class="row mb-3">
                                 <label class="col-sm-2 col-form-label">Referensi Dokumen</label>
                                 <div class="col-sm-10">
@@ -147,8 +175,8 @@
                                         <div class="card-body">
                                             <div class="row" id="reference-documents-container">
                                                 <div class="col-md-10 mb-3" id="sppb-field">
-                                                    <label class="form-label">Referensi SPPB</label>
-                                                    <select name="referensi_sppb" class="form-control">
+                                                    <label class="form-label {{ empty(old('referensi_sppb')) ? 'text-danger' : '' }}">Referensi SPPB</label>
+                                                    <select name="referensi_sppb" class="form-control {{ empty(old('referensi_sppb')) ? 'border-danger' : '' }}">
                                                         <option value="">-- Select SPPB --</option>
                                                         @foreach ($sppbs as $sppb)
                                                             <option value="{{ $sppb->id }}"
@@ -163,8 +191,8 @@
                                                     )
                                                 </div>
                                                 <div class="col-md-10 mb-3" id="izinedar-psatpl-field">
-                                                    <label class="form-label">Referensi Izin EDAR PSATPL</label>
-                                                    <select name="referensi_izinedar_psatpl" class="form-control">
+                                                    <label class="form-label {{ empty(old('referensi_izinedar_psatpl')) ? 'text-danger' : '' }}">Referensi Izin EDAR PSATPL</label>
+                                                    <select name="referensi_izinedar_psatpl" class="form-control {{ empty(old('referensi_izinedar_psatpl')) ? 'border-danger' : '' }}">
                                                         <option value="">-- Select Izin EDAR PSATPL --</option>
                                                         @foreach ($izinedarPsatpls as $izinedarPsatpl)
                                                             <option value="{{ $izinedarPsatpl->id }}"
@@ -179,8 +207,8 @@
                                                     )
                                                 </div>
                                                 <div class="col-md-10 mb-3" id="izinedar-psatpd-field">
-                                                    <label class="form-label">Referensi Izin EDAR PSATPD</label>
-                                                    <select name="referensi_izinedar_psatpd" class="form-control">
+                                                    <label class="form-label {{ empty(old('referensi_izinedar_psatpd')) ? 'text-danger' : '' }}">Referensi Izin EDAR PSATPD</label>
+                                                    <select name="referensi_izinedar_psatpd" class="form-control {{ empty(old('referensi_izinedar_psatpd')) ? 'border-danger' : '' }}">
                                                         <option value="">-- Select Izin EDAR PSATPD --</option>
                                                         @foreach ($izinedarPsatpds as $izinedarPsatpd)
                                                             <option value="{{ $izinedarPsatpd->id }}"
@@ -195,8 +223,8 @@
                                                     )
                                                 </div>
                                                 <div class="col-md-10 mb-3" id="izinedar-psatpduk-field">
-                                                    <label class="form-label">Referensi Izin EDAR PSATPDUK</label>
-                                                    <select name="referensi_izinedar_psatpduk" class="form-control">
+                                                    <label class="form-label {{ empty(old('referensi_izinedar_psatpduk')) ? 'text-danger' : '' }}">Referensi Izin EDAR PSATPDUK</label>
+                                                    <select name="referensi_izinedar_psatpduk" class="form-control {{ empty(old('referensi_izinedar_psatpduk')) ? 'border-danger' : '' }}">
                                                         <option value="">-- Select Izin EDAR PSATPDUK --</option>
                                                         @foreach ($izinedarPsatpduks as $izinedarPsatpduk)
                                                             <option value="{{ $izinedarPsatpduk->id }}"
@@ -327,7 +355,9 @@
 
                             <div class="row justify-content-end">
                                 <div class="col-sm-10">
-                                    <button type="submit" class="btn btn-primary">Ajukan QR Badan Pangan</button>
+                                    <button type="submit" class="btn btn-primary" id="submit-qr-btn"
+                                        @if (in_array(true, $refEmpty)) disabled @endif
+                                    >Ajukan QR Badan Pangan</button>
                                 </div>
                             </div>
                         </form>
@@ -341,12 +371,33 @@
                                 const izinedarPsatpdField = document.getElementById('izinedar-psatpd-field');
                                 const izinedarPsatpdukField = document.getElementById('izinedar-psatpduk-field');
                                 const qrCategoryRadios = document.querySelectorAll('input[name="qr_category"]');
+                                const submitBtn = document.getElementById('submit-qr-btn');
+                                const referensiAlert = document.getElementById('referensi-alert');
 
                                 function hideAllRefs() {
                                     sppbField.style.display = 'none';
                                     izinedarPsatplField.style.display = 'none';
                                     izinedarPsatpdField.style.display = 'none';
                                     izinedarPsatpdukField.style.display = 'none';
+                                }
+
+                                function checkReferensiEmpty() {
+                                    let sppb = document.querySelector('select[name="referensi_sppb"]');
+                                    let psatpl = document.querySelector('select[name="referensi_izinedar_psatpl"]');
+                                    let psatpd = document.querySelector('select[name="referensi_izinedar_psatpd"]');
+                                    let psatpduk = document.querySelector('select[name="referensi_izinedar_psatpduk"]');
+                                    let empty = false;
+
+                                    // Only check visible fields
+                                    if (sppb && sppb.parentElement.parentElement.style.display !== 'none' && sppb.value === '') empty = true;
+                                    if (psatpl && psatpl.parentElement.parentElement.style.display !== 'none' && psatpl.value === '') empty = true;
+                                    if (psatpd && psatpd.parentElement.parentElement.style.display !== 'none' && psatpd.value === '') empty = true;
+                                    if (psatpduk && psatpduk.parentElement.parentElement.style.display !== 'none' && psatpduk.value === '') empty = true;
+
+                                    submitBtn.disabled = empty;
+                                    if (referensiAlert) {
+                                        referensiAlert.style.display = empty ? 'block' : 'none';
+                                    }
                                 }
 
                                 function updateFields() {
@@ -372,14 +423,28 @@
                                             sppbField.style.display = 'block';
                                         }
                                     }
+                                    checkReferensiEmpty();
                                 }
 
                                 updateFields();
                                 qrCategoryRadios.forEach(radio => {
                                     radio.addEventListener('change', updateFields);
                                 });
+
+                                // Listen to changes on referensi selects
+                                document.querySelectorAll('select[name^="referensi_"]').forEach(select => {
+                                    select.addEventListener('change', checkReferensiEmpty);
+                                });
                             });
                         </script>
+                    <style>
+                        .border-danger {
+                            border-color: #dc3545 !important;
+                        }
+                        .text-danger {
+                            color: #dc3545 !important;
+                        }
+                    </style>
                     </div>
                 </div>
             </div>
