@@ -18,8 +18,13 @@ class QrBadanPanganSeeder extends Seeder
         $supervisor = DB::table('users')->where('email', 'supervisor@panganaman.my.id')->first();
 
         // Get business IDs
-        $business1 = DB::table('business')->where('nama_perusahaan', 'PT Buah Raja Segar')->first();
-        $business2 = DB::table('business')->where('nama_perusahaan', 'UD Petani Jeruk')->first();
+        $business1 = DB::table('business')->whereHas('user', function($query) {
+            $query->where('email', 'pengusaha@panganaman.my.id');
+        })->first();
+
+        $business2 = DB::table('business')->whereHas('user', function($query) {
+            $query->where('email', 'pengusaha2@panganaman.my.id');
+        })->first();
 
         // Get reference IDs
         $sppb = DB::table('register_sppb')->first();

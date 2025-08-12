@@ -10,6 +10,7 @@ use App\Models\User;
 use App\Models\MasterProvinsi;
 use App\Models\MasterKota;
 use App\Models\MasterJenisPanganSegar;
+use App\Models\MasterKelompokPangan;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\DB;
 
@@ -39,7 +40,25 @@ class RegisterIzinedarPsatpdSeeder extends Seeder
         $kota = MasterKota::where('nama_kota', 'Kota Malang')->first();
 
         // Get a sample jenis_psat
-        $jenisPsat = MasterJenisPanganSegar::first();
+        $jenispsat2 = MasterJenisPanganSegar::where('nama_jenis_pangan_segar', 'Sayuran Umbi dan Akar')->first();
+        if (!$jenispsat2) {
+            $kelompok2 = MasterKelompokPangan::where('nama_kelompok_pangan', 'Sayur, termasuk Jamur')->first();
+            if (!$kelompok2) {
+                $kelompok2 = MasterKelompokPangan::create([
+                    'id' => Str::uuid(),
+                    'kode_kelompok_pangan' => 'KS001',
+                    'nama_kelompok_pangan' => 'Sayur, termasuk Jamur',
+                    'is_active' => true,
+                ]);
+            }
+            $jenispsat2 = MasterJenisPanganSegar::create([
+                'id' => Str::uuid(),
+                'kelompok_id' => $kelompok2->id,
+                'kode_jenis_pangan_segar' => 'JP009',
+                'nama_jenis_pangan_segar' => 'Sayuran Umbi dan Akar',
+                'is_active' => true,
+            ]);
+        }
 
         // Create sample data for register_izinedar_Psatpd
         RegisterIzinedarPsatpd::create([
@@ -59,7 +78,7 @@ class RegisterIzinedarPsatpdSeeder extends Seeder
             'kota_unitusaha' => $kota?->id,
             'nib_unitusaha' => 'NIB-MELON-001',
 
-            'jenis_psat' => $jenisPsat?->id,
+            'jenis_psat' => $jenispsat2?->id,
 
             'nama_komoditas' => 'Mangga Arumanis',
             'nama_latin' => 'Mangifera indica',

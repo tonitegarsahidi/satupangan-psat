@@ -87,7 +87,7 @@ class UserSeeder extends Seeder
             ],
             [
                 'id' => Str::uuid(),
-                'name' => 'Pak Melon',
+                'name' => 'Pak Melon Importir',
                 'email' => 'pengusaha@panganaman.my.id',
                 'password' => Hash::make('password123'),
                 'is_active' => true,
@@ -98,7 +98,7 @@ class UserSeeder extends Seeder
             ],
             [
                 'id' => Str::uuid(),
-                'name' => 'Pas Sambo Importir',
+                'name' => 'Pas Sambo Petani',
                 'email' => 'pengusaha2@panganaman.my.id',
                 'password' => Hash::make('password123'),
                 'is_active' => true,
