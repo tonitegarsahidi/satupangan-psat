@@ -119,7 +119,13 @@
                                 <h5 class="mb-3">QR Code</h5>
                                 <div class="card">
                                     <div class="card-body text-center">
-                                        <p>QR Code akan ditampilkan di sini</p>
+                                        @if ($data->qr_code)
+                                            <div id="qrcode" class="mb-3"></div>
+                                            <p class="text-muted">URL: {{ env('APP_URL', 'http://localhost') }}/qr/{{ $data->qr_code }}</p>
+                                            <button class="btn btn-sm btn-outline-primary" onclick="downloadQRCode()">Download QR Code</button>
+                                        @else
+                                            <p class="text-muted">QR Code will be generated when status is approved</p>
+                                        @endif
                                     </div>
                                 </div>
                             </div>
@@ -355,4 +361,42 @@
             </div>
         </div>
     </div>
+
+    @push('scripts')
+    <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            @if ($data->qr_code)
+                const qrCodeElement = document.getElementById('qrcode');
+                const url = '{{ env('APP_URL', 'http://localhost') }}/qr/{{ $data->qr_code }}';
+
+                QRCode.toCanvas(qrCodeElement, url, {
+                    width: 200,
+                    height: 200,
+                    margin: 1,
+                    color: {
+                        dark: '#000000',
+                        light: '#FFFFFF'
+                    }
+                }, function(error) {
+                    if (error) {
+                        console.error(error);
+                        qrCodeElement.innerHTML = 'Error generating QR code';
+                    }
+                });
+            @endif
+        });
+
+        function downloadQRCode() {
+            const canvas = document.querySelector('#qrcode canvas');
+            if (canvas) {
+                const url = canvas.toDataURL('image/png');
+                const link = document.createElement('a');
+                link.download = 'qr-code-{{ $data->qr_code }}.png';
+                link.href = url;
+                link.click();
+            }
+        }
+    </script>
+    @endpush
 @endsection

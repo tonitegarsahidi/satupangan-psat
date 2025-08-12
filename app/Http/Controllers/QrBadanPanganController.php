@@ -22,6 +22,8 @@ use App\Models\RegisterSertifikatKeamananPangan;
 use App\Helpers\AlertHelper;
 use App\Http\Requests\QrBadanPanganRequest;
 use App\Services\RegisterSppbService;
+use Illuminate\Support\Facades\Storage;
+use SimpleSoftwareIO\SimpleQrcode\QrCodeGenerator;
 
 class QrBadanPanganController extends Controller
 {
@@ -354,6 +356,25 @@ class QrBadanPanganController extends Controller
     {
         $status = $request->input('status');
         $user = Auth::user();
+
+        // Check if status is 'approved' (case insensitive)
+        if (strtolower($status) === 'approved') {
+            // Get the QR Badan Pangan record
+            $qrBadanPangan = $this->qrBadanPanganService->getQrBadanPanganDetail($id);
+
+            if (!$qrBadanPangan) {
+                $alert = AlertHelper::createAlert('danger', 'QR Badan Pangan not found');
+                return redirect()->route('qr-badan-pangan.index')->with('alerts', [$alert]);
+            }
+
+            // Generate random string for QR code (10 digits, all caps)
+            $qrCode = strtoupper(substr(md5(time() . rand()), 0, 10));
+
+            // Set is_published to true
+            $qrBadanPangan->is_published = true;
+            $qrBadanPangan->qr_code = $qrCode;
+            $qrBadanPangan->save();
+        }
 
         $result = $this->qrBadanPanganService->updateStatus($id, $status, $user->id);
 
