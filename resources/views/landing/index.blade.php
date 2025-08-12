@@ -206,6 +206,9 @@
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
+    <!-- html5-qrcode library -->
+    <script src="https://unpkg.com/html5-qrcode"></script>
+
     <script>
         // Add logging to track card click events
         document.addEventListener("DOMContentLoaded", function() {
@@ -223,6 +226,12 @@
                     toggleContentSection(index, cardTitle);
                 });
             });
+
+            // Setup QR scanner using event delegation
+            setupQRScanner();
+
+            // Also initialize QR scanner directly for compatibility
+            setTimeout(initializeQRScanner, 500);
         });
 
         function toggleContentSection(cardIndex, cardTitle) {
@@ -256,7 +265,7 @@
             }
 
             contentSection.innerHTML = content;
-            document.querySelector('#features').insertAdjacentElement('afterend', contentSection);
+            document.querySelector('#about').insertAdjacentElement('afterend', contentSection);
 
             console.log(`Content section added for: ${cardTitle}`);
         }
@@ -266,10 +275,12 @@
                 <div class="row">
                     <div class="col-md-6">
                         <h4><i class="bx bx-qr-scan"></i> Scan QR/Barcode</h4>
-                        <p>Gunakan kamera untuk memindai QR Code atau Barcode produkp>
-                        <button class="btn btn-success" onclick="window.location.href='{{ route("landing.layanan.cek_data") }}'">
+                        <p>Gunakan kamera untuk memindai QR Code atau Barcode produk</p>
+                        <button class="btn btn-success" id="start-scan-btn">
                             <i class="bx bx-qr-scan"></i> Mulai Scan
                         </button>
+                        <div id="reader" style="width: 100%; max-width: 500px; margin-top: 20px;"></div>
+                        <div id="scan-result" class="mt-3"></div>
                     </div>
                     <div class="col-md-6">
                         <h4><i class="bx bx-search"></i> Cek Kode QR</h4>
@@ -285,6 +296,98 @@
                     </div>
                 </div>
             `;
+        }
+
+        // QR Scanner functionality - simplified approach
+        function setupQRScanner() {
+            // Use event delegation to handle clicks on dynamically created buttons
+            document.addEventListener('click', function(event) {
+                if (event.target.id === 'start-scan-btn' || event.target.closest('#start-scan-btn')) {
+                    event.preventDefault();
+                    startQRScanner();
+                }
+            });
+        }
+
+        // QR Scanner functionality - direct approach
+        function initializeQRScanner() {
+            const scanBtn = document.getElementById("start-scan-btn");
+
+            if (!scanBtn) {
+                console.log("QR Scanner button not found yet, will retry later");
+                return false;
+            }
+
+            // Remove any existing event listeners
+            scanBtn.replaceWith(scanBtn.cloneNode(true));
+            const newScanBtn = document.getElementById("start-scan-btn");
+
+            newScanBtn.addEventListener("click", function() {
+                startQRScanner();
+            });
+
+            return true;
+        }
+
+        async function startQRScanner() {
+            const readerElem = document.getElementById("reader");
+            const resultElem = document.getElementById("scan-result");
+
+            if (!readerElem || !resultElem) {
+                console.error("QR Scanner elements not found");
+                return;
+            }
+
+            // Clear previous result & reader
+            resultElem.innerHTML = "";
+            readerElem.innerHTML = "";
+
+            try {
+                const devices = await Html5Qrcode.getCameras();
+                if (!devices || devices.length === 0) {
+                    resultElem.innerHTML = `<div class="alert alert-warning">Tidak ditemukan perangkat kamera.</div>`;
+                    return;
+                }
+
+                const html5QrCode = new Html5Qrcode("reader");
+
+                await html5QrCode.start(
+                    { facingMode: "environment" },
+                    { fps: 10, qrbox: 250 },
+                    (decodedText, decodedResult) => {
+                        html5QrCode.stop().then(() => {
+                            html5QrCode.clear();
+                            readerElem.innerHTML = '';
+
+                            console.log(`QR Code scanned: ${decodedText}`);
+
+                            // Check if scanned text matches the URL pattern for redirect
+                            const appUrl = '{{ config("app.url") }}';
+                            const qrPattern = new RegExp(`^${appUrl}/qr/([^/]+)$`);
+                            const match = decodedText.match(qrPattern);
+
+                            if (match) {
+                                // It's a QR code URL, redirect to the detail page
+                                console.log(`QR Code detected, redirecting to: ${decodedText}`);
+                                window.location.href = decodedText;
+                            } else {
+                                // Display the scanned text
+                                resultElem.innerHTML = `
+                                    <div class="alert alert-success">
+                                        <strong>Hasil Scan:</strong> ${decodedText}
+                                    </div>`;
+                            }
+                        });
+                    },
+                    (errorMessage) => {
+                        // Optional: handle scan error (misalnya tidak terbaca)
+                        console.log(`Scan error: ${errorMessage}`);
+                    }
+                );
+            } catch (err) {
+                console.error(`Camera start error: ${err}`);
+                resultElem.innerHTML = `<div class="alert alert-danger">Gagal memulai kamera: ${err}</div>`;
+            }
         }
 
         function generateRegistrasiContent() {
@@ -363,6 +466,7 @@
             console.log(`Redirecting to QR detail: ${redirectUrl}`);
             window.location.href = redirectUrl;
         }
+
     </script>
 </body>
 
