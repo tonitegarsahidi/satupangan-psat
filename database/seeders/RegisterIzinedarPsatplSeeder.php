@@ -30,7 +30,7 @@ class RegisterIzinedarPsatplSeeder extends Seeder
 
         $userpetugas = User::where('email', 'kantorpusat@panganaman.my.id')->first();
         if (!$userpetugas) {
-            $this->command->error('User with email pengusaha@panganaman.my.id not found. Please ensure the user exists before running this seeder.');
+            $this->command->error('User with email kantorpusat@panganaman.my.id not found. Please ensure the user exists before running this seeder.');
             return;
         }
 
@@ -82,29 +82,29 @@ class RegisterIzinedarPsatplSeeder extends Seeder
             'is_unitusaha' => true,
             'nama_unitusaha' => 'Unit Usaha Melon',
             'alamat_unitusaha' => 'Jl. Melon Manis No. 1',
-            'alamat_unitpenanganan' => 'Jl. Pengolahan Melon No. 2',
+            'alamat_unitpenanganan' => 'Jl. Melon Manis No. 1',
             'provinsi_unitusaha' => $provinsi?->id,
             'kota_unitusaha' => $kota?->id,
             'nib_unitusaha' => 'NIB-MELON-001',
 
             'jenis_psat' => $jenispsat1?->id,
 
-            'nama_komoditas' => 'Apal Red Delicious',
-            'nama_latin' => 'Malus domestica',
-            'negara_asal' => 'Amerika Serikat',
-            'merk_dagang' => 'Apel Oklahoma',
-            'jenis_kemasan' => 'Karton Box',
-            'ukuran_berat' => '10 kg per box',
-            'klaim' => 'Import Premium, Fresh from Farm',
-            'foto_1' => 'photos/izinedar/1.jpg',
-            'foto_2' => 'photos/izinedar/2.jpg',
-            'foto_3' => 'photos/izinedar/3.jpg',
-            'foto_4' => 'photos/izinedar/4.jpg',
-            'foto_5' => 'photos/izinedar/5.jpg',
-            'foto_6' => 'photos/izinedar/6.jpg',
-            'file_nib' => 'files/nib/NIB-MELON-001.pdf',
-            'file_sppb' => 'files/sppb/SPPB-MELON-001.pdf',
-            'file_izinedar_psatpl' => 'files/izinedar/IZIN-MELON-001.pdf',
+            'nama_komoditas' => 'Melon',
+            'nama_latin' => 'Cucumis melo',
+            'negara_asal' => 'India',
+            'merk_dagang' => 'Melon Sweet',
+            'jenis_kemasan' => 'Kardus',
+            'ukuran_berat' => '5 kg per karton',
+            'klaim' => 'Segar Manis, Berkualitas Export',
+            'foto_1' => 'images/upload/register/melon1.jpg',
+            'foto_2' => 'images/upload/register/melon2.jpg',
+            'foto_3' => 'images/upload/register/melon3.jpg',
+            'foto_4' => 'images/upload/register/melon4.jpg',
+            'foto_5' => null,
+            'foto_6' => null,
+            'file_nib' => 'files/upload/register/contohdokumen.pdf',
+            'file_sppb' => 'files/upload/register/contohdokumen.pdf',
+            'file_izinedar_psatpl' => 'files/upload/register/contohdokumen.pdf',
 
             'okkp_penangungjawab' => $userpetugas->id,
 

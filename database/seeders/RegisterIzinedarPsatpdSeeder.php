@@ -28,6 +28,12 @@ class RegisterIzinedarPsatpdSeeder extends Seeder
             return;
         }
 
+        $userpetugas = User::where('email', 'kantorjatim@panganaman.my.id')->first();
+        if (!$userpetugas) {
+            $this->command->error('User with email kantorjatim@panganaman.my.id not found. Please ensure the user exists before running this seeder.');
+            return;
+        }
+
         // Get the business associated with this user
         $business = Business::where('user_id', $user->id)->first();
         if (!$business) {
@@ -66,36 +72,36 @@ class RegisterIzinedarPsatpdSeeder extends Seeder
             'business_id' => $business->id,
             'status' => 'DIAJUKAN',
             'is_enabled' => true,
-            'nomor_sppb' => 'SPPB-SPPB-001',
-            'nomor_izinedar_pd' => 'REG-IZINPL-001',
+            'nomor_sppb' => 'REG-SPPB-KMSN-002',
+            'nomor_izinedar_pd' => 'REG-IZINPD-KNTNG-001',
 
             // Unit usaha data
             'is_unitusaha' => true,
-            'nama_unitusaha' => 'Unit Usaha Melon',
-            'alamat_unitusaha' => 'Jl. Melon Manis No. 1',
-            'alamat_unitpenanganan' => 'Jl. Pengolahan Melon No. 2',
+            'nama_unitusaha' => 'Unit Usaha Kentang',
+            'alamat_unitusaha' => 'Jl. Kentang Manis No. 1',
+            'alamat_unitpenanganan' => 'Jl. Kentang Manis No. 1',
             'provinsi_unitusaha' => $provinsi?->id,
             'kota_unitusaha' => $kota?->id,
             'nib_unitusaha' => 'NIB-MELON-001',
 
             'jenis_psat' => $jenispsat2?->id,
 
-            'nama_komoditas' => 'Mangga Arumanis',
-            'nama_latin' => 'Mangifera indica',
+            'nama_komoditas' => 'Kentang',
+            'nama_latin' => 'Solanum tuberosum',
             'negara_asal' => 'Indonesia',
-            'merk_dagang' => 'Mangga Garut',
-            'jenis_kemasan' => 'Karton Box',
-            'ukuran_berat' => '5 kg per box',
-            'klaim' => 'Pangan Lokal, Manis dan Segar',
-            'foto_1' => 'photos/izinedar/1.jpg',
-            'foto_2' => 'photos/izinedar/2.jpg',
-            'foto_3' => 'photos/izinedar/3.jpg',
-            'foto_4' => 'photos/izinedar/4.jpg',
-            'foto_5' => 'photos/izinedar/5.jpg',
-            'foto_6' => 'photos/izinedar/6.jpg',
-            'file_nib' => 'files/nib/NIB-MELON-001.pdf',
-            'file_sppb' => 'files/sppb/SPPB-MELON-001.pdf',
-            'file_izinedar_Psatpd' => 'files/izinedar/IZIN-MELON-001.pdf',
+            'merk_dagang' => 'Kentang Garut',
+            'jenis_kemasan' => 'Sakel',
+            'ukuran_berat' => '20 kg per sakel',
+            'klaim' => 'Pangan Lokal, Berkualitas Export',
+            'foto_1' => 'images/upload/register/kentang1.jpg',
+            'foto_2' => 'images/upload/register/kentang2.jpg',
+            'foto_3' => 'images/upload/register/kentang3.jpg',
+            'foto_4' => 'images/upload/register/kentang4.jpg',
+            'foto_5' => 'images/upload/register/kentang5.jpg',
+            'foto_6' => null,
+            'file_nib' => 'files/upload/register/contohdokumen.pdf',
+            'file_sppb' => 'files/upload/register/contohdokumen.pdf',
+            'file_izinedar_Psatpd' => 'files/upload/register/contohdokumen.pdf',
 
             'okkp_penangungjawab' => $user->id,
 
@@ -119,31 +125,31 @@ class RegisterIzinedarPsatpdSeeder extends Seeder
             'is_unitusaha' => false,
             'nama_unitusaha' => null,
             'alamat_unitusaha' => null,
-            'alamat_unitpenanganan' => 'Jl. Pengolahan Semangka No. 5',
+            'alamat_unitpenanganan' => 'Jl. Pengolahan Kentang No. 5',
             'provinsi_unitusaha' => $provinsi?->id,
             'kota_unitusaha' => $kota?->id,
             'nib_unitusaha' => null,
 
-            'jenis_psat' => $jenisPsat?->id,
+            'jenis_psat' => $jenispsat2?->id,
 
-            'nama_komoditas' => 'Pisang Cavendish',
-            'nama_latin' => 'Musa acuminata',
+            'nama_komoditas' => 'Kentang',
+            'nama_latin' => 'Solanum tuberosum',
             'negara_asal' => 'Indonesia',
-            'merk_dagang' => 'Pisang Jawa',
-            'jenis_kemasan' => 'Plastik Cling',
-            'ukuran_berat' => '12 kg per bunch',
+            'merk_dagang' => 'Kentang Garut',
+            'jenis_kemasan' => 'Sakel',
+            'ukuran_berat' => '20 kg per karung',
             'klaim' => 'Pangan Lokal, Berkualitas Export',
-            'foto_1' => 'photos/izinedar/7.jpg',
-            'foto_2' => 'photos/izinedar/8.jpg',
-            'foto_3' => 'photos/izinedar/9.jpg',
-            'foto_4' => 'photos/izinedar/10.jpg',
-            'foto_5' => 'photos/izinedar/11.jpg',
-            'foto_6' => 'photos/izinedar/12.jpg',
-            'file_nib' => 'files/nib/NIB-SEMANGKA-001.pdf',
-            'file_sppb' => 'files/sppb/SPPB-SEMANGKA-001.pdf',
-            'file_izinedar_Psatpd' => 'files/izinedar/IZIN-SEMANGKA-001.pdf',
+            'foto_1' => 'images/upload/register/kentang_7.jpg',
+            'foto_2' => 'images/upload/register/kentang_8.jpg',
+            'foto_3' => 'images/upload/register/kentang_9.jpg',
+            'foto_4' => 'images/upload/register/kentang_10.jpg',
+            'foto_5' => 'images/upload/register/kentang_11.jpg',
+            'foto_6' => 'images/upload/register/kentang_12.jpg',
+            'file_nib' => 'files/upload/register/NIB-KENTANG-002.pdf',
+            'file_sppb' => 'files/upload/register/SPPB-KENTANG-002.pdf',
+            'file_izinedar_Psatpd' => 'files/upload/register/IZIN-KENTANG-002.pdf',
 
-            'okkp_penangungjawab' => $user->id,
+            'okkp_penangungjawab' => $userpetugas->id,
 
             'tanggal_terbit' => '2025-02-01',
             'tanggal_terakhir' => '2026-02-01',
