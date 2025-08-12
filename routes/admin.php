@@ -25,6 +25,17 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::middleware('auth')->group(function () {
+    // QR Badan Pangan detail route for all roles needing access
+    Route::get('/qr-badan-pangan/{id}', [\App\Http\Controllers\QrBadanPanganController::class, 'show'])->name('qr-badan-pangan.show');
+    // Register SPPB detail route for all roles needing access
+    Route::get('/register-sppb/{id}', [\App\Http\Controllers\RegisterSppbController::class, 'show'])->name('register-sppb.show');
+    // Register IZIN EDAR PL detail route for all roles needing access
+    Route::get('/register-izinedar-psatpl/{id}', [\App\Http\Controllers\RegisterIzinedarPsatplController::class, 'show'])->name('register-izinedar-psatpl.show');
+    // Register IZIN EDAR PD detail route for all roles needing access
+    Route::get('/register-izinedar-psatpd/{id}', [\App\Http\Controllers\RegisterIzinedarPsatpdController::class, 'show'])->name('register-izinedar-psatpd.show');
+    // Register IZIN EDAR PDUK detail route for all roles needing access
+    Route::get('/register-izinedar-psatpduk/{id}', [\App\Http\Controllers\RegisterIzinedarPsatpdukController::class, 'show'])->name('register-izinedar-psatpduk.show');
+
     // Admin-only pages
     Route::get('/admin-page', [AdminController::class, 'index'])->name('admin-page')->middleware('role:ROLE_ADMIN');
     Route::get('/operator-page', [OperatorController::class, 'index'])->name('operator-page')->middleware('role:ROLE_OPERATOR');
