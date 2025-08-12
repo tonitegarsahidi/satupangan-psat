@@ -159,26 +159,43 @@
             html5QrCode = new Html5Qrcode("reader");
 
             html5QrCode.start(
-                { facingMode: "environment" },
-                { fps: 10, qrbox: 250 },
-                (decodedText, decodedResult) => {
-                    html5QrCode.stop().then(() => {
-                        html5QrCode.clear();
+            { facingMode: "environment" },
+            { fps: 10, qrbox: 250 },
+            (decodedText, decodedResult) => {
+                html5QrCode.stop().then(() => {
+                    html5QrCode.clear();
+                    readerElem.innerHTML = '';
+                    html5QrCode = null; // penting! supaya bisa scan ulang
+
+                    console.log(`QR Code scanned: ${decodedText}`);
+
+                    // Check if scanned text matches the URL pattern for redirect
+                    const appUrl = '{{ config("app.url") }}';
+                    const qrPattern = new RegExp(`^${appUrl}/qr/([^/]+)$`);
+                    const match = decodedText.match(qrPattern);
+
+                    if (match) {
+                        // It's a QR code URL, redirect to the detail page
+                        console.log(`QR Code detected, redirecting to: ${decodedText}`);
+                        window.location.href = decodedText;
+                    } else {
+                        // Display the scanned text
                         resultElem.innerHTML = `
                             <div class="alert alert-success">
                                 <strong>Hasil Scan:</strong> ${decodedText}
                             </div>`;
-                        readerElem.innerHTML = '';
-                        html5QrCode = null; // penting! supaya bisa scan ulang
-                    });
-                },
-                (errorMessage) => {
-                    // Optional: handle scan error (misalnya tidak terbaca)
-                }
-            ).catch(err => {
-                resultElem.innerHTML = `
-                    <div class="alert alert-danger">Gagal memulai kamera: ${err}</div>`;
-            });
+                    }
+                });
+            },
+            (errorMessage) => {
+                // Optional: handle scan error (misalnya tidak terbaca)
+                console.log(`Scan error: ${errorMessage}`);
+            }
+        ).catch(err => {
+            console.error(`Camera start error: ${err}`);
+            resultElem.innerHTML = `
+                <div class="alert alert-danger">Gagal memulai kamera: ${err}</div>`;
+        });
         };
 
         scanBtn.addEventListener("click", startScanner);

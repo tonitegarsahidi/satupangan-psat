@@ -170,8 +170,8 @@
             <div class="card h-100 p-3 d-flex flex-column align-items-center text-center">
                 <i class="bx bx-shield-alt-2 bx-md mb-3"></i>
                 <div>
-                    <h5 class="fw-bold">Keamanan & Kinerja</h5>
-                    <p class="mb-0">Penyimpanan data terenkripsi, real-time sync, backup otomatis harian, dapat diakses lintas perangkat dan optimal di jaringan lambat.</p>
+                    <h5 class="fw-bold">Titik Kritis Penanganan PSAT</h5>
+                    <p class="mb-0">Informasi mengenai titik kritis keamanan pangan dalam penanganan PSAT produk sayuran dan buah impor.</p>
                 </div>
             </div>
         </div>
@@ -205,6 +205,165 @@
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <script>
+        // Add logging to track card click events
+        document.addEventListener("DOMContentLoaded", function() {
+            console.log("Landing page loaded - initializing card click handlers");
+
+            // Card click handlers with logging
+            const cards = document.querySelectorAll('.card.h-100');
+            cards.forEach((card, index) => {
+                card.style.cursor = 'pointer';
+                card.addEventListener('click', function() {
+                    const cardTitle = this.querySelector('h5').textContent;
+                    console.log(`Card clicked: ${cardTitle} (index: ${index})`);
+
+                    // Toggle content section based on card
+                    toggleContentSection(index, cardTitle);
+                });
+            });
+        });
+
+        function toggleContentSection(cardIndex, cardTitle) {
+            console.log(`Toggling content section for card: ${cardTitle}`);
+
+            // Remove any existing content sections
+            const existingSections = document.querySelectorAll('.card-content-section');
+            existingSections.forEach(section => section.remove());
+
+            // Create new content section
+            const contentSection = document.createElement('div');
+            contentSection.className = 'container px-4 py-5 bg-light mt-4 card-content-section';
+
+            let content = '';
+
+            switch(cardIndex) {
+                case 1: // Cek Keamanan Produk (second card in first row)
+                    content = generateCekKeamananProdukContent();
+                    break;
+                case 0: // Registrasi dan Database Produk PSAT (first card in first row)
+                    content = generateRegistrasiContent();
+                    break;
+                case 2: // Pelaporan & Pengawasan Terpadu (third card in first row)
+                    content = generatePelaporanContent();
+                    break;
+                case 5: // Keamanan & Kinerja (third card in second row)
+                    content = generateTitikKritisContent();
+                    break;
+                default:
+                    content = '<p class="text-center">Informasi tidak tersedia.</p>';
+            }
+
+            contentSection.innerHTML = content;
+            document.querySelector('#features').insertAdjacentElement('afterend', contentSection);
+
+            console.log(`Content section added for: ${cardTitle}`);
+        }
+
+        function generateCekKeamananProdukContent() {
+            return `
+                <div class="row">
+                    <div class="col-md-6">
+                        <h4><i class="bx bx-qr-scan"></i> Scan QR/Barcode</h4>
+                        <p>Gunakan kamera untuk memindai QR Code atau Barcode produkp>
+                        <button class="btn btn-success" onclick="window.location.href='{{ route("landing.layanan.cek_data") }}'">
+                            <i class="bx bx-qr-scan"></i> Mulai Scan
+                        </button>
+                    </div>
+                    <div class="col-md-6">
+                        <h4><i class="bx bx-search"></i> Cek Kode QR</h4>
+                        <p>Masukkan 10 digit kode QR untuk mengecek keamanan produk</p>
+                        <div class="input-group">
+                            <input type="text" class="form-control" id="qr-code-input" placeholder="Masukkan 10 digit kode QR" maxlength="10">
+                            <div class="input-group-append">
+                                <button class="btn btn-primary" onclick="checkQRCode()">
+                                    <i class="bx bx-search"></i> Cari
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function generateRegistrasiContent() {
+            return `
+                <h4><i class="bx bx-file-text"></i> Alur Prosedur Pengajuan QR Code Keamanan Pangan</h4>
+                <ol class="list-group list-group-numbered">
+                    <li class="list-group-item">User membuat akun pelaku usaha di <a href="{{ route('register-business') }}" class="text-primary">/register-business</a></li>
+                    <li class="list-group-item">Untuk usaha UMKM cukup mengisi data Izin Edar PSAT PDUK</li>
+                    <li class="list-group-item">Untuk usaha Non UMKM, mengisi data SPPB dan data Izin Edar PSAT (PL untuk produk impor, PD untuk produk lokal)</li>
+                    <li class="list-group-item">User mengisi form pengajuan QR Badan Pangan</li>
+                    <li class="list-group-item">Petugas akan mereview, dan memberikan approval/penolakan dari permintaan ini</li>
+                    <li class="list-group-item">Jika disetujui, QR code akan terbit dan dapat disematkan di kemasan Anda</li>
+                </ol>
+            `;
+        }
+
+        function generatePelaporanContent() {
+            return `
+                <h4><i class="bx bx-file-find"></i> Pelaporan & Pengawasan Terpadu</h4>
+                <ol class="list-group list-group-numbered">
+                    <li class="list-group-item">User membuat akun user di <a href="{{ route('register') }}" class="text-primary">/register</a></li>
+                    <li class="list-group-item">User mengisi form laporan pengaduan</li>
+                    <li class="list-group-item">Petugas akan memberikan tanggapan dari laporan pengaduan tersebut</li>
+                </ol>
+            `;
+        }
+
+        function generateTitikKritisContent() {
+            return `
+                <h4><i class="bx bx-shield-alt-2"></i> Titik Kritis Keamanan Pangan dalam Penanganan PSAT</h4>
+
+                <h5>Titik kritis keamanan pangan dalam penanganan PSAT produk Sayuran</h5>
+                <ol class="list-group list-group-numbered mb-4">
+                    <li class="list-group-item">Suhu Penyimpanan tidak sesuai (Suhu optimal 0˚ – 4˚ C)</li>
+                    <li class="list-group-item">Pencucian tidak menggunakan air bersih</li>
+                    <li class="list-group-item">Ruang/gudang penyimpanan kotor/tidak higienis</li>
+                    <li class="list-group-item">Penggunaan pestisida tidak sesuai aturan pakai</li>
+                    <li class="list-group-item">Personel yang menangani tidak higienis</li>
+                    <li class="list-group-item">Tempat/display penjualan kotor/tidak higienis</li>
+                    <li class="list-group-item">Suhu di tempat penjualan/display tidak sesuai</li>
+                    <li class="list-group-item">Penggunaan pupuk tidak sesuai aturan</li>
+                </ol>
+
+                <h5>Titik kritis keamanan pangan dalam penanganan PSAT produk buah impor</h5>
+                <ol class="list-group list-group-numbered">
+                    <li class="list-group-item">Penyimpanan melebihi kapasitas ruang/gudang penyimpanan</li>
+                    <li class="list-group-item">Muatan melebihi kapasitas dan tumpukan barang di kontainer tidak rapi</li>
+                    <li class="list-group-item">Ruang/gudang penyimpanan kotor/tidak higienis</li>
+                    <li class="list-group-item">Ada produk yang rusak/busuk/tidak sesuai pada saat penerimaan</li>
+                    <li class="list-group-item">Suhu di mobil pengangkut tidak sesuai (suhu optimal ..)</li>
+                    <li class="list-group-item">Kendaraan pengangkut kotor/tidak higienis</li>
+                    <li class="list-group-item">Personil yang menangani tidak higienis</li>
+                    <li class="list-group-item">Suhu di tempat penjualan/display tidak sesuai</li>
+                    <li class="list-group-item">Terjadi kontaminasi silang dengan produk lain</li>
+                </ol>
+            `;
+        }
+
+        function checkQRCode() {
+            const qrCodeInput = document.getElementById('qr-code-input');
+            const qrCode = qrCodeInput.value.trim();
+
+            if (qrCode.length !== 10) {
+                alert('Kode QR harus terdiri dari 10 digit');
+                return;
+            }
+
+            if (!/^[a-zA-Z0-9]+$/.test(qrCode)) {
+                alert('Kode QR hanya boleh berisi huruf dan angka');
+                return;
+            }
+
+            // Redirect to QR detail page
+            const baseUrl = '{{ config("app.url") }}';
+            const redirectUrl = `${baseUrl}/qr/${qrCode}`;
+            console.log(`Redirecting to QR detail: ${redirectUrl}`);
+            window.location.href = redirectUrl;
+        }
+    </script>
 </body>
 
 </html>
