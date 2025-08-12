@@ -22,3 +22,6 @@ Route::prefix('landing')->group(function () {
     Route::get('/panduan/standar-keamanan', [LandingController::class, 'standarKeamananMutuPangan'])->name('landing.panduan.standar_keamanan');
     Route::get('/panduan/batas-cemaran', [LandingController::class, 'batasCemaranResidu'])->name('landing.panduan.batas_cemaran');
 });
+
+// QR Code route
+Route::get('/qr/{qr_code}', [LandingController::class, 'showQRDetail'])->name('qr.detail');
