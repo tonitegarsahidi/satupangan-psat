@@ -20,7 +20,14 @@ class QrBadanPanganRepository
         }
 
         if (!is_null($sortField) && !is_null($sortOrder)) {
-            $query->orderBy($sortField, $sortOrder);
+            if ($sortField === 'nama_perusahaan') {
+                // Sort by business name
+                $query->join('business', 'qr_badan_pangan.business_id', '=', 'business.id')
+                      ->orderBy('business.nama_perusahaan', $sortOrder)
+                      ->select('qr_badan_pangan.*');
+            } else {
+                $query->orderBy($sortField, $sortOrder);
+            }
         } else {
             $query->orderBy("created_at", "desc");
         }

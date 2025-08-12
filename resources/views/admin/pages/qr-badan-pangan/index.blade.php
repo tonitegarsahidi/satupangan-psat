@@ -112,10 +112,26 @@
                                 </a>
                             </th>
                             <th>
-                                Nama Bisnis
+                                <a
+                                    href="{{ route('qr-badan-pangan.index', [
+                                        'sort_field' => 'nama_perusahaan',
+                                        'sort_order' => $sortOrder == 'asc' ? 'desc' : 'asc',
+                                        'keyword' => $keyword,
+                                    ]) }}">
+                                    Nama Bisnis
+                                    @include('components.arrow-sort', ['field' => 'nama_perusahaan', 'sortField' => $sortField, 'sortOrder' => $sortOrder])
+                                </a>
                             </th>
                             <th>
-                                Tanggal Diajukan
+                                <a
+                                    href="{{ route('qr-badan-pangan.index', [
+                                        'sort_field' => 'created_at',
+                                        'sort_order' => $sortOrder == 'asc' ? 'desc' : 'asc',
+                                        'keyword' => $keyword,
+                                    ]) }}">
+                                    Tanggal Diajukan
+                                    @include('components.arrow-sort', ['field' => 'created_at', 'sortField' => $sortField, 'sortOrder' => $sortOrder])
+                                </a>
                             </th>
                             <th></th>
                             <th></th>
