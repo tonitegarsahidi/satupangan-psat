@@ -73,7 +73,7 @@ class QrBadanPanganController extends Controller
         $keyword = $request->input('keyword');
 
         $user = Auth::user();
-        $qrBadanPangans = $this->qrBadanPanganService->listAllQrBadanPangan($perPage, $sortField, $sortOrder, $keyword);
+        $qrBadanPangans = $this->qrBadanPanganService->listAllQrBadanPangan($perPage, $sortField, $sortOrder, $keyword, $user);
 
         $breadcrumbs = array_merge($this->mainBreadcrumbs, ['List' => null]);
 
@@ -411,7 +411,8 @@ class QrBadanPanganController extends Controller
             $qrBadanPangans = $this->qrBadanPanganService->getQrBadanPanganByCategory($qrCategory);
             $alert = AlertHelper::createAlert('success', 'Filtered by QR Category: ' . array_search($qrCategory, config('constant.QR_CATEGORY')));
         } else {
-            $qrBadanPangans = $this->qrBadanPanganService->listAllQrBadanPangan(config('constant.CRUD.PER_PAGE'));
+            $user = Auth::user();
+            $qrBadanPangans = $this->qrBadanPanganService->listAllQrBadanPangan(config('constant.CRUD.PER_PAGE'), null, null, null, $user);
             $alert = AlertHelper::createAlert('info', 'Showing all QR Badan Pangan records');
         }
 

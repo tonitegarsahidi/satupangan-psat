@@ -17,10 +17,10 @@ class QrBadanPanganService
         $this->qrBadanPanganRepository = $qrBadanPanganRepository;
     }
 
-    public function listAllQrBadanPangan($perPage, string $sortField = null, string $sortOrder = null, string $keyword = null): LengthAwarePaginator
+    public function listAllQrBadanPangan($perPage, string $sortField = null, string $sortOrder = null, string $keyword = null, $user = null): LengthAwarePaginator
     {
         $perPage = !is_null($perPage) ? $perPage : config('constant.CRUD.PER_PAGE');
-        return $this->qrBadanPanganRepository->getAllQrBadanPangan($perPage, $sortField, $sortOrder, $keyword);
+        return $this->qrBadanPanganRepository->getAllQrBadanPangan($perPage, $sortField, $sortOrder, $keyword, $user);
     }
 
     public function getQrBadanPanganDetail($id): ?QrBadanPangan

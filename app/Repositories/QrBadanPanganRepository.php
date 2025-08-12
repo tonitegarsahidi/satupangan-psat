@@ -2,15 +2,22 @@
 
 namespace App\Repositories;
 
+use App\Models\Business;
 use App\Models\QrBadanPangan;
 use Exception;
 use Illuminate\Pagination\LengthAwarePaginator;
 
 class QrBadanPanganRepository
 {
-    public function getAllQrBadanPangan(int $perPage = 10, string $sortField = null, string $sortOrder = null, string $keyword = null): LengthAwarePaginator
+    public function getAllQrBadanPangan(int $perPage = 10, string $sortField = null, string $sortOrder = null, string $keyword = null, $user = null): LengthAwarePaginator
     {
         $query = QrBadanPangan::with(['business', 'currentAssignee', 'requestedBy', 'reviewedBy', 'approvedBy', 'jenisPsat']);
+
+        $userBusiness = Business::where('user_id', $user->id)->first();
+        // If user is provided and not an operator or supervisor, filter by business_id
+        if ($user && !$user->hasAnyRole(['ROLE_OPERATOR', 'ROLE_SUPERVISOR'])) {
+            $query->where('business_id', $userBusiness->id);
+        }
 
         if (!is_null($sortField) && !is_null($sortOrder)) {
             $query->orderBy($sortField, $sortOrder);
