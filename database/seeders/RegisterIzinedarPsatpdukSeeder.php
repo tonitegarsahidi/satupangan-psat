@@ -99,7 +99,7 @@ class RegisterIzinedarPsatpdukSeeder extends Seeder
             'foto_3' => 'images/upload/register/carrot3.jpg',
             'foto_4' => 'images/upload/register/carrot4.jpg',
             'foto_5' => 'images/upload/register/carrot5.jpg',
-            'foto_6' => 'images/upload/register/carrot6.jpg',,
+            'foto_6' => 'images/upload/register/carrot6.jpg',
             'file_nib' => 'files/upload/register/contohdokumen.pdf',
             'file_sppb' => 'files/upload/register/contohdokumen.pdf',
             'file_izinedar_psatpduk' => 'files/upload/register/contohdokumen.pdf',
