@@ -112,10 +112,10 @@
                                 </a>
                             </th>
                             <th>
-                                Current Assignee
+                                Nama Bisnis
                             </th>
                             <th>
-                                Published
+                                Tanggal Diajukan
                             </th>
                             <th></th>
                             <th></th>
@@ -147,14 +147,8 @@
                                         {{ $qrBadanPangan->status }}
                                     @endif
                                 </td>
-                                <td>{{ $qrBadanPangan->currentAssignee ? $qrBadanPangan->currentAssignee->name : '-' }}</td>
-                                <td>
-                                    @if ($qrBadanPangan->is_published)
-                                        <span class="badge rounded-pill bg-success">Yes</span>
-                                    @else
-                                        <span class="badge rounded-pill bg-secondary">No</span>
-                                    @endif
-                                </td>
+                                <td>{{ $qrBadanPangan->business ? $qrBadanPangan->business->nama_perusahaan : '-' }}</td>
+                                <td>{{ \Carbon\Carbon::parse($qrBadanPangan->created_at)->format('d/m/Y H:i') }}</td>
 
                                 {{-- ============ CRUD LINK ICON =============  --}}
                                 <td>
