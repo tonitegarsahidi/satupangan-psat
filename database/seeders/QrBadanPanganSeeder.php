@@ -2,6 +2,8 @@
 
 namespace Database\Seeders;
 
+use App\Models\MasterJenisPanganSegar;
+use App\Models\MasterKelompokPangan;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
@@ -36,7 +38,49 @@ class QrBadanPanganSeeder extends Seeder
         $sppb2 = DB::table('register_sppb')->where('nomor_registrasi', 'REG-SPPB-KMSN-002')->first();
         $izinedarPsatpl = DB::table('register_izinedar_psatpl')->first();
         $izinedarPsatpd = DB::table('register_izinedar_psatpd')->first();
-        $jenisPsat = DB::table('master_jenis_pangan_segars')->first();
+        $izinedarPsatpduk = DB::table('register_izinedar_psatpduk')->first();
+
+
+        // Ensure there are at least two jenis psat records
+        $jenispsat1 = MasterJenisPanganSegar::where('nama_jenis_pangan_segar', 'Buah Kulit Tidak Dimakan')->first();
+        if (!$jenispsat1) {
+            $kelompok1 = MasterKelompokPangan::where('nama_kelompok_pangan', 'Buah')->first();
+            if (!$kelompok1) {
+                $kelompok1 = MasterKelompokPangan::create([
+                    'id' => Str::uuid(),
+                    'kode_kelompok_pangan' => 'KB001',
+                    'nama_kelompok_pangan' => 'Buah',
+                    'is_active' => true,
+                ]);
+            }
+            $jenispsat1 = MasterJenisPanganSegar::create([
+                'id' => Str::uuid(),
+                'kelompok_id' => $kelompok1->id,
+                'kode_jenis_pangan_segar' => 'JP013',
+                'nama_jenis_pangan_segar' => 'Buah Kulit Tidak Dimakan',
+                'is_active' => true,
+            ]);
+        }
+
+        $jenispsat2 = MasterJenisPanganSegar::where('nama_jenis_pangan_segar', 'Sayuran Umbi dan Akar')->first();
+        if (!$jenispsat2) {
+            $kelompok2 = MasterKelompokPangan::where('nama_kelompok_pangan', 'Sayur, termasuk Jamur')->first();
+            if (!$kelompok2) {
+                $kelompok2 = MasterKelompokPangan::create([
+                    'id' => Str::uuid(),
+                    'kode_kelompok_pangan' => 'KS001',
+                    'nama_kelompok_pangan' => 'Sayur, termasuk Jamur',
+                    'is_active' => true,
+                ]);
+            }
+            $jenispsat2 = MasterJenisPanganSegar::create([
+                'id' => Str::uuid(),
+                'kelompok_id' => $kelompok2->id,
+                'kode_jenis_pangan_segar' => 'JP009',
+                'nama_jenis_pangan_segar' => 'Sayuran Umbi dan Akar',
+                'is_active' => true,
+            ]);
+        }
 
         $now = Carbon::now();
 
@@ -58,7 +102,7 @@ class QrBadanPanganSeeder extends Seeder
                 'nama_komoditas' => 'Melon',
                 'nama_latin' => 'Cucumis melo',
                 'merk_dagang' => 'Melon Sweet',
-                'jenis_psat' => $jenisPsat ? $jenisPsat->id : null,
+                'jenis_psat' => $jenispsat1 ? $jenispsat1->id : null,
                 'referensi_sppb' => $sppb1 ? $sppb1->id : null,
                 'referensi_izinedar_psatpl' => $izinedarPsatpl ? $izinedarPsatpl->id : null,
                 'referensi_izinedar_psatpd' => null,
@@ -93,7 +137,7 @@ class QrBadanPanganSeeder extends Seeder
                 'nama_komoditas' => 'Kentang',
                 'nama_latin' => 'Solanum tuberosum',
                 'merk_dagang' => 'Kentang Garut',
-                'jenis_psat' => $jenisPsat ? $jenisPsat->id : null,
+                'jenis_psat' => $jenispsat2 ? $jenispsat2->id : null,
                 'referensi_sppb' => $sppb2 ? $sppb2->id : null,
                 'referensi_izinedar_psatpl' => null,
                 'referensi_izinedar_psatpd' => $izinedarPsatpd ? $izinedarPsatpd->id : null,
@@ -111,38 +155,39 @@ class QrBadanPanganSeeder extends Seeder
                 'updated_at' => $now->copy()->subDays(4),
                 'deleted_at' => null,
             ],
+
             [
                 'id' => Str::uuid(),
-                'qr_code' => 'QR-BP-003',
-                'current_assignee' => $supervisor ? $supervisor->id : null,
-                'requested_by' => $user1 ? $user1->id : null,
-                'requested_at' => $now->copy()->subDays(3),
-                'reviewed_by' => $petugas ? $petugas->id : null,
-                'reviewed_at' => $now->copy()->subDays(2),
+                'qr_code' => 'QR-BP-004',
+                'current_assignee' => $petugas ? $petugas->id : null,
+                'requested_by' => $user2 ? $user2->id : null,
+                'requested_at' => $now->copy()->subDays(2),
+                'reviewed_by' => null,
+                'reviewed_at' => null,
                 'approved_by' => null,
                 'approved_at' => null,
-                'status' => 'reviewed',
+                'status' => 'pending',
                 'is_published' => false,
-                'qr_category' => 3, // Masa Simpan maks 7 Hari
-                'business_id' => $business1 ? $business1->id : null,
-                'nama_komoditas' => 'Pisang',
-                'nama_latin' => 'Musa',
-                'merk_dagang' => 'Pisang Cavendish',
-                'jenis_psat' => $jenisPsat ? $jenisPsat->id : null,
-                'referensi_sppb' => $sppb ? $sppb->id : null,
-                'referensi_izinedar_psatpl' => $izinedarPsatpl ? $izinedarPsatpl->id : null,
-                'referensi_izinedar_psatpd' => $izinedarPsatpd ? $izinedarPsatpd->id : null,
-                'referensi_izinedar_psatpduk' => null,
+                'qr_category' => 4, // Produk Sayuran
+                'business_id' => $business2 ? $business2->id : null,
+                'nama_komoditas' => 'Wortel',
+                'nama_latin' => 'Daucus carota',
+                'merk_dagang' => 'Wortel Segar',
+                'jenis_psat' => $jenispsat2 ? $jenispsat2->id : null,
+                'referensi_sppb' => null,
+                'referensi_izinedar_psatpl' => null,
+                'referensi_izinedar_psatpd' => null,
+                'referensi_izinedar_psatpduk' => $izinedarPsatpduk ? $izinedarPsatpduk->id : null,
                 'referensi_izinrumah_pengemasan' => null,
                 'referensi_sertifikat_keamanan_pangan' => null,
-                'file_lampiran1' => 'lampiran1.pdf',
-                'file_lampiran2' => 'lampiran2.pdf',
-                'file_lampiran3' => 'lampiran3.pdf',
+                'file_lampiran1' => null,
+                'file_lampiran2' => null,
+                'file_lampiran3' => null,
                 'file_lampiran4' => null,
                 'file_lampiran5' => null,
                 'created_by' => 'seeder',
                 'updated_by' => 'seeder',
-                'created_at' => $now->copy()->subDays(3),
+                'created_at' => $now->copy()->subDays(2),
                 'updated_at' => $now->copy()->subDays(2),
                 'deleted_at' => null,
             ],
