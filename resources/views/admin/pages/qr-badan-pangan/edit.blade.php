@@ -2,329 +2,518 @@
 
 @section('page-title', 'Edit QR Badan Pangan')
 
-{{-- MAIN CONTENT PART --}}
 @section('main-content')
     <div class="container-xxl flex-grow-1 container-p-y">
 
-        {{-- FOR BREADCRUMBS --}}
         @include('admin.components.breadcrumb.simple', $breadcrumbs)
 
         <div class="row">
-            <div class="col-12">
-                <div class="card">
-                    <div class="card-body">
-                        <h4 class="card-title">Edit QR Badan Pangan</h4>
-                        <p class="card-subtitle mb-4">Update the information for this QR Badan Pangan</p>
 
-                        <form action="{{ route('qr-badan-pangan.update', ['id' => $qrBadanPangan->id]) }}" method="POST" enctype="multipart/form-data">
+            <!-- Basic Layout -->
+            <div class="col-xxl">
+                <div class="card mb-4">
+                    <div class="card-header d-flex align-items-center justify-content-between">
+                        <h5 class="mb-0">Edit QR Badan Pangan</h5>
+                        <small class="text-muted float-end">* : must be filled</small>
+
+                        <!-- Notification element -->
+                        @if ($errors->any() || session('loginError'))
+                            <div class="alert alert-danger" role="alert">
+                                <ul>
+                                    @if ($errors->any())
+                                        @foreach ($errors->all() as $error)
+                                            <li>{{ $error }}</li>
+                                        @endforeach
+                                    @endif
+                                    @if (session('loginError'))
+                                        <li>{{ session('loginError') }}</li>
+                                    @endif
+                                </ul>
+                            </div>
+                        @endif
+                    </div>
+                    <div class="card-body">
+
+                        <form method="POST" action="{{ route('qr-badan-pangan.update', ['id' => $qrBadanPangan->id]) }}"
+                            enctype="multipart/form-data">
                             @csrf
                             @method('PUT')
 
-                            <!-- Business Information -->
-                            <div class="row mb-4">
-                                <div class="col-md-6">
-                                    <label for="business_id" class="form-label">Business</label>
-                                    <select class="form-select" id="business_id" name="business_id" required>
-                                        <option value="">Select Business</option>
-                                        @if($qrBadanPangan->business)
-                                            <option value="{{ $qrBadanPangan->business->id }}" selected>{{ $qrBadanPangan->business->nama_perusahaan }}</option>
-                                        @endif
-                                    </select>
-                                    @error('business_id')
-                                        <div class="invalid-feedback d-block">{{ $message }}</div>
-                                    @enderror
+                            {{-- BUSINESS ID FIELD (Hidden) --}}
+                            <input type="hidden" name="business_id" id="business_id" value="{{ $qrBadanPangan->business_id }}">
+                            <div class="row mb-3">
+                                <label class="col-sm-2 col-form-label">Nama Pelaku Usaha</label>
+                                <div class="col-sm-10">
+                                    <a href="{{ route('business.profile.index') }}" class="form-control-plaintext text-primary" style="cursor: pointer; text-decoration: none;">
+                                        {{ $qrBadanPangan->business->nama_perusahaan }}
+                                    </a>
                                 </div>
-                                <div class="col-md-6">
-                                    <label for="current_assignee" class="form-label">Assign To</label>
-                                    <select class="form-select" id="current_assignee" name="current_assignee">
-                                        <option value="">Select Assignee</option>
-                                        @foreach($assignees as $assignee)
-                                            <option value="{{ $assignee->id }}" {{ $qrBadanPangan->current_assignee == $assignee->id ? 'selected' : '' }}>{{ $assignee->name }}</option>
+                            </div>
+
+
+                            {{-- QR CODE FIELD --}}
+                            {{-- <div class="row mb-3">
+                                <label class="col-sm-2 col-form-label" for="qr_code">QR Code</label>
+                                <div class="col-sm-10">
+                                    @include('admin.components.notification.error-validation', [
+                                        'field' => 'qr_code',
+                                    ])
+                                    <input type="text" name="qr_code" class="form-control" id="qr_code"
+                                        placeholder="contoh:  QR-001" value="{{ old('qr_code', $qrBadanPangan->qr_code) }}">
+                                </div>
+                            </div> --}}
+
+
+                            {{-- JENIS PSAT FIELD --}}
+                            <div class="row mb-3">
+                                <label class="col-sm-2 col-form-label">Jenis PSAT</label>
+                                <div class="col-sm-10">
+                                    @include('admin.components.notification.error-validation', [
+                                        'field' => 'jenis_psat',
+                                    ])
+                                    <select name="jenis_psat" id="jenis_psat" class="form-control">
+                                        <option value="">-- Select Jenis PSAT --</option>
+                                        @foreach ($jenispsats as $jenispsat)
+                                            <option value="{{ $jenispsat->id }}"
+                                                {{ old('jenis_psat', $qrBadanPangan->jenis_psat) == $jenispsat->id ? 'selected' : '' }}>
+                                                {{ $jenispsat->nama_jenis_pangan_segar }}
+                                            </option>
                                         @endforeach
                                     </select>
-                                    @error('current_assignee')
-                                        <div class="invalid-feedback d-block">{{ $message }}</div>
-                                    @enderror
                                 </div>
                             </div>
 
-                            <!-- Commodity Information -->
-                            <div class="row mb-4">
-                                <div class="col-md-4">
-                                    <label for="nama_komoditas" class="form-label">Nama Komoditas <span class="text-danger">*</span></label>
-                                    <input type="text" class="form-control" id="nama_komoditas" name="nama_komoditas" value="{{ $qrBadanPangan->nama_komoditas }}" required>
-                                    @error('nama_komoditas')
-                                        <div class="invalid-feedback d-block">{{ $message }}</div>
-                                    @enderror
-                                </div>
-                                <div class="col-md-4">
-                                    <label for="nama_latin" class="form-label">Nama Latin <span class="text-danger">*</span></label>
-                                    <input type="text" class="form-control" id="nama_latin" name="nama_latin" value="{{ $qrBadanPangan->nama_latin }}" required>
-                                    @error('nama_latin')
-                                        <div class="invalid-feedback d-block">{{ $message }}</div>
-                                    @enderror
-                                </div>
-                                <div class="col-md-4">
-                                    <label for="merk_dagang" class="form-label">Merk Dagang <span class="text-danger">*</span></label>
-                                    <input type="text" class="form-control" id="merk_dagang" name="merk_dagang" value="{{ $qrBadanPangan->merk_dagang }}" required>
-                                    @error('merk_dagang')
-                                        <div class="invalid-feedback d-block">{{ $message }}</div>
-                                    @enderror
+                            {{-- NAMA KOMODITAS FIELD --}}
+                            <div class="row mb-3">
+                                <label class="col-sm-2 col-form-label" for="nama_komoditas">Nama Komoditas*</label>
+                                <div class="col-sm-10">
+                                    @include('admin.components.notification.error-validation', [
+                                        'field' => 'nama_komoditas',
+                                    ])
+                                    <input type="text" name="nama_komoditas" class="form-control" id="nama_komoditas"
+                                        placeholder="contoh:  Melon" value="{{ old('nama_komoditas', $qrBadanPangan->nama_komoditas) }}" required>
                                 </div>
                             </div>
 
-                            <!-- QR Category -->
-                            <div class="row mb-4">
-                                <div class="col-md-12">
-                                    <label class="form-label">QR Category</label>
-                                    <div>
+                            {{-- NAMA LATIN FIELD --}}
+                            <div class="row mb-3">
+                                <label class="col-sm-2 col-form-label" for="nama_latin">Nama Latin*</label>
+                                <div class="col-sm-10">
+                                    @include('admin.components.notification.error-validation', [
+                                        'field' => 'nama_latin',
+                                    ])
+                                    <input type="text" name="nama_latin" class="form-control" id="nama_latin"
+                                        placeholder="contoh:  Cucumis melo" value="{{ old('nama_latin', $qrBadanPangan->nama_latin) }}" required>
+                                </div>
+                            </div>
+
+                            {{-- MERK DAGANG FIELD --}}
+                            <div class="row mb-3">
+                                <label class="col-sm-2 col-form-label" for="merk_dagang">Merk Dagang*</label>
+                                <div class="col-sm-10">
+                                    @include('admin.components.notification.error-validation', [
+                                        'field' => 'merk_dagang',
+                                    ])
+                                    <input type="text" name="merk_dagang" class="form-control" id="merk_dagang"
+                                        placeholder="contoh:  PanganAman" value="{{ old('merk_dagang', $qrBadanPangan->merk_dagang) }}" required>
+                                </div>
+                            </div>
+
+                            {{-- QR CATEGORY FIELD --}}
+                            <div class="row mb-3" id="qr-category-field">
+                                <label class="col-sm-2 col-form-label">Kategori QR</label>
+                                <div class="col-sm-8">
+                                    @include('admin.components.notification.error-validation', [
+                                        'field' => 'qr_category',
+                                    ])
+                                    <div class="form-check ml-100">
                                         @foreach($qrCategories as $key => $value)
-                                            <div class="form-check form-check-inline">
+                                            <div class="form-check mb-2">
                                                 <input class="form-check-input" type="radio" name="qr_category" id="qr_category_{{ $value }}" value="{{ $value }}"
-                                                    {{ old('qr_category') == $value ? 'checked' : ($qrBadanPangan->qr_category == $value ? 'checked' : '') }}>
+                                                    {{ old('qr_category', $qrBadanPangan->qr_category) == $value ? 'checked' : (empty(old('qr_category')) && $value == 1 ? 'checked' : '') }}>
                                                 <label class="form-check-label" for="qr_category_{{ $value }}">
                                                     {{ $key }}
                                                 </label>
                                             </div>
                                         @endforeach
                                     </div>
-                                    @error('qr_category')
-                                        <div class="invalid-feedback d-block">{{ $message }}</div>
-                                    @enderror
                                 </div>
                             </div>
 
-                            <!-- Jenis PSAT -->
-                            <div class="row mb-4">
-                                <div class="col-md-12">
-                                    <label for="jenis_psat" class="form-label">Jenis PSAT</label>
-                                    <select class="form-select" id="jenis_psat" name="jenis_psat">
-                                        <option value="">Select Jenis PSAT</option>
-                                        @foreach($jenispsats as $jenispsat)
-                                            <option value="{{ $jenispsat->id }}" {{ $qrBadanPangan->jenis_psat == $jenispsat->id ? 'selected' : '' }}>{{ $jenispsat->nama_jenis_pangan_segar }}</option>
-                                        @endforeach
-                                    </select>
-                                    @error('jenis_psat')
-                                        <div class="invalid-feedback d-block">{{ $message }}</div>
-                                    @enderror
-                                </div>
+                            {{-- REFERENSI FIELDS GROUP --}}
+                            {{-- ALERT FOR EMPTY REFERENSI --}}
+                            <div class="alert alert-danger" id="referensi-alert" style="display: none;">
+                                <strong>Lengkapi Referensi Dokumen terlebih dahulu!</strong>
+                                <ul class="mb-0" id="referensi-alert-list">
+                                    <!-- Dynamic content will be inserted here by JavaScript -->
+                                </ul>
                             </div>
 
-                            <!-- References -->
-                            <div class="row mb-4">
-                                <div class="col-md-6" id="sppb-field-edit">
-                                    <label for="referensi_sppb" class="form-label">Referensi SPPB</label>
-                                    <select class="form-select" id="referensi_sppb" name="referensi_sppb">
-                                        <option value="">Select SPPB</option>
-                                        @foreach($sppbs as $sppb)
-                                            <option value="{{ $sppb->id }}" {{ $qrBadanPangan->referensi_sppb == $sppb->id ? 'selected' : '' }}>{{ $sppb->nama_komoditas ?? 'SPPB-' . $sppb->id }}</option>
-                                        @endforeach
-                                    </select>
-                                    @error('referensi_sppb')
-                                        <div class="invalid-feedback d-block">{{ $message }}</div>
-                                    @enderror
-                                </div>
-                                <div class="col-md-6" id="izinedar-psatpl-field-edit">
-                                    <label for="referensi_izinedar_psatpl" class="form-label">Referensi Izin EDAR PSATPL</label>
-                                    <select class="form-select" id="referensi_izinedar_psatpl" name="referensi_izinedar_psatpl">
-                                        <option value="">Select Izin EDAR PSATPL</option>
-                                        @foreach($izinedarPsatpls as $izinedarPsatpl)
-                                            <option value="{{ $izinedarPsatpl->id }}" {{ $qrBadanPangan->referensi_izinedar_psatpl == $izinedarPsatpl->id ? 'selected' : '' }}>{{ $izinedarPsatpl->nama_komoditas ?? 'Izin EDAR PSATPL-' . $izinedarPsatpl->id }}</option>
-                                        @endforeach
-                                    </select>
-                                    @error('referensi_izinedar_psatpl')
-                                        <div class="invalid-feedback d-block">{{ $message }}</div>
-                                    @enderror
-                                </div>
-                            </div>
-
-                            <div class="row mb-4">
-                                <div class="col-md-6" id="izinedar-psatpd-field-edit">
-                                    <label for="referensi_izinedar_psatpd" class="form-label">Referensi Izin EDAR PSATPD</label>
-                                    <select class="form-select" id="referensi_izinedar_psatpd" name="referensi_izinedar_psatpd">
-                                        <option value="">Select Izin EDAR PSATPD</option>
-                                        @foreach($izinedarPsatpds as $izinedarPsatpd)
-                                            <option value="{{ $izinedarPsatpd->id }}" {{ $qrBadanPangan->referensi_izinedar_psatpd == $izinedarPsatpd->id ? 'selected' : '' }}>{{ $izinedarPsatpd->nama_komoditas ?? 'Izin EDAR PSATPD-' . $izinedarPsatpd->id }}</option>
-                                        @endforeach
-                                    </select>
-                                    @error('referensi_izinedar_psatpd')
-                                        <div class="invalid-feedback d-block">{{ $message }}</div>
-                                    @enderror
-                                </div>
-                                <div class="col-md-6" id="izinedar-psatpduk-field-edit">
-                                    <label for="referensi_izinedar_psatpduk" class="form-label">Referensi Izin EDAR PSATPDUK</label>
-                                    <select class="form-select" id="referensi_izinedar_psatpduk" name="referensi_izinedar_psatpduk">
-                                        <option value="">Select Izin EDAR PSATPDUK</option>
-                                        @foreach($izinedarPsatpduks as $izinedarPsatpduk)
-                                            <option value="{{ $izinedarPsatpduk->id }}" {{ $qrBadanPangan->referensi_izinedar_psatpduk == $izinedarPsatpduk->id ? 'selected' : '' }}>{{ $izinedarPsatpduk->nama_komoditas ?? 'Izin EDAR PSATPDUK-' . $izinedarPsatpduk->id }}</option>
-                                        @endforeach
-                                    </select>
-                                    @error('referensi_izinedar_psatpduk')
-                                        <div class="invalid-feedback d-block">{{ $message }}</div>
-                                    @enderror
-                                </div>
-                            </div>
-
-                            <div class="row mb-4">
-                                <div class="col-md-6">
-                                    <label for="referensi_izinrumah_pengemasan" class="form-label">Referensi Izin Rumah Pengemasan</label>
-                                    <select class="form-select" id="referensi_izinrumah_pengemasan" name="referensi_izinrumah_pengemasan">
-                                        <option value="">Select Izin Rumah Pengemasan</option>
-                                        @foreach($izinrumahPengemasans as $izinrumahPengemasan)
-                                            <option value="{{ $izinrumahPengemasan->id }}" {{ $qrBadanPangan->referensi_izinrumah_pengemasan == $izinrumahPengemasan->id ? 'selected' : '' }}>{{ $izinrumahPengemasan->nama_komoditas ?? 'Izin Rumah Pengemasan-' . $izinrumahPengemasan->id }}</option>
-                                        @endforeach
-                                    </select>
-                                    @error('referensi_izinrumah_pengemasan')
-                                        <div class="invalid-feedback d-block">{{ $message }}</div>
-                                    @enderror
-                                </div>
-                                <div class="col-md-6">
-                                    <label for="referensi_sertifikat_keamanan_pangan" class="form-label">Referensi Sertifikat Keamanan Pangan</label>
-                                    <select class="form-select" id="referensi_sertifikat_keamanan_pangan" name="referensi_sertifikat_keamanan_pangan">
-                                        <option value="">Select Sertifikat Keamanan Pangan</option>
-                                        @foreach($sertifikatKeamananPangans as $sertifikatKeamananPangan)
-                                            <option value="{{ $sertifikatKeamananPangan->id }}" {{ $qrBadanPangan->referensi_sertifikat_keamanan_pangan == $sertifikatKeamananPangan->id ? 'selected' : '' }}>{{ $sertifikatKeamananPangan->nama_komoditas ?? 'Sertifikat Keamanan Pangan-' . $sertifikatKeamananPangan->id }}</option>
-                                        @endforeach
-                                    </select>
-                                    @error('referensi_sertifikat_keamanan_pangan')
-                                        <div class="invalid-feedback d-block">{{ $message }}</div>
-                                    @enderror
-                                </div>
-                            </div>
-
-                            <!-- References -->
-                            <div class="row mb-4">
-                                <div class="col-md-6">
-                                    <label for="referensi_sppb" class="form-label">Referensi SPPB</label>
-                                    <select class="form-select" id="referensi_sppb" name="referensi_sppb">
-                                        <option value="">Select SPPB</option>
-                                        <option value="{{ $qrBadanPangan->referensi_sppb }}" {{ $qrBadanPangan->referensi_sppb ? 'selected' : '' }}>Current Reference</option>
-                                    </select>
-                                    @error('referensi_sppb')
-                                        <div class="invalid-feedback d-block">{{ $message }}</div>
-                                    @enderror
-                                </div>
-                                <div class="col-md-6">
-                                    <label for="referensi_izinedar_psatpl" class="form-label">Referensi Izin EDAR PSATPL</label>
-                                    <select class="form-select" id="referensi_izinedar_psatpl" name="referensi_izinedar_psatpl">
-                                        <option value="">Select Izin EDAR PSATPL</option>
-                                        <option value="{{ $qrBadanPangan->referensi_izinedar_psatpl }}" {{ $qrBadanPangan->referensi_izinedar_psatpl ? 'selected' : '' }}>Current Reference</option>
-                                    </select>
-                                    @error('referensi_izinedar_psatpl')
-                                        <div class="invalid-feedback d-block">{{ $message }}</div>
-                                    @enderror
-                                </div>
-                            </div>
-
-                            <div class="row mb-4">
-                                <div class="col-md-6">
-                                    <label for="referensi_izinedar_psatpd" class="form-label">Referensi Izin EDAR PSATPD</label>
-                                    <select class="form-select" id="referensi_izinedar_psatpd" name="referensi_izinedar_psatpd">
-                                        <option value="">Select Izin EDAR PSATPD</option>
-                                        <option value="{{ $qrBadanPangan->referensi_izinedar_psatpd }}" {{ $qrBadanPangan->referensi_izinedar_psatpd ? 'selected' : '' }}>Current Reference</option>
-                                    </select>
-                                    @error('referensi_izinedar_psatpd')
-                                        <div class="invalid-feedback d-block">{{ $message }}</div>
-                                    @enderror
-                                </div>
-                                <div class="col-md-6">
-                                    <label for="referensi_izinedar_psatpduk" class="form-label">Referensi Izin EDAR PSATPDUK</label>
-                                    <select class="form-select" id="referensi_izinedar_psatpduk" name="referensi_izinedar_psatpduk">
-                                        <option value="">Select Izin EDAR PSATPDUK</option>
-                                        <option value="{{ $qrBadanPangan->referensi_izinedar_psatpduk }}" {{ $qrBadanPangan->referensi_izinedar_psatpduk ? 'selected' : '' }}>Current Reference</option>
-                                    </select>
-                                    @error('referensi_izinedar_psatpduk')
-                                        <div class="invalid-feedback d-block">{{ $message }}</div>
-                                    @enderror
-                                </div>
-                            </div>
-
-                            <div class="row mb-4">
-                                <div class="col-md-6">
-                                    <label for="referensi_izinrumah_pengemasan" class="form-label">Referensi Izin Rumah Pengemasan</label>
-                                    <select class="form-select" id="referensi_izinrumah_pengemasan" name="referensi_izinrumah_pengemasan">
-                                        <option value="">Select Izin Rumah Pengemasan</option>
-                                        <option value="{{ $qrBadanPangan->referensi_izinrumah_pengemasan }}" {{ $qrBadanPangan->referensi_izinrumah_pengemasan ? 'selected' : '' }}>Current Reference</option>
-                                    </select>
-                                    @error('referensi_izinrumah_pengemasan')
-                                        <div class="invalid-feedback d-block">{{ $message }}</div>
-                                    @enderror
-                                </div>
-                                <div class="col-md-6">
-                                    <label for="referensi_sertifikat_keamanan_pangan" class="form-label">Referensi Sertifikat Keamanan Pangan</label>
-                                    <select class="form-select" id="referensi_sertifikat_keamanan_pangan" name="referensi_sertifikat_keamanan_pangan">
-                                        <option value="">Select Sertifikat Keamanan Pangan</option>
-                                        <option value="{{ $qrBadanPangan->referensi_sertifikat_keamanan_pangan }}" {{ $qrBadanPangan->referensi_sertifikat_keamanan_pangan ? 'selected' : '' }}>Current Reference</option>
-                                    </select>
-                                    @error('referensi_sertifikat_keamanan_pangan')
-                                        <div class="invalid-feedback d-block">{{ $message }}</div>
-                                    @enderror
-                                </div>
-                            </div>
-
-                            <!-- File Attachments -->
-                            <div class="row mb-4">
-                                <div class="col-12">
-                                    <h5 class="mb-3">File Attachments</h5>
-                                </div>
-                                @for ($i = 1; $i <= 5; $i++)
-                                    @php
-                                        $fileField = 'file_lampiran' . $i;
-                                    @endphp
-                                    <div class="col-md-6 mb-3">
-                                        <label for="{{ $fileField }}" class="form-label">File Lampiran {{ $i }}</label>
-                                        <input type="file" class="form-control" id="{{ $fileField }}" name="{{ $fileField }}" accept=".pdf,.jpeg,.jpg,.doc,.docx,.png">
-                                        @if ($qrBadanPangan->$fileField)
-                                            <div class="mt-2">
-                                                <small class="text-muted">Current file:
-                                                    <a href="{{ $qrBadanPangan->$fileField }}" target="_blank">Download</a>
-                                                </small>
+                            <div class="row mb-3">
+                                <label class="col-sm-2 col-form-label">Referensi Dokumen</label>
+                                <div class="col-sm-10">
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <div class="row" id="reference-documents-container">
+                                                <div class="col-md-10 mb-3" id="sppb-field">
+                                                    <label class="form-label {{ $sppbs->isEmpty() ? 'text-danger' : '' }}">Referensi SPPB</label>
+                                                    <select name="referensi_sppb" class="form-control {{ $sppbs->isEmpty() ? 'border-danger' : '' }}">
+                                                        <option value="">-- Select SPPB --</option>
+                                                        @foreach ($sppbs as $sppb)
+                                                            <option value="{{ $sppb->id }}"
+                                                                {{ old('referensi_sppb', $qrBadanPangan->referensi_sppb) == $sppb->id ? 'selected' : '' }}>
+                                                                {{ $sppb->nomor_registrasi }} - {{ $sppb->nama_komoditas }}
+                                                            </option>
+                                                        @endforeach
+                                                    </select>
+                                                    @include(
+                                                        'admin.components.notification.error-validation',
+                                                        ['field' => 'referensi_sppb']
+                                                    )
+                                                </div>
+                                                <div class="col-md-10 mb-3" id="izinedar-psatpl-field">
+                                                    <label class="form-label {{ $izinedarPsatpls->isEmpty() ? 'text-danger' : '' }}">Referensi Izin EDAR PSATPL</label>
+                                                    <select name="referensi_izinedar_psatpl" class="form-control {{ $izinedarPsatpls->isEmpty() ? 'border-danger' : '' }}">
+                                                        <option value="">-- Select Izin EDAR PSATPL --</option>
+                                                        @foreach ($izinedarPsatpls as $izinedarPsatpl)
+                                                            <option value="{{ $izinedarPsatpl->id }}"
+                                                                {{ old('referensi_izinedar_psatpl', $qrBadanPangan->referensi_izinedar_psatpl) == $izinedarPsatpl->id ? 'selected' : '' }}>
+                                                                {{ $izinedarPsatpl->nomor_izinedar_pl }} - {{ $izinedarPsatpl->merk_dagang }} - {{ $izinedarPsatpl->nama_komoditas }}
+                                                            </option>
+                                                        @endforeach
+                                                    </select>
+                                                    @include(
+                                                        'admin.components.notification.error-validation',
+                                                        ['field' => 'referensi_izinedar_psatpl']
+                                                    )
+                                                </div>
+                                                <div class="col-md-10 mb-3" id="izinedar-psatpd-field">
+                                                    <label class="form-label {{ $izinedarPsatpds->isEmpty() ? 'text-danger' : '' }}">Referensi Izin EDAR PSATPD</label>
+                                                    <select name="referensi_izinedar_psatpd" class="form-control {{ $izinedarPsatpds->isEmpty() ? 'border-danger' : '' }}">
+                                                        <option value="">-- Select Izin EDAR PSATPD --</option>
+                                                        @foreach ($izinedarPsatpds as $izinedarPsatpd)
+                                                            <option value="{{ $izinedarPsatpd->id }}"
+                                                                {{ old('referensi_izinedar_psatpd', $qrBadanPangan->referensi_izinedar_psatpd) == $izinedarPsatpd->id ? 'selected' : '' }}>
+                                                                {{ $izinedarPsatpd->nomor_izinedar_pd }} - {{ $izinedarPsatpd->merk_dagang }} - {{ $izinedarPsatpd->nama_komoditas }}
+                                                            </option>
+                                                        @endforeach
+                                                    </select>
+                                                    @include(
+                                                        'admin.components.notification.error-validation',
+                                                        ['field' => 'referensi_izinedar_psatpd']
+                                                    )
+                                                </div>
+                                                <div class="col-md-10 mb-3" id="izinedar-psatpduk-field">
+                                                    <label class="form-label {{ $izinedarPsatpduks->isEmpty() ? 'text-danger' : '' }}">Referensi Izin EDAR PSATPDUK</label>
+                                                    <select name="referensi_izinedar_psatpduk" class="form-control {{ $izinedarPsatpduks->isEmpty() ? 'border-danger' : '' }}">
+                                                        <option value="">-- Select Izin EDAR PSATPDUK --</option>
+                                                        @foreach ($izinedarPsatpduks as $izinedarPsatpduk)
+                                                            <option value="{{ $izinedarPsatpduk->id }}"
+                                                                {{ old('referensi_izinedar_psatpduk', $qrBadanPangan->referensi_izinedar_psatpduk) == $izinedarPsatpduk->id ? 'selected' : '' }}>
+                                                                {{ $izinedarPsatpduk->nomor_izinedar_pduk }} - {{ $izinedarPsatpduk->merk_dagang }} - {{ $izinedarPsatpduk->nama_komoditas }}
+                                                            </option>
+                                                        @endforeach
+                                                    </select>
+                                                    @include(
+                                                        'admin.components.notification.error-validation',
+                                                        ['field' => 'referensi_izinedar_psatpduk']
+                                                    )
+                                                </div>
+                                                {{-- <div class="col-md-6 mb-3">
+                                                    <label class="form-label">Referensi Izin Rumah Pengemasan</label>
+                                                    <select name="referensi_izinrumah_pengemasan" class="form-control">
+                                                        <option value="">-- Select Izin Rumah Pengemasan --</option>
+                                                        @foreach ($izinrumahPengemasans as $izinrumahPengemasan)
+                                                            <option value="{{ $izinrumahPengemasan->id }}"
+                                                                {{ old('referensi_izinrumah_pengemasan') == $izinrumahPengemasan->id ? 'selected' : '' }}>
+                                                                {{ $izinrumahPengemasan->nomor_izin }}
+                                                            </option>
+                                                        @endforeach
+                                                    </select>
+                                                    @include(
+                                                        'admin.components.notification.error-validation',
+                                                        ['field' => 'referensi_izinrumah_pengemasan']
+                                                    )
+                                                </div>
+                                                <div class="col-md-6 mb-3">
+                                                    <label class="form-label">Referensi Sertifikat Keamanan Pangan</label>
+                                                    <select name="referensi_sertifikat_keamanan_pangan" class="form-control">
+                                                        <option value="">-- Select Sertifikat Keamanan Pangan --</option>
+                                                        @foreach ($sertifikatKeamananPangans as $sertifikatKeamananPangan)
+                                                            <option value="{{ $sertifikatKeamananPangan->id }}"
+                                                                {{ old('referensi_sertifikat_keamanan_pangan') == $sertifikatKeamananPangan->id ? 'selected' : '' }}>
+                                                                {{ $sertifikatKeamananPangan->nomor_sertifikat }}
+                                                            </option>
+                                                        @endforeach
+                                                    </select>
+                                                    @include(
+                                                        'admin.components.notification.error-validation',
+                                                        ['field' => 'referensi_sertifikat_keamanan_pangan']
+                                                    )
+                                                </div> --}}
                                             </div>
-                                        @endif
-                                        @error($fileField)
-                                            <div class="invalid-feedback d-block">{{ $message }}</div>
-                                        @enderror
+                                        </div>
                                     </div>
-                                @endfor
-                            </div>
-
-                            <!-- Status and Published -->
-                            <div class="row mb-4">
-                                <div class="col-md-6">
-                                    <label for="status" class="form-label">Status</label>
-                                    <select class="form-select" id="status" name="status">
-                                        <option value="pending" {{ $qrBadanPangan->status == 'pending' ? 'selected' : '' }}>Pending</option>
-                                        <option value="reviewed" {{ $qrBadanPangan->status == 'reviewed' ? 'selected' : '' }}>Reviewed</option>
-                                        <option value="approved" {{ $qrBadanPangan->status == 'approved' ? 'selected' : '' }}>Approved</option>
-                                        <option value="rejected" {{ $qrBadanPangan->status == 'rejected' ? 'selected' : '' }}>Rejected</option>
-                                    </select>
-                                    @error('status')
-                                        <div class="invalid-feedback d-block">{{ $message }}</div>
-                                    @enderror
-                                </div>
-                                <div class="col-md-6">
-                                    <label for="is_published" class="form-label">Published</label>
-                                    <select class="form-select" id="is_published" name="is_published">
-                                        <option value="0" {{ !$qrBadanPangan->is_published ? 'selected' : '' }}>No</option>
-                                        <option value="1" {{ $qrBadanPangan->is_published ? 'selected' : '' }}>Yes</option>
-                                    </select>
-                                    @error('is_published')
-                                        <div class="invalid-feedback d-block">{{ $message }}</div>
-                                    @enderror
                                 </div>
                             </div>
 
-                            <!-- Buttons -->
-                            <div class="row">
-                                <div class="col-12">
-                                    <button type="submit" class="btn btn-primary me-2">Update</button>
-                                    <a href="{{ route('qr-badan-pangan.index') }}" class="btn btn-secondary">Cancel</a>
+                            {{-- FILE LAMPIRAN FIELDS GROUP --}}
+                            {{-- <div class="row mb-3">
+                                <label class="col-sm-2 col-form-label">File Lampiran (Jika dibutuhkan)</label>
+                                <div class="col-sm-10">
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <div class="row">
+                                                <div class="col-md-6 mb-3">
+                                                    <label class="form-label">File Lampiran 1</label>
+                                                    <input type="file" name="file_lampiran1" class="form-control" accept=".pdf,.jpeg,.jpg,.doc,.docx,.png">
+                                                    <small class="text-muted">Format: PDF, JPEG, JPG, DOC, DOCX, PNG, Maks: 2MB</small>
+                                                    @include(
+                                                        'admin.components.notification.error-validation',
+                                                        ['field' => 'file_lampiran1']
+                                                    )
+                                                </div>
+                                                <div class="col-md-6 mb-3">
+                                                    <label class="form-label">File Lampiran 2</label>
+                                                    <input type="file" name="file_lampiran2" class="form-control" accept=".pdf,.jpeg,.jpg,.doc,.docx,.png">
+                                                    <small class="text-muted">Format: PDF, JPEG, JPG, DOC, DOCX, PNG, Maks: 2MB</small>
+                                                    @include(
+                                                        'admin.components.notification.error-validation',
+                                                        ['field' => 'file_lampiran2']
+                                                    )
+                                                </div>
+                                                <div class="col-md-6 mb-3">
+                                                    <label class="form-label">File Lampiran 3</label>
+                                                    <input type="file" name="file_lampiran3" class="form-control" accept=".pdf,.jpeg,.jpg,.doc,.docx,.png">
+                                                    <small class="text-muted">Format: PDF, JPEG, JPG, DOC, DOCX, PNG, Maks: 2MB</small>
+                                                    @include(
+                                                        'admin.components.notification.error-validation',
+                                                        ['field' => 'file_lampiran3']
+                                                    )
+                                                </div>
+                                                <div class="col-md-6 mb-3">
+                                                    <label class="form-label">File Lampiran 4</label>
+                                                    <input type="file" name="file_lampiran4" class="form-control" accept=".pdf,.jpeg,.jpg,.doc,.docx,.png">
+                                                    <small class="text-muted">Format: PDF, JPEG, JPG, DOC, DOCX, PNG, Maks: 2MB</small>
+                                                    @include(
+                                                        'admin.components.notification.error-validation',
+                                                        ['field' => 'file_lampiran4']
+                                                    )
+                                                </div>
+                                                <div class="col-md-6 mb-3">
+                                                    <label class="form-label">File Lampiran 5</label>
+                                                    <input type="file" name="file_lampiran5" class="form-control" accept=".pdf,.jpeg,.jpg,.doc,.docx,.png">
+                                                    <small class="text-muted">Format: PDF, JPEG, JPG, DOC, DOCX, PNG, Maks: 2MB</small>
+                                                    @include(
+                                                        'admin.components.notification.error-validation',
+                                                        ['field' => 'file_lampiran5']
+                                                    )
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div> --}}
+
+                            {{-- CURRENT ASSIGNEE FIELD --}}
+                            {{-- <div class="row mb-3">
+                                <label class="col-sm-2 col-form-label" for="current_assignee">Assign To</label>
+                                <div class="col-sm-10">
+                                    @include('admin.components.notification.error-validation', [
+                                        'field' => 'current_assignee',
+                                    ])
+                                    <select name="current_assignee" id="current_assignee" class="form-control">
+                                        <option value="">-- Select Assignee --</option>
+                                        @foreach ($assignees as $user)
+                                            <option value="{{ $user->id }}"
+                                                {{ old('current_assignee') == $user->id ? 'selected' : '' }}>
+                                                {{ $user->name }} ({{ $user->email }})
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div> --}}
+
+                            <div class="row justify-content-end">
+                                <div class="col-sm-10">
+                                    <button type="submit" class="btn btn-primary" id="submit-qr-btn">Update QR Badan Pangan</button>
                                 </div>
                             </div>
                         </form>
+
+                        <script>
+                            document.addEventListener('DOMContentLoaded', function() {
+                                const isUmkm = {{ json_encode($qrBadanPangan->business->is_umkm ?? false) }};
+                                const qrCategoryField = document.getElementById('qr-category-field');
+                                const sppbField = document.getElementById('sppb-field');
+                                const izinedarPsatplField = document.getElementById('izinedar-psatpl-field');
+                                const izinedarPsatpdField = document.getElementById('izinedar-psatpd-field');
+                                const izinedarPsatpdukField = document.getElementById('izinedar-psatpduk-field');
+                                const qrCategoryRadios = document.querySelectorAll('input[name="qr_category"]');
+                                const submitBtn = document.getElementById('submit-qr-btn');
+                                const referensiAlert = document.getElementById('referensi-alert');
+                                const referensiAlertList = document.getElementById('referensi-alert-list');
+
+                                // Check if collections are empty from server-side
+                                const sppbsEmpty = {{ json_encode($sppbs->isEmpty()) }};
+                                const izinedarPsatplsEmpty = {{ json_encode($izinedarPsatpls->isEmpty()) }};
+                                const izinedarPsatpdsEmpty = {{ json_encode($izinedarPsatpds->isEmpty()) }};
+                                const izinedarPsatpduksEmpty = {{ json_encode($izinedarPsatpduks->isEmpty()) }};
+
+                                function hideAllRefs() {
+                                    sppbField.style.display = 'none';
+                                    izinedarPsatplField.style.display = 'none';
+                                    izinedarPsatpdField.style.display = 'none';
+                                    izinedarPsatpdukField.style.display = 'none';
+                                }
+
+                                function updateReferensiAlert(requiredDocs, emptyDocs) {
+                                    if (referensiAlertList) {
+                                        referensiAlertList.innerHTML = '';
+                                        let hasEmptyRequired = false;
+
+                                        requiredDocs.forEach(doc => {
+                                            if (emptyDocs[doc]) {
+                                                hasEmptyRequired = true;
+                                                let listItem = document.createElement('li');
+                                                let link = document.createElement('a');
+
+                                                if (doc === 'SPPB') {
+                                                    listItem.textContent = 'Referensi SPPB kosong. ';
+                                                    link.href = "{{ route('register-sppb.index') }}";
+                                                    link.textContent = 'Tambah SPPB';
+                                                } else if (doc === 'PSATPL') {
+                                                    listItem.textContent = 'Referensi Izin EDAR PSATPL kosong. ';
+                                                    link.href = "{{ route('register-izinedar-psatpl.index') }}";
+                                                    link.textContent = 'Tambah Izin EDAR PSATPL';
+                                                } else if (doc === 'PSATPD') {
+                                                    listItem.textContent = 'Referensi Izin EDAR PSATPD kosong. ';
+                                                    link.href = "{{ route('register-izinedar-psatpd.index') }}";
+                                                    link.textContent = 'Tambah Izin EDAR PSATPD';
+                                                } else if (doc === 'PSATPDUK') {
+                                                    listItem.textContent = 'Referensi Izin EDAR PSATPDUK kosong. ';
+                                                    link.href = "{{ route('register-izinedar-psatpduk.index') }}";
+                                                    link.textContent = 'Tambah Izin EDAR PSATPDUK';
+                                                }
+
+                                                link.className = 'text-danger text-decoration-underline';
+                                                listItem.appendChild(link);
+                                                referensiAlertList.appendChild(listItem);
+                                            }
+                                        });
+
+                                        referensiAlert.style.display = hasEmptyRequired ? 'block' : 'none';
+                                        return hasEmptyRequired;
+                                    }
+                                    return false;
+                                }
+
+                                function checkReferensiEmpty() {
+                                    let sppb = document.querySelector('select[name="referensi_sppb"]');
+                                    let psatpl = document.querySelector('select[name="referensi_izinedar_psatpl"]');
+                                    let psatpd = document.querySelector('select[name="referensi_izinedar_psatpd"]');
+                                    let psatpduk = document.querySelector('select[name="referensi_izinedar_psatpduk"]');
+
+                                    let emptyFields = [];
+
+                                    // Only check visible fields
+                                    if (sppb && sppb.parentElement.parentElement.style.display !== 'none' && sppb.value === '') emptyFields.push('SPPB');
+                                    if (psatpl && psatpl.parentElement.parentElement.style.display !== 'none' && psatpl.value === '') emptyFields.push('PSATPL');
+                                    if (psatpd && psatpd.parentElement.parentElement.style.display !== 'none' && psatpd.value === '') emptyFields.push('PSATPD');
+                                    if (psatpduk && psatpduk.parentElement.parentElement.style.display !== 'none' && psatpduk.value === '') emptyFields.push('PSATPDUK');
+
+                                    // Determine required documents based on current state
+                                    let requiredDocs = [];
+                                    if (isUmkm) {
+                                        requiredDocs = ['PSATPDUK'];
+                                    } else {
+                                        let selectedCategory = 1;
+                                        qrCategoryRadios.forEach(radio => {
+                                            if (radio.checked) selectedCategory = parseInt(radio.value);
+                                        });
+
+                                        if (selectedCategory === 1) { // Produk Dalam Negeri
+                                            requiredDocs = ['SPPB', 'PSATPD'];
+                                        } else if (selectedCategory === 2) { // Produk Impor
+                                            requiredDocs = ['SPPB', 'PSATPL'];
+                                        } else if (selectedCategory === 3) { // Masa Simpan maks 7 Hari
+                                            requiredDocs = ['SPPB'];
+                                        }
+                                    }
+
+                                    // Check if any required documents are empty
+                                    let hasEmptyRequired = false;
+                                    requiredDocs.forEach(doc => {
+                                        if (emptyFields.includes(doc)) hasEmptyRequired = true;
+                                    });
+
+                                    // Check if required document collections are empty
+                                    let emptyCollections = {};
+                                    requiredDocs.forEach(doc => {
+                                        if (doc === 'SPPB' && sppbsEmpty) emptyCollections[doc] = true;
+                                        else if (doc === 'PSATPL' && izinedarPsatplsEmpty) emptyCollections[doc] = true;
+                                        else if (doc === 'PSATPD' && izinedarPsatpdsEmpty) emptyCollections[doc] = true;
+                                        else if (doc === 'PSATPDUK' && izinedarPsatpduksEmpty) emptyCollections[doc] = true;
+                                    });
+
+                                    // Update alert with specific empty required documents
+                                    updateReferensiAlert(requiredDocs, emptyCollections);
+
+                                    // Disable submit button if any required field is empty or collection is empty
+                                    submitBtn.disabled = hasEmptyRequired || Object.keys(emptyCollections).length > 0;
+                                }
+
+                                function updateFields() {
+                                    if (isUmkm) {
+                                        qrCategoryField.style.display = 'none';
+                                        hideAllRefs();
+                                        izinedarPsatpdukField.style.display = 'block';
+                                    } else {
+                                        qrCategoryField.style.display = 'block';
+                                        // Get selected QR category
+                                        let selectedCategory = 1;
+                                        qrCategoryRadios.forEach(radio => {
+                                            if (radio.checked) selectedCategory = parseInt(radio.value);
+                                        });
+                                        hideAllRefs();
+                                        if (selectedCategory === 1) { // Produk Dalam Negeri
+                                            sppbField.style.display = 'block';
+                                            izinedarPsatpdField.style.display = 'block';
+                                        } else if (selectedCategory === 2) { // Produk Impor
+                                            sppbField.style.display = 'block';
+                                            izinedarPsatplField.style.display = 'block';
+                                        } else if (selectedCategory === 3) { // Masa Simpan maks 7 Hari
+                                            sppbField.style.display = 'block';
+                                        }
+                                    }
+                                    checkReferensiEmpty();
+                                }
+
+                                updateFields();
+                                qrCategoryRadios.forEach(radio => {
+                                    radio.addEventListener('change', updateFields);
+                                });
+
+                                // Listen to changes on referensi selects
+                                document.querySelectorAll('select[name^="referensi_"]').forEach(select => {
+                                    select.addEventListener('change', checkReferensiEmpty);
+                                });
+                            });
+                        </script>
+                    <style>
+                        .border-danger {
+                            border-color: #dc3545 !important;
+                        }
+                        .text-danger {
+                            color: #dc3545 !important;
+                        }
+                    </style>
                     </div>
                 </div>
             </div>
+
         </div>
+
     </div>
+
 @endsection

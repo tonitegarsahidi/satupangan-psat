@@ -128,7 +128,7 @@
                                             <td>SPPB</td>
                                             <td>
                                                 <a href="{{ route('register-sppb.detail', ['id' => $data->referensiSppb->id]) }}">
-                                                    {{ $data->referensiSppb->nomor ?? $data->referensiSppb->id }}
+                                                    {{ $data->referensiSppb->nomor_registrasi ?? $data->referensiSppb->id }}
                                                 </a>
                                             </td>
                                             <td>
@@ -154,7 +154,7 @@
                                             <td>Izin EDAR PSATPL</td>
                                             <td>
                                                 <a href="{{ route('register-izinedar-psatpl.detail', ['id' => $data->referensiIzinedarPsatpl->id]) }}">
-                                                    {{ $data->referensiIzinedarPsatpl->nomor ?? $data->referensiIzinedarPsatpl->id }}
+                                                    {{ $data->referensiIzinedarPsatpl->nomor_izinedar_pl ?? $data->referensiIzinedarPsatpl->id }}
                                                 </a>
                                             </td>
                                             <td>
@@ -180,7 +180,7 @@
                                             <td>Izin EDAR PSATPD</td>
                                             <td>
                                                 <a href="{{ route('register-izinedar-psatpd.detail', ['id' => $data->referensiIzinedarPsatpd->id]) }}">
-                                                    {{ $data->referensiIzinedarPsatpd->nomor ?? $data->referensiIzinedarPsatpd->id }}
+                                                    {{ $data->referensiIzinedarPsatpd->nomor_izinedar_pd ?? $data->referensiIzinedarPsatpd->id }}
                                                 </a>
                                             </td>
                                             <td>
@@ -206,7 +206,7 @@
                                             <td>Izin EDAR PSATPDUK</td>
                                             <td>
                                                 <a href="{{ route('register-izinedar-psatpduk.detail', ['id' => $data->referensiIzinedarPsatpduk->id]) }}">
-                                                    {{ $data->referensiIzinedarPsatpduk->nomor ?? $data->referensiIzinedarPsatpduk->id }}
+                                                    {{ $data->referensiIzinedarPsatpduk->nomor_izinedar_pduk ?? $data->referensiIzinedarPsatpduk->id }}
                                                 </a>
                                             </td>
                                             <td>
@@ -227,12 +227,12 @@
                                         </tr>
                                         @endif
 
-                                        @if ($data->referensiIzinrumahPengemasan)
+                                        {{-- @if ($data->referensiIzinrumahPengemasan)
                                         <tr>
                                             <td>Izin Rumah Pengemasan</td>
                                             <td>
                                                 <a href="{{ route('register-izinrumah-pengemasan.detail', ['id' => $data->referensiIzinrumahPengemasan->id]) }}">
-                                                    {{ $data->referensiIzinrumahPengemasan->nomor ?? $data->referensiIzinrumahPengemasan->id }}
+                                                    {{ $data->referensiIzinrumahPengemasan->nomor_izin ?? $data->referensiIzinrumahPengemasan->id }}
                                                 </a>
                                             </td>
                                             <td>
@@ -251,14 +251,14 @@
                                                 </span>
                                             </td>
                                         </tr>
-                                        @endif
+                                        @endif --}}
 
-                                        @if ($data->referensiSertifikatKeamananPangan)
+                                        {{-- @if ($data->referensiSertifikatKeamananPangan)
                                         <tr>
                                             <td>Sertifikat Keamanan Pangan</td>
                                             <td>
                                                 <a href="{{ route('register-sertifikat-keamanan-pangan.detail', ['id' => $data->referensiSertifikatKeamananPangan->id]) }}">
-                                                    {{ $data->referensiSertifikatKeamananPangan->nomor ?? $data->referensiSertifikatKeamananPangan->id }}
+                                                    {{ $data->referensiSertifikatKeamananPangan->nomor_sertifikat ?? $data->referensiSertifikatKeamananPangan->id }}
                                                 </a>
                                             </td>
                                             <td>
@@ -277,7 +277,7 @@
                                                 </span>
                                             </td>
                                         </tr>
-                                        @endif
+                                        @endif --}}
                                     </tbody>
                                 </table>
                             </div>
