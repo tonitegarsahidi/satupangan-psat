@@ -436,15 +436,66 @@
         });
 
         function downloadQRCode() {
-            const canvas = document.querySelector('#qrCanvas'); // Target the specific canvas
-            if (canvas) {
-                const url = canvas.toDataURL('image/png');
-                const link = document.createElement('a');
-                link.download = 'qr-code-{{ $data->qr_code }}.png';
-                link.href = url;
-                document.body.appendChild(link);
-                link.click();
-                document.body.removeChild(link);
+            const displayCanvas = document.querySelector('#qrCanvas'); // Target the specific canvas
+            if (displayCanvas) {
+                // Create a new canvas for high-resolution download
+                const downloadCanvas = document.createElement('canvas');
+                const downloadSize = 800; // 4x the display size (200 * 4)
+                downloadCanvas.width = downloadSize;
+                downloadCanvas.height = downloadSize;
+                const ctx = downloadCanvas.getContext('2d');
+
+                // Generate QR code on the high-resolution canvas
+                const url = '{{ env('APP_URL', 'http://localhost') }}/qr/{{ $data->qr_code }}';
+                const logoPath = '{{ asset('logo_badan_pangan.png') }}';
+
+                QRCode.toCanvas(downloadCanvas, url, {
+                    width: downloadSize,
+                    height: downloadSize,
+                    margin: 1,
+                    color: {
+                        dark: '#000000',
+                        light: '#FFFFFF'
+                    },
+                    errorCorrectionLevel: 'H'
+                }, function(error) {
+                    if (error) {
+                        console.error("Error generating QR code for download:", error);
+                        alert('Error generating QR code for download.');
+                    } else {
+                        // Add logo to the high-resolution QR code
+                        const logo = new Image();
+                        logo.crossOrigin = 'Anonymous';
+                        logo.onload = function() {
+                            // Calculate logo size (20% of the QR code size)
+                            const logoSize = downloadSize * 0.2;
+                            const x = (downloadSize - logoSize) / 2;
+                            const y = (downloadSize - logoSize) / 2;
+
+                            // Draw logo on top of QR code
+                            ctx.drawImage(logo, x, y, logoSize, logoSize);
+
+                            // Create download link
+                            const link = document.createElement('a');
+                            link.download = 'qr-code-{{ $data->qr_code }}.png';
+                            link.href = downloadCanvas.toDataURL('image/png');
+                            document.body.appendChild(link);
+                            link.click();
+                            document.body.removeChild(link);
+                        };
+                        logo.onerror = function() {
+                            console.error("Error loading logo image for download:", logoPath);
+                            // Proceed with download even if logo fails to load
+                            const link = document.createElement('a');
+                            link.download = 'qr-code-{{ $data->qr_code }}.png';
+                            link.href = downloadCanvas.toDataURL('image/png');
+                            document.body.appendChild(link);
+                            link.click();
+                            document.body.removeChild(link);
+                        };
+                        logo.src = logoPath;
+                    }
+                });
             } else {
                 alert('QR code not ready for download yet. Please wait a moment and try again.');
             }
