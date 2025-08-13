@@ -400,7 +400,7 @@
             return `
                 <h4><i class="bx bx-file-text"></i> Alur Prosedur Pengajuan QR Code Keamanan Pangan</h4>
                 <ol class="list-group list-group-numbered">
-                    <li class="list-group-item">User membuat akun pelaku usaha di <a href="{{ route('register-business') }}" class="text-primary">/register-business</a></li>
+                    <li class="list-group-item">User membuat akun pelaku usaha di <a href="{{ route('register-business') }}" class="text-primary">Sini</a></li>
                     <li class="list-group-item">Untuk usaha UMKM cukup mengisi data Izin Edar PSAT PDUK</li>
                     <li class="list-group-item">Untuk usaha Non UMKM, mengisi data SPPB dan data Izin Edar PSAT (PL untuk produk impor, PD untuk produk lokal)</li>
                     <li class="list-group-item">User mengisi form pengajuan QR Badan Pangan</li>
@@ -414,8 +414,8 @@
             return `
                 <h4><i class="bx bx-file-find"></i> Pelaporan & Pengawasan Terpadu</h4>
                 <ol class="list-group list-group-numbered">
-                    <li class="list-group-item">User membuat akun user di <a href="{{ route('register') }}" class="text-primary">/register</a></li>
-                    <li class="list-group-item">User mengisi form laporan pengaduan</li>
+                    <li class="list-group-item">Pengguna membuat akun di <a href="{{ route('register') }}" class="text-primary">sini</a></li>
+                    <li class="list-group-item">Pengguna mengisi form laporan pengaduan</li>
                     <li class="list-group-item">Petugas akan memberikan tanggapan dari laporan pengaduan tersebut</li>
                 </ol>
             `;
