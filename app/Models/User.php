@@ -106,4 +106,77 @@ class User extends Authenticatable implements MustVerifyEmail
         SendEmailVerifyEmailJob::dispatch($this);
     }
 
+    // Notification relationships
+
+    /**
+     * Get all notifications for the user.
+     */
+    public function notifications()
+    {
+        return $this->hasMany(\App\Models\Notification::class);
+    }
+
+    /**
+     * Get unread notifications for the user.
+     */
+    public function unreadNotifications()
+    {
+        return $this->notifications()->where('is_read', false);
+    }
+
+    /**
+     * Get read notifications for the user.
+     */
+    public function readNotifications()
+    {
+        return $this->notifications()->where('is_read', true);
+    }
+
+    // Message relationships
+
+    /**
+     * Get all message threads initiated by the user.
+     */
+    public function initiatedMessageThreads()
+    {
+        return $this->hasMany(\App\Models\MessageThread::class, 'initiator_id');
+    }
+
+    /**
+     * Get all message threads where the user is a participant.
+     */
+    public function participatedMessageThreads()
+    {
+        return $this->hasMany(\App\Models\MessageThread::class, 'participant_id');
+    }
+
+    /**
+     * Get all message threads for the user (both initiated and participated).
+     */
+    public function messageThreads()
+    {
+        return $this->initiatedMessageThreads()->union($this->participatedMessageThreads());
+    }
+
+    /**
+     * Get all messages sent by the user.
+     */
+    public function sentMessages()
+    {
+        return $this->hasMany(\App\Models\Message::class, 'sender_id');
+    }
+
+    /**
+     * Get unread message threads for the user.
+     */
+    public function unreadMessageThreads()
+    {
+        return $this->messageThreads()
+            ->where(function ($query) {
+                $query->where('initiator_id', $this->id)
+                    ->where('is_read_by_initiator', false)
+                    ->orWhere('participant_id', $this->id)
+                    ->where('is_read_by_participant', false);
+            });
+    }
 }
