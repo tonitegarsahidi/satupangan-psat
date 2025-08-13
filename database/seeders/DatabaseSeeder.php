@@ -56,6 +56,10 @@ class DatabaseSeeder extends Seeder
             RegisterIzinrumahPengemasanSeeder::class,
 
             QrBadanPanganSeeder::class,
+
+            // Notification and Message seeders
+            NotificationSeeder::class,
+            MessageSeeder::class,
         ]);
     }
 }
