@@ -243,7 +243,9 @@
 
             // Create new content section
             const contentSection = document.createElement('div');
-            contentSection.className = 'container px-4 py-5 bg-light mt-4 card-content-section';
+            contentSection.className = 'container px-4 py-5 mt-4 card-content-section';
+            contentSection.style.backgroundColor = '#b8ffdc';
+            contentSection.style.borderRadius = '30px';
 
             let content = '';
 
@@ -399,13 +401,13 @@
         function generateRegistrasiContent() {
             return `
                 <h4><i class="bx bx-file-text"></i> Alur Prosedur Pengajuan QR Code Keamanan Pangan</h4>
-                <ol class="list-group list-group-numbered">
-                    <li class="list-group-item">User membuat akun pelaku usaha di <a href="{{ route('register-business') }}" class="text-primary">Sini</a></li>
-                    <li class="list-group-item">Untuk usaha UMKM cukup mengisi data Izin Edar PSAT PDUK</li>
-                    <li class="list-group-item">Untuk usaha Non UMKM, mengisi data SPPB dan data Izin Edar PSAT (PL untuk produk impor, PD untuk produk lokal)</li>
-                    <li class="list-group-item">User mengisi form pengajuan QR Badan Pangan</li>
-                    <li class="list-group-item">Petugas akan mereview, dan memberikan approval/penolakan dari permintaan ini</li>
-                    <li class="list-group-item">Jika disetujui, QR code akan terbit dan dapat disematkan di kemasan Anda</li>
+                <ol class="list-group list-group-numbered" style="counter-reset: list-number 0;">
+                    <li class="list-group-item">1. User membuat akun pelaku usaha di <a href="{{ route('register-business') }}" class="text-primary">Sini</a></li>
+                    <li class="list-group-item">2. Untuk usaha UMKM cukup mengisi data Izin Edar PSAT PDUK</li>
+                    <li class="list-group-item">3.Untuk usaha Non UMKM, mengisi data SPPB dan data Izin Edar PSAT (PL untuk produk impor, PD untuk produk lokal)</li>
+                    <li class="list-group-item">4. User mengisi form pengajuan QR Badan Pangan</li>
+                    <li class="list-group-item">5. Petugas akan mereview, dan memberikan approval/penolakan dari permintaan ini</li>
+                    <li class="list-group-item">6. Jika disetujui, QR code akan terbit dan dapat disematkan di kemasan Anda</li>
                 </ol>
             `;
         }
@@ -413,10 +415,10 @@
         function generatePelaporanContent() {
             return `
                 <h4><i class="bx bx-file-find"></i> Pelaporan & Pengawasan Terpadu</h4>
-                <ol class="list-group list-group-numbered">
-                    <li class="list-group-item">Pengguna membuat akun di <a href="{{ route('register') }}" class="text-primary">sini</a></li>
-                    <li class="list-group-item">Pengguna mengisi form laporan pengaduan</li>
-                    <li class="list-group-item">Petugas akan memberikan tanggapan dari laporan pengaduan tersebut</li>
+                <ol class="list-group list-group-numbered" style="counter-reset: list-number 0;">
+                    <li class="list-group-item">1. Pengguna membuat akun di <a href="{{ route('register') }}" class="text-primary">sini</a></li>
+                    <li class="list-group-item">2. Pengguna mengisi form laporan pengaduan</li>
+                    <li class="list-group-item">3. Petugas akan memberikan tanggapan dari laporan pengaduan tersebut</li>
                 </ol>
             `;
         }
@@ -426,28 +428,28 @@
                 <h4><i class="bx bx-shield-alt-2"></i> Titik Kritis Keamanan Pangan dalam Penanganan PSAT</h4>
 
                 <h5>Titik kritis keamanan pangan dalam penanganan PSAT produk Sayuran</h5>
-                <ol class="list-group list-group-numbered mb-4">
-                    <li class="list-group-item">Suhu Penyimpanan tidak sesuai (Suhu optimal 0˚ – 4˚ C)</li>
-                    <li class="list-group-item">Pencucian tidak menggunakan air bersih</li>
-                    <li class="list-group-item">Ruang/gudang penyimpanan kotor/tidak higienis</li>
-                    <li class="list-group-item">Penggunaan pestisida tidak sesuai aturan pakai</li>
-                    <li class="list-group-item">Personel yang menangani tidak higienis</li>
-                    <li class="list-group-item">Tempat/display penjualan kotor/tidak higienis</li>
-                    <li class="list-group-item">Suhu di tempat penjualan/display tidak sesuai</li>
-                    <li class="list-group-item">Penggunaan pupuk tidak sesuai aturan</li>
+                <ol class="list-group list-group-numbered mb-4" style="counter-reset: list-number 0;">
+                    <li class="list-group-item">1. Suhu Penyimpanan tidak sesuai (Suhu optimal 0˚ – 4˚ C)</li>
+                    <li class="list-group-item">2. Pencucian tidak menggunakan air bersih</li>
+                    <li class="list-group-item">3. Ruang/gudang penyimpanan kotor/tidak higienis</li>
+                    <li class="list-group-item">4. Penggunaan pestisida tidak sesuai aturan pakai</li>
+                    <li class="list-group-item">5. Personel yang menangani tidak higienis</li>
+                    <li class="list-group-item">6. Tempat/display penjualan kotor/tidak higienis</li>
+                    <li class="list-group-item">7. Suhu di tempat penjualan/display tidak sesuai</li>
+                    <li class="list-group-item">8. Penggunaan pupuk tidak sesuai aturan</li>
                 </ol>
 
                 <h5>Titik kritis keamanan pangan dalam penanganan PSAT produk buah impor</h5>
-                <ol class="list-group list-group-numbered">
-                    <li class="list-group-item">Penyimpanan melebihi kapasitas ruang/gudang penyimpanan</li>
-                    <li class="list-group-item">Muatan melebihi kapasitas dan tumpukan barang di kontainer tidak rapi</li>
-                    <li class="list-group-item">Ruang/gudang penyimpanan kotor/tidak higienis</li>
-                    <li class="list-group-item">Ada produk yang rusak/busuk/tidak sesuai pada saat penerimaan</li>
-                    <li class="list-group-item">Suhu di mobil pengangkut tidak sesuai (suhu optimal ..)</li>
-                    <li class="list-group-item">Kendaraan pengangkut kotor/tidak higienis</li>
-                    <li class="list-group-item">Personil yang menangani tidak higienis</li>
-                    <li class="list-group-item">Suhu di tempat penjualan/display tidak sesuai</li>
-                    <li class="list-group-item">Terjadi kontaminasi silang dengan produk lain</li>
+                <ol class="list-group list-group-numbered" style="counter-reset: list-number 0;">
+                    <li class="list-group-item">1. Penyimpanan melebihi kapasitas ruang/gudang penyimpanan</li>
+                    <li class="list-group-item">2. Muatan melebihi kapasitas dan tumpukan barang di kontainer tidak rapi</li>
+                    <li class="list-group-item">3. Ruang/gudang penyimpanan kotor/tidak higienis</li>
+                    <li class="list-group-item">4. Ada produk yang rusak/busuk/tidak sesuai pada saat penerimaan</li>
+                    <li class="list-group-item">5. Suhu di mobil pengangkut tidak sesuai (suhu optimal ..)</li>
+                    <li class="list-group-item">6. Kendaraan pengangkut kotor/tidak higienis</li>
+                    <li class="list-group-item">7. Personil yang menangani tidak higienis</li>
+                    <li class="list-group-item">8. Suhu di tempat penjualan/display tidak sesuai</li>
+                    <li class="list-group-item">9. Terjadi kontaminasi silang dengan produk lain</li>
                 </ol>
             `;
         }
