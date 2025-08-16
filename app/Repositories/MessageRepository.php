@@ -275,4 +275,40 @@ class MessageRepository
             return false;
         }
     }
+
+    /**
+     * Mark all messages in a thread as read for a user
+     */
+    public function markMessagesAsReadForUserInThread($threadId, $userId): bool
+    {
+        try {
+            // Ensure thread belongs to the user
+            $thread = MessageThread::findOrFail($threadId);
+            if ($thread->initiator_id !== $userId && $thread->participant_id !== $userId) {
+                throw new \Exception("Message thread not found or access denied");
+            }
+
+            // Messages are read if the sender is the user themselves, or if read_at is not null
+            // We need to update messages where sender_id is NOT the current user AND read_at is null
+            Message::where('thread_id', $threadId)
+                ->where('sender_id', '!=', $userId)
+                ->whereNull('read_at')
+                ->update([
+                    'is_read' => true,
+                    'read_at' => now(),
+                ]);
+
+            // Also mark the thread itself as read for the user
+            if ($thread->initiator_id === $userId) {
+                $thread->update(['is_read_by_initiator' => true]);
+            } else {
+                $thread->update(['is_read_by_participant' => true]);
+            }
+
+            return true;
+        } catch (Exception $e) {
+            Log::error("Failed to mark messages as read: {$e->getMessage()}");
+            return false;
+        }
+    }
 }

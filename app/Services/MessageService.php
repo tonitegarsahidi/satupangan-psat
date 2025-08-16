@@ -262,7 +262,7 @@ class MessageService
                 throw new \Exception("Message thread not found or access denied");
             }
 
-            return $this->messageRepository->markThreadAsRead($threadId, $userId);
+            return $this->messageRepository->markMessagesAsReadForUserInThread($threadId, $userId);
         } catch (\Exception $exception) {
             Log::error("Failed to mark thread as read: {$exception->getMessage()}");
             return false;
