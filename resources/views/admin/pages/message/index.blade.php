@@ -71,7 +71,7 @@
                                         'sort_order' => $sortOrder == 'asc' ? 'desc' : 'asc',
                                         'keyword' => $keyword,
                                     ]) }}">
-                                    Title
+                                    Judul
                                     @include('components.arrow-sort', [
                                         'field' => 'title',
                                         'sortField' => $sortField,
@@ -80,30 +80,18 @@
                                 </a>
                             </th>
                             <th>
+                                Pesan dengan
+                            </th>
+                            <th>
                                 <a
                                     href="{{ route('message.index', [
                                         'sort_field' => 'last_message_at',
                                         'sort_order' => $sortOrder == 'asc' ? 'desc' : 'asc',
                                         'keyword' => $keyword,
                                     ]) }}">
-                                    Last Message
+                                    pesan terakhir
                                     @include('components.arrow-sort', [
                                         'field' => 'last_message_at',
-                                        'sortField' => $sortField,
-                                        'sortOrder' => $sortOrder,
-                                    ])
-                                </a>
-                            </th>
-                            <th>
-                                <a
-                                    href="{{ route('message.index', [
-                                        'sort_field' => 'created_at',
-                                        'sort_order' => $sortOrder == 'asc' ? 'desc' : 'asc',
-                                        'keyword' => $keyword,
-                                    ]) }}">
-                                    Created At
-                                    @include('components.arrow-sort', [
-                                        'field' => 'created_at',
                                         'sortField' => $sortField,
                                         'sortOrder' => $sortOrder,
                                     ])
@@ -122,21 +110,22 @@
                             <tr>
                                 <td>{{ $startNumber++ }}</td>
                                 <td>
+                                    @if ($thread->unread_count > 0)
+                                        <span class="badge bg-primary rounded-pill me-1">Baru</span>
+                                    @endif
                                     <strong>{{ $thread->title }}</strong>
-                                    <br>
-                                    <small class="text-muted">With: {{ $thread->initiator_id == Auth::id() ? $thread->participant->name : $thread->initiator->name }}</small>
+                                </td>
+                                <td>
+                                    {{ $thread->initiator_id == Auth::id() ? $thread->participant->name : $thread->initiator->name }}
                                 </td>
                                 <td>
                                     @if ($thread->lastMessage)
-                                        {{ \Carbon\Carbon::parse($thread->lastMessage->created_at)->format('d M Y H:i') }}
+                                        <small class="text-muted">{{ \Carbon\Carbon::parse($thread->lastMessage->created_at)->format('d M Y H:i') }}</small>
                                         <br>
-                                        <small class="text-muted">{{ Str::limit($thread->lastMessage->message, 50) }}</small>
+                                        {{ Str::limit($thread->lastMessage->message, 50) }}
                                     @else
                                         <span class="text-muted">No messages yet</span>
                                     @endif
-                                </td>
-                                <td>
-                                    {{ \Carbon\Carbon::parse($thread->created_at)->format('d M Y H:i') }}
                                 </td>
                                 <td>
                                     <a href="{{ route('message.show', ['id' => $thread->id]) }}" class="btn btn-sm btn-outline-primary">

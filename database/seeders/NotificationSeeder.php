@@ -17,24 +17,162 @@ class NotificationSeeder extends Seeder
      */
     public function run()
     {
-        // Get the users we need to create notifications for
-        $users = User::whereIn('email', [
-            'kantorpusat@panganaman.my.id',
-            'kantorjatim@panganaman.my.id',
-            'pengusaha@panganaman.my.id',
-            'pengusaha2@panganaman.my.id'
-        ])->get();
+        // Get all users
+        $users = User::all();
 
-        if ($users->count() !== 4) {
-            $this->command->error('Required users not found. Please run UserSeeder first.');
+        if ($users->count() === 0) {
+            $this->command->error('No users found. Please run UserSeeder first.');
             return;
         }
 
-        $notifications = [
-            // Notifications for kantorpusat@panganaman.my.id
+        // Define sample notification templates
+        $notificationTemplates = [
             [
+                'type' => 'system_alert',
+                'title' => 'Pemberitahuan Sistem',
+                'message' => 'Ini adalah pemberitahuan penting dari sistem PSAT. Mohon periksa dashboard Anda untuk informasi lebih lanjut.',
+                'data' => [
+                    'priority' => 'high',
+                    'category' => 'system',
+                    'action_required' => true
+                ]
+            ],
+            [
+                'type' => 'document_reminder',
+                'title' => 'Pengingat Dokumen',
+                'message' => 'Beberapa dokumen Anda akan segera kedaluwarsa. Silakan perbarui dokumen Anda untuk melanjutkan layanan.',
+                'data' => [
+                    'document_type' => 'Sertifikasi',
+                    'expiry_date' => Carbon::now()->addDays(30)->toDateString(),
+                    'action_required' => 'renew_document'
+                ]
+            ],
+            [
+                'type' => 'training_announcement',
+                'title' => 'Pelatihan Baru Tersedia',
+                'message' => 'Kami mengadakan pelatihan baru tentang standar keamanan pangan. Pendaftaran sudah dibuka.',
+                'data' => [
+                    'training_topic' => 'Standar Keamanan Pangan Segar',
+                    'training_date' => Carbon::now()->addDays(14)->toDateString(),
+                    'location' => 'Online',
+                    'registration_deadline' => Carbon::now()->addDays(7)->toDateString()
+                ]
+            ],
+            [
+                'type' => 'inspection_schedule',
+                'title' => 'Jadwal Inspeksi',
+                'message' => 'Jadwal inspeksi untuk bulan depan telah dirilis. Anda memiliki 2 inspeksi yang dijadwalkan.',
+                'data' => [
+                    'inspection_count' => 2,
+                    'month' => Carbon::now()->addMonth()->format('F Y'),
+                    'first_inspection' => Carbon::now()->addDays(10)->toDateString(),
+                    'last_inspection' => Carbon::now()->addDays(25)->toDateString()
+                ]
+            ],
+            [
+                'type' => 'qr_code_generated',
+                'title' => 'QR Code Telah Dibuat',
+                'message' => 'QR Code untuk produk Anda telah berhasil dibuat dan siap digunakan.',
+                'data' => [
+                    'qr_code' => 'QR-' . Carbon::now()->format('Ym') . '-' . rand(100, 999),
+                    'product_name' => 'Produk ' . rand(1, 100),
+                    'validity_period' => '1 tahun'
+                ]
+            ],
+            [
+                'type' => 'sppb_status',
+                'title' => 'Status SPPB',
+                'message' => 'Status SPPB Anda telah diperbarui. Silakan cek detail di dashboard.',
+                'data' => [
+                    'sppb_id' => 'SPPB-' . Carbon::now()->format('Y') . '-' . rand(100, 999),
+                    'status' => 'approved',
+                    'expiry_date' => Carbon::now()->addMonths(6)->toDateString()
+                ]
+            ],
+            [
+                'type' => 'document_feedback',
+                'title' => 'Umpan Balik Dokumen',
+                'message' => 'Dokumen Anda telah diperiksa. Ada beberapa perbaikan yang diperlukan.',
+                'data' => [
+                    'document_id' => 'DOC-' . Carbon::now()->format('Ym') . '-' . rand(100, 999),
+                    'status' => 'needs_revision',
+                    'feedback_details' => 'Document needs improvement in image quality',
+                    'resubmission_deadline' => Carbon::now()->addDays(7)->toDateString()
+                ]
+            ],
+            [
+                'type' => 'new_feature',
+                'title' => 'Fitur Baru Tersedia',
+                'message' => 'Kami telah menambahkan fitur baru di sistem PSAT. Jelajahi fitur-fitur terbaru kami.',
+                'data' => [
+                    'feature_name' => 'Dashboard Peningkatan',
+                    'description' => 'Visualisasi data yang lebih baik dan analisis mendalam',
+                    'release_date' => Carbon::now()->toDateString()
+                ]
+            ],
+            [
+                'type' => 'system_maintenance',
+                'title' => 'Pemeliharaan Sistem',
+                'message' => 'Sistem akan mengalami pemeliharaan pada tanggal yang telah ditentukan.',
+                'data' => [
+                    'maintenance_date' => Carbon::now()->addDays(3)->toDateString(),
+                    'maintenance_time' => '00:00 - 02:00 WIB',
+                    'affected_features' => ['Registrasi', 'QR Code', 'Laporan']
+                ]
+            ],
+            [
+                'type' => 'deadline_reminder',
+                'title' => 'Pengingat Batas Waktu',
+                'message' => 'Batas waktu pengajuan dokumen Anda akan segera berakhir.',
+                'data' => [
+                    'document_type' => 'PSAT PL',
+                    'deadline_date' => Carbon::now()->addDays(5)->toDateString(),
+                    'days_remaining' => 5,
+                    'action_required' => 'submit_document'
+                ]
+            ]
+        ];
+
+        $notifications = [];
+
+        // Create 3 notifications for each user
+        foreach ($users as $user) {
+            for ($i = 0; $i < 3; $i++) {
+                $template = $notificationTemplates[array_rand($notificationTemplates)];
+
+                $notification = [
+                    'id' => \Illuminate\Support\Str::uuid(),
+                    'user_id' => $user->id,
+                    'type' => $template['type'],
+                    'title' => $template['title'],
+                    'message' => $template['message'],
+                    'data' => $template['data'],
+                    'is_read' => rand(0, 1) === 1, // Randomly set as read or unread
+                    'created_at' => Carbon::now()->subDays(rand(1, 10)),
+                    'updated_at' => Carbon::now()->subDays(rand(1, 10)),
+                ];
+
+                $notifications[] = $notification;
+            }
+        }
+
+        // Insert notifications
+        foreach ($notifications as $notification) {
+            Notification::create($notification);
+        }
+
+        // Also create some specific notifications for important users as in the original seeder
+        $kantorPusat = $users->where('email', 'kantorpusat@panganaman.my.id')->first();
+        $pengusaha = $users->where('email', 'pengusaha@panganaman.my.id')->first();
+        $kantorJatim = $users->where('email', 'kantorjatim@panganaman.my.id')->first();
+        $pengusaha2 = $users->where('email', 'pengusaha2@panganaman.my.id')->first();
+
+        // Check if these specific users exist before creating notifications
+        if ($kantorPusat) {
+            // Additional notifications for kantorpusat
+            $notifications[] = [
                 'id' => \Illuminate\Support\Str::uuid(),
-                'user_id' => $users->where('email', 'kantorpusat@panganaman.my.id')->first()->id,
+                'user_id' => $kantorPusat->id,
                 'type' => 'sppb_extension',
                 'title' => 'Permintaan Perpanjangan SPPB',
                 'message' => 'Terdapat pengajuan perpanjangan SPPB dari pengusaha. Silakan cek detail dan berikan approval.',
@@ -47,27 +185,14 @@ class NotificationSeeder extends Seeder
                 'is_read' => false,
                 'created_at' => Carbon::now()->subDays(2),
                 'updated_at' => Carbon::now()->subDays(2),
-            ],
-            [
-                'id' => \Illuminate\Support\Str::uuid(),
-                'user_id' => $users->where('email', 'kantorpusat@panganaman.my.id')->first()->id,
-                'type' => 'system_alert',
-                'title' => 'Update Sistem PSAT',
-                'message' => 'Sistem PSAT akan undergo maintenance pada tanggal 15 Agustus 2025 pukul 00:00 - 02:00 WIB.',
-                'data' => [
-                    'maintenance_date' => '2025-08-15',
-                    'maintenance_time' => '00:00 - 02:00 WIB',
-                    'affected_features' => ['Registrasi', 'QR Code Generation', 'Reporting']
-                ],
-                'is_read' => false,
-                'created_at' => Carbon::now()->subDays(1),
-                'updated_at' => Carbon::now()->subDays(1),
-            ],
+            ];
+        }
 
-            // Notifications for kantorjatim@panganaman.my.id
-            [
+        if ($kantorJatim) {
+            // Additional notifications for kantorjatim
+            $notifications[] = [
                 'id' => \Illuminate\Support\Str::uuid(),
-                'user_id' => $users->where('email', 'kantorjatim@panganaman.my.id')->first()->id,
+                'user_id' => $kantorJatim->id,
                 'type' => 'document_issue',
                 'title' => 'File Dokumen PSAT PL Kurang Jelas',
                 'message' => 'Dokumen PSAT PL dari pengusaha2@panganaman.my.id memiliki kualitas gambar yang kurang jelas. Silakan minta pengiriman ulang.',
@@ -80,45 +205,14 @@ class NotificationSeeder extends Seeder
                 'is_read' => false,
                 'created_at' => Carbon::now()->subDays(3),
                 'updated_at' => Carbon::now()->subDays(3),
-            ],
-            [
-                'id' => \Illuminate\Support\Str::uuid(),
-                'user_id' => $users->where('email', 'kantorjatim@panganaman.my.id')->first()->id,
-                'type' => 'inspection_schedule',
-                'title' => 'Jadwal Inspeksi Mendatang',
-                'message' => 'Jadwal inspeksi untuk bulan September 2025 telah dirilis. Anda memiliki 3 inspeksi yang dijadwalkan.',
-                'data' => [
-                    'link' => "https://www.konsultanit.my.id",
-                    'inspection_count' => 3,
-                    'month' => 'September 2025',
-                    'first_inspection' => '2025-09-05',
-                    'last_inspection' => '2025-09-25'
-                ],
-                'is_read' => false,
-                'created_at' => Carbon::now()->subDays(1),
-                'updated_at' => Carbon::now()->subDays(1),
-            ],
+            ];
+        }
 
-            // Notifications for pengusaha@panganaman.my.id
-            [
+        if ($pengusaha) {
+            // Additional notifications for pengusaha
+            $notifications[] = [
                 'id' => \Illuminate\Support\Str::uuid(),
-                'user_id' => $users->where('email', 'pengusaha@panganaman.my.id')->first()->id,
-                'type' => 'sppb_status',
-                'title' => 'Status SPPB: Perlu Perpanjangan',
-                'message' => 'SPPB Anda (SPPB-2025-001) akan berakhir pada 30 September 2025. Silakan ajukan perpanjangan sebelum tanggal tersebut.',
-                'data' => [
-                    'sppb_id' => 'SPPB-2025-001',
-                    'expiry_date' => '2025-09-30',
-                    'days_remaining' => 17,
-                    'action_required' => 'submit_extension_request'
-                ],
-                'is_read' => false,
-                'created_at' => Carbon::now()->subDays(1),
-                'updated_at' => Carbon::now()->subDays(1),
-            ],
-            [
-                'id' => \Illuminate\Support\Str::uuid(),
-                'user_id' => $users->where('email', 'pengusaha@panganaman.my.id')->first()->id,
+                'user_id' => $pengusaha->id,
                 'type' => 'qr_code_generated',
                 'title' => 'QR Code Telah Dibuat',
                 'message' => 'QR Code untuk produk "Melon Importir" telah berhasil dibuat dan siap digunakan.',
@@ -130,27 +224,14 @@ class NotificationSeeder extends Seeder
                 'is_read' => true,
                 'created_at' => Carbon::now()->subDays(5),
                 'updated_at' => Carbon::now()->subDays(5),
-            ],
+            ];
+        }
 
-            // Notifications for pengusaha2@panganaman.my.id
-            [
+        if ($pengusaha2) {
+            // Additional notifications for pengusaha2
+            $notifications[] = [
                 'id' => \Illuminate\Support\Str::uuid(),
-                'user_id' => $users->where('email', 'pengusaha2@panganaman.my.id')->first()->id,
-                'type' => 'document_feedback',
-                'title' => 'Dokumen PSAT PL Perlu Perbaikan',
-                'message' => 'Dokumen PSAT PL Anda perlu diperbaikan karena kualitas gambar yang kurang jelas. Silakan unggah ulang dokumen yang lebih jelas.',
-                'data' => [
-                    'document_id' => 'PSAT-PL-2025-045',
-                    'issue_details' => 'image_quality',
-                    'resubmission_deadline' => '2025-08-20'
-                ],
-                'is_read' => false,
-                'created_at' => Carbon::now()->subDays(2),
-                'updated_at' => Carbon::now()->subDays(2),
-            ],
-            [
-                'id' => \Illuminate\Support\Str::uuid(),
-                'user_id' => $users->where('email', 'pengusaha2@panganaman.my.id')->first()->id,
+                'user_id' => $pengusaha2->id,
                 'type' => 'training_announcement',
                 'title' => 'Pelatihan PSAT Gratis',
                 'message' => 'Kami mengadakan pelatihan PSAT gratis untuk pelaku usaha pada 20 Agustus 2025. Pendaftaran dibuka hingga 18 Agustus.',
@@ -163,12 +244,15 @@ class NotificationSeeder extends Seeder
                 'is_read' => false,
                 'created_at' => Carbon::now()->subDays(3),
                 'updated_at' => Carbon::now()->subDays(3),
-            ],
-        ];
+            ];
+        }
 
-        // Insert notifications
+        // Insert additional notifications
         foreach ($notifications as $notification) {
-            Notification::create($notification);
+            // Skip if already inserted
+            if (!Notification::find($notification['id'])) {
+                Notification::create($notification);
+            }
         }
 
         $this->command->info('NotificationSeeder completed successfully.');

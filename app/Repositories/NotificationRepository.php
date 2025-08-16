@@ -42,7 +42,21 @@ class NotificationRepository
         }
 
         $paginator = $queryResult->paginate($limit); // Use limit here
-        $paginator->withQueryString();
+
+        // Manually append query parameters to ensure proper URL encoding
+        $paginator = $paginator->withPath('notification');
+        if ($keyword) {
+            $paginator = $paginator->appends('keyword', e($keyword));
+        }
+        if ($sortField) {
+            $paginator = $paginator->appends('sort_field', e($sortField));
+        }
+        if ($sortOrder) {
+            $paginator = $paginator->appends('sort_order', e($sortOrder));
+        }
+        if ($unreadOnly !== false) {
+            $paginator = $paginator->appends('unreadOnly', e($unreadOnly));
+        }
 
         return $paginator;
     }

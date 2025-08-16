@@ -210,7 +210,7 @@
                                     {{ \Carbon\Carbon::parse($notification->created_at)->format('d M Y H:i') }}
                                 </td>
                                 <td>
-                                    <a href="{{ route('notification.show', ['id' => $notification->id']) }}" class="btn btn-sm btn-outline-primary">
+                                    <a href="{{ route('notification.show', ['id' => $notification->id]) }}" class="btn btn-sm btn-outline-primary">
                                         lihat detail
                                     </a>
                                 </td>
@@ -234,71 +234,5 @@
 @endsection
 
 @section('footer-code')
-    <script>
-        function markAllAsRead() {
-            if (confirm('Are you sure you want to mark all notifications as read?')) {
-                fetch("{{ route('notification.markAllAsRead') }}", {
-                    method: 'POST',
-                    headers: {
-                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
-                        'Content-Type': 'application/json',
-                    },
-                })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.success) {
-                        location.reload();
-                    } else {
-                        alert('Failed to mark all as read');
-                    }
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                    alert('Error occurred');
-                });
-            }
-        }
 
-        function deleteReadNotifications() {
-            if (confirm('Are you sure you want to delete all read notifications? This action cannot be undone.')) {
-                fetch("{{ route('notification.deleteRead') }}", {
-                    method: 'DELETE',
-                    headers: {
-                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
-                        'Content-Type': 'application/json',
-                    },
-                })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.success) {
-                        location.reload();
-                    } else {
-                        alert('Failed to delete read notifications');
-                    }
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                    alert('Error occurred');
-                });
-            }
-        }
-
-        // Update unread count badge
-        function updateUnreadCount() {
-            fetch("{{ route('notification.unreadCount') }}")
-                .then(response => response.json())
-                .then(data => {
-                    const badge = document.getElementById('unread-badge');
-                    if (badge) {
-                        badge.textContent = 'Unread: ' + data.count;
-                    }
-                })
-                .catch(error => {
-                    console.error('Error fetching unread count:', error);
-                });
-        }
-
-        // Update unread count every 30 seconds
-        setInterval(updateUnreadCount, 30000);
-    </script>
 @endsection

@@ -221,7 +221,7 @@
             `;
         } else {
             notificationList.innerHTML = notifications.map(notification => `
-                <a href="javascript:void(0);" class="dropdown-item ${!notification.is_read ? 'dropdown-item-unread' : ''}"
+                <a href="/notification/detail/${notification.id}" class="dropdown-item ${!notification.is_read ? 'dropdown-item-unread' : ''}"
                    onclick="markNotificationAsRead(${notification.id})">
                     <div class="d-flex">
                         <div class="flex-shrink-0 me-3">
@@ -294,7 +294,7 @@
             `;
         } else {
             messageList.innerHTML = messages.map(message => `
-                <a href="/admin/message/conversation/${message.sender_id}"
+                <a href="/admin/message/detail/${message.thread_id}"
                    class="dropdown-item ${!message.is_read ? 'dropdown-item-unread' : ''}">
                     <div class="d-flex">
                         <div class="flex-shrink-0 me-3">
@@ -306,7 +306,7 @@
                         </div>
                         <div class="flex-grow-1">
                             <h6 class="mb-0">${message.sender?.name || 'Unknown User'}</h6>
-                            <p class="mb-0 small text-muted">${message.last_message || ''}</p>
+                            <p class="mb-0 small text-muted truncate">${message.message || ''}</p>
                             <small class="text-muted">${formatDate(message.updated_at)}</small>
                         </div>
                     </div>

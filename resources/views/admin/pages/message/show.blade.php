@@ -34,16 +34,36 @@
 
                 <hr>
 
-                <div class="message-container" style="max-height: 500px; overflow-y: auto;">
+                <div class="message-container">
                     @forelse ($messages as $message)
-                        <div class="mb-4 {{ $message->sender_id == Auth::id() ? 'text-end' : '' }}">
-                            <div class="d-inline-block p-3 rounded-3 {{ $message->sender_id == Auth::id() ? 'bg-primary text-white' : 'bg-light' }}">
-                                <p class="mb-1">{{ $message->message }}</p>
+                        <div class="mb-4 border-bottom pb-3 @if($message->sender_id == Auth::id()) bg-success-light @else bg-warning-light @endif">
+                            <div class="d-flex justify-content-between align-items-start mb-2">
+                                <div class="d-flex align-items-center">
+                                    <div class="avatar avatar-sm me-3">
+                                        @if($message->sender && $message->sender->profile && $message->sender->profile->profile_picture)
+                                            <img src="{{ asset($message->sender->profile->profile_picture) }}" alt="Avatar" class="rounded-circle">
+                                        @else
+                                            <div class="avatar-placeholder bg-primary text-white d-flex align-items-center justify-content-center rounded-circle">
+                                                {{ substr($message->sender->name, 0, 1) }}
+                                            </div>
+                                        @endif
+                                    </div>
+                                    <div>
+                                        <h6 class="mb-0">{{ $message->sender->name }}</h6>
+                                        <small class="text-muted">{{ $message->sender->email ?? '' }}</small>
+                                    </div>
+                                </div>
                                 <small class="text-muted">{{ \Carbon\Carbon::parse($message->created_at)->format('d M Y H:i') }}</small>
+                            </div>
+                            <div class="ms-4">
+                                <p class="mb-0">{{ $message->message }}</p>
                             </div>
                         </div>
                     @empty
-                        <p class="text-center text-muted">No messages in this thread yet.</p>
+                        <div class="text-center py-5">
+                            <i class="fas fa-envelope-open text-muted mb-3" style="font-size: 3rem;"></i>
+                            <p class="text-muted">No messages in this thread yet.</p>
+                        </div>
                     @endforelse
                 </div>
             </div>
@@ -59,7 +79,7 @@
                         <h5 class="modal-title">Send New Message</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
-                    <form action="{{ route('message.sendMessage', $thread->id) }}" method="POST">
+                    <form action="{{ route('message.send', $thread->id) }}" method="POST">
                         @csrf
                         <div class="modal-body">
                             <textarea name="message" class="form-control" rows="5" placeholder="Type your message here..." required></textarea>
@@ -76,13 +96,32 @@
 @endsection
 
 @section('footer-code')
-    {{-- Scroll to bottom of messages on load --}}
-    <script>
-        window.addEventListener('DOMContentLoaded', (event) => {
-            const messageContainer = document.querySelector('.message-container');
-            if (messageContainer) {
-                messageContainer.scrollTop = messageContainer.scrollHeight;
-            }
-        });
-    </script>
+    {{-- Add some styling for the message thread --}}
+    <style>
+        .message-container {
+            max-height: 600px;
+            overflow-y: auto;
+        }
+        .avatar {
+            width: 40px;
+            height: 40px;
+        }
+        .avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .avatar-placeholder {
+            width: 40px;
+            height: 40px;
+            font-size: 16px;
+            font-weight: 600;
+        }
+        .bg-success-light {
+            background-color: rgba(40, 167, 69, 0.1);
+        }
+        .bg-warning-light {
+            background-color: rgba(255, 193, 7, 0.1);
+        }
+    </style>
 @endsection

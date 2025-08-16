@@ -55,6 +55,12 @@ class MessageRepository
             ->paginate($limit); // Use limit here
         $paginator->withQueryString();
 
+        // Add unread_count for each thread
+        $paginator->getCollection()->transform(function ($thread) use ($userId) {
+            $thread->unread_count = $thread->getUnreadCountForUser($userId);
+            return $thread;
+        });
+
         return $paginator;
     }
 
