@@ -210,16 +210,8 @@
                                     {{ \Carbon\Carbon::parse($notification->created_at)->format('d M Y H:i') }}
                                 </td>
                                 <td>
-                                    <a class="action-icon" href="{{ route('notification.show', ['id' => $notification->id]) }}"
-                                        title="view">
-                                        <i class='bx bx-show'></i>
-                                    </a>
-                                </td>
-                                <td>
-                                    <a class="action-icon text-danger" href="#"
-                                        onclick="confirmDelete('{{ $notification->id }}', '{{ $notification->title }}')"
-                                        title="delete">
-                                        <i class='bx bx-trash'></i>
+                                    <a href="{{ route('notification.show', ['id' => $notification->id']) }}" class="btn btn-sm btn-outline-primary">
+                                        lihat detail
                                     </a>
                                 </td>
                             </tr>
@@ -243,12 +235,6 @@
 
 @section('footer-code')
     <script>
-        function confirmDelete(id, title) {
-            if (confirm('Are you sure you want to delete this notification: "' + title + '"?')) {
-                window.location.href = "{{ route('notification.destroy', ['id' => '__ID__']) }}".replace('__ID__', id);
-            }
-        }
-
         function markAllAsRead() {
             if (confirm('Are you sure you want to mark all notifications as read?')) {
                 fetch("{{ route('notification.markAllAsRead') }}", {

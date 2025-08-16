@@ -48,6 +48,9 @@ Route::middleware('auth')->group(function () {
         ->middleware('role:ROLE_ADMIN')
         ->group(function () {
 
+            // Admin Dashboard
+            Route::get('/', [AdminController::class, 'index'])->name('admin.dashboard');
+
             // MANAGE USERS ON SYSTEM
             Route::get('/user', [UserController::class, 'index'])->name('admin.user.index');
             Route::get('/user/add/new', [UserController::class, 'create'])->name('admin.user.add');

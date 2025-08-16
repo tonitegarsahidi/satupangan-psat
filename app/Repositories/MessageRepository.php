@@ -15,7 +15,7 @@ class MessageRepository
      * Get all message threads for a user with pagination
      */
     public function getUserMessageThreads(
-        int $userId,
+        $userId,
         int $limit = 10, // Renamed from perPage to limit
         string $sortField = null,
         string $sortOrder = null,

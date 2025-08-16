@@ -26,7 +26,7 @@ class MessageService
      * List all message threads for a user with filtering and pagination
      */
     public function listUserMessageThreads(
-        int $userId,
+        $userId,
         int $limit = 10, // Renamed from perPage to limit
         string $sortField = null,
         string $sortOrder = null,

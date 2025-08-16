@@ -65,7 +65,7 @@ class MessageThread extends Model
      */
     public function messages()
     {
-        return $this->hasMany(Message::class)->orderBy('created_at', 'asc');
+        return $this->hasMany(Message::class, 'thread_id')->orderBy('created_at', 'asc');
     }
 
     /**
@@ -73,7 +73,7 @@ class MessageThread extends Model
      */
     public function lastMessage()
     {
-        return $this->hasOne(Message::class)->latestOfMany();
+        return $this->hasOne(Message::class, 'thread_id')->latestOfMany();
     }
 
     /**
