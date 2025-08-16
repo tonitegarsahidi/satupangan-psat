@@ -294,7 +294,7 @@
             `;
         } else {
             messageList.innerHTML = messages.map(message => `
-                <a href="/admin/message/detail/${message.thread_id}"
+                <a href="/message/detail/${message.id}"
                    class="dropdown-item ${!message.is_read ? 'dropdown-item-unread' : ''}">
                     <div class="d-flex">
                         <div class="flex-shrink-0 me-3">
@@ -305,8 +305,7 @@
                             </div>
                         </div>
                         <div class="flex-grow-1">
-                            <h6 class="mb-0">${message.sender?.name || 'Unknown User'}</h6>
-                            <p class="mb-0 small text-muted truncate">${message.message || ''}</p>
+                            <h6 class="mb-0">${message.title || 'Unknown User'}</h6>
                             <small class="text-muted">${formatDate(message.updated_at)}</small>
                         </div>
                     </div>
