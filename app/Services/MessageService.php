@@ -27,14 +27,14 @@ class MessageService
      */
     public function listUserMessageThreads(
         int $userId,
-        int $perPage = 10,
+        int $limit = 10, // Renamed from perPage to limit
         string $sortField = null,
         string $sortOrder = null,
         string $keyword = null,
         bool $unreadOnly = false
     ): LengthAwarePaginator {
         return $this->messageRepository->getUserMessageThreads(
-            $userId, $perPage, $sortField, $sortOrder, $keyword, $unreadOnly
+            $userId, $limit, $sortField, $sortOrder, $keyword, $unreadOnly
         );
     }
 

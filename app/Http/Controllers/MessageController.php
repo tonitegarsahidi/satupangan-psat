@@ -8,6 +8,7 @@ use App\Services\NotificationService;
 use Illuminate\Http\Request;
 use App\Helpers\AlertHelper;
 use Illuminate\Validation\ValidationException;
+use Illuminate\Support\Facades\Auth;
 
 class MessageController extends Controller
 {
@@ -43,7 +44,7 @@ class MessageController extends Controller
         $unreadOnly = $request->input('unreadOnly', false);
 
         $threads = $this->messageService->listUserMessageThreads(
-            auth()->id(),
+            Auth::id(),
             $perPage,
             $sortField,
             $sortOrder,
@@ -51,8 +52,8 @@ class MessageController extends Controller
             filter_var($unreadOnly, FILTER_VALIDATE_BOOLEAN)
         );
 
-        $unreadCount = $this->messageService->getUnreadThreadCount(auth()->id());
-        $stats = $this->messageService->getMessageThreadStats(auth()->id());
+        $unreadCount = $this->messageService->getUnreadThreadCount(Auth::id());
+        $stats = $this->messageService->getMessageThreadStats(Auth::id());
 
         $breadcrumbs = array_merge($this->mainBreadcrumbs, ['List' => null]);
 
@@ -80,16 +81,16 @@ class MessageController extends Controller
      */
     public function show($id)
     {
-        $thread = $this->messageService->getMessageThreadDetail($id, auth()->id());
+        $thread = $this->messageService->getMessageThreadDetail($id, Auth::id());
 
         if (!$thread) {
             abort(404, 'Message thread not found');
         }
 
         // Mark thread as read when viewing
-        $this->messageService->markThreadAsRead($id, auth()->id());
+        $this->messageService->markThreadAsRead($id, Auth::id());
 
-        $messages = $this->messageService->getThreadMessages($id, 50, 'created_at', 'asc', auth()->id());
+        $messages = $this->messageService->getThreadMessages($id, 50, 'created_at', 'asc', Auth::id());
 
         $breadcrumbs = array_merge($this->mainBreadcrumbs, ['Detail' => null]);
 
@@ -109,21 +110,21 @@ class MessageController extends Controller
 
         $validatedData['thread_id'] = $threadId;
 
-        $message = $this->messageService->sendMessage($validatedData, auth()->id());
+        $message = $this->messageService->sendMessage($validatedData, Auth::id());
 
         if ($message) {
             // Create notification for the other participant
-            $thread = $this->messageService->getMessageThreadDetail($threadId, auth()->id());
-            $otherUserId = ($thread->initiator_id === auth()->id()) ? $thread->participant_id : $thread->initiator_id;
+            $thread = $this->messageService->getMessageThreadDetail($threadId, Auth::id());
+            $otherUserId = ($thread->initiator_id === Auth::id()) ? $thread->participant_id : $thread->initiator_id;
 
             $this->notificationService->createSystemNotification(
                 $otherUserId,
-                'New Message from ' . auth()->user()->name,
-                'You have received a new message in your conversation with ' . auth()->user()->name,
+                'New Message from ' . Auth::user()->name,
+                'You have received a new message in your conversation with ' . Auth::user()->name,
                 'new_message',
                 [
                     'thread_id' => $threadId,
-                    'sender_id' => auth()->id(),
+                    'sender_id' => Auth::id(),
                 ]
             );
         }
@@ -149,7 +150,7 @@ class MessageController extends Controller
         ]);
 
         // Ensure we're not creating a thread with ourselves
-        if ($validatedData['participant_id'] === auth()->id()) {
+        if ($validatedData['participant_id'] === Auth::id()) {
             throw ValidationException::withMessages([
                 'participant_id' => 'You cannot start a conversation with yourself.'
             ]);
@@ -164,18 +165,18 @@ class MessageController extends Controller
             'message' => $validatedData['message'],
         ];
 
-        $thread = $this->messageService->createThreadWithMessage($threadData, $messageData, auth()->id());
+        $thread = $this->messageService->createThreadWithMessage($threadData, $messageData, Auth::id());
 
         if ($thread) {
             // Create notification for the other participant
             $this->notificationService->createSystemNotification(
                 $validatedData['participant_id'],
-                'New Conversation from ' . auth()->user()->name,
-                'You have received a new conversation from ' . auth()->user()->name,
+                'New Conversation from ' . Auth::user()->name,
+                'You have received a new conversation from ' . Auth::user()->name,
                 'new_conversation',
                 [
                     'thread_id' => $thread->id,
-                    'sender_id' => auth()->id(),
+                    'sender_id' => Auth::id(),
                 ]
             );
         }
@@ -194,7 +195,7 @@ class MessageController extends Controller
      */
     public function destroy($id)
     {
-        $result = $this->messageService->deleteMessageThread($id, auth()->id());
+        $result = $this->messageService->deleteMessageThread($id, Auth::id());
 
         $alert = $result
             ? AlertHelper::createAlert('success', 'Conversation deleted successfully')
@@ -210,7 +211,7 @@ class MessageController extends Controller
      */
     public function markThreadAsRead($id)
     {
-        $result = $this->messageService->markThreadAsRead($id, auth()->id());
+        $result = $this->messageService->markThreadAsRead($id, Auth::id());
 
         return response()->json([
             'success' => $result,
@@ -225,29 +226,23 @@ class MessageController extends Controller
      */
     public function getThreadsApi(Request $request)
     {
-        $perPage = $request->input('per_page', 10);
-        $unreadOnly = $request->input('unreadOnly', false);
+        $limit = $request->input('limit', 10);
+        $sortBy = $request->input('sort_by', 'created_at');
+        $sortOrder = $request->input('sort_order', 'desc');
+        $unreadOnly = $request->input('unread_only', true); // Default to true for navbar
 
         $threads = $this->messageService->listUserMessageThreads(
-            auth()->id(),
-            $perPage,
-            null,
-            null,
-            null,
+            Auth::id(),
+            $limit, // Use limit instead of perPage
+            $sortBy,
+            $sortOrder,
+            null, // keyword
             filter_var($unreadOnly, FILTER_VALIDATE_BOOLEAN)
         );
 
-        return response()->json([
-            'threads' => $threads->items(),
-            'total' => $threads->total(),
-            'unread_count' => $this->messageService->getUnreadThreadCount(auth()->id()),
-            'pagination' => [
-                'current_page' => $threads->currentPage(),
-                'last_page' => $threads->lastPage(),
-                'per_page' => $threads->perPage(),
-                'total' => $threads->total(),
-            ]
-        ]);
+        return response()->json(
+            $threads->items() // Return only the items for simplicity in navbar
+        );
     }
 
     /**
@@ -257,7 +252,7 @@ class MessageController extends Controller
      */
     public function getUnreadCount()
     {
-        $count = $this->messageService->getUnreadThreadCount(auth()->id());
+        $count = $this->messageService->getUnreadThreadCount(Auth::id());
 
         return response()->json(['count' => $count]);
     }
@@ -269,7 +264,7 @@ class MessageController extends Controller
      */
     public function getConversation($userId)
     {
-        $conversation = $this->messageService->getConversationBetweenUsers(auth()->id(), $userId, 50);
+        $conversation = $this->messageService->getConversationBetweenUsers(Auth::id(), $userId, 50);
 
         return response()->json([
             'messages' => $conversation->items(),
@@ -291,7 +286,7 @@ class MessageController extends Controller
     public function searchUsers(Request $request)
     {
         $search = $request->input('q');
-        $users = \App\Models\User::where('id', '!=', auth()->id())
+        $users = \App\Models\User::where('id', '!=', Auth::id())
             ->where(function ($query) use ($search) {
                 $query->whereRaw('lower(name) LIKE ?', ['%' . strtolower($search) . '%'])
                     ->orWhereRaw('lower(email) LIKE ?', ['%' . strtolower($search) . '%']);

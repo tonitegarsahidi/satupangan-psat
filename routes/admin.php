@@ -12,6 +12,8 @@ use App\Http\Controllers\MasterPenangananController;
 use App\Http\Controllers\WorkflowController;
 use App\Http\Controllers\WorkflowActionController;
 use App\Http\Controllers\WorkflowThreadController;
+use App\Http\Controllers\NotificationController;
+use App\Http\Controllers\MessageController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -217,5 +219,7 @@ Route::middleware('auth')->group(function () {
                 Route::get('/thread/delete/{id}', [WorkflowThreadController::class, 'deleteConfirm'])->name('admin.workflow-thread.delete');
                 Route::delete('/thread/delete/{id}', [WorkflowThreadController::class, 'destroy'])->name('admin.workflow-thread.destroy');
             });
+
+
         });
 });

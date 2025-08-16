@@ -25,15 +25,15 @@ class NotificationService
      * List all notifications for a user with filtering and pagination
      */
     public function listUserNotifications(
-        int $userId,
-        int $perPage = 10,
+        $userId,
+        int $limit = 10, // Renamed from perPage to limit
         string $sortField = null,
         string $sortOrder = null,
         string $keyword = null,
         bool $unreadOnly = false
     ): LengthAwarePaginator {
         return $this->notificationRepository->getUserNotifications(
-            $userId, $perPage, $sortField, $sortOrder, $keyword, $unreadOnly
+            $userId, $limit, $sortField, $sortOrder, $keyword, $unreadOnly
         );
     }
 
@@ -245,23 +245,42 @@ class NotificationService
      */
     public function getNotificationStats($userId): array
     {
-        $total = Notification::where('user_id', $userId)->count();
-        $unread = $this->getUnreadNotificationsCount($userId);
-        $read = $total - $unread;
+        $stats = [];
 
-        // Count by type
-        $byType = Notification::where('user_id', $userId)
-            ->select('type', \DB::raw('count(*) as total'))
-            ->groupBy('type')
-            ->get()
-            ->pluck('total', 'type')
-            ->toArray();
+        $types = Notification::where('user_id', $userId)
+            ->distinct()
+            ->pluck('type');
+
+        foreach ($types as $type) {
+            $total = Notification::where('user_id', $userId)
+                ->where('type', $type)
+                ->count();
+
+            $unread = Notification::where('user_id', $userId)
+                ->where('type', $type)
+                ->where('is_read', false)
+                ->count();
+
+            $read = $total - $unread;
+
+            $stats[] = [
+                'type' => $type,
+                'unread_count' => $unread,
+                'read_count' => $read,
+                'total_count' => $total,
+            ];
+        }
+
+        // Add overall totals if needed, though the request implies per-type table
+        $overallTotal = Notification::where('user_id', $userId)->count();
+        $overallUnread = $this->getUnreadNotificationsCount($userId);
+        $overallRead = $overallTotal - $overallUnread;
 
         return [
-            'total' => $total,
-            'unread' => $unread,
-            'read' => $read,
-            'by_type' => $byType,
+            'type_stats' => $stats,
+            'overall_total' => $overallTotal,
+            'overall_unread' => $overallUnread,
+            'overall_read' => $overallRead,
         ];
     }
 }

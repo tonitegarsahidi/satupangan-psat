@@ -88,6 +88,7 @@ class NotificationSeeder extends Seeder
                 'title' => 'Jadwal Inspeksi Mendatang',
                 'message' => 'Jadwal inspeksi untuk bulan September 2025 telah dirilis. Anda memiliki 3 inspeksi yang dijadwalkan.',
                 'data' => [
+                    'link' => "https://www.konsultanit.my.id",
                     'inspection_count' => 3,
                     'month' => 'September 2025',
                     'first_inspection' => '2025-09-05',

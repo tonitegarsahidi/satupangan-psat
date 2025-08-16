@@ -24,6 +24,76 @@
                     aria-label="Star themeselection/sneat-html-admin-template-free on GitHub">Star</a>
             </li> --}}
 
+            <!-- Notifications -->
+            <li class="nav-item navbar-dropdown dropdown-notifications dropdown me-3 me-xl-0">
+                <a href="javascript:void(0);" class="nav-link dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
+                    <i class="bx bx-bell bx-sm"></i>
+                    <span class="badge bg-danger badge-dot indicator" id="notification-badge" style="display: none;"></span>
+                </a>
+                <ul class="dropdown-menu dropdown-menu-end pt-0" id="notification-dropdown">
+                    <li class="dropdown-menu-header border-bottom">
+                        <div class="position-relative">
+                            <h6 class="mb-0 d-flex align-items-center justify-content-between">
+                                Notifications
+                                <span class="badge bg-primary rounded-pill notification-count" id="notification-count">0</span>
+                            </h6>
+                        </div>
+                    </li>
+                    <li class="dropdown-divider my-1"></li>
+                    <li class="dropdown-notifications-list scrollable-container" id="notification-list">
+                        <div class="text-center text-muted py-3">
+                            <i class="bx bx-bell bx-2x"></i>
+                            <p class="mb-0 mt-2">No new notifications</p>
+                        </div>
+                    </li>
+                    <li class="dropdown-divider"></li>
+                    <li>
+                        <a href="{{ route('notification.index') }}" class="dropdown-item dropdown-item-unread">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div>
+                                    <span class="fw-semibold">View all notifications</span>
+                                </div>
+                            </div>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+
+            <!-- Messages -->
+            <li class="nav-item navbar-dropdown dropdown-messages dropdown me-3 me-xl-0">
+                <a href="javascript:void(0);" class="nav-link dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
+                    <i class="bx bx-chat bx-sm"></i>
+                    <span class="badge bg-danger badge-dot indicator" id="message-badge" style="display: none;"></span>
+                </a>
+                <ul class="dropdown-menu dropdown-menu-end pt-0" id="message-dropdown">
+                    <li class="dropdown-menu-header border-bottom">
+                        <div class="position-relative">
+                            <h6 class="mb-0 d-flex align-items-center justify-content-between">
+                                Messages
+                                <span class="badge bg-primary rounded-pill message-count" id="message-count">0</span>
+                            </h6>
+                        </div>
+                    </li>
+                    <li class="dropdown-divider my-1"></li>
+                    <li class="dropdown-messages-list scrollable-container" id="message-list">
+                        <div class="text-center text-muted py-3">
+                            <i class="bx bx-chat bx-2x"></i>
+                            <p class="mb-0 mt-2">No new messages</p>
+                        </div>
+                    </li>
+                    <li class="dropdown-divider"></li>
+                    <li>
+                        <a href="{{ route('message.index') }}" class="dropdown-item dropdown-item-unread">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div>
+                                    <span class="fw-semibold">View all messages</span>
+                                </div>
+                            </div>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+
             <!-- User -->
             <li class="nav-item navbar-dropdown dropdown-user dropdown">
                 <a class="nav-link dropdown-toggle hide-arrow" href="javascript:void(0);" data-bs-toggle="dropdown">
@@ -105,4 +175,166 @@
             <!--/ User -->
         </ul>
     </div>
+
+<script>
+    // Load notifications
+    document.addEventListener('DOMContentLoaded', function() {
+        loadNotifications();
+        loadMessages();
+
+        // No periodic refresh
+    });
+
+    function loadNotifications() {
+        fetch('{{ route("notification.api") }}?limit=10&sort_by=created_at&sort_order=desc&unread_only=true')
+            .then(response => response.json())
+            .then(data => {
+                updateNotificationUI(data);
+            })
+            .catch(error => console.error('Error loading notifications:', error));
+    }
+
+    function updateNotificationUI(notifications) {
+        const notificationList = document.getElementById('notification-list');
+        const notificationCount = document.getElementById('notification-count');
+        const notificationBadge = document.getElementById('notification-badge');
+
+        // Update count
+        const unreadCount = notifications.filter(n => !n.is_read).length;
+        notificationCount.textContent = unreadCount;
+
+        // Show/hide badge
+        if (unreadCount > 0) {
+            notificationBadge.style.display = 'block';
+            notificationBadge.textContent = unreadCount;
+        } else {
+            notificationBadge.style.display = 'none';
+        }
+
+        // Update list
+        if (notifications.length === 0) {
+            notificationList.innerHTML = `
+                <div class="text-center text-muted py-3">
+                    <i class="bx bx-bell bx-2x"></i>
+                    <p class="mb-0 mt-2">No new notifications</p>
+                </div>
+            `;
+        } else {
+            notificationList.innerHTML = notifications.map(notification => `
+                <a href="javascript:void(0);" class="dropdown-item ${!notification.is_read ? 'dropdown-item-unread' : ''}"
+                   onclick="markNotificationAsRead(${notification.id})">
+                    <div class="d-flex">
+                        <div class="flex-shrink-0 me-3">
+                            <div class="avatar">
+                                <img src="${notification.data?.sender_avatar || '/assets/img/avatars/default.png'}" alt="${notification.data?.sender_name || 'System'}"
+                                     class="w-px-30 h-auto rounded-circle">
+                            </div>
+                        </div>
+                        <div class="flex-grow-1">
+                            <h6 class="mb-0">${notification.title || 'Notification'}</h6>
+                            <p class="mb-0 small text-muted">${notification.message || ''}</p>
+                            <small class="text-muted">${formatDate(notification.created_at)}</small>
+                        </div>
+                    </div>
+                </a>
+            `).join('');
+        }
+    }
+
+    function markNotificationAsRead(notificationId) {
+        fetch(`/admin/notification/mark-as-read/${notificationId}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                loadNotifications(); // Refresh the list
+            }
+        })
+        .catch(error => console.error('Error marking notification as read:', error));
+    }
+
+    function loadMessages() {
+        fetch('{{ route("message.api") }}?limit=10&sort_by=created_at&sort_order=desc&unread_only=true')
+            .then(response => response.json())
+            .then(data => {
+                updateMessageUI(data);
+            })
+            .catch(error => console.error('Error loading messages:', error));
+    }
+
+    function updateMessageUI(messages) {
+        const messageList = document.getElementById('message-list');
+        const messageCount = document.getElementById('message-count');
+        const messageBadge = document.getElementById('message-badge');
+
+        // Update count
+        const unreadCount = messages.filter(m => !m.is_read).length;
+        messageCount.textContent = unreadCount;
+
+        // Show/hide badge
+        if (unreadCount > 0) {
+            messageBadge.style.display = 'block';
+            messageBadge.textContent = unreadCount;
+        } else {
+            messageBadge.style.display = 'none';
+        }
+
+        // Update list
+        if (messages.length === 0) {
+            messageList.innerHTML = `
+                <div class="text-center text-muted py-3">
+                    <i class="bx bx-chat bx-2x"></i>
+                    <p class="mb-0 mt-2">No messages</p>
+                </div>
+            `;
+        } else {
+            messageList.innerHTML = messages.map(message => `
+                <a href="/admin/message/conversation/${message.sender_id}"
+                   class="dropdown-item ${!message.is_read ? 'dropdown-item-unread' : ''}">
+                    <div class="d-flex">
+                        <div class="flex-shrink-0 me-3">
+                            <div class="avatar">
+                                <img src="${message.sender?.profile?.profile_picture || '/assets/img/avatars/default.png'}"
+                                     alt="${message.sender?.name || 'User'}"
+                                     class="w-px-30 h-auto rounded-circle">
+                            </div>
+                        </div>
+                        <div class="flex-grow-1">
+                            <h6 class="mb-0">${message.sender?.name || 'Unknown User'}</h6>
+                            <p class="mb-0 small text-muted">${message.last_message || ''}</p>
+                            <small class="text-muted">${formatDate(message.updated_at)}</small>
+                        </div>
+                    </div>
+                </a>
+            `).join('');
+        }
+    }
+
+    function formatDate(dateString) {
+        const date = new Date(dateString);
+        const now = new Date();
+        const diffTime = Math.abs(now - date);
+        const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+
+        if (diffDays === 0) {
+            const diffHours = Math.floor(diffTime / (1000 * 60 * 60));
+            if (diffHours === 0) {
+                const diffMinutes = Math.floor(diffTime / (1000 * 60));
+                return diffMinutes === 0 ? 'Just now' : `${diffMinutes} min ago`;
+            }
+            return `${diffHours} hour${diffHours > 1 ? 's' : ''} ago`;
+        } else if (diffDays === 1) {
+            return 'Yesterday';
+        } else if (diffDays < 7) {
+            return `${diffDays} days ago`;
+        } else {
+            return date.toLocaleDateString();
+        }
+    }
+</script>
 </nav>

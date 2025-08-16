@@ -7,6 +7,7 @@ use App\Services\NotificationService;
 use Illuminate\Http\Request;
 use App\Helpers\AlertHelper;
 use Illuminate\Validation\ValidationException;
+use Illuminate\Support\Facades\Auth;
 
 class NotificationController extends Controller
 {
@@ -19,7 +20,7 @@ class NotificationController extends Controller
 
         // Store common breadcrumbs in the constructor
         $this->mainBreadcrumbs = [
-            'Dashboard' => route('admin.dashboard'),
+            // 'Dashboard' => route('admin.dashboard'),
             'Notifications' => route('notification.index'),
         ];
     }
@@ -40,7 +41,7 @@ class NotificationController extends Controller
         $unreadOnly = $request->input('unreadOnly', false);
 
         $notifications = $this->notificationService->listUserNotifications(
-            auth()->id(),
+            Auth::id(),
             $perPage,
             $sortField,
             $sortOrder,
@@ -48,8 +49,8 @@ class NotificationController extends Controller
             filter_var($unreadOnly, FILTER_VALIDATE_BOOLEAN)
         );
 
-        $unreadCount = $this->notificationService->getUnreadNotificationsCount(auth()->id());
-        $stats = $this->notificationService->getNotificationStats(auth()->id());
+        $unreadCount = $this->notificationService->getUnreadNotificationsCount(Auth::id());
+        $stats = $this->notificationService->getNotificationStats(Auth::id());
 
         $breadcrumbs = array_merge($this->mainBreadcrumbs, ['List' => null]);
 
@@ -77,14 +78,14 @@ class NotificationController extends Controller
      */
     public function show($id)
     {
-        $notification = $this->notificationService->getNotificationDetail($id, auth()->id());
+        $notification = $this->notificationService->getNotificationDetail($id, Auth::id());
 
         if (!$notification) {
             abort(404, 'Notification not found');
         }
 
         // Mark as read when viewing
-        $this->notificationService->markNotificationAsRead($id, auth()->id());
+        $this->notificationService->markNotificationAsRead($id, Auth::id());
 
         $breadcrumbs = array_merge($this->mainBreadcrumbs, ['Detail' => null]);
 
@@ -98,7 +99,7 @@ class NotificationController extends Controller
      */
     public function markAsRead($id)
     {
-        $result = $this->notificationService->markNotificationAsRead($id, auth()->id());
+        $result = $this->notificationService->markNotificationAsRead($id, Auth::id());
 
         $alert = $result
             ? AlertHelper::createAlert('success', 'Notification marked as read')
@@ -114,7 +115,7 @@ class NotificationController extends Controller
      */
     public function markAllAsRead(Request $request)
     {
-        $result = $this->notificationService->markAllNotificationsAsRead(auth()->id());
+        $result = $this->notificationService->markAllNotificationsAsRead(Auth::id());
 
         $alert = $result
             ? AlertHelper::createAlert('success', 'All notifications marked as read')
@@ -130,7 +131,7 @@ class NotificationController extends Controller
      */
     public function destroy($id)
     {
-        $result = $this->notificationService->deleteNotification($id, auth()->id());
+        $result = $this->notificationService->deleteNotification($id, Auth::id());
 
         $alert = $result
             ? AlertHelper::createAlert('success', 'Notification deleted successfully')
@@ -146,7 +147,7 @@ class NotificationController extends Controller
      */
     public function deleteRead()
     {
-        $result = $this->notificationService->deleteAllReadNotifications(auth()->id());
+        $result = $this->notificationService->deleteAllReadNotifications(Auth::id());
 
         $alert = $result
             ? AlertHelper::createAlert('success', 'All read notifications deleted')
@@ -162,29 +163,23 @@ class NotificationController extends Controller
      */
     public function getNotificationsApi(Request $request)
     {
-        $perPage = $request->input('per_page', 10);
-        $unreadOnly = $request->input('unreadOnly', false);
+        $limit = $request->input('limit', 10);
+        $sortBy = $request->input('sort_by', 'created_at');
+        $sortOrder = $request->input('sort_order', 'desc');
+        $unreadOnly = $request->input('unread_only', true); // Default to true for navbar
 
         $notifications = $this->notificationService->listUserNotifications(
-            auth()->id(),
-            $perPage,
-            null,
-            null,
-            null,
+            Auth::id(),
+            $limit, // Use limit instead of perPage
+            $sortBy,
+            $sortOrder,
+            null, // keyword
             filter_var($unreadOnly, FILTER_VALIDATE_BOOLEAN)
         );
 
-        return response()->json([
-            'notifications' => $notifications->items(),
-            'total' => $notifications->total(),
-            'unread_count' => $this->notificationService->getUnreadNotificationsCount(auth()->id()),
-            'pagination' => [
-                'current_page' => $notifications->currentPage(),
-                'last_page' => $notifications->lastPage(),
-                'per_page' => $notifications->perPage(),
-                'total' => $notifications->total(),
-            ]
-        ]);
+        return response()->json(
+            $notifications->items() // Return only the items for simplicity in navbar
+        );
     }
 
     /**
@@ -194,7 +189,7 @@ class NotificationController extends Controller
      */
     public function getUnreadCount()
     {
-        $count = $this->notificationService->getUnreadNotificationsCount(auth()->id());
+        $count = $this->notificationService->getUnreadNotificationsCount(Auth::id());
 
         return response()->json(['count' => $count]);
     }

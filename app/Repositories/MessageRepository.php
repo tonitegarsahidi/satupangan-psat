@@ -16,7 +16,7 @@ class MessageRepository
      */
     public function getUserMessageThreads(
         int $userId,
-        int $perPage = 10,
+        int $limit = 10, // Renamed from perPage to limit
         string $sortField = null,
         string $sortOrder = null,
         string $keyword = null,
@@ -52,7 +52,7 @@ class MessageRepository
         }
 
         $paginator = $queryResult->with(['initiator', 'participant', 'lastMessage'])
-            ->paginate($perPage);
+            ->paginate($limit); // Use limit here
         $paginator->withQueryString();
 
         return $paginator;

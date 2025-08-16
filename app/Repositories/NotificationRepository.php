@@ -14,8 +14,8 @@ class NotificationRepository
      * Get all notifications for a user with pagination
      */
     public function getUserNotifications(
-        int $userId,
-        int $perPage = 10,
+        $userId,
+        int $limit = 10, // Renamed from perPage to limit
         string $sortField = null,
         string $sortOrder = null,
         string $keyword = null,
@@ -41,7 +41,7 @@ class NotificationRepository
             });
         }
 
-        $paginator = $queryResult->paginate($perPage);
+        $paginator = $queryResult->paginate($limit); // Use limit here
         $paginator->withQueryString();
 
         return $paginator;
@@ -98,7 +98,8 @@ class NotificationRepository
      */
     public function markAsRead($notificationId): bool
     {
-        return $this->updateNotification($notificationId, ['is_read' => true]);
+        $result = $this->updateNotification($notificationId, ['is_read' => true]);
+        return (bool) $result;
     }
 
     /**
