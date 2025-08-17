@@ -70,12 +70,12 @@
                             <th>
                                 <a
                                     href="{{ route('admin.batas-cemaran-mikrotoksin.index', [
-                                        'sort_field' => 'jenisPangan.nama_jenis_pangan',
+                                        'sort_field' => 'jenisPangan.nama_jenis_pangan_segar',
                                         'sort_order' => $sortOrder == 'asc' ? 'desc' : 'asc',
                                         'keyword' => $keyword,
                                     ]) }}">
                                     Jenis Pangan
-                                    @include('components.arrow-sort', ['field' => 'jenisPangan.nama_jenis_pangan', 'sortField' => $sortField, 'sortOrder' => $sortOrder])
+                                    @include('components.arrow-sort', ['field' => 'jenisPangan.nama_jenis_pangan_segar', 'sortField' => $sortField, 'sortOrder' => $sortOrder])
                                 </a>
                             </th>
                             <th>
@@ -156,7 +156,7 @@
                         @foreach ($batasCemaranMikrotoksins as $batasCemaranMikrotoksin)
                             <tr>
                                 <td>{{ $startNumber++ }}</td>
-                                <td>{{ $batasCemaranMikrotoksin->jenisPangan->nama_jenis_pangan ?? '-' }}</td>
+                                <td>{{ $batasCemaranMikrotoksin->jenisPangan->nama_jenis_pangan_segar ?? '-' }}</td>
                                 <td>{{ $batasCemaranMikrotoksin->cemaranMikrotoksin->nama_cemaran_mikrotoksin ?? '-' }}</td>
                                 <td>{{ $batasCemaranMikrotoksin->value_min }}</td>
                                 <td>{{ $batasCemaranMikrotoksin->value_max }}</td>

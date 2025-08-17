@@ -35,7 +35,7 @@
                                     <select name="jenis_psat" id="jenis_psat" class="form-select" required>
                                         <option value="">-- Select Jenis Pangan --</option>
                                         @foreach ($jenisPangans as $jenisPangan)
-                                            <option value="{{ $jenisPangan->id }}">{{ $jenisPangan->nama_jenis_pangan }}</option>
+                                            <option value="{{ $jenisPangan->id }}">{{ $jenisPangan->nama_jenis_pangan_segar }}</option>
                                         @endforeach
                                     </select>
                                 </div>

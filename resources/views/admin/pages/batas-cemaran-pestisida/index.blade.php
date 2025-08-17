@@ -70,12 +70,12 @@
                             <th>
                                 <a
                                     href="{{ route('admin.batas-cemaran-pestisida.index', [
-                                        'sort_field' => 'jenisPangan.nama_jenis_pangan',
+                                        'sort_field' => 'jenisPangan.nama_jenis_pangan_segar',
                                         'sort_order' => $sortOrder == 'asc' ? 'desc' : 'asc',
                                         'keyword' => $keyword,
                                     ]) }}">
                                     Jenis Pangan
-                                    @include('components.arrow-sort', ['field' => 'jenisPangan.nama_jenis_pangan', 'sortField' => $sortField, 'sortOrder' => $sortOrder])
+                                    @include('components.arrow-sort', ['field' => 'jenisPangan.nama_jenis_pangan_segar', 'sortField' => $sortField, 'sortOrder' => $sortOrder])
                                 </a>
                             </th>
                             <th>
@@ -158,7 +158,7 @@
                             <tr>
                                 <td>{{ $startNumber++ }}</td>
                                 {{-- <td>{{ $batasCemaranPestisida->id }}</td> --}}
-                                <td>{{ $batasCemaranPestisida->jenisPangan->nama_jenis_pangan ?? '-' }}</td>
+                                <td>{{ $batasCemaranPestisida->jenisPangan->nama_jenis_pangan_segar ?? '-' }}</td>
                                 <td>{{ $batasCemaranPestisida->cemaranPestisida->nama_cemaran_pestisida ?? '-' }}</td>
                                 <td>{{ $batasCemaranPestisida->value_min }}</td>
                                 <td>{{ $batasCemaranPestisida->value_max }}</td>
