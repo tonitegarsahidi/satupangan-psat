@@ -4,6 +4,12 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\QrBadanPangan;
+use App\Models\MasterJenisPanganSegar;
+use App\Models\MasterBahanPanganSegar;
+use App\Http\Controllers\BatasCemaranLogamBeratController;
+use App\Http\Controllers\BatasCemaranMikrobaController;
+use App\Http\Controllers\BatasCemaranMikrotoksinController;
+use App\Http\Controllers\BatasCemaranPestisidaController;
 
 class LandingController extends Controller
 {
@@ -105,5 +111,49 @@ class LandingController extends Controller
             ->first();
 
         return view('landing.qr', ['data' => $data]);
+    }
+
+    public function batasCemaranResiduDetail($id)
+    {
+        // Get the MasterJenisPanganSegar by ID
+        $jenisPangan = MasterJenisPanganSegar::findOrFail($id);
+
+        // Get examples of fresh food materials in this category
+        $bahanPanganExamples = MasterBahanPanganSegar::where('jenis_id', $id)
+            ->where('is_active', true)
+            ->orderBy('nama_bahan_pangan_segar', 'asc')
+            ->take(5) // Limit to 5 examples
+            ->get();
+
+        // Get contamination limits for this jenis pangan
+        // We'll directly query the models to get the data
+        $logamBeratData = \App\Models\BatasCemaranLogamBerat::with(['jenisPangan', 'cemaranLogamBerat'])
+            ->where('jenis_psat', $id)
+            ->where('is_active', true)
+            ->get();
+
+        $mikrobaData = \App\Models\BatasCemaranMikroba::with(['jenisPangan', 'cemaranMikroba'])
+            ->where('jenis_psat', $id)
+            ->where('is_active', true)
+            ->get();
+
+        $mikrotoksinData = \App\Models\BatasCemaranMikrotoksin::with(['jenisPangan', 'cemaranMikrotoksin'])
+            ->where('jenis_psat', $id)
+            ->where('is_active', true)
+            ->get();
+
+        $pestisidaData = \App\Models\BatasCemaranPestisida::with(['jenisPangan', 'cemaranPestisida'])
+            ->where('jenis_psat', $id)
+            ->where('is_active', true)
+            ->get();
+
+        return view('landing.panduan.batas_cemaran_detail', compact(
+            'jenisPangan',
+            'bahanPanganExamples',
+            'logamBeratData',
+            'mikrobaData',
+            'mikrotoksinData',
+            'pestisidaData'
+        ));
     }
 }

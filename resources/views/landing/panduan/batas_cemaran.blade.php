@@ -140,7 +140,7 @@
                                         @endif
                                     </a>
                                 </th>
-                                <th scope="col">Status</th>
+                                <th scope="col">Aksi</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -150,9 +150,11 @@
                                 <td>{{ $item->jenis->nama_jenis_pangan_segar ?? '-' }}</td>
                                 <td>{{ $item->nama_bahan_pangan_segar }}</td>
                                 <td>
-                                    <span class="badge {{ $item->is_active ? 'bg-success' : 'bg-danger' }}">
-                                        {{ $item->is_active ? 'Aktif' : 'Tidak Aktif' }}
-                                    </span>
+                                    <a href="{{ route('landing.panduan.batas_cemaran_detail', $item->jenis->id) }}"
+                                       target="_blank"
+                                       class="btn btn-primary btn-sm">
+                                        <i class="fas fa-book"></i> Lihat Panduan
+                                    </a>
                                 </td>
                             </tr>
                             @empty
