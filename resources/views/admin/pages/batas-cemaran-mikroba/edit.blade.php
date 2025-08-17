@@ -34,7 +34,7 @@
                                     <select name="jenis_psat" id="jenis_psat" class="form-select" required>
                                         <option value="">-- Select Jenis Pangan --</option>
                                         @foreach ($jenisPangans as $jenisPangan)
-                                            <option value="{{ $jenisPangan->id }}" {{ $batasCemaranMikroba->jenis_pangan_id == $jenisPangan->id ? 'selected' : '' }}>
+                                            <option value="{{ $jenisPangan->id }}" {{ $batasCemaranMikroba->jenis_psat == $jenisPangan->id ? 'selected' : '' }}>
                                                 {{ $jenisPangan->nama_jenis_pangan_segar }}
                                             </option>
                                         @endforeach
@@ -55,7 +55,7 @@
                                     <select name="cemaran_mikroba" id="cemaran_mikroba" class="form-select" required>
                                         <option value="">-- Select Cemaran Mikroba --</option>
                                         @foreach ($cemaranMikrobas as $cemaranMikroba)
-                                            <option value="{{ $cemaranMikroba->id }}" {{ $batasCemaranMikroba->cemaran_mikroba_id == $cemaranMikroba->id ? 'selected' : '' }}>
+                                            <option value="{{ $cemaranMikroba->id }}" {{ $batasCemaranMikroba->cemaran_mikroba == $cemaranMikroba->id ? 'selected' : '' }}>
                                                 {{ $cemaranMikroba->nama_cemaran_mikroba }}
                                             </option>
                                         @endforeach

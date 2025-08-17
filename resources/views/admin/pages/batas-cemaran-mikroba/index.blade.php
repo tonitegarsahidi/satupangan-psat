@@ -70,12 +70,12 @@
                             <th>
                                 <a
                                     href="{{ route('admin.batas-cemaran-mikroba.index', [
-                                        'sort_field' => 'jenis_pangan_id',
+                                        'sort_field' => 'jenisPangan.nama_jenis_pangan_segar',
                                         'sort_order' => $sortOrder == 'asc' ? 'desc' : 'asc',
                                         'keyword' => $keyword,
                                     ]) }}">
                                     Jenis Pangan
-                                    @include('components.arrow-sort', ['field' => 'jenis_pangan_id', 'sortField' => $sortField, 'sortOrder' => $sortOrder])
+                                    @include('components.arrow-sort', ['field' => 'jenisPangan.nama_jenis_pangan_segar', 'sortField' => $sortField, 'sortOrder' => $sortOrder])
                                 </a>
                             </th>
                             <th>
@@ -172,7 +172,7 @@
                         @foreach ($batasCemaranMikrobas as $item)
                             <tr>
                                 <td>{{ $startNumber++ }}</td>
-                                <td>{{ $item->jenisPangan->nama_jenis_pangan ?? '-' }}</td>
+                                <td>{{ $item->jenisPangan->nama_jenis_pangan_segar ?? '-' }}</td>
                                 <td>{{ $item->cemaranMikroba->nama_cemaran_mikroba ?? '-' }}</td>
                                 <td>{{ $item->value_min }}</td>
                                 <td>{{ $item->value_max }}</td>

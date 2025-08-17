@@ -34,7 +34,7 @@
                                         <option value="">-- Select Jenis Pangan --</option>
                                         @foreach ($jenisPangans as $jenisPangan)
                                             <option value="{{ $jenisPangan->id }}" {{ $batasCemaranLogamBerat->jenis_psat == $jenisPangan->id ? 'selected' : '' }}>
-                                                {{ $jenisPangan->nama_jenis_pangan }}
+                                                {{ $jenisPangan->nama_jenis_pangan_segar }}
                                             </option>
                                         @endforeach
                                     </select>

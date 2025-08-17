@@ -49,7 +49,7 @@
                             <tbody>
                                 <tr>
                                     <th scope="col" class="bg-dark text-white">Jenis Pangan</th>
-                                    <td>{{ $data->jenisPangan->nama_jenis_pangan ?? '-' }}</td>
+                                    <td>{{ $data->jenisPangan->nama_jenis_pangan_segar ?? '-' }}</td>
                                 </tr>
                                 <tr>
                                     <th scope="col" class="bg-dark text-white">Cemaran Mikroba</th>

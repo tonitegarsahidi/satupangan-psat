@@ -70,12 +70,12 @@
                             <th>
                                 <a
                                     href="{{ route('admin.batas-cemaran-logam-berat.index', [
-                                        'sort_field' => 'jenis_pangan',
+                                        'sort_field' => 'jenisPangan.nama_jenis_pangan_segar',
                                         'sort_order' => $sortOrder == 'asc' ? 'desc' : 'asc',
                                         'keyword' => $keyword,
                                     ]) }}">
                                     Jenis Pangan
-                                    @include('components.arrow-sort', ['field' => 'jenis_pangan', 'sortField' => $sortField, 'sortOrder' => $sortOrder])
+                                    @include('components.arrow-sort', ['field' => 'jenisPangan.nama_jenis_pangan_segar', 'sortField' => $sortField, 'sortOrder' => $sortOrder])
                                 </a>
                             </th>
                             <th>
@@ -157,7 +157,7 @@
                         @foreach ($batasCemaranLogamBerats as $item)
                             <tr>
                                 <td>{{ $startNumber++ }}</td>
-                                <td>{{ $item->jenisPangan->nama_jenis_pangan ?? '-' }}</td>
+                                <td>{{ $item->jenisPangan->nama_jenis_pangan_segar ?? '-' }}</td>
                                 <td>{{ $item->cemaranLogamBerat->nama_cemaran_logam_berat ?? '-' }}</td>
                                 <td>{{ $item->value_min }}</td>
                                 <td>{{ $item->value_max }}</td>
