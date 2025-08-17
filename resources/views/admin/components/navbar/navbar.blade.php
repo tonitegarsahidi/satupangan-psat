@@ -232,7 +232,6 @@
                         </div>
                         <div class="flex-grow-1">
                             <h6 class="mb-0">${notification.title || 'Notification'}</h6>
-                            <p class="mb-0 small text-muted">${notification.message || ''}</p>
                             <small class="text-muted">${formatDate(notification.created_at)}</small>
                         </div>
                     </div>
