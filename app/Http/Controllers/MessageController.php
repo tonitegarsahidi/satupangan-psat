@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\MessageListRequest;
+use App\Http\Requests\MessageReplyRequest;
 use App\Services\MessageService;
 use App\Services\NotificationService;
 use Illuminate\Http\Request;
@@ -102,12 +103,9 @@ class MessageController extends Controller
      *      Send a new message in a thread
      * =============================================
      */
-    public function sendMessage(Request $request, $threadId)
+    public function sendMessage(MessageReplyRequest $request, $threadId)
     {
-        $validatedData = $request->validate([
-            'message' => 'required|string|max:5000',
-        ]);
-
+        $validatedData = $request->validated();
         $validatedData['thread_id'] = $threadId;
 
         $message = $this->messageService->sendMessage($validatedData, Auth::id());
@@ -127,6 +125,9 @@ class MessageController extends Controller
                     'sender_id' => Auth::id(),
                 ]
             );
+
+            // Update last_message_at timestamp
+            $thread->updateLastMessageAt();
         }
 
         $alert = $message

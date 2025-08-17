@@ -122,7 +122,7 @@
                                     @if ($thread->lastMessage)
                                         <small class="text-muted">{{ \Carbon\Carbon::parse($thread->lastMessage->created_at)->format('d M Y H:i') }}</small>
                                         <br>
-                                        {{ Str::limit($thread->lastMessage->message, 50) }}
+                                        {{-- {{ Str::limit($thread->lastMessage->message, 50) }} --}}
                                     @else
                                         <span class="text-muted">No messages yet</span>
                                     @endif

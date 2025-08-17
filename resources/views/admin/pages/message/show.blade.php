@@ -68,9 +68,50 @@
                 </div>
             </div>
         </div>
+
+        {{-- Reply Form --}}
+        <div class="card mt-4">
+            <div class="card-header">
+                <h5 class="mb-0">Reply to Thread</h5>
+            </div>
+            <div class="card-body">
+                <form action="{{ route('message.send', $thread->id) }}" method="POST" id="replyForm">
+                    @csrf
+                    @if ($errors->any())
+                        <div class="alert alert-danger">
+                            <ul class="mb-0">
+                                @foreach ($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    @endif
+
+                    <div class="mb-3">
+                        <label for="message" class="form-label">Your Message</label>
+                        <textarea
+                            name="message"
+                            id="message"
+                            class="form-control"
+                            rows="4"
+                            placeholder="Type your reply here..."
+                            required
+                        >{{ old('message') }}</textarea>
+                        <div class="form-text">Maximum 5000 characters</div>
+                    </div>
+
+                    <div class="d-flex justify-content-end">
+                        <button type="button" class="btn btn-secondary me-2" id="cancelReply">Cancel</button>
+                        <button type="submit" class="btn btn-primary" id="sendReplyBtn">
+                            <i class="fas fa-paper-plane me-2"></i>Send Reply
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
     </div>
 
-    {{-- New Message Modal --}}
+    {{-- New Message Modal (Legacy) --}}
     @if ($thread->initiator_id == Auth::id() && $thread->participant_id)
         <div class="modal fade" id="newMessageModal" tabindex="-1" aria-hidden="true">
             <div class="modal-dialog">
@@ -123,5 +164,117 @@
         .bg-warning-light {
             background-color: rgba(255, 193, 7, 0.1);
         }
+
+        /* Form styling */
+        #replyForm {
+            transition: all 0.3s ease;
+        }
+        #replyForm:focus-within {
+            box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+            border-color: #80bdff;
+        }
+        .character-count {
+            font-size: 0.875rem;
+            color: #6c757d;
+        }
+
+        /* Loading state */
+        .btn-loading {
+            position: relative;
+            pointer-events: none;
+            opacity: 0.7;
+        }
+        .btn-loading::after {
+            content: "";
+            position: absolute;
+            width: 16px;
+            height: 16px;
+            margin: auto;
+            border: 2px solid transparent;
+            border-top-color: #fff;
+            border-radius: 50%;
+            animation: btn-spin 0.8s linear infinite;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+        }
+        @keyframes btn-spin {
+            to { transform: rotate(360deg); }
+        }
     </style>
+
+    {{-- JavaScript for reply form --}}
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const replyForm = document.getElementById('replyForm');
+            const messageTextarea = document.getElementById('message');
+            const sendReplyBtn = document.getElementById('sendReplyBtn');
+            const cancelReplyBtn = document.getElementById('cancelReply');
+
+            // Character counter
+            const maxLength = 5000;
+            const characterCount = document.createElement('div');
+            characterCount.className = 'character-count text-end mt-1';
+            characterCount.textContent = `0 / ${maxLength} characters`;
+            messageTextarea.parentNode.appendChild(characterCount);
+
+            // Update character count
+            messageTextarea.addEventListener('input', function() {
+                const length = this.value.length;
+                characterCount.textContent = `${length} / ${maxLength} characters`;
+
+                if (length > maxLength) {
+                    characterCount.classList.add('text-danger');
+                    sendReplyBtn.disabled = true;
+                } else {
+                    characterCount.classList.remove('text-danger');
+                    sendReplyBtn.disabled = false;
+                }
+            });
+
+            // Form submission
+            replyForm.addEventListener('submit', function(e) {
+                const message = messageTextarea.value.trim();
+
+                if (!message) {
+                    e.preventDefault();
+                    alert('Please enter a message before sending.');
+                    return;
+                }
+
+                if (message.length > maxLength) {
+                    e.preventDefault();
+                    alert(`Message exceeds maximum length of ${maxLength} characters.`);
+                    return;
+                }
+
+                // Show loading state
+                sendReplyBtn.disabled = true;
+                sendReplyBtn.classList.add('btn-loading');
+                sendReplyBtn.innerHTML = 'Sending...';
+            });
+
+            // Cancel button
+            cancelReplyBtn.addEventListener('click', function() {
+                if (messageTextarea.value.trim()) {
+                    if (confirm('Are you sure you want to cancel? Your message will be lost.')) {
+                        messageTextarea.value = '';
+                        characterCount.textContent = `0 / ${maxLength} characters`;
+                        replyForm.reset();
+                    }
+                } else {
+                    messageTextarea.value = '';
+                    characterCount.textContent = `0 / ${maxLength} characters`;
+                    replyForm.reset();
+                }
+            });
+
+            // Reset form on modal close (for legacy modal)
+            document.getElementById('newMessageModal').addEventListener('hidden.bs.modal', function() {
+                replyForm.reset();
+                characterCount.textContent = `0 / ${maxLength} characters`;
+            });
+        });
+    </script>
 @endsection

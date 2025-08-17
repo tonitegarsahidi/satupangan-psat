@@ -39,7 +39,7 @@
                                 <div class="card-title d-flex align-items-start justify-content-between">
                                     <div class="avatar flex-shrink-0">
                                         <img src="{{ asset('assets/img/icons/unicons/chart-success.png') }}"
-                                            alt="chart success" class="rounded" />
+                                            alt="notification" class="rounded" />
                                     </div>
                                     <div class="dropdown">
                                         <button class="btn p-0" type="button" id="cardOpt3" data-bs-toggle="dropdown"
@@ -47,16 +47,16 @@
                                             <i class="bx bx-dots-vertical-rounded"></i>
                                         </button>
                                         <div class="dropdown-menu dropdown-menu-end" aria-labelledby="cardOpt3">
-                                            <a class="dropdown-item" href="javascript:void(0);">View
+                                            <a class="dropdown-item" href="{{ route('notification.index') }}">View
                                                 More</a>
-                                            <a class="dropdown-item" href="javascript:void(0);">Delete</a>
+                                            {{-- <a class="dropdown-item" href="javascript:void(0);">Delete</a> --}}
                                         </div>
                                     </div>
                                 </div>
-                                <span class="fw-semibold d-block mb-1">Profit</span>
-                                <h3 class="card-title mb-2">$12,628</h3>
-                                <small class="text-success fw-semibold"><i class="bx bx-up-arrow-alt"></i>
-                                    +72.80%</small>
+                                <span class="fw-semibold d-block mb-1">Jumlah Notifikasi</span>
+                                <h3 class="card-title mb-2">{{ $unreadNotificationsCount ?? '0' }}</h3>
+                                <small class="text-info fw-semibold"><i class="bx bx-bell"></i>
+                                    Notifikasi Baru</small>
                             </div>
                         </div>
                     </div>
@@ -65,7 +65,7 @@
                             <div class="card-body">
                                 <div class="card-title d-flex align-items-start justify-content-between">
                                     <div class="avatar flex-shrink-0">
-                                        <img src="{{ asset('assets/img/icons/unicons/wallet-info.png') }}" alt="Credit Card"
+                                        <img src="{{ asset('assets/img/icons/unicons/wallet-info.png') }}" alt="Message"
                                             class="rounded" />
                                     </div>
                                     <div class="dropdown">
@@ -74,16 +74,16 @@
                                             <i class="bx bx-dots-vertical-rounded"></i>
                                         </button>
                                         <div class="dropdown-menu dropdown-menu-end" aria-labelledby="cardOpt6">
-                                            <a class="dropdown-item" href="javascript:void(0);">View
+                                            <a class="dropdown-item" href="{{ route('message.index') }}">View
                                                 More</a>
-                                            <a class="dropdown-item" href="javascript:void(0);">Delete</a>
+                                            {{-- <a class="dropdown-item" href="javascript:void(0);">Delete</a> --}}
                                         </div>
                                     </div>
                                 </div>
-                                <span>Sales</span>
-                                <h3 class="card-title text-nowrap mb-1">$4,679</h3>
-                                <small class="text-success fw-semibold"><i class="bx bx-up-arrow-alt"></i>
-                                    +28.42%</small>
+                                <span>Jumlah Messages</span>
+                                <h3 class="card-title text-nowrap mb-1">{{ $unreadMessagesCount ?? '0' }}</h3>
+                                <small class="text-primary fw-semibold"><i class="bx bx-up-arrow-alt"></i>
+                                    Pesan Baru</small>
                             </div>
                         </div>
                     </div>

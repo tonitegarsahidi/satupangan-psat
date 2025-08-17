@@ -23,6 +23,8 @@ class DashboardController extends Controller
         $izinEdarPdCount = 0;
         $izinEdarPdukCount = 0;
         $qrBadanPanganCount = 0;
+        $unreadNotificationsCount = 0;
+        $unreadMessagesCount = 0;
 
         // QR Badan Pangan lists
         $qrBadanPanganPendingReviewed = collect();
@@ -113,6 +115,16 @@ class DashboardController extends Controller
         // Get laporan pengaduan for ROLE_OPERATOR or ROLE_SUPERVISOR
             $laporanPengaduanAllDiajukanDiperiksa = \App\Models\LaporanPengaduan::where('tindak_lanjut_pertama', null)->get();
 
+        // Get unread notifications count
+        $unreadNotificationsCount = \App\Models\Notification::where('user_id', $user->id)
+            ->where('is_read', false)
+            ->count();
+
+        // Get unread messages count
+        $unreadMessagesCount = \App\Models\MessageThread::forUser($user->id)
+            ->unreadForUser($user->id)
+            ->count();
+
         // ROLE_OPERATOR or ROLE_SUPERVISOR: Get all data
         if ($hasUserRoleOperator || $hasUserRoleSupervisor) {
             $registerSppbCount = \App\Models\RegisterSppb::whereIn('status', ['DIAJUKAN', 'DIPERIKSA'])->count();
@@ -139,6 +151,8 @@ class DashboardController extends Controller
             'izinEdarPdCount' => $izinEdarPdCount,
             'izinEdarPdukCount' => $izinEdarPdukCount,
             'qrBadanPanganCount' => $qrBadanPanganCount,
+            'unreadNotificationsCount' => $unreadNotificationsCount,
+            'unreadMessagesCount' => $unreadMessagesCount,
             'hasUserRole' => $hasUserRole,
             'hasUserRoleBusiness' => $hasUserRoleBusiness,
             'hasUserRoleOperator' => $hasUserRoleOperator,
