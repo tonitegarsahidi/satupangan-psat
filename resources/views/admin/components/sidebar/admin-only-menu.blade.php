@@ -106,4 +106,34 @@
             ],
         ],
     ])
+
+
+
+    @include('admin.components.sidebar.menu-header', ['textMenuHeader' => 'Data Panduan'])
+
+@include('admin.components.sidebar.item', [
+        'menuId' => 'batas-cemaran',
+        'menuText' => 'Data Batas Cemaran',
+        'menuUrl' => '#',
+        'menuIcon' => 'bx bx-test-tube', //check here for the icons https://boxicons.com/cheatsheet
+        'subMenuData' => [
+            [
+                'subMenuText' => 'Mikroba',
+                'subMenuUrl' => route('admin.batas-cemaran-mikroba.index'),
+            ],
+            [
+                'subMenuText' => 'Logam Berat',
+                'subMenuUrl' => route('admin.batas-cemaran-logam-berat.index'),
+            ],
+            [
+                'subMenuText' => 'Mikrotoksin',
+                'subMenuUrl' => route('admin.batas-cemaran-mikrotoksin.index'),
+            ],
+            [
+                'subMenuText' => 'Pestisida',
+                'subMenuUrl' => route('admin.batas-cemaran-pestisida.index'),
+            ],
+        ],
+    ])
+
 @endif
