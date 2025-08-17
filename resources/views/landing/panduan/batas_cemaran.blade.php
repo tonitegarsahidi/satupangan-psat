@@ -78,13 +78,54 @@
                 <p>Ini adalah panduan penting untuk memastikan produk PSAT aman untuk dikonsumsi dan memenuhi standar kesehatan.</p>
 
                 <h3 class="mt-4 mb-3">Daftar Bahan Pangan Segar</h3>
+
+                <!-- Filter Section -->
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <form method="GET" action="{{ route('landing.panduan.batas_cemaran') }}" class="form-inline">
+                            @php
+                                $currentFilter = request()->input('jenis_filter', '');
+                                $currentSortBy = request()->input('sort_by', 'nama_bahan_pangan_segar');
+                                $currentSortOrder = request()->input('sort_order', 'asc');
+                            @endphp
+
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">Filter Jenis:</span>
+                                </div>
+                                <select name="jenis_filter" class="form-control" onchange="this.form.submit()">
+                                    <option value="">Semua Jenis</option>
+                                    @foreach($jenisOptions as $jenis)
+                                        <option value="{{ $jenis->nama_jenis_pangan_segar }}"
+                                                @if($currentFilter == $jenis->nama_jenis_pangan_segar) selected @endif>
+                                            {{ $jenis->nama_jenis_pangan_segar }}
+                                        </option>
+                                    @endforeach
+                                </select>
+
+                                <div class="input-group-append">
+                                    <button type="submit" class="btn btn-primary">
+                                        <i class="fas fa-search"></i> Filter
+                                    </button>
+                                    @if($currentFilter)
+                                        <a href="{{ route('landing.panduan.batas_cemaran') }}?sort_by={{ $currentSortBy }}&sort_order={{ $currentSortOrder }}"
+                                           class="btn btn-outline-secondary">
+                                            <i class="fas fa-times"></i> Hapus Filter
+                                        </a>
+                                    @endif
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
                 <div class="table-responsive">
                     <table class="table table-striped table-hover">
                         <thead class="table-success">
                             <tr>
                                 <th scope="col">No</th>
                                 <th scope="col">
-                                    <a href="{{ route('landing.panduan.batas_cemaran') }}?sort_by=jenis.nama_jenis_pangan_segar&sort_order={{ $sortBy === 'jenis.nama_jenis_pangan_segar' && $sortOrder === 'asc' ? 'desc' : 'asc' }}" class="text-decoration-none text-dark">
+                                    <a href="{{ route('landing.panduan.batas_cemaran') }}?jenis_filter={{ request()->input('jenis_filter', '') }}&sort_by=jenis.nama_jenis_pangan_segar&sort_order={{ $sortBy === 'jenis.nama_jenis_pangan_segar' && $sortOrder === 'asc' ? 'desc' : 'asc' }}" class="text-decoration-none text-dark">
                                         Jenis
                                         @if($sortBy === 'jenis.nama_jenis_pangan_segar')
                                             <i class="fas fa-sort-{{ $sortOrder === 'asc' ? 'up' : 'down' }} ms-1"></i>
@@ -92,7 +133,7 @@
                                     </a>
                                 </th>
                                 <th scope="col">
-                                    <a href="{{ route('landing.panduan.batas_cemaran') }}?sort_by=nama_bahan_pangan_segar&sort_order={{ $sortBy === 'nama_bahan_pangan_segar' && $sortOrder === 'asc' ? 'desc' : 'asc' }}" class="text-decoration-none text-dark">
+                                    <a href="{{ route('landing.panduan.batas_cemaran') }}?jenis_filter={{ request()->input('jenis_filter', '') }}&sort_by=nama_bahan_pangan_segar&sort_order={{ $sortBy === 'nama_bahan_pangan_segar' && $sortOrder === 'asc' ? 'desc' : 'asc' }}" class="text-decoration-none text-dark">
                                         Nama Bahan Pangan Segar
                                         @if($sortBy === 'nama_bahan_pangan_segar')
                                             <i class="fas fa-sort-{{ $sortOrder === 'asc' ? 'up' : 'down' }} ms-1"></i>
