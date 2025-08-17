@@ -19,7 +19,7 @@
                         </div>
                     </div>
                     <div class="card-body">
-                        @include('admin.components.notification.alerts', ['alerts' => $alerts])
+                        @include('admin.components.notification.general', ['alerts' => $alerts])
 
                         {{-- Search and Filter --}}
                         <form method="GET" action="{{ route('admin.batas-cemaran-logam-berat.index') }}" class="mb-4">
@@ -122,7 +122,7 @@
                                 Showing {{ $batasCemaranLogamBerats->firstItem() }} to {{ $batasCemaranLogamBerats->lastItem() }} of {{ $batasCemaranLogamBerats->total() }} entries
                             </div>
                             <div>
-                                {{ $batasCemaranLogamBerats->links('admin.components.pagination.bootstrap-5') }}
+                                {{ $batasCemaranLogamBerats->links('admin.components.paginator.default') }}
                             </div>
                         </div>
                     </div>

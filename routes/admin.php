@@ -205,6 +205,19 @@ Route::middleware('auth')->group(function () {
                     Route::delete('/delete/{id}', [\App\Http\Controllers\BatasCemaranMikrotoksinController::class, 'destroy'])->name('admin.batas-cemaran-mikrotoksin.destroy');
                 });
 
+            // MANAGE BATAS CEMARAN PESTISIDA
+            Route::prefix('/batas-cemaran-pestisida')
+                ->group(function () {
+                    Route::get('/', [\App\Http\Controllers\BatasCemaranPestisidaController::class, 'index'])->name('admin.batas-cemaran-pestisida.index');
+                    Route::get('/add/new', [\App\Http\Controllers\BatasCemaranPestisidaController::class, 'create'])->name('admin.batas-cemaran-pestisida.add');
+                    Route::post('/add/new', [\App\Http\Controllers\BatasCemaranPestisidaController::class, 'store'])->name('admin.batas-cemaran-pestisida.store');
+                    Route::get('/detail/{id}', [\App\Http\Controllers\BatasCemaranPestisidaController::class, 'detail'])->name('admin.batas-cemaran-pestisida.detail');
+                    Route::put('/edit/{id}', [\App\Http\Controllers\BatasCemaranPestisidaController::class, 'update'])->name('admin.batas-cemaran-pestisida.update');
+                    Route::get('/edit/{id}', [\App\Http\Controllers\BatasCemaranPestisidaController::class, 'edit'])->name('admin.batas-cemaran-pestisida.edit');
+                    Route::get('/delete/{id}', [\App\Http\Controllers\BatasCemaranPestisidaController::class, 'deleteConfirm'])->name('admin.batas-cemaran-pestisida.delete');
+                    Route::delete('/delete/{id}', [\App\Http\Controllers\BatasCemaranPestisidaController::class, 'destroy'])->name('admin.batas-cemaran-pestisida.destroy');
+                });
+
             // MANAGE MASTER PENANGANAN
             Route::prefix('/master-penanganan')
                 ->group(function () {
@@ -261,18 +274,7 @@ Route::middleware('auth')->group(function () {
                 Route::get('/thread/delete/{id}', [WorkflowThreadController::class, 'deleteConfirm'])->name('admin.workflow-thread.delete');
                 Route::delete('/thread/delete/{id}', [WorkflowThreadController::class, 'destroy'])->name('admin.workflow-thread.destroy');
 
-            // MANAGE BATAS CEMARAN PESTISIDA
-            Route::prefix('/batas-cemaran-pestisida')
-                ->group(function () {
-                    Route::get('/', [\App\Http\Controllers\BatasCemaranPestisidaController::class, 'index'])->name('admin.batas-cemaran-pestisida.index');
-                    Route::get('/add/new', [\App\Http\Controllers\BatasCemaranPestisidaController::class, 'create'])->name('admin.batas-cemaran-pestisida.add');
-                    Route::post('/add/new', [\App\Http\Controllers\BatasCemaranPestisidaController::class, 'store'])->name('admin.batas-cemaran-pestisida.store');
-                    Route::get('/detail/{id}', [\App\Http\Controllers\BatasCemaranPestisidaController::class, 'detail'])->name('admin.batas-cemaran-pestisida.detail');
-                    Route::put('/edit/{id}', [\App\Http\Controllers\BatasCemaranPestisidaController::class, 'update'])->name('admin.batas-cemaran-pestisida.update');
-                    Route::get('/edit/{id}', [\App\Http\Controllers\BatasCemaranPestisidaController::class, 'edit'])->name('admin.batas-cemaran-pestisida.edit');
-                    Route::get('/delete/{id}', [\App\Http\Controllers\BatasCemaranPestisidaController::class, 'deleteConfirm'])->name('admin.batas-cemaran-pestisida.delete');
-                    Route::delete('/delete/{id}', [\App\Http\Controllers\BatasCemaranPestisidaController::class, 'destroy'])->name('admin.batas-cemaran-pestisida.destroy');
-                });
+
             });
 
 
