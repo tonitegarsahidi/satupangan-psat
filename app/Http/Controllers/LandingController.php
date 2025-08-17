@@ -53,10 +53,11 @@ class LandingController extends Controller
             $sortBy = 'nama_bahan_pangan_segar';
         }
 
-        // Handle sort order toggle
+        // Handle sort order toggle - only toggle if the same column is clicked
         if ($request->has('sort_by') && $request->input('sort_by') === $sortBy) {
             $sortOrder = $sortOrder === 'asc' ? 'desc' : 'asc';
         }
+        // The sort_order parameter from the view already contains the correct value
 
         // Normalize sort_by value for processing
         $actualSortBy = $sortBy;
