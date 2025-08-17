@@ -75,6 +75,16 @@
                 <h5 class="mb-0">Reply to Thread</h5>
             </div>
             <div class="card-body">
+                {{-- Display alerts --}}
+                @if (session('alerts'))
+                    @foreach (session('alerts') as $alert)
+                        <div class="alert alert-{{ is_array($alert) ? $alert['type'] : $alert->type }} alert-dismissible fade show" role="alert">
+                            {{ is_array($alert) ? $alert['message'] : $alert->message }}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    @endforeach
+                @endif
+
                 <form action="{{ route('message.send', $thread->id) }}" method="POST" id="replyForm">
                     @csrf
                     @if ($errors->any())

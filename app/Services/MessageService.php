@@ -165,6 +165,9 @@ class MessageService
      */
     public function sendMessage(array $data, $userId): ?Message
     {
+        // DEBUG: Log message service call
+        \Log::info("MessageService::sendMessage - Thread ID: " . ($data['thread_id'] ?? 'null') . ", User ID: {$userId}");
+
         DB::beginTransaction();
         try {
             // Ensure thread belongs to the user
@@ -176,22 +179,31 @@ class MessageService
             // Add sender_id to data
             $data['sender_id'] = $userId;
 
+            // DEBUG: Log data being saved
+            \Log::info("MessageService::sendMessage - About to save message: " . json_encode($data));
+
             $message = $this->messageRepository->createMessage($data);
+
+            // DEBUG: Log message creation result
+            \Log::info("MessageService::sendMessage - Message created: " . ($message ? 'Yes (ID: ' . $message->id . ')' : 'No'));
 
             // Update thread's last message timestamp
             if ($message) {
                 $this->messageRepository->updateThreadLastMessage($data['thread_id']);
 
-                // Mark thread as unread for the other participant
-                $otherUserId = ($thread->initiator_id === $userId) ? $thread->participant_id : $thread->initiator_id;
+                // Mark current user's messages as read (they just sent it)
                 $this->messageRepository->markThreadAsRead($data['thread_id'], $userId);
+
+                // Mark thread as UNREAD for the other participant (recipient)
+                $otherUserId = ($thread->initiator_id === $userId) ? $thread->participant_id : $thread->initiator_id;
+                $this->messageRepository->markThreadAsUnreadForUser($data['thread_id'], $otherUserId);
             }
 
             DB::commit();
             return $message;
         } catch (\Exception $exception) {
             DB::rollBack();
-            Log::error("Failed to send message: {$exception->getMessage()}");
+            \Log::error("Failed to send message: {$exception->getMessage()}");
             return null;
         }
     }

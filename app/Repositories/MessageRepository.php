@@ -148,7 +148,15 @@ class MessageRepository
      */
     public function createMessage(array $data): Message
     {
-        return Message::create($data);
+        // DEBUG: Log message creation attempt
+        \Log::info("MessageRepository::createMessage - About to create message with data: " . json_encode($data));
+
+        $message = Message::create($data);
+
+        // DEBUG: Log message creation result
+        \Log::info("MessageRepository::createMessage - Message created: " . ($message ? 'Yes (ID: ' . $message->id . ')' : 'No'));
+
+        return $message;
     }
 
     /**
@@ -198,6 +206,32 @@ class MessageRepository
             return true;
         } catch (Exception $e) {
             Log::error("Failed to mark thread as read: {$e->getMessage()}");
+            return false;
+        }
+    }
+
+    /**
+     * Mark thread as unread for a specific user
+     */
+    public function markThreadAsUnreadForUser($threadId, $userId): bool
+    {
+        try {
+            // Ensure thread belongs to the user
+            $thread = MessageThread::findOrFail($threadId);
+            if ($thread->initiator_id !== $userId && $thread->participant_id !== $userId) {
+                throw new \Exception("Message thread not found or access denied");
+            }
+
+            // Mark thread as unread for the user
+            if ($thread->initiator_id === $userId) {
+                $thread->update(['is_read_by_initiator' => false]);
+            } else {
+                $thread->update(['is_read_by_participant' => false]);
+            }
+
+            return true;
+        } catch (Exception $e) {
+            Log::error("Failed to mark thread as unread: {$e->getMessage()}");
             return false;
         }
     }

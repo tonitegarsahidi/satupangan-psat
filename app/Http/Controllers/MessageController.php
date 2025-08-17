@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use App\Helpers\AlertHelper;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 
 class MessageController extends Controller
 {
@@ -105,10 +106,19 @@ class MessageController extends Controller
      */
     public function sendMessage(MessageReplyRequest $request, $threadId)
     {
+        // DEBUG: Log message submission attempt
+        Log::info("MessageController::sendMessage - Thread ID: {$threadId}, User ID: " . Auth::id());
+
         $validatedData = $request->validated();
         $validatedData['thread_id'] = $threadId;
 
+        // DEBUG: Log validated data
+        Log::info("MessageController::sendMessage - Validated data: " . json_encode($validatedData));
+
         $message = $this->messageService->sendMessage($validatedData, Auth::id());
+
+        // DEBUG: Log message creation result
+        Log::info("MessageController::sendMessage - Message created: " . ($message ? 'Yes' : 'No'));
 
         if ($message) {
             // Create notification for the other participant
@@ -118,7 +128,7 @@ class MessageController extends Controller
             $this->notificationService->createSystemNotification(
                 $otherUserId,
                 'New Message from ' . Auth::user()->name,
-                'You have received a new message in your conversation with ' . Auth::user()->name,
+                'You have received a new message from ' . Auth::user()->name,
                 'new_message',
                 [
                     'thread_id' => $threadId,
@@ -133,6 +143,9 @@ class MessageController extends Controller
         $alert = $message
             ? AlertHelper::createAlert('success', 'Message sent successfully')
             : AlertHelper::createAlert('danger', 'Failed to send message');
+
+        // DEBUG: Log alert creation
+        Log::info("MessageController::sendMessage - Alert created: ", ["alert"=> $alert]);
 
         return redirect()->back()->with('alerts', [$alert]);
     }
