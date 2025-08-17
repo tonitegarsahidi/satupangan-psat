@@ -76,7 +76,52 @@
             <div class="col">
                 <p>Di halaman ini, Anda dapat menemukan informasi mengenai batas maksimum cemaran dan residu yang diizinkan pada pangan segar asal tumbuhan.</p>
                 <p>Ini adalah panduan penting untuk memastikan produk PSAT aman untuk dikonsumsi dan memenuhi standar kesehatan.</p>
-                <!-- Tambahkan konten spesifik untuk "Batas Cemaran & Residu" di sini -->
+
+                <h3 class="mt-4 mb-3">Daftar Bahan Pangan Segar</h3>
+                <div class="table-responsive">
+                    <table class="table table-striped table-hover">
+                        <thead class="table-success">
+                            <tr>
+                                <th scope="col">No</th>
+                                <th scope="col">
+                                    <a href="{{ route('landing.panduan.batas_cemaran') }}?sort_by=jenis.nama_jenis_pangan_segar&sort_order={{ $sortBy === 'jenis.nama_jenis_pangan_segar' && $sortOrder === 'asc' ? 'desc' : 'asc' }}" class="text-decoration-none text-dark">
+                                        Jenis
+                                        @if($sortBy === 'jenis.nama_jenis_pangan_segar')
+                                            <i class="fas fa-sort-{{ $sortOrder === 'asc' ? 'up' : 'down' }} ms-1"></i>
+                                        @endif
+                                    </a>
+                                </th>
+                                <th scope="col">
+                                    <a href="{{ route('landing.panduan.batas_cemaran') }}?sort_by=nama_bahan_pangan_segar&sort_order={{ $sortBy === 'nama_bahan_pangan_segar' && $sortOrder === 'asc' ? 'desc' : 'asc' }}" class="text-decoration-none text-dark">
+                                        Nama Bahan Pangan Segar
+                                        @if($sortBy === 'nama_bahan_pangan_segar')
+                                            <i class="fas fa-sort-{{ $sortOrder === 'asc' ? 'up' : 'down' }} ms-1"></i>
+                                        @endif
+                                    </a>
+                                </th>
+                                <th scope="col">Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @forelse($bahanPangan as $index => $item)
+                            <tr>
+                                <td>{{ $index + 1 }}</td>
+                                <td>{{ $item->jenis->nama_jenis_pangan_segar ?? '-' }}</td>
+                                <td>{{ $item->nama_bahan_pangan_segar }}</td>
+                                <td>
+                                    <span class="badge {{ $item->is_active ? 'bg-success' : 'bg-danger' }}">
+                                        {{ $item->is_active ? 'Aktif' : 'Tidak Aktif' }}
+                                    </span>
+                                </td>
+                            </tr>
+                            @empty
+                            <tr>
+                                <td colspan="4" class="text-center">Tidak ada data bahan pangan segar.</td>
+                            </tr>
+                            @endforelse
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>

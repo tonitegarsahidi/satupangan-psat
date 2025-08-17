@@ -42,9 +42,41 @@ class LandingController extends Controller
         return view('landing.panduan.standar_keamanan');
     }
 
-    public function batasCemaranResidu()
+    public function batasCemaranResidu(Request $request)
     {
-        return view('landing.panduan.batas_cemaran');
+        $sortBy = $request->input('sort_by', 'nama_bahan_pangan_segar');
+        $sortOrder = $request->input('sort_order', 'asc');
+
+        $validSortColumns = ['nama_bahan_pangan_segar', 'jenis.nama_jenis_pangan_segar'];
+
+        if (!in_array($sortBy, $validSortColumns)) {
+            $sortBy = 'nama_bahan_pangan_segar';
+        }
+
+        // Handle sort order toggle
+        if ($request->has('sort_by') && $request->input('sort_by') === $sortBy) {
+            $sortOrder = $sortOrder === 'asc' ? 'desc' : 'asc';
+        }
+
+        // Normalize sort_by value for processing
+        $actualSortBy = $sortBy;
+        if ($sortBy === 'jenis.nama_jenis_pangan_segar') {
+            $actualSortBy = 'nama_jenis_pangan_segar';
+        }
+
+        if ($actualSortBy === 'nama_jenis_pangan_segar') {
+            $bahanPangan = \App\Models\MasterBahanPanganSegar::with('jenis')
+                ->join('master_jenis_pangan_segars', 'master_bahan_pangan_segars.jenis_id', '=', 'master_jenis_pangan_segars.id')
+                ->orderBy('master_jenis_pangan_segars.nama_jenis_pangan_segar', $sortOrder)
+                ->select('master_bahan_pangan_segars.*')
+                ->get();
+        } else {
+            $bahanPangan = \App\Models\MasterBahanPanganSegar::orderBy($actualSortBy, $sortOrder)
+                ->with('jenis')
+                ->get();
+        }
+
+        return view('landing.panduan.batas_cemaran', compact('bahanPangan', 'sortBy', 'sortOrder'));
     }
 
     public function showQRDetail($qr_code)
