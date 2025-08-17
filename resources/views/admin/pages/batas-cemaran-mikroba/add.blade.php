@@ -22,9 +22,9 @@
                             @csrf
 
                             {{-- JENIS PSAT FIELD --}}
-                            <div class="row mb-3">
-                                <label class="col-sm-2 col-form-label" for="jenis_psat">Jenis Pangan*</label>
-                                <div class="col-sm-10">
+                            <div class="mb-3">
+                                <label class="form-label" for="jenis_psat">Jenis Pangan*</label>
+                                <div class="form-control-wrapper">
                                     {{-- form validation error --}}
                                     @include('admin.components.notification.error-validation', ['field' => 'jenis_psat'])
 
@@ -39,9 +39,9 @@
                             </div>
 
                             {{-- CEMARAN MIKROBA FIELD --}}
-                            <div class="row mb-3">
-                                <label class="col-sm-2 col-form-label" for="cemaran_mikroba">Cemaran Mikroba*</label>
-                                <div class="col-sm-10">
+                            <div class="mb-3">
+                                <label class="form-label" for="cemaran_mikroba">Cemaran Mikroba*</label>
+                                <div class="form-control-wrapper">
                                     {{-- form validation error --}}
                                     @include('admin.components.notification.error-validation', ['field' => 'cemaran_mikroba'])
 
@@ -56,9 +56,9 @@
                             </div>
 
                             {{-- VALUE MIN FIELD --}}
-                            <div class="row mb-3">
-                                <label class="col-sm-2 col-form-label" for="value_min">Minimum Value*</label>
-                                <div class="col-sm-10">
+                            <div class="mb-3">
+                                <label class="form-label" for="value_min">Minimum Value*</label>
+                                <div class="form-control-wrapper">
                                     {{-- form validation error --}}
                                     @include('admin.components.notification.error-validation', ['field' => 'value_min'])
 
@@ -69,9 +69,9 @@
                             </div>
 
                             {{-- VALUE MAX FIELD --}}
-                            <div class="row mb-3">
-                                <label class="col-sm-2 col-form-label" for="value_max">Maximum Value*</label>
-                                <div class="col-sm-10">
+                            <div class="mb-3">
+                                <label class="form-label" for="value_max">Maximum Value*</label>
+                                <div class="form-control-wrapper">
                                     {{-- form validation error --}}
                                     @include('admin.components.notification.error-validation', ['field' => 'value_max'])
 
@@ -82,9 +82,9 @@
                             </div>
 
                             {{-- SATUAN FIELD --}}
-                            <div class="row mb-3">
-                                <label class="col-sm-2 col-form-label" for="satuan">Satuan*</label>
-                                <div class="col-sm-10">
+                            <div class="mb-3">
+                                <label class="form-label" for="satuan">Satuan*</label>
+                                <div class="form-control-wrapper">
                                     {{-- form validation error --}}
                                     @include('admin.components.notification.error-validation', ['field' => 'satuan'])
 
@@ -95,9 +95,9 @@
                             </div>
 
                             {{-- METODE FIELD --}}
-                            <div class="row mb-3">
-                                <label class="col-sm-2 col-form-label" for="metode">Metode*</label>
-                                <div class="col-sm-10">
+                            <div class="mb-3">
+                                <label class="form-label" for="metode">Metode*</label>
+                                <div class="form-control-wrapper">
                                     {{-- form validation error --}}
                                     @include('admin.components.notification.error-validation', ['field' => 'metode'])
 
@@ -108,9 +108,9 @@
                             </div>
 
                             {{-- KETERANGAN FIELD --}}
-                            <div class="row mb-3">
-                                <label class="col-sm-2 col-form-label" for="keterangan">Keterangan</label>
-                                <div class="col-sm-10">
+                            <div class="mb-3">
+                                <label class="form-label" for="keterangan">Keterangan</label>
+                                <div class="form-control-wrapper">
                                     {{-- form validation error --}}
                                     @include('admin.components.notification.error-validation', ['field' => 'keterangan'])
 
@@ -121,12 +121,12 @@
                             </div>
 
                             {{-- IS_ACTIVE RADIO BUTTONS --}}
-                            <div class="row mb-3">
+                            <div class="mb-3">
                                 @php
                                     $oldIsActive = old('is_active', 1); // Default to 1 (true)
                                 @endphp
-                                <label class="col-sm-2 col-form-label" for="is_active">Is Active*</label>
-                                <div class="col-sm-10">
+                                <label class="form-label" for="is_active">Is Active*</label>
+                                <div class="form-control-wrapper">
                                     {{-- form validation error --}}
                                     @include('admin.components.notification.error-validation', ['field' => 'is_active'])
 
@@ -144,10 +144,8 @@
                                 </div>
                             </div>
 
-                            <div class="row justify-content-end">
-                                <div class="col-sm-10">
-                                    <button type="submit" class="btn btn-primary">Send</button>
-                                </div>
+                            <div class="d-flex justify-content-end">
+                                <button type="submit" class="btn btn-primary">Send</button>
                             </div>
                         </form>
                     </div>

@@ -2,6 +2,7 @@
 
 @section('page-title', 'Add New Batas Cemaran Pestisida')
 
+
 @section('main-content')
     <div class="container-xxl flex-grow-1 container-p-y">
 
@@ -16,9 +17,9 @@
                         <h5 class="mb-0">Add Batas Cemaran Pestisida</h5>
                         <small class="text-muted float-end">* : must be filled</small>
                     </div>
+                    @include('admin.components.notification.error')
                     <div class="card-body">
-
-                        <form method="POST" action="{{ route('admin.batas-cemaran-pestisida.store') }}">
+                        <form action="{{ route('admin.batas-cemaran-pestisida.store') }}"  method="POST">
                             @csrf
 
                             {{-- JENIS PSAT FIELD --}}
@@ -26,7 +27,9 @@
                                 <label class="col-sm-2 col-form-label" for="jenis_psat">Jenis Pangan*</label>
                                 <div class="col-sm-10">
                                     {{-- form validation error --}}
-                                    @include('admin.components.notification.error-validation', ['field' => 'jenis_psat'])
+                                    @include('admin.components.notification.error-validation', [
+                                        'field' => 'jenis_psat',
+                                    ])
 
                                     {{-- input form --}}
                                     <select name="jenis_psat" id="jenis_psat" class="form-select" required>
@@ -43,7 +46,9 @@
                                 <label class="col-sm-2 col-form-label" for="cemaran_pestisida">Cemaran Pestisida*</label>
                                 <div class="col-sm-10">
                                     {{-- form validation error --}}
-                                    @include('admin.components.notification.error-validation', ['field' => 'cemaran_pestisida'])
+                                    @include('admin.components.notification.error-validation', [
+                                        'field' => 'cemaran_pestisida',
+                                    ])
 
                                     {{-- input form --}}
                                     <select name="cemaran_pestisida" id="cemaran_pestisida" class="form-select" required>
@@ -60,7 +65,9 @@
                                 <label class="col-sm-2 col-form-label" for="value_min">Minimum Value*</label>
                                 <div class="col-sm-10">
                                     {{-- form validation error --}}
-                                    @include('admin.components.notification.error-validation', ['field' => 'value_min'])
+                                    @include('admin.components.notification.error-validation', [
+                                        'field' => 'value_min',
+                                    ])
 
                                     {{-- input form --}}
                                     <input type="number" name="value_min" class="form-control" id="value_min"
@@ -73,7 +80,9 @@
                                 <label class="col-sm-2 col-form-label" for="value_max">Maximum Value*</label>
                                 <div class="col-sm-10">
                                     {{-- form validation error --}}
-                                    @include('admin.components.notification.error-validation', ['field' => 'value_max'])
+                                    @include('admin.components.notification.error-validation', [
+                                        'field' => 'value_max',
+                                    ])
 
                                     {{-- input form --}}
                                     <input type="number" name="value_max" class="form-control" id="value_max"
@@ -86,7 +95,9 @@
                                 <label class="col-sm-2 col-form-label" for="satuan">Satuan*</label>
                                 <div class="col-sm-10">
                                     {{-- form validation error --}}
-                                    @include('admin.components.notification.error-validation', ['field' => 'satuan'])
+                                    @include('admin.components.notification.error-validation', [
+                                        'field' => 'satuan',
+                                    ])
 
                                     {{-- input form --}}
                                     <input type="text" name="satuan" class="form-control" id="satuan"
@@ -99,7 +110,9 @@
                                 <label class="col-sm-2 col-form-label" for="metode">Metode*</label>
                                 <div class="col-sm-10">
                                     {{-- form validation error --}}
-                                    @include('admin.components.notification.error-validation', ['field' => 'metode'])
+                                    @include('admin.components.notification.error-validation', [
+                                        'field' => 'metode',
+                                    ])
 
                                     {{-- input form --}}
                                     <input type="text" name="metode" class="form-control" id="metode"
@@ -112,7 +125,9 @@
                                 <label class="col-sm-2 col-form-label" for="keterangan">Keterangan</label>
                                 <div class="col-sm-10">
                                     {{-- form validation error --}}
-                                    @include('admin.components.notification.error-validation', ['field' => 'keterangan'])
+                                    @include('admin.components.notification.error-validation', [
+                                        'field' => 'keterangan',
+                                    ])
 
                                     {{-- input form --}}
                                     <textarea name="keterangan" class="form-control" id="keterangan" rows="3"
@@ -128,21 +143,25 @@
                                 <label class="col-sm-2 col-form-label" for="is_active">Is Active*</label>
                                 <div class="col-sm-10">
                                     {{-- form validation error --}}
-                                    @include('admin.components.notification.error-validation', ['field' => 'is_active'])
+                                    @include('admin.components.notification.error-validation', [
+                                        'field' => 'is_active',
+                                    ])
 
                                     {{-- input form --}}
                                     <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="radio" name="is_active" id="is_active_true" value="1"
-                                            {{ $oldIsActive == 1 ? 'checked' : ''}}>
+                                        <input class="form-check-input" type="radio" name="is_active" id="is_active_true"
+                                            value="1" {{ $oldIsActive == 1 ? 'checked' : '' }}>
                                         <label class="form-check-label" for="is_active_true">Yes</label>
                                     </div>
                                     <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="radio" name="is_active" id="is_active_false" value="0"
-                                            {{ $oldIsActive == 0 ? 'checked' : ''}}>
+                                        <input class="form-check-input" type="radio" name="is_active" id="is_active_false"
+                                            value="0" {{ $oldIsActive == 0 ? 'checked' : '' }}>
                                         <label class="form-check-label" for="is_active_false">No</label>
                                     </div>
                                 </div>
-                            </div>
+                           </div>
+
+
 
                             <div class="row justify-content-end">
                                 <div class="col-sm-10">

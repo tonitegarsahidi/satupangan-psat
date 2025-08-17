@@ -1,99 +1,111 @@
-@extends('admin/template-base')
+@extends('admin.template-base', ['searchNavbar' => false])
 
-@section('page-title', 'Delete Batas Cemaran Pestisida')
+@section('page-title', 'Confirm Delete Batas Cemaran Pestisida')
 
+{{-- MAIN CONTENT PART --}}
 @section('main-content')
     <div class="container-xxl flex-grow-1 container-p-y">
 
+        {{-- FOR BREADCRUMBS --}}
         @include('admin.components.breadcrumb.simple', $breadcrumbs)
 
-        <div class="row">
+        {{-- MAIN PARTS --}}
 
-            <!-- Basic Layout -->
-            <div class="col-xxl">
-                <div class="card mb-4">
-                    <div class="card-header d-flex align-items-center justify-content-between">
-                        <h5 class="mb-0">Delete Batas Cemaran Pestisida</h5>
-                        <a href="{{ route('admin.batas-cemaran-pestisida.index') }}" class="btn btn-secondary">
-                            <i class="bx bx-arrow-back me-1"></i> Back
-                        </a>
-                    </div>
-                    <div class="card-body">
-                        <div class="alert alert-warning">
-                            <i class="bx bx-error-circle me-2"></i>
-                            <strong>Warning:</strong> Are you sure you want to delete this record? This action cannot be undone.
-                        </div>
+        <div class="card">
 
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="mb-3">
-                                    <label class="form-label fw-bold">Jenis Pangan</label>
-                                    <p class="form-control-plaintext">{{ $data->jenisPangan->nama_jenis_pangan ?? '-' }}</p>
-                                </div>
+            {{-- FIRST ROW,  FOR TITLE AND ADD BUTTON --}}
+            <div class="d-flex justify-content-between">
 
-                                <div class="mb-3">
-                                    <label class="form-label fw-bold">Cemaran Pestisida</label>
-                                    <p class="form-control-plaintext">{{ $data->cemaranPestisida->nama_cemaran_pestisida ?? '-' }}</p>
-                                </div>
-
-                                <div class="mb-3">
-                                    <label class="form-label fw-bold">Minimum Value</label>
-                                    <p class="form-control-plaintext">{{ $data->value_min }}</p>
-                                </div>
-
-                                <div class="mb-3">
-                                    <label class="form-label fw-bold">Maximum Value</label>
-                                    <p class="form-control-plaintext">{{ $data->value_max }}</p>
-                                </div>
-                            </div>
-
-                            <div class="col-md-6">
-                                <div class="mb-3">
-                                    <label class="form-label fw-bold">Satuan</label>
-                                    <p class="form-control-plaintext">{{ $data->satuan }}</p>
-                                </div>
-
-                                <div class="mb-3">
-                                    <label class="form-label fw-bold">Metode</label>
-                                    <p class="form-control-plaintext">{{ $data->metode }}</p>
-                                </div>
-
-                                <div class="mb-3">
-                                    <label class="form-label fw-bold">Keterangan</label>
-                                    <p class="form-control-plaintext">{{ $data->keterangan ?? '-' }}</p>
-                                </div>
-
-                                <div class="mb-3">
-                                    <label class="form-label fw-bold">Status</label>
-                                    <p class="form-control-plaintext">
-                                        @if($data->is_active)
-                                            <span class="badge bg-success">Active</span>
-                                        @else
-                                            <span class="badge bg-danger">Inactive</span>
-                                        @endif
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-
-                        <form method="POST" action="{{ route('admin.batas-cemaran-pestisida.destroy', $data->id) }}">
-                            @csrf
-                            @method('DELETE')
-
-                            <div class="d-flex justify-content-end gap-2 mt-4">
-                                <a href="{{ route('admin.batas-cemaran-pestisida.index') }}" class="btn btn-secondary">
-                                    <i class="bx bx-x me-1"></i> Cancel
-                                </a>
-                                <button type="submit" class="btn btn-danger">
-                                    <i class="bx bx-trash me-1"></i> Delete
-                                </button>
-                            </div>
-                        </form>
-                    </div>
+                <div class="bd-highlight">
+                    <h3 class="card-header">Are you sure want to delete this Batas Cemaran Pestisida?</h3>
                 </div>
+
+            </div>
+
+            {{-- ROW FOR ADDITIONAL FUNCTIONALITY BUTTON --}}
+            <div class="m-4">
+
+                <form action="{{ route('admin.batas-cemaran-pestisida.delete', $data->id) }}" method="POST">
+                    @method('DELETE')
+                    @csrf
+                    <a onclick="goBack()" class="btn btn-outline-secondary me-2"><i
+                        class="tf-icons bx bx-left-arrow-alt me-2"></i>Back</a>
+
+                    <button type="submit" class="btn btn-danger me-2"
+                        title="delete batas cemaran pestisida">
+                        <i class='tf-icons bx bx-trash me-2'></i>Confirm Delete
+                    </button>
+                </form>
+            </div>
+
+            {{-- DETAIL OF THE DATA WHICH WANT TO BE DELETED --}}
+            <div class="row m-2">
+
+                <div class="col-md-8 col-xs-12">
+                    <div class="table-responsive text-nowrap">
+                        <table class="table table-hover">
+                            <tbody>
+                                <tr>
+                                    <th scope="col" class="bg-dark text-white">Jenis Pangan</th>
+                                    <td>{{ $data->jenisPangan->nama_jenis_pangan ?? '-' }}</td>
+                                </tr>
+                                <tr>
+                                    <th scope="col" class="bg-dark text-white">Cemaran Pestisida</th>
+                                    <td>{{ $data->cemaranPestisida->nama_cemaran_pestisida ?? '-' }}</td>
+                                </tr>
+                                <tr>
+                                    <th scope="col" class="bg-dark text-white">Minimum Value</th>
+                                    <td>{{ $data->value_min }}</td>
+                                </tr>
+                                <tr>
+                                    <th scope="col" class="bg-dark text-white">Maximum Value</th>
+                                    <td>{{ $data->value_max }}</td>
+                                </tr>
+                                <tr>
+                                    <th scope="col" class="bg-dark text-white">Satuan</th>
+                                    <td>{{ $data->satuan }}</td>
+                                </tr>
+                                <tr>
+                                    <th scope="col" class="bg-dark text-white">Metode</th>
+                                    <td>{{ $data->metode }}</td>
+                                </tr>
+                                <tr>
+                                    <th scope="col" class="bg-dark text-white">Keterangan</th>
+                                    <td>{{ $data->keterangan ?? '-' }}</td>
+                                </tr>
+                                <tr>
+                                    <th scope="col" class="bg-dark text-white">Is Active</th>
+                                    <td>
+                                        @if ($data->is_active)
+                                            <span class="badge rounded-pill bg-success"> Yes </span>
+                                        @else
+                                            <span class="badge rounded-pill bg-danger"> No </span>
+                                        @endif
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        @if (config('constant.CRUD.DISPLAY_TIMESTAMPS'))
+                            @include('components.crud-timestamps', $data)
+                        @endif
+                    </div>
+
+                </div>
+
             </div>
 
         </div>
-
     </div>
+
+@endsection
+
+@section('footer-code')
+
+    <script>
+        function goBack() {
+            window.history.back();
+        }
+    </script>
+
 @endsection
