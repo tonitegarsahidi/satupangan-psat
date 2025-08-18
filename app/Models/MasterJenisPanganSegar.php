@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class MasterJenisPanganSegar extends Model
 {
@@ -31,7 +32,7 @@ class MasterJenisPanganSegar extends Model
         return $this->belongsTo(MasterKelompokPangan::class, 'kelompok_id', 'id');
     }
 
-    public function bahanPangan()
+    public function bahanPangan(): HasMany
     {
         return $this->hasMany(MasterBahanPanganSegar::class, 'jenis_id', 'id');
     }

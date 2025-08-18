@@ -24,4 +24,9 @@ class MasterKelompokPangan extends Model
         'created_by',
         'updated_by',
     ];
+
+    public function jenisPangan()
+    {
+        return $this->hasMany(MasterJenisPanganSegar::class, 'kelompok_id', 'id');
+    }
 }

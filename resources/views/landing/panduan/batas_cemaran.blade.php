@@ -126,39 +126,59 @@
                                 <th scope="col">No</th>
                                 <th scope="col">
                                     <a href="{{ route('landing.panduan.batas_cemaran') }}?jenis_filter={{ request()->input('jenis_filter', '') }}&sort_by=nama_jenis_pangan_segar&sort_order={{ $sortBy === 'nama_jenis_pangan_segar' && $sortOrder === 'asc' ? 'desc' : 'asc' }}" class="text-decoration-none text-dark">
-                                        Jenis Pangan Segar
+                                        Kelompok Pangan
                                         @if($sortBy === 'nama_jenis_pangan_segar')
                                             <i class="fas fa-sort-{{ $sortOrder === 'asc' ? 'up' : 'down' }} ms-1"></i>
                                         @endif
                                     </a>
                                 </th>
+                                <th scope="col">Jenis Pangan Segar</th>
                                 <th scope="col">Contoh Bahan Pangan</th>
-                                <th scope="col">Aksi</th>
+                                <th scope="col"></th>
                             </tr>
                         </thead>
                         <tbody>
-                            @forelse($jenisPangan as $index => $item)
-                            <tr>
-                                <td>{{ $index + 1 }}</td>
-                                <td><strong>{{ $item->nama_jenis_pangan_segar }}</strong></td>
-                                <td>
-                                    @foreach($item->bahanPangan as $bahan)
-                                        <div>{{ $bahan->nama_bahan_pangan_segar }}</div>
-                                    @endforeach
-                                </td>
-                                <td>
-                                    <a href="{{ route('landing.panduan.batas_cemaran_detail', $item->id) }}"
-                                       target="_blank"
-                                       class="btn btn-primary btn-sm">
-                                        <i class="fas fa-book"></i> Lihat Panduan
-                                    </a>
-                                </td>
-                            </tr>
-                            @empty
-                            <tr>
-                                <td colspan="3" class="text-center">Tidak ada data bahan pangan segar.</td>
-                            </tr>
-                            @endforelse
+                            @php
+                                $groupedByKelompok = $jenisPangan->groupBy('kelompok.nama_kelompok_pangan');
+                                $rowIndex = 0;
+                            @endphp
+
+                            @foreach($groupedByKelompok as $kelompokNama => $jenisCollection)
+                                @php
+                                    $rowIndex++;
+                                    $firstItem = $jenisCollection->first();
+                                @endphp
+
+                                @foreach($jenisCollection as $index => $item)
+                                    <tr>
+                                        @if($index == 0)
+                                            <!-- First row in this kelompok group - show kelompok name -->
+                                            <td rowspan="{{ count($jenisCollection) }}">{{ $rowIndex }}</td>
+                                            <td rowspan="{{ count($jenisCollection) }}">{{ $kelompokNama }}</td>
+                                        @endif
+
+                                        <td><strong>{{ $item->nama_jenis_pangan_segar }}</strong></td>
+                                        <td>
+                                            @foreach($item->bahanPangan as $bahan)
+                                                <div>{{ $bahan->nama_bahan_pangan_segar }}</div>
+                                            @endforeach
+                                        </td>
+                                        <td>
+                                            <a href="{{ route('landing.panduan.batas_cemaran_detail', $item->id) }}"
+                                               target="_blank"
+                                               class="btn btn-warning btn-sm">
+                                                <i class="fas fa-book"></i> Panduan
+                                            </a>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            @endforeach
+
+                            @if($jenisPangan->isEmpty())
+                                <tr>
+                                    <td colspan="4" class="text-center">Tidak ada data bahan pangan segar.</td>
+                                </tr>
+                            @endif
                         </tbody>
                     </table>
                 </div>

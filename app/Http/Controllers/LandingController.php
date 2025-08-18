@@ -67,7 +67,7 @@ class LandingController extends Controller
         // The sort_order parameter from the view already contains the correct value
 
         // Build the query with filter
-        $query = \App\Models\MasterJenisPanganSegar::with('bahanPangan');
+        $query = \App\Models\MasterJenisPanganSegar::with(['bahanPangan', 'kelompok']);
 
         // Apply jenis filter if provided
         if (!empty($jenisFilter)) {
