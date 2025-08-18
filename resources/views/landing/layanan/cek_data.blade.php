@@ -108,7 +108,7 @@
                                         placeholder="Masukkan kata kunci pencarian..." value="{{ $search ?? '' }}"
                                         required>
                                 </div>
-                                <button class="btn btn-primary" type="submit">
+                                <button class="btn btn-success" type="submit">
                                     <i class="fas fa-search"></i> Cari
                                 </button>
                             </form>
@@ -153,34 +153,54 @@
 
                                 @foreach ($results as $result)
                                     <div class="border rounded p-3 mb-3">
-                                        <div class="row">
-                                            <div class="col-12">
-                                                <div class="mb-2">
-                                                    <strong>Kode QR : </strong>
-                                                    <span class="text-muted">{{ $result->qr_code }}</span>
+                                        <div class="row align-items-top">
+                                            <div class="col-md-10">
+                                                <div class="row mb-2">
+                                                    <div class="col-md-4 col-6">
+                                                        <strong>Kode QR : </strong>
+                                                    </div>
+                                                    <div class="col-md-8 col-6">
+                                                        <span class="text-muted">{{ $result->qr_code }}</span>
+                                                    </div>
                                                 </div>
-                                                <div class="mb-2">
-                                                    <strong>Nama Komoditas : </strong>
-                                                    <span class="text-muted">{{ $result->nama_komoditas }}</span>
+                                                <div class="row mb-2">
+                                                    <div class="col-md-4 col-6">
+                                                        <strong>Nama Komoditas : </strong>
+                                                    </div>
+                                                    <div class="col-md-8 col-6">
+                                                        <span class="text-muted">{{ $result->nama_komoditas }}</span>
+                                                    </div>
                                                 </div>
-                                                <div class="mb-2">
-                                                    <strong>Merk Dagang : </strong>
-                                                    <span class="text-muted">{{ $result->merk_dagang }}</span>
+                                                <div class="row mb-2">
+                                                    <div class="col-md-4 col-6">
+                                                        <strong>Merk Dagang : </strong>
+                                                    </div>
+                                                    <div class="col-md-8 col-6">
+                                                        <span class="text-muted">{{ $result->merk_dagang }}</span>
+                                                    </div>
                                                 </div>
-                                                <div class="mb-2">
-                                                    <strong>Jenis PSAT : </strong>
-                                                    <span class="text-muted">{{ $result->jenisPsat->nama_jenis_pangan_segar }}</span>
+                                                <div class="row mb-2">
+                                                    <div class="col-md-4 col-6">
+                                                        <strong>Jenis PSAT : </strong>
+                                                    </div>
+                                                    <div class="col-md-8 col-6">
+                                                        <span class="text-muted">{{ $result->jenisPsat->nama_jenis_pangan_segar }}</span>
+                                                    </div>
                                                 </div>
-                                                <div class="mb-2">
-                                                    <strong>Nama Perusahaan : </strong>
-                                                    <span class="text-muted">{{ $result->business->nama_perusahaan ?? '-' }}</span>
+                                                <div class="row">
+                                                    <div class="col-md-4 col-6">
+                                                        <strong>Nama Perusahaan : </strong>
+                                                    </div>
+                                                    <div class="col-md-8 col-6">
+                                                        <span class="text-muted">{{ $result->business->nama_perusahaan ?? '-' }}</span>
+                                                    </div>
                                                 </div>
-                                                <div class="text-right">
-                                                    <a href="{{ route('qr.detail', $result->qr_code) }}"
-                                                       class="btn btn-sm btn-info">
-                                                        <i class="fas fa-eye"></i> Lihat Detail
-                                                    </a>
-                                                </div>
+                                            </div>
+                                            <div class="col-md-2 text-right">
+                                                <a href="{{ route('qr.detail', $result->qr_code) }}"
+                                                   class="btn btn-xl btn-success">
+                                                    <i class="fas fa-search"></i> Detail
+                                                </a>
                                             </div>
                                         </div>
                                     </div>
