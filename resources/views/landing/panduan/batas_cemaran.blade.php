@@ -120,11 +120,11 @@
                 </div>
 
                 <div class="table-responsive">
-                    <table class="table table-striped table-hover">
+                    <table class="table table-striped table-hover" style="border: 1px solid #333;">
                         <thead class="table-success">
-                            <tr>
-                                <th scope="col">No</th>
-                                <th scope="col">
+                            <tr style="border: 1px solid #333;">
+                                <th scope="col" style="border: 1px solid #333;">No</th>
+                                <th scope="col" style="border: 1px solid #333;">
                                     <a href="{{ route('landing.panduan.batas_cemaran') }}?jenis_filter={{ request()->input('jenis_filter', '') }}&sort_by=nama_jenis_pangan_segar&sort_order={{ $sortBy === 'nama_jenis_pangan_segar' && $sortOrder === 'asc' ? 'desc' : 'asc' }}" class="text-decoration-none text-dark">
                                         Kelompok Pangan
                                         @if($sortBy === 'nama_jenis_pangan_segar')
@@ -132,9 +132,9 @@
                                         @endif
                                     </a>
                                 </th>
-                                <th scope="col">Jenis Pangan Segar</th>
-                                <th scope="col">Contoh Bahan Pangan</th>
-                                <th scope="col"></th>
+                                <th scope="col" style="border: 1px solid #333;">Jenis Pangan Segar</th>
+                                <th scope="col" style="border: 1px solid #333;">Contoh Bahan Pangan</th>
+                                <th scope="col" style="border: 1px solid #333;"></th>
                             </tr>
                         </thead>
                         <tbody>
@@ -150,20 +150,20 @@
                                 @endphp
 
                                 @foreach($jenisCollection as $index => $item)
-                                    <tr>
+                                    <tr style="border: 1px solid #333;">
                                         @if($index == 0)
                                             <!-- First row in this kelompok group - show kelompok name -->
-                                            <td rowspan="{{ count($jenisCollection) }}">{{ $rowIndex }}</td>
-                                            <td rowspan="{{ count($jenisCollection) }}">{{ $kelompokNama }}</td>
+                                            <td rowspan="{{ count($jenisCollection) }}" style="border: 1px solid #333;">{{ $rowIndex }}</td>
+                                            <td rowspan="{{ count($jenisCollection) }}" style="border: 1px solid #333;">{{ $kelompokNama }}</td>
                                         @endif
 
-                                        <td><strong>{{ $item->nama_jenis_pangan_segar }}</strong></td>
-                                        <td>
+                                        <td style="border: 1px solid #333;"><strong>{{ $item->nama_jenis_pangan_segar }}</strong></td>
+                                        <td style="border: 1px solid #333;">
                                             @foreach($item->bahanPangan as $bahan)
                                                 <div>{{ $bahan->nama_bahan_pangan_segar }}</div>
                                             @endforeach
                                         </td>
-                                        <td>
+                                        <td style="border: 1px solid #333;">
                                             <a href="{{ route('landing.panduan.batas_cemaran_detail', $item->id) }}"
                                                target="_blank"
                                                class="btn btn-warning btn-sm">
@@ -175,8 +175,8 @@
                             @endforeach
 
                             @if($jenisPangan->isEmpty())
-                                <tr>
-                                    <td colspan="4" class="text-center">Tidak ada data bahan pangan segar.</td>
+                                <tr style="border: 1px solid #333;">
+                                    <td colspan="4" class="text-center" style="border: 1px solid #333;">Tidak ada data bahan pangan segar.</td>
                                 </tr>
                             @endif
                         </tbody>

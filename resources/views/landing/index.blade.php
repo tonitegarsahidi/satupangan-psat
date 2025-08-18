@@ -157,11 +157,11 @@
         </div>
 
         <div class="col">
-            <div class="card h-100 p-3 d-flex flex-column align-items-center text-center">
-                <i class="bx bx-bell bx-md mb-3"></i>
+            <div class="card h-100 p-3 d-flex flex-column align-items-center text-center" onclick="window.location.href='{{ route('landing.panduan.batas_cemaran') }}';" style="cursor: pointer;">
+                <i class="bx bx-food-menu bx-md mb-3"></i>
                 <div>
-                    <h5 class="fw-bold">Notifikasi & Peringatan Dini</h5>
-                    <p class="mb-0">Sistem mengingatkan pengguna akan masa berlaku izin, laporan penting, hingga potensi kasus keamanan pangan.</p>
+                    <h5 class="fw-bold">Batas Cemaran & Residu</h5>
+                    <p class="mb-0">Informasi mengenai batas maksimum cemaran dan residu pada pangan segar asal tumbuhan berdasarkan kelompok dan jenisnya.</p>
                 </div>
             </div>
         </div>
@@ -258,6 +258,9 @@
                     break;
                 case 2: // Pelaporan & Pengawasan Terpadu (third card in first row)
                     content = generatePelaporanContent();
+                    break;
+                case 4: // Batas Cemaran & Residu (second card in second row)
+                    content = generateBatasCemaranContent();
                     break;
                 case 5: // Keamanan & Kinerja (third card in second row)
                     content = generateTitikKritisContent();
@@ -420,6 +423,21 @@
                     <li class="list-group-item">2. Pengguna mengisi form laporan pengaduan</li>
                     <li class="list-group-item">3. Petugas akan memberikan tanggapan dari laporan pengaduan tersebut</li>
                 </ol>
+            `;
+        }
+
+        function generateBatasCemaranContent() {
+            return `
+                <h4><i class="bx bx-food-menu"></i> Batas Cemaran & Residu pada Pangan Segar</h4>
+                <p>Informasi mengenai batas maksimum cemaran dan residu pada pangan segar asal tumbuhan berdasarkan kelompok dan jenisnya.</p>
+
+                <div class="alert alert-info">
+                    <strong>Penting!</strong> Memahami batas cemaran membantu memastikan keamanan pangan yang dikonsumsi.
+                </div>
+
+                <p>Batas cemaran mengacu pada batas maksimum kadar kontaminan (logam berat, residu pestisida, mikroba, mikrotoksin) yang diizinkan dalam pangan segar sesuai standar keamanan pangan yang berlaku.</p>
+
+                <p>Untuk informasi lebih detail mengenai batas cemaran untuk setiap jenis pangan, silakan kunjungi halaman <a href="{{ route('landing.panduan.batas_cemaran') }}" class="text-primary">Batas Cemaran & Residu</a>.</p>
             `;
         }
 
