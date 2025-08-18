@@ -8,6 +8,7 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="{{ asset('assets/vendor/fonts/boxicons.css') }}" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
     <style>
         body {
             font-family: 'Arial', sans-serif;
@@ -94,9 +95,77 @@
             <div class="col">
                 <p>Di halaman ini, Anda dapat menemukan informasi dan panduan tentang bagaimana cara mengecek data
                     keamanan pangan segar asal tumbuhan.</p>
-                <p>Fitur ini memungkinkan konsumen untuk memindai QR Code pada produk PSAT untuk memastikan legalitas
-                    dan keamanannya.</p>
-                <!-- Tambahkan konten spesifik untuk "Cek Data Keamanan Pangan" di sini -->
+                <p>Fitur ini memungkinkan konsumen untuk memindai QR Code pada produk PSAT atau mencari berdasarkan
+                    kata kunci untuk memastikan legalitas dan keamanannya.</p>
+
+                <!-- Form pencarian kata kunci -->
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <h5 class="card-title">Cari Data Keamanan Pangan</h5>
+                        <p class="text-muted mb-3">Cari berdasarkan merk / nama komoditas / nama perusahaan</p>
+                        <form method="POST" action="{{ route('landing.layanan.cek_data.search') }}">
+                            @csrf
+                            <div class="input-group mb-3">
+                                <input type="text" class="form-control"
+                                       name="search" placeholder="Masukkan kata kunci pencarian..."
+                                       value="{{ $search ?? '' }}" required>
+                                <div class="input-group-append">
+                                    <button class="btn btn-primary" type="submit">
+                                        <i class="fas fa-search"></i> Cari
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Hasil pencarian -->
+                @if($results !== null)
+                    @if($results->count() > 0)
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title">Hasil Pencarian</h5>
+                                <p class="text-muted">Menemukan {{ $results->count() }} hasil untuk "{{ $search }}"</p>
+                                <div class="table-responsive">
+                                    <table class="table table-striped">
+                                        <thead>
+                                            <tr>
+                                                <th>Kode QR</th>
+                                                <th>Nama Komoditas</th>
+                                                <th>Merk Dagang</th>
+                                                <th>Jenis PSAT</th>
+                                                <th>Nama Perusahaan</th>
+                                                <th>Aksi</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach($results as $result)
+                                                <tr>
+                                                    <td>{{ $result->qr_code }}</td>
+                                                    <td>{{ $result->nama_komoditas }}</td>
+                                                    <td>{{ $result->merk_dagang }}</td>
+                                                    <td>{{ $result->jenis_psat }}</td>
+                                                    <td>{{ $result->business->nama_perusahaan ?? '-' }}</td>
+                                                    <td>
+                                                        <a href="{{ route('qr.detail', $result->qr_code) }}"
+                                                           class="btn btn-sm btn-info">
+                                                            <i class="fas fa-eye"></i> Lihat Detail
+                                                        </a>
+                                                    </td>
+                                                </tr>
+                                            @endforeach
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    @else
+                        <div class="alert alert-warning">
+                            <i class="fas fa-exclamation-triangle"></i>
+                            Tidak ditemukan hasil untuk "{{ $search }}". Coba dengan kata kunci lain.
+                        </div>
+                    @endif
+                @endif
 
                 <!-- Tombol dan area scanner -->
                 <div class="mt-4">
@@ -201,9 +270,6 @@
         scanBtn.addEventListener("click", startScanner);
     });
 </script>
-
-
-
 
 </body>
 

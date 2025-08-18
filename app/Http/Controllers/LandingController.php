@@ -18,9 +18,28 @@ class LandingController extends Controller
         return view('landing.contact');
     }
 
-    public function cekDataKeamananPangan()
+    public function cekDataKeamananPangan(Request $request)
     {
-        return view('landing.layanan.cek_data');
+        $search = $request->input('search');
+        $results = null;
+
+        if ($search) {
+            $results = QrBadanPangan::with('business')
+                ->where('status', 'approved')
+                ->where('is_published', true)
+                ->where(function($query) use ($search) {
+                    $query->where('nama_komoditas', 'like', '%' . $search . '%')
+                          ->orWhere('nama_latin', 'like', '%' . $search . '%')
+                          ->orWhere('merk_dagang', 'like', '%' . $search . '%')
+                          ->orWhere('jenis_psat', 'like', '%' . $search . '%')
+                          ->orWhereHas('business', function($businessQuery) use ($search) {
+                              $businessQuery->where('nama_perusahaan', 'like', '%' . $search . '%');
+                          });
+                })
+                ->get();
+        }
+
+        return view('landing.layanan.cek_data', compact('search', 'results'));
     }
 
     public function laporKeamananPangan()
