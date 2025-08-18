@@ -164,7 +164,7 @@
                                                     <td>{{ $result->qr_code }}</td>
                                                     <td>{{ $result->nama_komoditas }}</td>
                                                     <td>{{ $result->merk_dagang }}</td>
-                                                    <td>{{ $result->jenis_psat }}</td>
+                                                    <td>{{ $result->jenisPsat->nama_jenis_pangan_segar }}</td>
                                                     <td>{{ $result->business->nama_perusahaan ?? '-' }}</td>
                                                     <td>
                                                         <a href="{{ route('qr.detail', $result->qr_code) }}"

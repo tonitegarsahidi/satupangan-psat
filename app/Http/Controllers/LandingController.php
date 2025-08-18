@@ -24,7 +24,7 @@ class LandingController extends Controller
         $results = null;
 
         if ($search) {
-            $results = QrBadanPangan::with('business')
+            $results = QrBadanPangan::with('business')->with('jenisPsat')
                 ->where('status', 'approved')
                 ->where('is_published', true)
                 ->where(function($query) use ($search) {
@@ -34,12 +34,15 @@ class LandingController extends Controller
                           ->orWhere('jenis_psat', 'like', '%' . $search . '%')
                           ->orWhereHas('business', function($businessQuery) use ($search) {
                               $businessQuery->where('nama_perusahaan', 'like', '%' . $search . '%');
+                          })
+                          ->orWhereHas('jenisPsat', function($jenisPsatQuery) use ($search) {
+                              $jenisPsatQuery->where('nama_jenis_pangan_segar', 'like', '%' . $search . '%');
                           });
                 })
                 ->get();
         }
 
-        dd($search);
+        // dd($search);
 
         return view('landing.layanan.cek_data', compact('search', 'results'));
     }
