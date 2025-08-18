@@ -719,36 +719,38 @@
                     <h3 class="text-center mb-4">Daftar Bahan Pangan Segar</h3>
 
                     <!-- Filter Section -->
-                    <div class="card mb-4">
-                        <div class="card-body">
-                            <div class="input-group">
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text">Filter Jenis:</span>
-                                </div>
-                                <select name="jenis_filter" class="form-select" onchange="this.form.submit()">
-                                    <option value="">Semua Jenis</option>
-                                    @foreach($jenisOptions as $jenis)
-                                        <option value="{{ $jenis->nama_jenis_pangan_segar }}"
-                                                @if($currentFilter == $jenis->nama_jenis_pangan_segar) selected @endif>
-                                            {{ $jenis->nama_jenis_pangan_segar }}
-                                        </option>
-                                    @endforeach
-                                </select>
+                    <form method="GET" action="{{ route('landing.panduan.batas_cemaran') }}" class="mb-4">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">Filter Jenis:</span>
+                                    </div>
+                                    <select name="jenis_filter" class="form-select" onchange="this.form.submit()">
+                                        <option value="">Semua Jenis</option>
+                                        @foreach($jenisOptions as $jenis)
+                                            <option value="{{ $jenis->nama_jenis_pangan_segar }}"
+                                                    @if($jenisFilter == $jenis->nama_jenis_pangan_segar) selected @endif>
+                                                {{ $jenis->nama_jenis_pangan_segar }}
+                                            </option>
+                                        @endforeach
+                                    </select>
 
-                                <div class="input-group-append">
-                                    <button type="submit" class="btn btn-primary">
-                                        <i class="fas fa-search"></i> Filter
-                                    </button>
-                                    @if($currentFilter)
-                                        <a href="{{ route('landing.panduan.batas_cemaran') }}?sort_by={{ $currentSortBy }}&sort_order={{ $currentSortOrder }}"
-                                           class="btn btn-outline">
-                                            <i class="fas fa-times"></i> Hapus Filter
-                                        </a>
-                                    @endif
+                                    <div class="input-group-append">
+                                        <button type="submit" class="btn btn-primary">
+                                            <i class="fas fa-search"></i> Filter
+                                        </button>
+                                        @if($jenisFilter)
+                                            <a href="{{ route('landing.panduan.batas_cemaran') }}?sort_by={{ $sortBy }}&sort_order={{ $sortOrder }}"
+                                               class="btn btn-outline">
+                                                <i class="fas fa-times"></i> Hapus Filter
+                                            </a>
+                                        @endif
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </form>
 
                     <!-- Table Section -->
                     <div class="table-container">
