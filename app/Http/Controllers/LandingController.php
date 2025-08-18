@@ -39,6 +39,8 @@ class LandingController extends Controller
                 ->get();
         }
 
+        dd($search);
+
         return view('landing.layanan.cek_data', compact('search', 'results'));
     }
 

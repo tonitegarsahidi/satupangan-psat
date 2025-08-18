@@ -93,29 +93,49 @@
     <div class="container px-4 py-5">
         <div class="row row-cols-1 g-4 pt-4">
             <div class="col">
-                <p>Di halaman ini, Anda dapat menemukan informasi dan panduan tentang bagaimana cara mengecek data
-                    keamanan pangan segar asal tumbuhan.</p>
-                <p>Fitur ini memungkinkan konsumen untuk memindai QR Code pada produk PSAT atau mencari berdasarkan
-                    kata kunci untuk memastikan legalitas dan keamanannya.</p>
+                <p>Di halaman ini, Anda dapat mengecek data keamanan pangan segar asal tumbuhan.</p>
 
-                <!-- Form pencarian kata kunci -->
-                <div class="card mb-4">
-                    <div class="card-body">
-                        <h5 class="card-title">Cari Data Keamanan Pangan</h5>
-                        <p class="text-muted mb-3">Cari berdasarkan merk / nama komoditas / nama perusahaan</p>
-                        <form method="POST" action="{{ route('landing.layanan.cek_data.search') }}">
-                            @csrf
-                            <div class="input-group mb-3">
-                                <input type="text" class="form-control"
-                                       name="search" placeholder="Masukkan kata kunci pencarian..."
-                                       value="{{ $search ?? '' }}" required>
-                                <div class="input-group-append">
-                                    <button class="btn btn-primary" type="submit">
-                                        <i class="fas fa-search"></i> Cari
-                                    </button>
+                <!-- Section 1: Pencarian Berdasarkan Kata Kunci -->
+                <div id="keyword-search-section">
+                    <div class="card mb-4">
+                        <div class="card-body">
+                            <h5 class="card-title">Pencarian Berdasarkan Kata Kunci</h5>
+                            <p class="text-muted mb-3">Cari berdasarkan merk / nama komoditas / nama perusahaan</p>
+                            <form method="POST" action="{{ route('landing.layanan.cek_data.search') }}">
+                                @csrf
+                                <div class="input-group mb-3">
+                                    <input type="text" class="form-control"
+                                           name="search" placeholder="Masukkan kata kunci pencarian..."
+                                           value="{{ $search ?? '' }}" required>
                                 </div>
-                            </div>
-                        </form>
+                                <button class="btn btn-primary" type="submit">
+                                    <i class="fas fa-search"></i> Cari
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+
+                    <div class="text-center">
+                        <p class="text-muted">Punya QR Code Badan Pangan? <a href="#" id="show-qr-section" class="text-primary font-weight-bold">Klik disini</a></p>
+                    </div>
+                </div>
+
+                <!-- Section 2: Scan QR / Barcode Badan Pangan -->
+                <div id="qr-scan-section" style="display: none;">
+                    <div class="card mb-4">
+                        <div class="card-body">
+                            <h5 class="card-title">Scan QR / Barcode Badan Pangan</h5>
+                            <p class="text-muted mb-3">Scan QR Code pada produk PSAT untuk langsung melihat detail keamanan pangan</p>
+                            <button class="btn btn-success btn-lg" id="start-scan-btn">
+                                <i class="fas fa-camera"></i> Mulai Scan QR / Barcode
+                            </button>
+                            <div id="reader" style="width: 100%; max-width: 500px; margin-top: 20px;"></div>
+                            <div id="scan-result" class="mt-3"></div>
+                        </div>
+                    </div>
+
+                    <div class="text-center">
+                        <p class="text-muted">Tidak punya QR Code? <a href="#" id="show-keyword-section" class="text-primary font-weight-bold">Kembali ke Pencarian Kata Kunci</a></p>
                     </div>
                 </div>
 
@@ -167,12 +187,6 @@
                     @endif
                 @endif
 
-                <!-- Tombol dan area scanner -->
-                <div class="mt-4">
-                    <button class="btn btn-success" id="start-scan-btn">Scan QR / Barcode</button>
-                    <div id="reader" style="width: 100%; max-width: 500px; margin-top: 20px;"></div>
-                    <div id="scan-result" class="mt-3"></div>
-                </div>
 
             </div>
         </div>
@@ -197,6 +211,25 @@
     <script src="https://unpkg.com/html5-qrcode"></script>
 <script>
     document.addEventListener("DOMContentLoaded", function () {
+        // Toggle between keyword search and QR scan sections
+        const keywordSearchSection = document.getElementById("keyword-search-section");
+        const qrScanSection = document.getElementById("qr-scan-section");
+        const showQrSection = document.getElementById("show-qr-section");
+        const showKeywordSection = document.getElementById("show-keyword-section");
+
+        showQrSection.addEventListener("click", function(e) {
+            e.preventDefault();
+            keywordSearchSection.style.display = "none";
+            qrScanSection.style.display = "block";
+        });
+
+        showKeywordSection.addEventListener("click", function(e) {
+            e.preventDefault();
+            qrScanSection.style.display = "none";
+            keywordSearchSection.style.display = "block";
+        });
+
+        // QR Scanner functionality
         const scanBtn = document.getElementById("start-scan-btn");
         const readerElem = document.getElementById("reader");
         const resultElem = document.getElementById("scan-result");
