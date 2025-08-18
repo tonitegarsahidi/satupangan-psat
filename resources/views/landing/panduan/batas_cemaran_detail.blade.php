@@ -113,65 +113,16 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <p><strong>Nama Jenis Pangan:</strong> {{ $jenisPangan->nama_jenis_pangan_segar }}</p>
-                                <p><strong>Kode:</strong> {{ $jenisPangan->kode_jenis_pangan_segar }}</p>
-                                <p><strong>Status:</strong>
-                                    <span class="badge {{ $jenisPangan->is_active ? 'badge-success' : 'badge-danger' }}">
-                                        {{ $jenisPangan->is_active ? 'Aktif' : 'Tidak Aktif' }}
-                                    </span>
-                                </p>
+                                @if($bahanPanganExamples->count() > 0)
+                                    <p><strong>Contoh Bahan Pangan:</strong> {{ implode(', ', $bahanPanganExamples->pluck('nama_bahan_pangan_segar')->toArray()) }}</p>
+                                @endif
                             </div>
                             <div class="col-md-6">
                                 @if($jenisPangan->kelompok)
                                     <p><strong>Kelompok Pangan:</strong> {{ $jenisPangan->kelompok->nama_kelompok_pangan }}</p>
                                 @endif
-                                <p><strong>Dibuat pada:</strong> {{ \Carbon\Carbon::parse($jenisPangan->created_at)->translatedFormat('d F Y') }}</p>
-                                <p><strong>Terakhir diperbarui:</strong> {{ \Carbon\Carbon::parse($jenisPangan->updated_at)->translatedFormat('d F Y') }}</p>
                             </div>
                         </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Contoh Bahan Pangan Segar -->
-        <div class="row mb-4">
-            <div class="col-12">
-                <div class="card">
-                    <div class="card-header">
-                        <h5 class="mb-0"><i class="fas fa-apple-alt"></i> Contoh Bahan Pangan Segar</h5>
-                    </div>
-                    <div class="card-body">
-                        @if($bahanPanganExamples->count() > 0)
-                            <div class="row">
-                                @foreach($bahanPanganExamples as $example)
-                                    <div class="col-md-4 mb-3">
-                                        <div class="card h-100">
-                                            <div class="card-body">
-                                                <h6 class="card-title">{{ $example->nama_bahan_pangan_segar }}</h6>
-                                                <p class="card-text">
-                                                    <small class="text-muted">ID: {{ $example->id }}</small>
-                                                </p>
-                                                <p class="card-text">
-                                                    <span class="badge {{ $example->is_active ? 'badge-success' : 'badge-danger' }}">
-                                                        {{ $example->is_active ? 'Aktif' : 'Tidak Aktif' }}
-                                                    </span>
-                                                </p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                @endforeach
-                            </div>
-                            @if($bahanPanganExamples->count() >= 5)
-                                <div class="alert alert-info">
-                                    <i class="fas fa-info-circle"></i> Menampilkan 5 contoh pertama dari total {{ $bahanPanganExamples->count() }} bahan pangan segar dalam kategori ini.
-                                </div>
-                            @endif
-                        @else
-                            <div class="empty-state">
-                                <i class="fas fa-exclamation-circle fa-3x mb-3"></i>
-                                <p>Tidak ada contoh bahan pangan segar yang ditemukan untuk kategori ini.</p>
-                            </div>
-                        @endif
                     </div>
                 </div>
             </div>
@@ -192,10 +143,9 @@
                                         <tr>
                                             <th>No</th>
                                             <th>Cemaran Logam Berat</th>
-                                            <th>Batas Maksimum (mg/kg)</th>
+                                            <th>Batas Maksimum</th>
                                             <th>Satuan</th>
-                                            <th>Keterangan</th>
-                                            <th>Status</th>
+                                            <th>Metode</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -203,14 +153,9 @@
                                             <tr>
                                                 <td>{{ $index + 1 }}</td>
                                                 <td>{{ $item->cemaranLogamBerat->nama_cemaran_logam_berat ?? '-' }}</td>
-                                                <td>{{ $item->batas_maksimum ?? '-' }}</td>
+                                                <td>{{ $item->value_max ?? '-' }}</td>
                                                 <td>{{ $item->satuan ?? '-' }}</td>
-                                                <td>{{ $item->keterangan ?? '-' }}</td>
-                                                <td>
-                                                    <span class="badge {{ $item->is_active ? 'badge-success' : 'badge-danger' }}">
-                                                        {{ $item->is_active ? 'Aktif' : 'Tidak Aktif' }}
-                                                    </span>
-                                                </td>
+                                                <td>{{ $item->metode ?? '-' }}</td>
                                             </tr>
                                         @endforeach
                                     </tbody>
@@ -242,10 +187,9 @@
                                         <tr>
                                             <th>No</th>
                                             <th>Cemaran Mikroba</th>
-                                            <th>Batas Maksimum (CFU/g)</th>
+                                            <th>Batas Maksimum</th>
                                             <th>Satuan</th>
-                                            <th>Keterangan</th>
-                                            <th>Status</th>
+                                            <th>Metode</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -253,14 +197,9 @@
                                             <tr>
                                                 <td>{{ $index + 1 }}</td>
                                                 <td>{{ $item->cemaranMikroba->nama_cemaran_mikroba ?? '-' }}</td>
-                                                <td>{{ $item->batas_maksimum ?? '-' }}</td>
+                                                <td>{{ $item->value_max ?? '-' }}</td>
                                                 <td>{{ $item->satuan ?? '-' }}</td>
-                                                <td>{{ $item->keterangan ?? '-' }}</td>
-                                                <td>
-                                                    <span class="badge {{ $item->is_active ? 'badge-success' : 'badge-danger' }}">
-                                                        {{ $item->is_active ? 'Aktif' : 'Tidak Aktif' }}
-                                                    </span>
-                                                </td>
+                                                <td>{{ $item->metode ?? '-' }}</td>
                                             </tr>
                                         @endforeach
                                     </tbody>
@@ -292,10 +231,9 @@
                                         <tr>
                                             <th>No</th>
                                             <th>Cemaran Mikrotoksin</th>
-                                            <th>Batas Maksimum (mg/kg)</th>
+                                            <th>Batas Maksimum</th>
                                             <th>Satuan</th>
-                                            <th>Keterangan</th>
-                                            <th>Status</th>
+                                            <th>Metode</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -303,14 +241,9 @@
                                             <tr>
                                                 <td>{{ $index + 1 }}</td>
                                                 <td>{{ $item->cemaranMikrotoksin->nama_cemaran_mikrotoksin ?? '-' }}</td>
-                                                <td>{{ $item->batas_maksimum ?? '-' }}</td>
+                                                <td>{{ $item->value_max ?? '-' }}</td>
                                                 <td>{{ $item->satuan ?? '-' }}</td>
-                                                <td>{{ $item->keterangan ?? '-' }}</td>
-                                                <td>
-                                                    <span class="badge {{ $item->is_active ? 'badge-success' : 'badge-danger' }}">
-                                                        {{ $item->is_active ? 'Aktif' : 'Tidak Aktif' }}
-                                                    </span>
-                                                </td>
+                                                <td>{{ $item->metode ?? '-' }}</td>
                                             </tr>
                                         @endforeach
                                     </tbody>
@@ -342,10 +275,9 @@
                                         <tr>
                                             <th>No</th>
                                             <th>Cemaran Pestisida</th>
-                                            <th>Batas Maksimum (mg/kg)</th>
+                                            <th>Batas Maksimum</th>
                                             <th>Satuan</th>
-                                            <th>Keterangan</th>
-                                            <th>Status</th>
+                                            <th>Metode</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -353,14 +285,9 @@
                                             <tr>
                                                 <td>{{ $index + 1 }}</td>
                                                 <td>{{ $item->cemaranPestisida->nama_cemaran_pestisida ?? '-' }}</td>
-                                                <td>{{ $item->batas_maksimum ?? '-' }}</td>
+                                                <td>{{ $item->value_max ?? '-' }}</td>
                                                 <td>{{ $item->satuan ?? '-' }}</td>
-                                                <td>{{ $item->keterangan ?? '-' }}</td>
-                                                <td>
-                                                    <span class="badge {{ $item->is_active ? 'badge-success' : 'badge-danger' }}">
-                                                        {{ $item->is_active ? 'Aktif' : 'Tidak Aktif' }}
-                                                    </span>
-                                                </td>
+                                                <td>{{ $item->metode ?? '-' }}</td>
                                             </tr>
                                         @endforeach
                                     </tbody>
