@@ -129,7 +129,7 @@
 </head>
 
 <body>
-    @include('landing.navbar')
+    @include('components.landing.navbar')
 
     <div class="jumbotron jumbotron-fluid">
         <div class="container">
@@ -715,15 +715,7 @@
         </div>
     </div>
 
-    <footer class="footer text-center py-3">
-        <div class="container">
-            <div class="row">
-                <div class="col-12">
-                    PanganAman - Dikembangkan untuk mendukung keamanan pangan di Indonesia.
-                </div>
-            </div>
-        </div>
-    </footer>
+    @include('components.landing.footer')
     <!-- Bootstrap JS -->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>

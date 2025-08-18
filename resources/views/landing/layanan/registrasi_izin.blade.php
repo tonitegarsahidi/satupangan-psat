@@ -554,14 +554,7 @@
         </div>
     </main>
 
-    <!-- Footer -->
-    <footer class="footer">
-        <div class="container">
-            <div class="footer-content">
-                <p>PanganAman - Dikembangkan untuk mendukung keamanan pangan di Indonesia.</p>
-            </div>
-        </div>
-    </footer>
+    @include('components.landing.footer')
 
     <!-- Custom JavaScript -->
     <script>
