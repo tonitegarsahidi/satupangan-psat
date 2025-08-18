@@ -125,32 +125,29 @@
                             <tr>
                                 <th scope="col">No</th>
                                 <th scope="col">
-                                    <a href="{{ route('landing.panduan.batas_cemaran') }}?jenis_filter={{ request()->input('jenis_filter', '') }}&sort_by=jenis.nama_jenis_pangan_segar&sort_order={{ $sortBy === 'jenis.nama_jenis_pangan_segar' && $sortOrder === 'asc' ? 'desc' : 'asc' }}" class="text-decoration-none text-dark">
-                                        Jenis
-                                        @if($sortBy === 'jenis.nama_jenis_pangan_segar')
+                                    <a href="{{ route('landing.panduan.batas_cemaran') }}?jenis_filter={{ request()->input('jenis_filter', '') }}&sort_by=nama_jenis_pangan_segar&sort_order={{ $sortBy === 'nama_jenis_pangan_segar' && $sortOrder === 'asc' ? 'desc' : 'asc' }}" class="text-decoration-none text-dark">
+                                        Jenis Pangan Segar
+                                        @if($sortBy === 'nama_jenis_pangan_segar')
                                             <i class="fas fa-sort-{{ $sortOrder === 'asc' ? 'up' : 'down' }} ms-1"></i>
                                         @endif
                                     </a>
                                 </th>
-                                <th scope="col">
-                                    <a href="{{ route('landing.panduan.batas_cemaran') }}?jenis_filter={{ request()->input('jenis_filter', '') }}&sort_by=nama_bahan_pangan_segar&sort_order={{ $sortBy === 'nama_bahan_pangan_segar' && $sortOrder === 'asc' ? 'desc' : 'asc' }}" class="text-decoration-none text-dark">
-                                        Nama Bahan Pangan Segar
-                                        @if($sortBy === 'nama_bahan_pangan_segar')
-                                            <i class="fas fa-sort-{{ $sortOrder === 'asc' ? 'up' : 'down' }} ms-1"></i>
-                                        @endif
-                                    </a>
-                                </th>
+                                <th scope="col">Contoh Bahan Pangan</th>
                                 <th scope="col">Aksi</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @forelse($bahanPangan as $index => $item)
+                            @forelse($jenisPangan as $index => $item)
                             <tr>
                                 <td>{{ $index + 1 }}</td>
-                                <td>{{ $item->jenis->nama_jenis_pangan_segar ?? '-' }}</td>
-                                <td>{{ $item->nama_bahan_pangan_segar }}</td>
+                                <td><strong>{{ $item->nama_jenis_pangan_segar }}</strong></td>
                                 <td>
-                                    <a href="{{ route('landing.panduan.batas_cemaran_detail', $item->jenis->id) }}"
+                                    @foreach($item->bahanPangan as $bahan)
+                                        <div>{{ $bahan->nama_bahan_pangan_segar }}</div>
+                                    @endforeach
+                                </td>
+                                <td>
+                                    <a href="{{ route('landing.panduan.batas_cemaran_detail', $item->id) }}"
                                        target="_blank"
                                        class="btn btn-primary btn-sm">
                                         <i class="fas fa-book"></i> Lihat Panduan
@@ -159,7 +156,7 @@
                             </tr>
                             @empty
                             <tr>
-                                <td colspan="4" class="text-center">Tidak ada data bahan pangan segar.</td>
+                                <td colspan="3" class="text-center">Tidak ada data bahan pangan segar.</td>
                             </tr>
                             @endforelse
                         </tbody>

@@ -30,4 +30,9 @@ class MasterJenisPanganSegar extends Model
     {
         return $this->belongsTo(MasterKelompokPangan::class, 'kelompok_id', 'id');
     }
+
+    public function bahanPangan()
+    {
+        return $this->hasMany(MasterBahanPanganSegar::class, 'jenis_id', 'id');
+    }
 }

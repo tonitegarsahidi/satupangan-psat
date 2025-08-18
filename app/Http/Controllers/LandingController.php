@@ -50,14 +50,14 @@ class LandingController extends Controller
 
     public function batasCemaranResidu(Request $request)
     {
-        $sortBy = $request->input('sort_by', 'nama_bahan_pangan_segar');
+        $sortBy = $request->input('sort_by', 'nama_jenis_pangan_segar');
         $sortOrder = $request->input('sort_order', 'asc');
         $jenisFilter = $request->input('jenis_filter', '');
 
-        $validSortColumns = ['nama_bahan_pangan_segar', 'jenis.nama_jenis_pangan_segar'];
+        $validSortColumns = ['nama_jenis_pangan_segar'];
 
         if (!in_array($sortBy, $validSortColumns)) {
-            $sortBy = 'nama_bahan_pangan_segar';
+            $sortBy = 'nama_jenis_pangan_segar';
         }
 
         // Handle sort order toggle - only toggle if the same column is clicked
@@ -66,39 +66,25 @@ class LandingController extends Controller
         }
         // The sort_order parameter from the view already contains the correct value
 
-        // Normalize sort_by value for processing
-        $actualSortBy = $sortBy;
-        if ($sortBy === 'jenis.nama_jenis_pangan_segar') {
-            $actualSortBy = 'nama_jenis_pangan_segar';
-        }
-
         // Build the query with filter
-        $query = \App\Models\MasterBahanPanganSegar::with('jenis');
+        $query = \App\Models\MasterJenisPanganSegar::with('bahanPangan');
 
         // Apply jenis filter if provided
         if (!empty($jenisFilter)) {
-            $query->whereHas('jenis', function($q) use ($jenisFilter) {
-                $q->where('nama_jenis_pangan_segar', 'like', '%' . $jenisFilter . '%');
-            });
+            $query->where('nama_jenis_pangan_segar', 'like', '%' . $jenisFilter . '%');
         }
 
         // Apply sorting
-        if ($actualSortBy === 'nama_jenis_pangan_segar') {
-            $query->join('master_jenis_pangan_segars', 'master_bahan_pangan_segars.jenis_id', '=', 'master_jenis_pangan_segars.id')
-                  ->orderBy('master_jenis_pangan_segars.nama_jenis_pangan_segar', $sortOrder)
-                  ->select('master_bahan_pangan_segars.*');
-        } else {
-            $query->orderBy($actualSortBy, $sortOrder);
-        }
+        $query->orderBy('nama_jenis_pangan_segar', $sortOrder);
 
-        $bahanPangan = $query->get();
+        $jenisPangan = $query->where('is_active', true)->get();
 
         // Get all jenis for filter dropdown
         $jenisOptions = \App\Models\MasterJenisPanganSegar::where('is_active', true)
             ->orderBy('nama_jenis_pangan_segar', 'asc')
             ->get();
 
-        return view('landing.panduan.batas_cemaran', compact('bahanPangan', 'sortBy', 'sortOrder', 'jenisFilter', 'jenisOptions'));
+        return view('landing.panduan.batas_cemaran', compact('jenisPangan', 'sortBy', 'sortOrder', 'jenisFilter', 'jenisOptions'));
     }
 
     public function showQRDetail($qr_code)
