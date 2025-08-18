@@ -104,9 +104,9 @@
                             <form method="POST" action="{{ route('landing.layanan.cek_data.search') }}">
                                 @csrf
                                 <div class="input-group mb-3">
-                                    <input type="text" class="form-control"
-                                           name="search" placeholder="Masukkan kata kunci pencarian..."
-                                           value="{{ $search ?? '' }}" required>
+                                    <input type="text" class="form-control" name="search"
+                                        placeholder="Masukkan kata kunci pencarian..." value="{{ $search ?? '' }}"
+                                        required>
                                 </div>
                                 <button class="btn btn-primary" type="submit">
                                     <i class="fas fa-search"></i> Cari
@@ -116,7 +116,8 @@
                     </div>
 
                     <div class="text-center">
-                        <p class="text-muted">Punya QR Code Badan Pangan? <a href="#" id="show-qr-section" class="text-primary font-weight-bold">Klik disini</a></p>
+                        <p class="text-muted">Punya QR Code Badan Pangan? <a href="#" id="show-qr-section"
+                                class="text-primary font-weight-bold">Klik disini</a></p>
                     </div>
                 </div>
 
@@ -125,7 +126,8 @@
                     <div class="card mb-4">
                         <div class="card-body">
                             <h5 class="card-title">Scan QR / Barcode Badan Pangan</h5>
-                            <p class="text-muted mb-3">Scan QR Code pada produk PSAT untuk langsung melihat detail keamanan pangan</p>
+                            <p class="text-muted mb-3">Scan QR Code pada produk PSAT untuk langsung melihat detail
+                                keamanan pangan</p>
                             <button class="btn btn-success btn-lg" id="start-scan-btn">
                                 <i class="fas fa-camera"></i> Mulai Scan QR / Barcode
                             </button>
@@ -135,48 +137,54 @@
                     </div>
 
                     <div class="text-center">
-                        <p class="text-muted">Tidak punya QR Code? <a href="#" id="show-keyword-section" class="text-primary font-weight-bold">Kembali ke Pencarian Kata Kunci</a></p>
+                        <p class="text-muted">Tidak punya QR Code? <a href="#" id="show-keyword-section"
+                                class="text-primary font-weight-bold">Kembali ke Pencarian Kata Kunci</a></p>
                     </div>
                 </div>
 
                 <!-- Hasil pencarian -->
-                @if($results !== null)
-                    @if($results->count() > 0)
+                @if ($results !== null)
+                    @if ($results->count() > 0)
                         <div class="card">
                             <div class="card-body">
                                 <h5 class="card-title">Hasil Pencarian</h5>
-                                <p class="text-muted">Menemukan {{ $results->count() }} hasil untuk "{{ $search }}"</p>
-                                <div class="table-responsive">
-                                    <table class="table table-striped">
-                                        <thead>
-                                            <tr>
-                                                <th>Kode QR</th>
-                                                <th>Nama Komoditas</th>
-                                                <th>Merk Dagang</th>
-                                                <th>Jenis PSAT</th>
-                                                <th>Nama Perusahaan</th>
-                                                <th>Aksi</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            @foreach($results as $result)
-                                                <tr>
-                                                    <td>{{ $result->qr_code }}</td>
-                                                    <td>{{ $result->nama_komoditas }}</td>
-                                                    <td>{{ $result->merk_dagang }}</td>
-                                                    <td>{{ $result->jenisPsat->nama_jenis_pangan_segar }}</td>
-                                                    <td>{{ $result->business->nama_perusahaan ?? '-' }}</td>
-                                                    <td>
-                                                        <a href="{{ route('qr.detail', $result->qr_code) }}"
-                                                           class="btn btn-sm btn-info">
-                                                            <i class="fas fa-eye"></i> Lihat Detail
-                                                        </a>
-                                                    </td>
-                                                </tr>
-                                            @endforeach
-                                        </tbody>
-                                    </table>
-                                </div>
+                                <p class="text-muted">Menemukan {{ $results->count() }} hasil untuk
+                                    "{{ $search }}"</p>
+
+                                @foreach ($results as $result)
+                                    <div class="border rounded p-3 mb-3">
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <div class="mb-2">
+                                                    <strong>Kode QR : </strong>
+                                                    <span class="text-muted">{{ $result->qr_code }}</span>
+                                                </div>
+                                                <div class="mb-2">
+                                                    <strong>Nama Komoditas : </strong>
+                                                    <span class="text-muted">{{ $result->nama_komoditas }}</span>
+                                                </div>
+                                                <div class="mb-2">
+                                                    <strong>Merk Dagang : </strong>
+                                                    <span class="text-muted">{{ $result->merk_dagang }}</span>
+                                                </div>
+                                                <div class="mb-2">
+                                                    <strong>Jenis PSAT : </strong>
+                                                    <span class="text-muted">{{ $result->jenisPsat->nama_jenis_pangan_segar }}</span>
+                                                </div>
+                                                <div class="mb-2">
+                                                    <strong>Nama Perusahaan : </strong>
+                                                    <span class="text-muted">{{ $result->business->nama_perusahaan ?? '-' }}</span>
+                                                </div>
+                                                <div class="text-right">
+                                                    <a href="{{ route('qr.detail', $result->qr_code) }}"
+                                                       class="btn btn-sm btn-info">
+                                                        <i class="fas fa-eye"></i> Lihat Detail
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                @endforeach
                             </div>
                         </div>
                     @else
@@ -209,100 +217,103 @@
 
     <!-- html5-qrcode library -->
     <script src="https://unpkg.com/html5-qrcode"></script>
-<script>
-    document.addEventListener("DOMContentLoaded", function () {
-        // Toggle between keyword search and QR scan sections
-        const keywordSearchSection = document.getElementById("keyword-search-section");
-        const qrScanSection = document.getElementById("qr-scan-section");
-        const showQrSection = document.getElementById("show-qr-section");
-        const showKeywordSection = document.getElementById("show-keyword-section");
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            // Toggle between keyword search and QR scan sections
+            const keywordSearchSection = document.getElementById("keyword-search-section");
+            const qrScanSection = document.getElementById("qr-scan-section");
+            const showQrSection = document.getElementById("show-qr-section");
+            const showKeywordSection = document.getElementById("show-keyword-section");
 
-        showQrSection.addEventListener("click", function(e) {
-            e.preventDefault();
-            keywordSearchSection.style.display = "none";
-            qrScanSection.style.display = "block";
-        });
+            showQrSection.addEventListener("click", function(e) {
+                e.preventDefault();
+                keywordSearchSection.style.display = "none";
+                qrScanSection.style.display = "block";
+            });
 
-        showKeywordSection.addEventListener("click", function(e) {
-            e.preventDefault();
-            qrScanSection.style.display = "none";
-            keywordSearchSection.style.display = "block";
-        });
+            showKeywordSection.addEventListener("click", function(e) {
+                e.preventDefault();
+                qrScanSection.style.display = "none";
+                keywordSearchSection.style.display = "block";
+            });
 
-        // QR Scanner functionality
-        const scanBtn = document.getElementById("start-scan-btn");
-        const readerElem = document.getElementById("reader");
-        const resultElem = document.getElementById("scan-result");
+            // QR Scanner functionality
+            const scanBtn = document.getElementById("start-scan-btn");
+            const readerElem = document.getElementById("reader");
+            const resultElem = document.getElementById("scan-result");
 
-        let html5QrCode = null;
+            let html5QrCode = null;
 
-        const startScanner = async () => {
-            // Clear previous result & reader
-            resultElem.innerHTML = "";
-            readerElem.innerHTML = "";
+            const startScanner = async () => {
+                // Clear previous result & reader
+                resultElem.innerHTML = "";
+                readerElem.innerHTML = "";
 
-            // If already scanning, stop first
-            if (html5QrCode) {
-                try {
-                    await html5QrCode.stop();
-                    await html5QrCode.clear();
-                } catch (err) {
-                    console.warn("Gagal menghentikan scanner sebelumnya:", err);
+                // If already scanning, stop first
+                if (html5QrCode) {
+                    try {
+                        await html5QrCode.stop();
+                        await html5QrCode.clear();
+                    } catch (err) {
+                        console.warn("Gagal menghentikan scanner sebelumnya:", err);
+                    }
                 }
-            }
 
-            const devices = await Html5Qrcode.getCameras();
-            if (!devices || devices.length === 0) {
-                resultElem.innerHTML = `
+                const devices = await Html5Qrcode.getCameras();
+                if (!devices || devices.length === 0) {
+                    resultElem.innerHTML = `
                     <div class="alert alert-warning">Tidak ditemukan perangkat kamera.</div>`;
-                return;
-            }
+                    return;
+                }
 
-            html5QrCode = new Html5Qrcode("reader");
+                html5QrCode = new Html5Qrcode("reader");
 
-            html5QrCode.start(
-            { facingMode: "environment" },
-            { fps: 10, qrbox: 250 },
-            (decodedText, decodedResult) => {
-                html5QrCode.stop().then(() => {
-                    html5QrCode.clear();
-                    readerElem.innerHTML = '';
-                    html5QrCode = null; // penting! supaya bisa scan ulang
+                html5QrCode.start({
+                        facingMode: "environment"
+                    }, {
+                        fps: 10,
+                        qrbox: 250
+                    },
+                    (decodedText, decodedResult) => {
+                        html5QrCode.stop().then(() => {
+                            html5QrCode.clear();
+                            readerElem.innerHTML = '';
+                            html5QrCode = null; // penting! supaya bisa scan ulang
 
-                    console.log(`QR Code scanned: ${decodedText}`);
+                            console.log(`QR Code scanned: ${decodedText}`);
 
-                    // Check if scanned text matches the URL pattern for redirect
-                    const appUrl = '{{ config("app.url") }}';
-                    const qrPattern = new RegExp(`^${appUrl}/qr/([^/]+)$`);
-                    const match = decodedText.match(qrPattern);
+                            // Check if scanned text matches the URL pattern for redirect
+                            const appUrl = '{{ config('app.url') }}';
+                            const qrPattern = new RegExp(`^${appUrl}/qr/([^/]+)$`);
+                            const match = decodedText.match(qrPattern);
 
-                    if (match) {
-                        // It's a QR code URL, redirect to the detail page
-                        console.log(`QR Code detected, redirecting to: ${decodedText}`);
-                        window.location.href = decodedText;
-                    } else {
-                        // Display the scanned text
-                        resultElem.innerHTML = `
+                            if (match) {
+                                // It's a QR code URL, redirect to the detail page
+                                console.log(`QR Code detected, redirecting to: ${decodedText}`);
+                                window.location.href = decodedText;
+                            } else {
+                                // Display the scanned text
+                                resultElem.innerHTML = `
                             <div class="alert alert-success">
                                 <strong>Hasil Scan:</strong> ${decodedText}
                             </div>`;
+                            }
+                        });
+                    },
+                    (errorMessage) => {
+                        // Optional: handle scan error (misalnya tidak terbaca)
+                        console.log(`Scan error: ${errorMessage}`);
                     }
-                });
-            },
-            (errorMessage) => {
-                // Optional: handle scan error (misalnya tidak terbaca)
-                console.log(`Scan error: ${errorMessage}`);
-            }
-        ).catch(err => {
-            console.error(`Camera start error: ${err}`);
-            resultElem.innerHTML = `
+                ).catch(err => {
+                    console.error(`Camera start error: ${err}`);
+                    resultElem.innerHTML = `
                 <div class="alert alert-danger">Gagal memulai kamera: ${err}</div>`;
-        });
-        };
+                });
+            };
 
-        scanBtn.addEventListener("click", startScanner);
-    });
-</script>
+            scanBtn.addEventListener("click", startScanner);
+        });
+    </script>
 
 </body>
 
