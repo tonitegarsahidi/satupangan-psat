@@ -115,9 +115,16 @@
                         </div>
                     </div>
 
-                    <div class="text-center">
-                        <p class="text-muted">Punya QR Code Badan Pangan? <a href="#" id="show-qr-section"
-                                class="text-primary font-weight-bold">Klik disini</a></p>
+                    <div class="text-center py-4">
+                        <div class="d-inline-flex align-items-center bg-primary text-white px-4 py-3 rounded-lg shadow-sm">
+                            <i class="fas fa-qrcode fa-2x mr-3 text-warning"></i>
+                            <div>
+                                <p class="mb-0 font-weight-bold">Punya QR Code Badan Pangan?</p>
+                                <a href="#" id="show-qr-section" class="text-warning font-weight-bold text-decoration-none h5 mb-0 d-block">
+                                    Klik disini untuk scan QR Code
+                                </a>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
@@ -136,9 +143,16 @@
                         </div>
                     </div>
 
-                    <div class="text-center">
-                        <p class="text-muted">Tidak punya QR Code? <a href="#" id="show-keyword-section"
-                                class="text-primary font-weight-bold">Kembali ke Pencarian Kata Kunci</a></p>
+                    <div class="text-center py-4">
+                        <div class="d-inline-flex align-items-center bg-secondary text-white px-4 py-3 rounded-lg shadow-sm">
+                            <i class="fas fa-search fa-2x mr-3 text-white"></i>
+                            <div>
+                                <p class="mb-0 font-weight-bold">Tidak punya QR Code?</p>
+                                <a href="#" id="show-keyword-section" class="text-white font-weight-bold text-decoration-none h5 mb-0 d-block">
+                                    Kembali ke Pencarian Kata Kunci
+                                </a>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
