@@ -467,7 +467,7 @@
             <div class="row">
                 <div class="col-lg-10 mx-auto">
                     <p class="text-center mb-5">Di halaman ini, Anda dapat menemukan panduan tentang bagaimana cara melaporkan temuan pelanggaran keamanan pangan segar asal tumbuhan langsung ke otoritas.</p>
-                    <p class="text-center mb-5">Laporan pelanggaran dari masyarakat akan ditindaklanjuti secara real-time oleh petugas OKKP.</p>
+                    <p class="text-center mb-5">Laporan pelanggaran dari masyarakat akan ditindaklanjuti oleh petugas OKKP.</p>
 
                     <div class="card">
                         <div class="card-body">

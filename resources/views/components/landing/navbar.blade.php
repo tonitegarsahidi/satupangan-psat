@@ -12,9 +12,9 @@
 
             <div class="navbar-menu" id="navbar-menu">
                 <a href="{{ route('home.index') }}" class="nav-link">Home</a>
-                <a href="{{ route('home.index') }}/#about" class="nav-link">Tentang Kami</a>
-                <a href="{{ route('home.index') }}/#features" class="nav-link">Fitur</a>
-                <a href="{{ route('home.index') }}/#contact" class="nav-link">Kontak</a>
+                <a href="{{ route('home.index') }}#about" class="nav-link">Tentang Kami</a>
+                <a href="{{ route('home.index') }}#features" class="nav-link">Fitur</a>
+                <a href="{{ route('home.index') }}#contact" class="nav-link">Kontak</a>
 
                 <div class="dropdown">
                     <a href="#" class="nav-link dropdown-toggle">Layanan <i class="fas fa-chevron-down"></i></a>

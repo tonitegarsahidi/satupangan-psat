@@ -354,7 +354,7 @@
             left: 0;
             width: 100%;
             height: 5px;
-            background-color: var(--primary-color);
+            background-color: var(--secondary-color);
             transform: scaleX(0);
             transform-origin: left;
             transition: transform 0.3s ease;
@@ -748,10 +748,10 @@
             <div class="features-grid">
                 <div class="feature-card" onclick="toggleFeatureContent(0)">
                     <div class="feature-icon">
-                        <i class="fas fa-database"></i>
+                        <i class="fas fa-clipboard-list"></i>
                     </div>
-                    <h3 class="feature-title">Registrasi dan Database Produk PSAT</h3>
-                    <p class="feature-description">Input, verifikasi, dan penerbitan QR Code untuk produk yang memiliki izin edar.</p>
+                    <h3 class="feature-title">Alur Registrasi QR Badan Pangan</h3>
+                    <p class="feature-description">Panduan alur penerbitan QR Code Badan Pangan untuk produk yang memiliki izin edar.</p>
                 </div>
 
                 <div class="feature-card" onclick="toggleFeatureContent(1)">
@@ -764,23 +764,23 @@
 
                 <div class="feature-card" onclick="toggleFeatureContent(2)">
                     <div class="feature-icon">
-                        <i class="fas fa-search-plus"></i>
+                        <i class="fas fa-clipboard-check"></i>
                     </div>
                     <h3 class="feature-title">Pelaporan & Pengawasan Terpadu</h3>
-                    <p class="feature-description">Laporan pelanggaran dari masyarakat ditindaklanjuti secara real-time oleh petugas OKKP.</p>
+                    <p class="feature-description">Laporan pelanggaran dari masyarakat ditindaklanjuti oleh petugas OKKP.</p>
                 </div>
 
-                <div class="feature-card" onclick="toggleFeatureContent(3)">
+                <div class="feature-card" onclick="window.location.href='{{ route('landing.layanan.cek_data') }}'">
                     <div class="feature-icon">
-                        <i class="fas fa-comments"></i>
+                        <i class="fas fa-database"></i>
                     </div>
-                    <h3 class="feature-title">Pembinaan & Konsultasi</h3>
-                    <p class="feature-description">Pelaku usaha dan masyarakat dapat melakukan konsultasi seputar standar dan prosedur keamanan pangan.</p>
+                    <h3 class="feature-title">Database Produk Keamanan Pangan</h3>
+                    <p class="feature-description">Database produk pangan yang telah terdaftar dan memiliki izin edar.</p>
                 </div>
 
                 <div class="feature-card" onclick="window.location.href='{{ route('landing.panduan.batas_cemaran') }}'">
                     <div class="feature-icon">
-                        <i class="fas fa-utensils"></i>
+                        <i class="fas fa-microscope"></i>
                     </div>
                     <h3 class="feature-title">Batas Cemaran & Residu</h3>
                     <p class="feature-description">Informasi mengenai batas maksimum cemaran dan residu pada pangan segar asal tumbuhan berdasarkan kelompok dan jenisnya.</p>
