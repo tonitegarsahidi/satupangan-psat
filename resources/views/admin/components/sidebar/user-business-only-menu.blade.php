@@ -65,7 +65,9 @@
             'menuIcon' => 'bx bx-file',
             'subMenuData' => null,
         ])
-    @elseif ((auth()->user()->business && auth()->user()->business->is_umkm) || (auth()->user()->hasAnyRole(['ROLE_OPERATOR', 'ROLE_SUPERVISOR'])))
+    @endif
+
+    @if ((auth()->user()->business && auth()->user()->business->is_umkm) || (auth()->user()->hasAnyRole(['ROLE_OPERATOR', 'ROLE_SUPERVISOR'])))
 
     {{-- REGISTER IZIN EDAR PSATPDUK MENU --}}
     @include('admin.components.sidebar.item', [

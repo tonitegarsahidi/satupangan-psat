@@ -87,4 +87,12 @@ class RegisterIzinedarPsatpdukRepository
             throw $e;
         }
     }
+
+    public function updateStatus($registerIzinedarPsatpdukId, $status)
+    {
+        $registerIzinedarPsatpduk = RegisterIzinedarPsatpduk::findOrFail($registerIzinedarPsatpdukId);
+        $registerIzinedarPsatpduk->status = $status;
+        $registerIzinedarPsatpduk->save();
+        return $registerIzinedarPsatpduk;
+    }
 }

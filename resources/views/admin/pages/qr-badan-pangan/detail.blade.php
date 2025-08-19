@@ -30,7 +30,7 @@
 
                         @if (Auth::user()->hasAnyRole(['ROLE_OPERATOR', 'ROLE_SUPERVISOR']))
                             <div class="alert alert-warning alert-dismissible fade show text-dark" role="alert">
-                                <strong>Aksi yang dpat dilakukan :</strong><br />
+                                <strong>Aksi yang dapat dilakukan :</strong><br />
                                 Silakan review dan update status dari pengajuan QR Badan Pangan Nasional berikut
 
                                 <div class="row">

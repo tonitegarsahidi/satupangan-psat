@@ -137,4 +137,26 @@ class RegisterIzinedarPsatplService
             return false;
         }
     }
+
+    /**
+     * =============================================
+     *      update status
+     * =============================================
+     */
+    public function updateStatus($id, $status, $updatedBy)
+    {
+        DB::beginTransaction();
+        try {
+            $registerIzinedarPsatpl = $this->registerIzinedarPsatplRepository->updateStatus($id, $status);
+            $registerIzinedarPsatpl->updated_by = $updatedBy;
+            $registerIzinedarPsatpl->save();
+
+            DB::commit();
+            return true;
+        } catch (\Exception $exception) {
+            DB::rollBack();
+            Log::error("Failed to update status for RegisterIzinedarPsatpl with id $id: {$exception->getMessage()}");
+            return false;
+        }
+    }
 }

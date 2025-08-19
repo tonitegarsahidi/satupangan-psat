@@ -32,6 +32,7 @@ Route::middleware('auth')->group(function () {
             Route::get('/delete/{id}', [RegisterSppbController::class, 'deleteConfirm'])->name('register-sppb.delete');
             Route::delete('/delete/{id}', [RegisterSppbController::class, 'destroy'])->name('register-sppb.destroy');
         });
+        Route::post('/update-status/{id}', [RegisterSppbController::class, 'updateStatus'])->name('register-sppb.update-status');
 
         // REGISTER IZIN EDAR PSATPL CRUD FOR ROLE_USER_BUSINESS
         Route::prefix('/register-izinedar-psatpl')->group(function () {
@@ -43,6 +44,7 @@ Route::middleware('auth')->group(function () {
             Route::get('/edit/{id}', [RegisterIzinedarPsatplController::class, 'edit'])->name('register-izinedar-psatpl.edit');
             Route::get('/delete/{id}', [RegisterIzinedarPsatplController::class, 'deleteConfirm'])->name('register-izinedar-psatpl.delete');
             Route::delete('/delete/{id}', [RegisterIzinedarPsatplController::class, 'destroy'])->name('register-izinedar-psatpl.destroy');
+            Route::post('/update-status/{id}', [RegisterIzinedarPsatplController::class, 'updateStatus'])->name('register-izinedar-psatpl.update-status');
         });
 
         // REGISTER IZIN EDAR PSATPD CRUD FOR ROLE_USER_BUSINESS
@@ -55,6 +57,7 @@ Route::middleware('auth')->group(function () {
             Route::get('/edit/{id}', [RegisterIzinedarPsatpdController::class, 'edit'])->name('register-izinedar-psatpd.edit');
             Route::get('/delete/{id}', [RegisterIzinedarPsatpdController::class, 'deleteConfirm'])->name('register-izinedar-psatpd.delete');
             Route::delete('/delete/{id}', [RegisterIzinedarPsatpdController::class, 'destroy'])->name('register-izinedar-psatpd.destroy');
+            Route::post('/update-status/{id}', [RegisterIzinedarPsatpdController::class, 'updateStatus'])->name('register-izinedar-psatpd.update-status');
         });
 
         // REGISTER IZIN EDAR PSATPDUK CRUD FOR ROLE_USER_BUSINESS
@@ -67,6 +70,7 @@ Route::middleware('auth')->group(function () {
             Route::get('/edit/{id}', [RegisterIzinedarPsatpdukController::class, 'edit'])->name('register-izinedar-psatpduk.edit');
             Route::get('/delete/{id}', [RegisterIzinedarPsatpdukController::class, 'deleteConfirm'])->name('register-izinedar-psatpduk.delete');
             Route::delete('/delete/{id}', [RegisterIzinedarPsatpdukController::class, 'destroy'])->name('register-izinedar-psatpduk.destroy');
+            Route::post('/update-status/{id}', [RegisterIzinedarPsatpdukController::class, 'updateStatus'])->name('register-izinedar-psatpduk.update-status');
         });
 
         // QR BADAN PANGAN CRUD FOR ROLE_USER_BUSINESS

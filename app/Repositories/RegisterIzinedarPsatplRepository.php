@@ -87,4 +87,12 @@ class RegisterIzinedarPsatplRepository
             throw $e;
         }
     }
+
+    public function updateStatus($registerIzinedarPsatplId, $status)
+    {
+        $registerIzinedarPsatpl = RegisterIzinedarPsatpl::findOrFail($registerIzinedarPsatplId);
+        $registerIzinedarPsatpl->status = $status;
+        $registerIzinedarPsatpl->save();
+        return $registerIzinedarPsatpl;
+    }
 }

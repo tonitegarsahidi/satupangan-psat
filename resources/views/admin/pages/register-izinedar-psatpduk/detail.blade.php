@@ -9,6 +9,67 @@
         {{-- FOR BREADCRUMBS --}}
         @include('admin.components.breadcrumb.simple', $breadcrumbs)
 
+        {{-- ALERTS --}}
+        @if (session('alerts'))
+            @foreach (session('alerts') as $alert)
+                <div class="alert alert-{{ $alert['type'] }} alert-dismissible fade show text-black" role="alert">
+                    {{ $alert['message'] }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"
+                        aria-label="Close"></button>
+                </div>
+            @endforeach
+        @endif
+
+        @if (Auth::user()->hasAnyRole(['ROLE_OPERATOR', 'ROLE_SUPERVISOR']))
+            <div class="alert alert-warning alert-dismissible fade show text-dark" role="alert">
+                <strong>Aksi yang dapat dilakukan :</strong><br />
+                Silakan review dan update status dari pengajuan Izin EDAR PSATPDUK berikut
+
+                <div class="row">
+                    <div class="col-md-10">
+                        <form action="{{ route('register-izinedar-psatpduk.update-status', ['id' => $data->id]) }}"
+                            method="POST" class="mb-4">
+                            @csrf
+                            @method('POST')
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <select class="form-select" id="status" name="status"
+                                            @if ($data->status == 'DISETUJUI' || $data->status == 'DITOLAK') disabled @endif>
+                                            @if ($data->status == 'DIAJUKAN')
+                                                <option value="DIAJUKAN" selected>Diajukan</option>
+                                                <option value="DIPERIKSA">Diperiksa</option>
+                                                <option value="DISETUJUI">Disetujui</option>
+                                                <option value="DITOLAK">Ditolak</option>
+                                            @elseif ($data->status == 'DIPERIKSA')
+                                                <option value="DIPERIKSA" selected>Diperiksa</option>
+                                                <option value="DISETUJUI">Disetujui</option>
+                                                <option value="DITOLAK">Ditolak</option>
+                                            @else
+                                                <option value="{{ $data->status }}" selected>
+                                                    {{ ucfirst($data->status) }}</option>
+                                            @endif
+                                        </select>
+                                        @if ($data->status == 'DISETUJUI' || $data->status == 'DITOLAK')
+                                            <small class="form-text text-muted">Status cannot be changed
+                                                once it's approved or rejected.</small>
+                                        @endif
+                                    </div>
+                                </div>
+                                <div class="col-md-6 d-flex align-items-end">
+                                    <button type="submit" class="btn btn-primary"
+                                        @if ($data->status == 'DISETUJUI' || $data->status == 'DITOLAK') disabled @endif>
+                                        Update Status
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        @endif
+
         {{-- MAIN PARTS --}}
 
         <div class="card">

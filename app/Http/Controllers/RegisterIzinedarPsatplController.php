@@ -311,4 +311,23 @@ class RegisterIzinedarPsatplController extends Controller
 
         return redirect()->route('register-izinedar-psatpl.index')->with('alerts', [$alert]);
     }
+
+    /**
+     * =============================================
+     *      update status
+     * =============================================
+     */
+    public function updateStatus(Request $request, $id)
+    {
+        $status = $request->input('status');
+        $user = Auth::user();
+
+        $result = $this->registerIzinedarPsatplService->updateStatus($id, $status, $user->id);
+
+        $alert = $result
+            ? AlertHelper::createAlert('success', 'Status successfully updated to ' . $status)
+            : AlertHelper::createAlert('danger', 'Failed to update status');
+
+        return redirect()->route('register-izinedar-psatpl.detail', ['id' => $id])->with('alerts', [$alert]);
+    }
 }
