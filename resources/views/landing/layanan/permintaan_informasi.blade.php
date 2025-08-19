@@ -497,15 +497,10 @@
         </div>
     </nav>
 
-    <!-- Hero Section -->
-    <section class="hero" id="home">
-        <div class="container">
-            <div class="hero-content">
-                <h1><strong>Permintaan Informasi</strong></h1>
-                <p>Informasi mengenai cara mengajukan permintaan informasi terkait keamanan pangan.</p>
-            </div>
-        </div>
-    </section>
+    @include('components.landing.hero', [
+        'title' => 'Permintaan Informasi',
+        'subtitle' => 'Informasi mengenai cara mengajukan permintaan informasi terkait keamanan pangan.'
+    ])
 
     <!-- Main Content -->
     <main class="section">

@@ -497,15 +497,10 @@
         </div>
     </nav>
 
-    <!-- Hero Section -->
-    <section class="hero" id="home">
-        <div class="container">
-            <div class="hero-content">
-                <h1><strong>Registrasi Izin Produk Pangan</strong></h1>
-                <p>Informasi mengenai cara mengajukan izin edar dan penerbitan QR Code produk.</p>
-            </div>
-        </div>
-    </section>
+    @include('components.landing.hero', [
+        'title' => 'Registrasi Izin Produk Pangan',
+        'subtitle' => 'Informasi mengenai cara mengajukan izin edar dan penerbitan QR Code produk.'
+    ])
 
     <!-- Main Content -->
     <main class="section">

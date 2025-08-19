@@ -497,15 +497,10 @@
         </div>
     </nav>
 
-    <!-- Hero Section -->
-    <section class="hero" id="home">
-        <div class="container">
-            <div class="hero-content">
-                <h1><strong>Standar Keamanan Mutu Pangan</strong></h1>
-                <p>Informasi mengenai standar keamanan dan mutu pangan segar asal tumbuhan.</p>
-            </div>
-        </div>
-    </section>
+    @include('components.landing.hero', [
+        'title' => 'Standar Keamanan Mutu Pangan',
+        'subtitle' => 'Informasi mengenai standar keamanan dan mutu pangan segar asal tumbuhan.'
+    ])
 
     <!-- Main Content -->
     <main class="section">

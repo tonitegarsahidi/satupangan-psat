@@ -497,15 +497,10 @@
         </div>
     </nav>
 
-    <!-- Hero Section -->
-    <section class="hero" id="home">
-        <div class="container">
-            <div class="hero-content">
-                <h1><strong>Alur Prosedur</strong></h1>
-                <p>Informasi mengenai alur prosedur terkait keamanan pangan.</p>
-            </div>
-        </div>
-    </section>
+    @include('components.landing.hero', [
+        'title' => 'Alur Prosedur',
+        'subtitle' => 'Informasi mengenai alur prosedur terkait keamanan pangan.'
+    ])
 
     <!-- Main Content -->
     <main class="section">

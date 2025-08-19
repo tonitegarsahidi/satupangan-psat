@@ -634,15 +634,10 @@
         </div>
     </nav>
 
-    <!-- Hero Section -->
-    <section class="hero" id="home">
-        <div class="container">
-            <div class="hero-content">
-                <h1><strong>Cek Data Keamanan Pangan</strong></h1>
-                <p>Informasi mengenai cara mengecek data keamanan pangan segar asal tumbuhan.</p>
-            </div>
-        </div>
-    </section>
+    @include('components.landing.hero', [
+        'title' => 'Cek Data Keamanan Pangan',
+        'subtitle' => 'Informasi mengenai cara mengecek data keamanan pangan segar asal tumbuhan.'
+    ])
 
     <!-- Main Content -->
     <main class="section">

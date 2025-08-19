@@ -652,15 +652,10 @@
         </div>
     </nav>
 
-    <!-- Hero Section -->
-    <section class="hero" id="home">
-        <div class="container">
-            <div class="hero-content">
-                <h1><strong>Batas Cemaran & Residu Detail</strong></h1>
-                <p>Informasi detail mengenai batas maksimum cemaran dan residu pada pangan segar asal tumbuhan untuk kategori: {{ $jenisPangan->nama_jenis_pangan_segar }}</p>
-            </div>
-        </div>
-    </section>
+    @include('components.landing.hero', [
+        'title' => 'Batas Cemaran & Residu',
+        'subtitle' => 'Informasi batas maksimum cemaran untuk ' . $jenisPangan->nama_jenis_pangan_segar
+    ])
 
     <!-- Main Content -->
     <main class="section">
