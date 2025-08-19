@@ -283,4 +283,192 @@ class NotificationService
             'overall_read' => $overallRead,
         ];
     }
+
+    /**
+     * Send notification to all users
+     *
+     * Usage example:
+     * $notificationService = app(NotificationService::class);
+     * $count = $notificationService->sendToAllUsers(
+     *     'System Maintenance',
+     *     'The system will undergo maintenance tonight at 2 AM.',
+     *     'maintenance_alert',
+     *     ['scheduled_time' => '2023-12-01 02:00:00']
+     * );
+     *
+     * @param string $title Notification title
+     * @param string $message Notification message content
+     * @param string $type Notification type (default: 'system_alert')
+     * @param array $data Additional data for the notification (default: [])
+     * @return int Number of notifications successfully created
+     */
+    public function sendToAllUsers($title, $message, $type = 'system_alert', $data = []): int
+    {
+        try {
+            // Get all active users
+            $users = User::where('is_active', true)->pluck('id');
+
+            $createdCount = 0;
+
+            foreach ($users as $userId) {
+                if ($this->createSystemNotification($userId, $title, $message, $type, $data)) {
+                    $createdCount++;
+                }
+            }
+
+            Log::info("Sent notifications to {$createdCount} users");
+            return $createdCount;
+        } catch (\Exception $exception) {
+            Log::error("Failed to send notifications to all users: {$exception->getMessage()}");
+            return 0;
+        }
+    }
+
+    /**
+     * Send notification to specific user by email
+     *
+     * Usage example:
+     * $notificationService = app(NotificationService::class);
+     * $success = $notificationService->sendToUserByEmail(
+     *     'user@example.com',
+     *     'Welcome to Our Platform',
+     *     'Thank you for registering. Please verify your email address.',
+     *     'welcome_email',
+     *     ['action_url' => 'https://example.com/verify']
+     * );
+     *
+     * @param string $email Email address of the user to receive notification
+     * @param string $title Notification title
+     * @param string $message Notification message content
+     * @param string $type Notification type (default: 'system_alert')
+     * @param array $data Additional data for the notification (default: [])
+     * @return bool True if notification was sent successfully, false otherwise
+     */
+    public function sendToUserByEmail($email, $title, $message, $type = 'system_alert', $data = []): bool
+    {
+        try {
+            // Find user by email
+            $user = User::where('email', $email)->first();
+
+            if (!$user) {
+                Log::warning("User with email {$email} not found");
+                return false;
+            }
+
+            // Check if user is active
+            if (!$user->is_active) {
+                Log::warning("User with email {$email} is not active");
+                return false;
+            }
+
+            $notification = $this->createSystemNotification($user->id, $title, $message, $type, $data);
+
+            if ($notification) {
+                Log::info("Notification sent to user {$email}");
+                return true;
+            }
+
+            return false;
+        } catch (\Exception $exception) {
+            Log::error("Failed to send notification to user {$email}: {$exception->getMessage()}");
+            return false;
+        }
+    }
+
+    /**
+     * Send notification to users with specific roles
+     *
+     * Usage example:
+     * $notificationService = app(NotificationService::class);
+     * $count = $notificationService->sendToUsersByRoles(
+     *     ['ROLE_OPERATOR', 'ROLE_SUPERVISOR'],
+     *     'New Policy Update',
+     *     'Please review the updated policies in the dashboard.',
+     *     'policy_update',
+     *     ['policy_url' => 'https://example.com/policies']
+     * );
+     *
+     * @param array $roleCodes Array of role codes to target
+     * @param string $title Notification title
+     * @param string $message Notification message content
+     * @param string $type Notification type (default: 'system_alert')
+     * @param array $data Additional data for the notification (default: [])
+     * @return int Number of notifications successfully created
+     */
+    public function sendToUsersByRoles(array $roleCodes, $title, $message, $type = 'system_alert', $data = []): int
+    {
+        try {
+            // Get users with specified roles who are active
+            $users = User::where('is_active', true)
+                ->whereHas('roles', function ($query) use ($roleCodes) {
+                    $query->whereIn('role_code', $roleCodes);
+                })
+                ->pluck('id');
+
+            $createdCount = 0;
+
+            foreach ($users as $userId) {
+                if ($this->createSystemNotification($userId, $title, $message, $type, $data)) {
+                    $createdCount++;
+                }
+            }
+
+            Log::info("Sent notifications to {$createdCount} users with roles: " . implode(', ', $roleCodes));
+            return $createdCount;
+        } catch (\Exception $exception) {
+            Log::error("Failed to send notifications to users with roles: {$exception->getMessage()}");
+            return 0;
+        }
+    }
+
+    /**
+     * Send notification to specific user by user ID
+     *
+     * Usage example:
+     * $notificationService = app(NotificationService::class);
+     * $success = $notificationService->sendToUserByUserId(
+     *     '123e4567-e89b-12d3-a456-426614174000', // UUID user ID
+     *     'Password Reset Request',
+     *     'Click here to reset your password: https://example.com/reset',
+     *     'password_reset',
+     *     ['reset_token' => 'abc123xyz']
+     * );
+     *
+     * @param string $userId UUID of the user to receive notification
+     * @param string $title Notification title
+     * @param string $message Notification message content
+     * @param string $type Notification type (default: 'system_alert')
+     * @param array $data Additional data for the notification (default: [])
+     * @return bool True if notification was sent successfully, false otherwise
+     */
+    public function sendToUserByUserId($userId, $title, $message, $type = 'system_alert', $data = []): bool
+    {
+        try {
+            // Find user by ID
+            $user = User::find($userId);
+
+            if (!$user) {
+                Log::warning("User with ID {$userId} not found");
+                return false;
+            }
+
+            // Check if user is active
+            if (!$user->is_active) {
+                Log::warning("User with ID {$userId} is not active");
+                return false;
+            }
+
+            $notification = $this->createSystemNotification($user->id, $title, $message, $type, $data);
+
+            if ($notification) {
+                Log::info("Notification sent to user ID {$userId}");
+                return true;
+            }
+
+            return false;
+        } catch (\Exception $exception) {
+            Log::error("Failed to send notification to user ID {$userId}: {$exception->getMessage()}");
+            return false;
+        }
+    }
 }

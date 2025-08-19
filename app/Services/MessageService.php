@@ -166,7 +166,7 @@ class MessageService
     public function sendMessage(array $data, $userId): ?Message
     {
         // DEBUG: Log message service call
-        \Log::info("MessageService::sendMessage - Thread ID: " . ($data['thread_id'] ?? 'null') . ", User ID: {$userId}");
+        Log::info("MessageService::sendMessage - Thread ID: " . ($data['thread_id'] ?? 'null') . ", User ID: {$userId}");
 
         DB::beginTransaction();
         try {
@@ -180,12 +180,12 @@ class MessageService
             $data['sender_id'] = $userId;
 
             // DEBUG: Log data being saved
-            \Log::info("MessageService::sendMessage - About to save message: " . json_encode($data));
+            Log::info("MessageService::sendMessage - About to save message: " . json_encode($data));
 
             $message = $this->messageRepository->createMessage($data);
 
             // DEBUG: Log message creation result
-            \Log::info("MessageService::sendMessage - Message created: " . ($message ? 'Yes (ID: ' . $message->id . ')' : 'No'));
+            Log::info("MessageService::sendMessage - Message created: " . ($message ? 'Yes (ID: ' . $message->id . ')' : 'No'));
 
             // Update thread's last message timestamp
             if ($message) {
@@ -203,7 +203,7 @@ class MessageService
             return $message;
         } catch (\Exception $exception) {
             DB::rollBack();
-            \Log::error("Failed to send message: {$exception->getMessage()}");
+            Log::error("Failed to send message: {$exception->getMessage()}");
             return null;
         }
     }
@@ -359,5 +359,235 @@ class MessageService
             'unread' => $unread,
             'read' => $read,
         ];
+    }
+
+    /**
+     * Send a message to a specific user by email
+     *
+     * Usage example:
+     * $messageService = app(MessageService::class);
+     * $thread = $messageService->sendToUserByEmail(
+     *     'admin@example.com',
+     *     'user@example.com',
+     *     'Support Request',
+     *     'I need help with my account settings.',
+     *     'support_request',
+     *     $initiatorUserId
+     * );
+     *
+     * @param string $recipientEmail Email of the recipient
+     * @param string $subject Thread title
+     * @param string $message Content of the first message
+     * @param string $initiatorId UUID of the user initiating the conversation
+     * @return MessageThread|null The created thread or null if failed
+     */
+    public function sendToUserByEmail($recipientEmail, $subject, $message, $initiatorId)
+    {
+        try {
+            // Find recipient by email
+            $recipient = User::where('email', $recipientEmail)->first();
+
+            if (!$recipient) {
+                Log::warning("User with email {$recipientEmail} not found");
+                return null;
+            }
+
+            // Check if recipient is active
+            if (!$recipient->is_active) {
+                Log::warning("User with email {$recipientEmail} is not active");
+                return null;
+            }
+
+            // Create thread data
+            $threadData = [
+                'title' => $subject,
+                'description' => 'Private message',
+                'initiator_id' => $initiatorId,
+                'participant_id' => $recipient->id,
+            ];
+
+            // Create message data
+            $messageData = [
+                'message' => $message,
+            ];
+
+            // Create thread with message
+            return $this->createThreadWithMessage($threadData, $messageData, $initiatorId);
+        } catch (\Exception $exception) {
+            Log::error("Failed to send message to user {$recipientEmail}: {$exception->getMessage()}");
+            return null;
+        }
+    }
+
+    /**
+     * Send a message to a specific user by user ID
+     *
+     * Usage example:
+     * $messageService = app(MessageService::class);
+     * $thread = $messageService->sendToUserByUserId(
+     *     'recipient-user-id-123',
+     *     'Important Update',
+     *   'Please review the new policies.',
+     *   'policy_update',
+     *   $initiatorUserId
+     * );
+     *
+     * @param string $recipientId UUID of the recipient user
+     * @param string $subject Thread title
+     * @param string $message Content of the first message
+     * @param string $initiatorId UUID of the user initiating the conversation
+     * @return MessageThread|null The created thread or null if failed
+     */
+    public function sendToUserByUserId($recipientId, $subject, $message, $initiatorId)
+    {
+        try {
+            // Find recipient by ID
+            $recipient = User::find($recipientId);
+
+            if (!$recipient) {
+                Log::warning("User with ID {$recipientId} not found");
+                return null;
+            }
+
+            // Check if recipient is active
+            if (!$recipient->is_active) {
+                Log::warning("User with ID {$recipientId} is not active");
+                return null;
+            }
+
+            // Create thread data
+            $threadData = [
+                'title' => $subject,
+                'description' => 'Private message',
+                'initiator_id' => $initiatorId,
+                'participant_id' => $recipientId,
+            ];
+
+            // Create message data
+            $messageData = [
+                'message' => $message,
+            ];
+
+            // Create thread with message
+            return $this->createThreadWithMessage($threadData, $messageData, $initiatorId);
+        } catch (\Exception $exception) {
+            Log::error("Failed to send message to user ID {$recipientId}: {$exception->getMessage()}");
+            return null;
+        }
+    }
+
+    /**
+     * Send a message to all users with specific roles
+     *
+     * Usage example:
+     * $messageService = app(MessageService::class);
+     * $threads = $messageService->sendToUsersByRoles(
+     *     ['ROLE_OPERATOR', 'ROLE_SUPERVISOR'],
+     *     'System Maintenance',
+     *     'The system will undergo maintenance tonight.',
+     *     'maintenance_announcement',
+     *     $initiatorUserId
+     * );
+     *
+     * @param array $roleCodes Array of role codes to target
+     * @param string $subject Thread title
+     * @param string $message Content of the first message
+     * @param string $initiatorId UUID of the user initiating the conversation
+     * @return array Array of created MessageThread objects
+     */
+    public function sendToUsersByRoles(array $roleCodes, $subject, $message, $initiatorId)
+    {
+        $createdThreads = [];
+
+        try {
+            // Get active users with specified roles
+            $recipients = User::where('is_active', true)
+                ->whereHas('roles', function ($query) use ($roleCodes) {
+                    $query->whereIn('role_code', $roleCodes);
+                })
+                ->get();
+
+            if ($recipients->isEmpty()) {
+                Log::warning("No active users found with roles: " . implode(', ', $roleCodes));
+                return [];
+            }
+
+            // Create a thread for each recipient
+            foreach ($recipients as $recipient) {
+                $thread = $this->sendToUserByUserId(
+                    $recipient->id,
+                    $subject,
+                    $message,
+                    $initiatorId
+                );
+
+                if ($thread) {
+                    $createdThreads[] = $thread;
+                }
+            }
+
+            Log::info("Created " . count($createdThreads) . " message threads for roles: " . implode(', ', $roleCodes));
+            return $createdThreads;
+        } catch (\Exception $exception) {
+            Log::error("Failed to send messages to users with roles: {$exception->getMessage()}");
+            return [];
+        }
+    }
+
+    /**
+     * Send a broadcast message to all active users
+     *
+     * Usage example:
+     * $messageService = app(MessageService::class);
+     * $threads = $messageService->sendToAllUsers(
+     *     'Happy Holidays',
+     *     'Wishing you a wonderful holiday season!',
+     *     'holiday_greeting',
+     *     $initiatorUserId
+     * );
+     *
+     * @param string $subject Thread title
+     * @param string $message Content of the first message
+     * @param string $initiatorId UUID of the user initiating the conversation
+     * @return array Array of created MessageThread objects
+     */
+    public function sendToAllUsers($subject, $message, $initiatorId)
+    {
+        $createdThreads = [];
+
+        try {
+            // Get all active users
+            $recipients = User::where('is_active', true)->get();
+
+            if ($recipients->isEmpty()) {
+                Log::warning("No active users found");
+                return [];
+            }
+
+            // Create a thread for each recipient
+            foreach ($recipients as $recipient) {
+                // Skip the initiator to avoid sending to themselves
+                if ($recipient->id === $initiatorId) {
+                    continue;
+                }
+
+                $thread = $this->sendToUserByUserId(
+                    $recipient->id,
+                    $subject,
+                    $message,
+                    $initiatorId
+                );
+
+                if ($thread) {
+                    $createdThreads[] = $thread;
+                }
+            }
+
+            Log::info("Created " . count($createdThreads) . " broadcast message threads");
+            return $createdThreads;
+        } catch (\Exception $exception) {
+            Log::error("Failed to send broadcast messages: {$exception->getMessage()}");
+            return [];
+        }
     }
 }
