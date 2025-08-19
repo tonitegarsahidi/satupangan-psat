@@ -125,4 +125,26 @@ class RegisterSppbService
             return false;
         }
     }
+
+    /**
+     * =============================================
+     *      update status
+     * =============================================
+     */
+    public function updateStatus($id, $status, $updatedBy)
+    {
+        DB::beginTransaction();
+        try {
+            $registerSppb = $this->RegisterSppbRepository->updateStatus($id, $status);
+            $registerSppb->updated_by = $updatedBy;
+            $registerSppb->save();
+
+            DB::commit();
+            return true;
+        } catch (\Exception $exception) {
+            DB::rollBack();
+            Log::error("Failed to update status for RegisterSppb with id $id: {$exception->getMessage()}");
+            return false;
+        }
+    }
 }

@@ -75,6 +75,14 @@ class RegisterSppbRepository
         }
     }
 
+    public function updateStatus($id, $status)
+    {
+        $registerSppb = RegisterSppb::findOrFail($id);
+        $registerSppb->status = $status;
+        $registerSppb->save();
+        return $registerSppb;
+    }
+
     public function deleteRegisterSppbById($registerSppbId): ?bool
     {
         try {

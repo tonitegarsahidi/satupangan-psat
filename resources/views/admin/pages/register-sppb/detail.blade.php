@@ -9,6 +9,67 @@
         {{-- FOR BREADCRUMBS --}}
         @include('admin.components.breadcrumb.simple', $breadcrumbs)
 
+        {{-- ALERTS --}}
+        @if (session('alerts'))
+            @foreach (session('alerts') as $alert)
+                <div class="alert alert-{{ $alert['type'] }} alert-dismissible fade show text-black" role="alert">
+                    {{ $alert['message'] }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"
+                        aria-label="Close"></button>
+                </div>
+            @endforeach
+        @endif
+
+        @if (Auth::user()->hasAnyRole(['ROLE_OPERATOR', 'ROLE_SUPERVISOR']))
+            <div class="alert alert-warning alert-dismissible fade show text-dark" role="alert">
+                <strong>Aksi yang dapat dilakukan :</strong><br />
+                Silakan review dan update status dari pengajuan SPPB berikut
+
+                <div class="row">
+                    <div class="col-md-10">
+                        <form action="{{ route('register-sppb.update-status', ['id' => $data->id]) }}"
+                            method="POST" class="mb-4">
+                            @csrf
+                            @method('POST')
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <select class="form-select" id="status" name="status"
+                                            @if ($data->status == config('workflow.sppb_statuses.DISETUJUI') || $data->status == config('workflow.sppb_statuses.DITOLAK')) disabled @endif>
+                                            @if ($data->status == config('workflow.sppb_statuses.DIAJUKAN'))
+                                                <option value="{{ config('workflow.sppb_statuses.DIAJUKAN') }}" selected>Diajukan</option>
+                                                <option value="{{ config('workflow.sppb_statuses.DIPERIKSA') }}">Diperiksa</option>
+                                                <option value="{{ config('workflow.sppb_statuses.DISETUJUI') }}">Disetujui</option>
+                                                <option value="{{ config('workflow.sppb_statuses.DITOLAK') }}">Ditolak</option>
+                                            @elseif ($data->status == config('workflow.sppb_statuses.DIPERIKSA'))
+                                                <option value="{{ config('workflow.sppb_statuses.DIPERIKSA') }}" selected>Diperiksa</option>
+                                                <option value="{{ config('workflow.sppb_statuses.DISETUJUI') }}">Disetujui</option>
+                                                <option value="{{ config('workflow.sppb_statuses.DITOLAK') }}">Ditolak</option>
+                                            @else
+                                                <option value="{{ $data->status }}" selected>
+                                                    {{ ucfirst($data->status) }}</option>
+                                            @endif
+                                        </select>
+                                        @if ($data->status == config('workflow.sppb_statuses.DISETUJUI') || $data->status == config('workflow.sppb_statuses.DITOLAK'))
+                                            <small class="form-text text-muted">Status cannot be changed
+                                                once it's approved or rejected.</small>
+                                        @endif
+                                    </div>
+                                </div>
+                                <div class="col-md-6 d-flex align-items-end">
+                                    <button type="submit" class="btn btn-primary"
+                                        @if ($data->status == config('workflow.sppb_statuses.DISETUJUI') || $data->status == config('workflow.sppb_statuses.DITOLAK')) disabled @endif>
+                                        Update Status
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        @endif
+
         {{-- MAIN PARTS --}}
 
         <div class="card">
