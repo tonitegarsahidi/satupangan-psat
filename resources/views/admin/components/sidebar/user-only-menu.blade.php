@@ -14,7 +14,7 @@
 
     @include('admin.components.sidebar.menu-header', ['textMenuHeader' => 'Laporan Pengaduan'])
 
-    @if (!auth()->user()->hasAnyRole(['ROLE_OPERATOR', 'ROLE_SUPERVISOR']))
+    @if (!auth()->user()->hasAnyRole(['ROLE_OPERATOR', 'ROLE_SUPERVISOR', 'ROLE_LEADER']))
         @include('admin.components.sidebar.item', [
             'menuId' => 'master-pengaduan',
             'menuText' => 'Laporan Pengaduan',

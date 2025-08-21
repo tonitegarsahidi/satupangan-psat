@@ -37,6 +37,7 @@ class PengawasanRepository
             'lokasiKota',
             'lokasiProvinsi',
             'rekap',
+            'rekapRecords',
             'attachments'
         ]);
 
@@ -99,7 +100,8 @@ class PengawasanRepository
                 'produkPsat',
                 'lokasiKota',
                 'lokasiProvinsi',
-                'rekap'
+                'rekap',
+                'rekapRecords'
             ])
             ->orderBy("created_at", "desc")
             ->paginate($perPage);
@@ -113,7 +115,9 @@ class PengawasanRepository
                 'jenisPsat',
                 'produkPsat',
                 'lokasiKota',
-                'lokasiProvinsi'
+                'lokasiProvinsi',
+                'rekap',
+                'rekapRecords'
             ])
             ->orderBy("created_at", "desc")
             ->paginate($perPage);
@@ -128,7 +132,9 @@ class PengawasanRepository
                 'jenisPsat',
                 'produkPsat',
                 'lokasiKota',
-                'lokasiProvinsi'
+                'lokasiProvinsi',
+                'rekap',
+                'rekapRecords'
             ])
             ->orderBy("created_at", "desc")
             ->paginate($perPage);
@@ -153,7 +159,9 @@ class PengawasanRepository
                 'initiator',
                 'produkPsat',
                 'lokasiKota',
-                'lokasiProvinsi'
+                'lokasiProvinsi',
+                'rekap',
+                'rekapRecords'
             ])
             ->orderBy("created_at", "desc")
             ->paginate($perPage);
@@ -166,7 +174,9 @@ class PengawasanRepository
                 'initiator',
                 'jenisPsat',
                 'lokasiKota',
-                'lokasiProvinsi'
+                'lokasiProvinsi',
+                'rekap',
+                'rekapRecords'
             ])
             ->orderBy("created_at", "desc")
             ->paginate($perPage);
@@ -183,7 +193,9 @@ class PengawasanRepository
         return $query->with([
                 'initiator',
                 'jenisPsat',
-                'produkPsat'
+                'produkPsat',
+                'rekap',
+                'rekapRecords'
             ])
             ->orderBy("created_at", "desc")
             ->paginate($perPage);

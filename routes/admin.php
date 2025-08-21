@@ -277,6 +277,10 @@ Route::middleware('auth')->group(function () {
 
             });
 
-
-        });
 });
+
+
+});
+
+// Include pengawasan routes
+require __DIR__ . '/pengawasan.php';

@@ -45,6 +45,7 @@
         @include('admin.components.sidebar.operator-only-menu')
         @include('admin.components.sidebar.user-only-menu')
         @include('admin.components.sidebar.user-business-only-menu')
+        @include('admin.components.sidebar.leader-only-menu')
 
 
 

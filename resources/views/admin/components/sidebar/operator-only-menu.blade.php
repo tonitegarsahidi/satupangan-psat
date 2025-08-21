@@ -18,4 +18,12 @@
       'menuIcon' => 'bx bx-id-card',
       'subMenuData' => null,
   ])
+{{-- PENGAWASAN MENU --}}
+@include('admin.components.sidebar.item', [
+    'menuId' => 'menu-pengawasan',
+    'menuText' => 'Pengawasan',
+    'menuUrl' => route('admin.pengawasan.index'),
+    'menuIcon' => 'bx bx-file',
+    'subMenuData' => null,
+])
 @endif
