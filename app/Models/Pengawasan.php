@@ -63,6 +63,11 @@ class Pengawasan extends Model
         return $this->hasOne(PengawasanRekap::class);
     }
 
+    public function rekapRecords()
+    {
+        return $this->belongsToMany(PengawasanRekap::class, 'pengawasan_rekap_pengawasan', 'pengawasan_id', 'pengawasan_rekap_id');
+    }
+
     public function attachments()
     {
         return $this->hasMany(PengawasanAttachment::class, 'linked_id')

@@ -64,6 +64,11 @@ class PengawasanRekap extends Model
         return $this->belongsTo(MasterProvinsi::class, 'lokasi_provinsi_id');
     }
 
+    public function pengawasans()
+    {
+        return $this->belongsToMany(Pengawasan::class, 'pengawasan_rekap_pengawasan', 'pengawasan_rekap_id', 'pengawasan_id');
+    }
+
     public function tindakan()
     {
         return $this->hasOne(PengawasanTindakan::class);

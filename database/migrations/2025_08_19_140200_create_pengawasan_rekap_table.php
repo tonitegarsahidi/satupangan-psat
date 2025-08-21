@@ -13,7 +13,6 @@ return new class extends Migration
     {
         Schema::create('pengawasan_rekap', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->uuid('pengawasan_id');
             $table->uuid('user_id_admin');
             $table->uuid('jenis_psat_id');
             $table->uuid('produk_psat_id');
@@ -26,7 +25,6 @@ return new class extends Migration
             $table->timestamps();
             $table->softDeletes();
 
-            $table->foreign('pengawasan_id')->references('id')->on('pengawasan');
             $table->foreign('user_id_admin')->references('id')->on('users');
             $table->foreign('jenis_psat_id')->references('id')->on('master_jenis_pangan_segars');
             $table->foreign('produk_psat_id')->references('id')->on('master_bahan_pangan_segars');
