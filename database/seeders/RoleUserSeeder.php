@@ -19,7 +19,8 @@ class RoleUserSeeder extends Seeder
          $roleIdPengusaha = DB::table('role_master')->where('role_code', 'ROLE_USER_BUSINESS')->value('id');
          $roleIdAdmin = DB::table('role_master')->where('role_code', 'ROLE_ADMIN')->value('id');
          $roleIdOperator = DB::table('role_master')->where('role_code', 'ROLE_OPERATOR')->value('id');
-         $roleIdSupervisor = DB::table('role_master')->where('role_code', 'ROLE_SUPERVISOR')->value('id');// Assign roles to users
+         $roleIdSupervisor = DB::table('role_master')->where('role_code', 'ROLE_SUPERVISOR')->value('id');
+         $roleIdLeader = DB::table('role_master')->where('role_code', 'ROLE_LEADER')->value('id');// Assign roles to users
 
          //find the id of the users
          $userIdSuperAdmin  = DB::table('users')->where('email', 'superadmin@panganaman.my.id')->value('id');
@@ -44,6 +45,7 @@ class RoleUserSeeder extends Seeder
          $userIdKantorBali = DB::table('users')->where('email', 'kantorbali@panganaman.my.id')->value('id');
          $userIdKantorNTT = DB::table('users')->where('email', 'kantorntt@panganaman.my.id')->value('id');
          $userIdKantorNTB = DB::table('users')->where('email', 'kantorntb@panganaman.my.id')->value('id');
+         $userIdLeader = DB::table('users')->where('email', 'pimpinan@panganaman.my.id')->value('id');
 
 
          $userRoles = [
@@ -107,6 +109,9 @@ class RoleUserSeeder extends Seeder
 
              ['id' => Str::uuid(), 'user_id' => $userIdKantorNTB, 'role_id' => $roleIdOperator],     // Kantor NTB has ROLE_OPERATOR
              ['id' => Str::uuid(), 'user_id' => $userIdKantorNTB, 'role_id' => $roleIdUser],         // Kantor NTB has ROLE_USER
+
+             ['id' => Str::uuid(), 'user_id' => $userIdLeader, 'role_id' => $roleIdUser],            // Pimpinan has ROLE_USER
+             ['id' => Str::uuid(), 'user_id' => $userIdLeader, 'role_id' => $roleIdLeader],          // Pimpinan has ROLE_LEADER
 
          ];
 

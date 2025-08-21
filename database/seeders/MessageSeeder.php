@@ -87,6 +87,7 @@ class MessageSeeder extends Seeder
         $pengusaha = $users->where('email', 'pengusaha@panganaman.my.id')->first();
         $kantorJatim = $users->where('email', 'kantorjatim@panganaman.my.id')->first();
         $pengusaha2 = $users->where('email', 'pengusaha2@panganaman.my.id')->first();
+        $pimpinan = $users->where('email', 'pimpinan@panganaman.my.id')->first();
 
         // Check if these specific users exist before creating threads
         if ($kantorPusat && $pengusaha) {
@@ -264,6 +265,55 @@ class MessageSeeder extends Seeder
                 'read_at' => Carbon::now()->subDays(1),
                 'created_at' => Carbon::now()->subDays(1),
                 'updated_at' => Carbon::now()->subDays(1),
+            ]);
+        }
+
+        if ($pimpinan && $kantorPusat) {
+            // Message Thread between pimpinan and kantorpusat about performance review
+            $performanceThread = MessageThread::create([
+                'id' => \Illuminate\Support\Str::uuid(),
+                'title' => 'Review Kinerja Bulanan',
+                'description' => 'Diskusi mengenai review kinerja bulanan tim pengawasan',
+                'initiator_id' => $pimpinan->id,
+                'participant_id' => $kantorPusat->id,
+                'is_read_by_initiator' => true,
+                'is_read_by_participant' => false,
+                'last_message_at' => Carbon::now()->subHours(4),
+                'created_at' => Carbon::now()->subDays(2),
+                'updated_at' => Carbon::now()->subHours(4),
+            ]);
+
+            // Messages in performance review thread
+            Message::create([
+                'id' => \Illuminate\Support\Str::uuid(),
+                'thread_id' => $performanceThread->id,
+                'sender_id' => $pimpinan->id,
+                'message' => 'Selamat pagi, saya ingin mengetahui ringkasan kinerja tim pengawasan untuk bulan ini. Apakah ada masalah yang perlu dibahas?',
+                'is_read' => true,
+                'read_at' => Carbon::now()->subDays(2),
+                'created_at' => Carbon::now()->subDays(2),
+                'updated_at' => Carbon::now()->subDays(2),
+            ]);
+
+            Message::create([
+                'id' => \Illuminate\Support\Str::uuid(),
+                'thread_id' => $performanceThread->id,
+                'sender_id' => $kantorPusat->id,
+                'message' => 'Selamat pagi Bapak/Ibu Pimpinan. Secara umum kinerja tim baik, namun ada beberapa kendala di lapangan yang perlu ditindaklanjuti.',
+                'is_read' => false,
+                'created_at' => Carbon::now()->subDays(1),
+                'updated_at' => Carbon::now()->subDays(1),
+            ]);
+
+            Message::create([
+                'id' => \Illuminate\Support\Str::uuid(),
+                'thread_id' => $performanceThread->id,
+                'sender_id' => $pimpinan->id,
+                'message' => 'Silakan berikan detail masalah tersebut dan rekomendasi penyelesaiannya. Saya akan mendukung langkah-langkah yang diperlukan.',
+                'is_read' => true,
+                'read_at' => Carbon::now()->subHours(4),
+                'created_at' => Carbon::now()->subHours(4),
+                'updated_at' => Carbon::now()->subHours(4),
             ]);
         }
 

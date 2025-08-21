@@ -250,6 +250,17 @@ class UserSeeder extends Seeder
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),
             ],
+            [
+                'id' => Str::uuid(),
+                'name' => 'Pimpinan',
+                'email' => 'pimpinan@panganaman.my.id',
+                'password' => Hash::make('password123'),
+                'is_active' => true,
+                'email_verified_at' => Carbon::now(),
+                'phone_number' => '0811111111111',
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
+            ],
 
         ];
 

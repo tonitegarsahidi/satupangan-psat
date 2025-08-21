@@ -166,6 +166,7 @@ class NotificationSeeder extends Seeder
         $pengusaha = $users->where('email', 'pengusaha@panganaman.my.id')->first();
         $kantorJatim = $users->where('email', 'kantorjatim@panganaman.my.id')->first();
         $pengusaha2 = $users->where('email', 'pengusaha2@panganaman.my.id')->first();
+        $pimpinan = $users->where('email', 'pimpinan@panganaman.my.id')->first();
 
         // Check if these specific users exist before creating notifications
         if ($kantorPusat) {
@@ -244,6 +245,44 @@ class NotificationSeeder extends Seeder
                 'is_read' => false,
                 'created_at' => Carbon::now()->subDays(3),
                 'updated_at' => Carbon::now()->subDays(3),
+            ];
+        }
+
+        if ($pimpinan) {
+            // Additional notifications for pimpinan
+            $notifications[] = [
+                'id' => \Illuminate\Support\Str::uuid(),
+                'user_id' => $pimpinan->id,
+                'type' => 'leader_report',
+                'title' => 'Laporan Bulanan Kegiatan Pengawasan',
+                'message' => 'Laporan bulanan kegiatan pengawasan telah tersedia. Silakan periksa dashboard untuk melihat ringkasan performa tim.',
+                'data' => [
+                    'report_month' => Carbon::now()->format('F Y'),
+                    'total_inspections' => 42,
+                    'completed_tasks' => 38,
+                    'pending_tasks' => 4,
+                    'action_required' => 'review_report'
+                ],
+                'is_read' => false,
+                'created_at' => Carbon::now()->subDays(1),
+                'updated_at' => Carbon::now()->subDays(1),
+            ];
+
+            $notifications[] = [
+                'id' => \Illuminate\Support\Str::uuid(),
+                'user_id' => $pimpinan->id,
+                'type' => 'policy_update',
+                'title' => 'Update Kebijakan PSAT',
+                'message' => 'Ada update terkait kebijakan PSAT yang perlu Anda ketahui. Dokumen kebijakan terbaru telah diunggah.',
+                'data' => [
+                    'policy_document' => 'Kebijakan PSAT 2025.pdf',
+                    'effective_date' => Carbon::now()->addDays(7)->toDateString(),
+                    'summary_changes' => 'Peningkatan standar keamanan pangan dan prosedur verifikasi yang diperbarui',
+                    'action_required' => 'review_policy'
+                ],
+                'is_read' => false,
+                'created_at' => Carbon::now()->subDays(2),
+                'updated_at' => Carbon::now()->subDays(2),
             ];
         }
 
