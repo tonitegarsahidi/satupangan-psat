@@ -58,6 +58,15 @@ class DatabaseSeeder extends Seeder
 
             QrBadanPanganSeeder::class,
 
+            // Pengawasan related seeders
+            PengawasanSeeder::class,
+            PengawasanRekapSeeder::class,
+            PengawasanTindakanSeeder::class,
+            PengawasanRekapPengawasanSeeder::class,
+            PengawasanTindakanLanjutanSeeder::class,
+            PengawasanAttachmentSeeder::class,
+            PengawasanTindakanPicSeeder::class,
+
             // Notification and Message seeders
             NotificationSeeder::class,
             MessageSeeder::class,

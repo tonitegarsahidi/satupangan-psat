@@ -21,7 +21,7 @@ return new class extends Migration
             $table->foreign('pengawasan_id')->references('id')->on('pengawasan')->onDelete('cascade');
 
             // Add unique constraint to prevent duplicate entries
-            $table->unique(['pengawasan_rekap_id', 'pengawasan_id']);
+            $table->unique(['pengawasan_rekap_id', 'pengawasan_id'], 'prp_rekap_id_pengawasan_id_unique');
         });
     }
 
