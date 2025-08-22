@@ -58,7 +58,7 @@ class PetugasProfileController extends Controller
         $user = Auth::user();
         $profile = $this->userProfileService->getUserProfile($user->id);
         $petugas = Petugas::where('user_id', $user->id)->first();
-        
+
         $breadcrumbs = array_merge($this->mainBreadcrumbs, ['Data Petugas' => null]);
         $alerts = AlertHelper::getAlerts();
 
@@ -73,6 +73,36 @@ class PetugasProfileController extends Controller
         }
 
         return view('admin.pages.petugas.profile-index', compact('profile', 'petugas', 'breadcrumbs', 'provinsis', 'kotas', 'alerts'));
+    }
+
+    /**
+     * =============================================
+     *     display detail of petugas by user ID
+     * =============================================
+     */
+    public function detail($userId): View
+    {
+        $user = \App\Models\User::findOrFail($userId);
+        $profile = $this->userProfileService->getUserProfile($userId);
+        $petugas = Petugas::where('user_id', $userId)->first();
+
+        $breadcrumbs = array_merge($this->mainBreadcrumbs, ['Detail Petugas' => null]);
+
+        // Ambil nama provinsi
+        $provinsiNama = null;
+        if ($profile && $profile->provinsi_id) {
+            $provinsi = \App\Models\MasterProvinsi::find($profile->provinsi_id);
+            $provinsiNama = $provinsi ? $provinsi->nama_provinsi : null;
+        }
+
+        // Ambil nama kota
+        $kotaNama = null;
+        if ($profile && $profile->kota_id) {
+            $kota = \App\Models\MasterKota::find($profile->kota_id);
+            $kotaNama = $kota ? $kota->nama_kota : null;
+        }
+
+        return view('admin.pages.petugas.profile-detail', compact('user', 'profile', 'petugas', 'breadcrumbs', 'provinsiNama', 'kotaNama'));
     }
 
     /**

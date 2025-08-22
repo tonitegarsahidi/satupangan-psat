@@ -129,7 +129,16 @@
                                         <span class="badge rounded-pill bg-success"> {{ $pengawasan->status }} </span>
                                     @endif
                                 </td>
-                                <td>{{ $pengawasan->initiator ? $pengawasan->initiator->name : '-' }}</td>
+                                <td>
+                                    @if ($pengawasan->initiator)
+                                        <a href="{{ route('petugas.profile.detail', ['userId' => $pengawasan->initiator->id]) }}"
+                                           class="text-primary text-decoration-none">
+                                            {{ $pengawasan->initiator->name }}
+                                        </a>
+                                    @else
+                                        -
+                                    @endif
+                                </td>
 
                                 {{-- ============ CRUD LINK ICON =============  --}}
                                 <td>

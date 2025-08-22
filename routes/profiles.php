@@ -32,6 +32,7 @@ Route::middleware('auth')->group(function () {
         Route::get('/data-petugas', [PetugasProfileController::class, 'index'])->name('petugas.profile.index');
         Route::put('/data-petugas', [PetugasProfileController::class, 'updateOrCreate'])->name('petugas.profile.update');
         Route::get('/data-petugas/kota-by-provinsi/{provinsiId}', [PetugasProfileController::class, 'getKotaByProvinsi'])->name('petugas.profile.kota_by_provinsi');
+        Route::get('/detail-petugas/{userId}', [PetugasProfileController::class, 'detail'])->name('petugas.profile.detail');
     });
 });
 
