@@ -29,6 +29,8 @@ require __DIR__ . '/demo.php';
 require __DIR__ . '/registration.php';
 // Include pengawasan routes
 require __DIR__ . '/pengawasan.php';
+// Include early warning routes
+require __DIR__ . '/earlywarning.php';
 
 
 // Authentication routes

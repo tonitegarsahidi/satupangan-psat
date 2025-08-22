@@ -21,6 +21,14 @@
 @include('admin.components.sidebar.menu-header', ['textMenuHeader' => 'Pengawasan'])
 {{-- PENGAWASAN MENU --}}
 @include('admin.components.sidebar.item', [
+    'menuId' => 'menu-peringatan-dini',
+    'menuText' => 'Peringatan Dini',
+    'menuUrl' => route('early-warning.index'),
+    'menuIcon' => 'bx bx-file',
+    'subMenuData' => null,
+])
+{{-- PENGAWASAN MENU --}}
+@include('admin.components.sidebar.item', [
     'menuId' => 'menu-pengawasan',
     'menuText' => 'Data Pengawasan',
     'menuUrl' => route('pengawasan.index'),

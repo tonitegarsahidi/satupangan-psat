@@ -70,6 +70,9 @@ class DatabaseSeeder extends Seeder
             // Notification and Message seeders
             NotificationSeeder::class,
             MessageSeeder::class,
+
+            // Early Warning seeder
+            EarlyWarningSeeder::class,
         ]);
     }
 }
