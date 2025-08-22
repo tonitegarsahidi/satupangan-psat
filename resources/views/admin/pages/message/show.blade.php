@@ -60,7 +60,15 @@
                                         @endif
                                     </div>
                                     <div>
-                                        <h6 class="mb-0">{{ $message->sender->name }}</h6>
+                                        @if(auth()->user()->hasAnyRole(['ROLE_OPERATOR', 'ROLE_SUPERVISOR', 'ROLE_LEADER', 'ROLE_ADMIN']) && $message->sender->hasAnyRole(['ROLE_OPERATOR', 'ROLE_SUPERVISOR', 'ROLE_LEADER', 'ROLE_ADMIN']))
+                                            <h6 class="mb-0">
+                                                <a href="{{ route('admin.user.view', ['id' => $message->sender->id]) }}" class="text-primary">
+                                                    {{ $message->sender->name }}
+                                                </a>
+                                            </h6>
+                                        @else
+                                            <h6 class="mb-0">{{ $message->sender->name }}</h6>
+                                        @endif
                                         <small class="text-muted">{{ $message->sender->email ?? '' }}</small>
                                     </div>
                                 </div>
