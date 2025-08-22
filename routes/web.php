@@ -27,6 +27,9 @@ require __DIR__ . '/settings.php';
 require __DIR__ . '/reports.php';
 require __DIR__ . '/demo.php';
 require __DIR__ . '/registration.php';
+// Include pengawasan routes
+require __DIR__ . '/pengawasan.php';
+
 
 // Authentication routes
 require __DIR__ . '/auth.php';

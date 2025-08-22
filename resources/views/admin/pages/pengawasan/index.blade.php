@@ -20,7 +20,7 @@
                     <h3 class="card-header">List of Pengawasan</h3>
                 </div>
                 <div class="p-2">
-                    <a class="btn btn-primary" href="{{ route('admin.pengawasan.add') }}">
+                    <a class="btn btn-primary" href="{{ route('pengawasan.add') }}">
                         <span class="tf-icons bx bx-plus"></span>&nbsp;
                         Add New Pengawasan
                     </a>
@@ -69,7 +69,7 @@
                             </th>
                             <th>
                                 <a
-                                    href="{{ route('admin.pengawasan.index', [
+                                    href="{{ route('pengawasan.index', [
                                         'sort_field' => 'lokasi_alamat',
                                         'sort_order' => $sortOrder == 'asc' ? 'desc' : 'asc',
                                         'keyword' => $keyword,
@@ -84,7 +84,7 @@
                             </th>
                             <th>
                                 <a
-                                    href="{{ route('admin.pengawasan.index', [
+                                    href="{{ route('pengawasan.index', [
                                         'sort_field' => 'tanggal_mulai',
                                         'sort_order' => $sortOrder == 'asc' ? 'desc' : 'asc',
                                         'keyword' => $keyword,
@@ -95,7 +95,7 @@
                             </th>
                             <th>
                                 <a
-                                    href="{{ route('admin.pengawasan.index', [
+                                    href="{{ route('pengawasan.index', [
                                         'sort_field' => 'status',
                                         'sort_order' => $sortOrder == 'asc' ? 'desc' : 'asc',
                                         'keyword' => $keyword,
@@ -142,19 +142,19 @@
 
                                 {{-- ============ CRUD LINK ICON =============  --}}
                                 <td>
-                                    <a class="action-icon" href="{{ route('admin.pengawasan.detail', ['id' => $pengawasan->id]) }}"
+                                    <a class="action-icon" href="{{ route('pengawasan.detail', ['id' => $pengawasan->id]) }}"
                                         title="detail">
                                         <i class='bx bx-search'></i>
                                     </a>
                                 </td>
                                 <td>
-                                    <a class="action-icon" href="{{ route('admin.pengawasan.edit', ['id' => $pengawasan->id]) }}"
+                                    <a class="action-icon" href="{{ route('pengawasan.edit', ['id' => $pengawasan->id]) }}"
                                         title="edit">
                                         <i class='bx bx-pencil'></i>
                                     </a>
                                 </td>
                                 <td>
-                                    <a class="action-icon" href="{{ route('admin.pengawasan.delete', ['id' => $pengawasan->id]) }}"
+                                    <a class="action-icon" href="{{ route('pengawasan.delete', ['id' => $pengawasan->id]) }}"
                                         title="delete">
                                         <i class='bx bx-trash'></i>
                                     </a>

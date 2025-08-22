@@ -109,10 +109,10 @@
             <div class="m-4">
                 <a onclick="goBack()" class="btn btn-outline-secondary me-2"><i
                         class="tf-icons bx bx-left-arrow-alt me-2"></i>Back</a>
-                <a class="btn btn-primary me-2" href="{{ route('admin.pengawasan.edit', ['id' => $data->id]) }}"
+                <a class="btn btn-primary me-2" href="{{ route('pengawasan.edit', ['id' => $data->id]) }}"
                     title="update this pengawasan">
                     <i class='tf-icons bx bx-pencil me-2'></i>Edit</a>
-                <a class="btn btn-danger me-2" href="{{ route('admin.pengawasan.delete', ['id' => $data->id]) }}"
+                <a class="btn btn-danger me-2" href="{{ route('pengawasan.delete', ['id' => $data->id]) }}"
                     title="delete pengawasan">
                     <i class='tf-icons bx bx-trash me-2'></i>Delete</a>
             </div>

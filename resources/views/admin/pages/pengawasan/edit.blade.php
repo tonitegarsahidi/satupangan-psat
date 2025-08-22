@@ -17,7 +17,7 @@
                     </div>
                     @include('admin.components.notification.error')
                     <div class="card-body">
-                        <form action="{{ route('admin.pengawasan.update', $pengawasan->id) }}"  method="POST">
+                        <form action="{{ route('pengawasan.update', $pengawasan->id) }}"  method="POST">
                             @method('PUT')
                             @csrf
 

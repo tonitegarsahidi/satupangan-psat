@@ -95,7 +95,7 @@
 
             {{-- ROW FOR DELETE BUTTON --}}
             <div class="m-4">
-                <form action="{{ route('admin.pengawasan.destroy', $data->id) }}" method="POST">
+                <form action="{{ route('pengawasan.destroy', $data->id) }}" method="POST">
                     @csrf
                     @method('DELETE')
                     <button type="submit" class="btn btn-danger me-2">

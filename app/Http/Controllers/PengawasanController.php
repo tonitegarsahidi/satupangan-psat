@@ -38,7 +38,7 @@ class PengawasanController extends Controller
         // Store common breadcrumbs in the constructor
         $this->mainBreadcrumbs = [
             'Admin' => route('admin.dashboard'),
-            'Pengawasan' => route('admin.pengawasan.index'),
+            'Pengawasan' => route('pengawasan.index'),
         ];
     }
 
@@ -102,7 +102,7 @@ class PengawasanController extends Controller
             ? AlertHelper::createAlert('success', 'Data Pengawasan successfully added')
             : AlertHelper::createAlert('danger', 'Data Pengawasan failed to be added');
 
-        return redirect()->route('admin.pengawasan.index')->with([
+        return redirect()->route('pengawasan.index')->with([
             'alerts'        => [$alert],
             'sort_order'    => 'desc'
         ]);
@@ -149,7 +149,7 @@ class PengawasanController extends Controller
             ? AlertHelper::createAlert('success', 'Data Pengawasan successfully updated')
             : AlertHelper::createAlert('danger', 'Data Pengawasan failed to be updated');
 
-        return redirect()->route('admin.pengawasan.index')->with([
+        return redirect()->route('pengawasan.index')->with([
             'alerts' => [$alert],
             'sort_field' => 'updated_at',
             'sort_order' => 'desc'
@@ -190,7 +190,7 @@ class PengawasanController extends Controller
             ? AlertHelper::createAlert('success', 'Data Pengawasan successfully deleted')
             : AlertHelper::createAlert('danger', 'Oops! failed to be deleted');
 
-        return redirect()->route('admin.pengawasan.index')->with('alerts', [$alert]);
+        return redirect()->route('pengawasan.index')->with('alerts', [$alert]);
     }
 
     /**

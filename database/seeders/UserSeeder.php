@@ -485,7 +485,107 @@ class UserSeeder extends Seeder
 
         ];
 
-        DB::table('users')->insert($users);
+        // Add missing kantor users that are referenced in RoleUserSeeder
+        $missingKantorUsers = [
+            [
+                'id' => Str::uuid(),
+                'name' => 'Kantor Jogja',
+                'email' => 'kantorjogja@panganaman.my.id',
+                'password' => Hash::make('password123'),
+                'is_active' => true,
+                'email_verified_at' => Carbon::now(),
+                'phone_number' => '0811111111111',
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
+            ],
+            [
+                'id' => Str::uuid(),
+                'name' => 'Kantor Banten',
+                'email' => 'kantorbanten@panganaman.my.id',
+                'password' => Hash::make('password123'),
+                'is_active' => true,
+                'email_verified_at' => Carbon::now(),
+                'phone_number' => '0811111111111',
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
+            ],
+            [
+                'id' => Str::uuid(),
+                'name' => 'Kantor Jakarta',
+                'email' => 'kantorjakarta@panganaman.my.id',
+                'password' => Hash::make('password123'),
+                'is_active' => true,
+                'email_verified_at' => Carbon::now(),
+                'phone_number' => '0811111111111',
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
+            ],
+            [
+                'id' => Str::uuid(),
+                'name' => 'Kantor Sumatera',
+                'email' => 'kantorsumatera@panganaman.my.id',
+                'password' => Hash::make('password123'),
+                'is_active' => true,
+                'email_verified_at' => Carbon::now(),
+                'phone_number' => '0811111111111',
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
+            ],
+            [
+                'id' => Str::uuid(),
+                'name' => 'Kantor Kalimantan',
+                'email' => 'kantorkalimantan@panganaman.my.id',
+                'password' => Hash::make('password123'),
+                'is_active' => true,
+                'email_verified_at' => Carbon::now(),
+                'phone_number' => '0811111111111',
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
+            ],
+            [
+                'id' => Str::uuid(),
+                'name' => 'Kantor Sulawesi',
+                'email' => 'kantorsulawesi@panganaman.my.id',
+                'password' => Hash::make('password123'),
+                'is_active' => true,
+                'email_verified_at' => Carbon::now(),
+                'phone_number' => '0811111111111',
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
+            ],
+            [
+                'id' => Str::uuid(),
+                'name' => 'Kantor NTT',
+                'email' => 'kantornott@panganaman.my.id',
+                'password' => Hash::make('password123'),
+                'is_active' => true,
+                'email_verified_at' => Carbon::now(),
+                'phone_number' => '0811111111111',
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
+            ],
+            [
+                'id' => Str::uuid(),
+                'name' => 'Kantor NTB',
+                'email' => 'kantornntb@panganaman.my.id',
+                'password' => Hash::make('password123'),
+                'is_active' => true,
+                'email_verified_at' => Carbon::now(),
+                'phone_number' => '0811111111111',
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
+            ],
+        ];
+
+        $allUsers = array_merge($users, $missingKantorUsers);
+
+        // Insert users while avoiding duplicates
+        foreach ($allUsers as $user) {
+            $existing = DB::table('users')->where('email', $user['email'])->first();
+            if (!$existing) {
+                DB::table('users')->insert($user);
+            }
+        }
 
 
     }

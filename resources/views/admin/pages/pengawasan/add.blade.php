@@ -18,7 +18,7 @@
                     </div>
                     <div class="card-body">
 
-                        <form method="POST" action="{{ route('admin.pengawasan.store') }}">
+                        <form method="POST" action="{{ route('pengawasan.store') }}">
                             @csrf
 
                             {{-- USER ID INITIATOR FIELD --}}

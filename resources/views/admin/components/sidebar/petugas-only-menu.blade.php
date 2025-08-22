@@ -23,7 +23,7 @@
 @include('admin.components.sidebar.item', [
     'menuId' => 'menu-pengawasan',
     'menuText' => 'Data Pengawasan',
-    'menuUrl' => route('admin.pengawasan.index'),
+    'menuUrl' => route('pengawasan.index'),
     'menuIcon' => 'bx bx-file',
     'subMenuData' => null,
 ])
