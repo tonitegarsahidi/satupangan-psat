@@ -20,7 +20,7 @@ class RoleUserSeeder extends Seeder
          $roleIdAdmin = DB::table('role_master')->where('role_code', 'ROLE_ADMIN')->value('id');
          $roleIdOperator = DB::table('role_master')->where('role_code', 'ROLE_OPERATOR')->value('id');
          $roleIdSupervisor = DB::table('role_master')->where('role_code', 'ROLE_SUPERVISOR')->value('id');
-         $roleIdLeader = DB::table('role_master')->where('role_code', 'ROLE_LEADER')->value('id');// Assign roles to users
+         $roleIdLeader = DB::table('role_master')->where('role_code', 'ROLE_LEADER')->value('id');
 
          //find the id of the users
          $userIdSuperAdmin  = DB::table('users')->where('email', 'superadmin@panganaman.my.id')->value('id');
@@ -47,73 +47,123 @@ class RoleUserSeeder extends Seeder
          $userIdKantorNTB = DB::table('users')->where('email', 'kantorntb@panganaman.my.id')->value('id');
          $userIdLeader = DB::table('users')->where('email', 'pimpinan@panganaman.my.id')->value('id');
 
+         // Get IDs for all new kantor users
+         $userIdKantorAceh = DB::table('users')->where('email', 'kantoraceh@panganaman.my.id')->value('id');
+         $userIdKantorBabel = DB::table('users')->where('email', 'kantorbabel@panganaman.my.id')->value('id');
+         $userIdKantorBengkulu = DB::table('users')->where('email', 'kantorbengkulu@panganaman.my.id')->value('id');
+         $userIdKantorDIY = DB::table('users')->where('email', 'kantordiY@panganaman.my.id')->value('id');
+         $userIdKantorGorontalo = DB::table('users')->where('email', 'kantorgorontalo@panganaman.my.id')->value('id');
+         $userIdKantorJambi = DB::table('users')->where('email', 'kantorjambi@panganaman.my.id')->value('id');
+         $userIdKantorKalbar = DB::table('users')->where('email', 'kantorkalbar@panganaman.my.id')->value('id');
+         $userIdKantorKalsel = DB::table('users')->where('email', 'kantorkalsel@panganaman.my.id')->value('id');
+         $userIdKantorKalteng = DB::table('users')->where('email', 'kantorkalteng@panganaman.my.id')->value('id');
+         $userIdKantorKaltim = DB::table('users')->where('email', 'kantorkaltim@panganaman.my.id')->value('id');
+         $userIdKantorKaltara = DB::table('users')->where('email', 'kantorkaltara@panganaman.my.id')->value('id');
+         $userIdKantorKepri = DB::table('users')->where('email', 'kantorkepri@panganaman.my.id')->value('id');
+         $userIdKantorLampung = DB::table('users')->where('email', 'kantorlampung@panganaman.my.id')->value('id');
+         $userIdKantorMaluku = DB::table('users')->where('email', 'kantormaluku@panganaman.my.id')->value('id');
+         $userIdKantorMalut = DB::table('users')->where('email', 'kantormalut@panganaman.my.id')->value('id');
+         $userIdKantorPapua = DB::table('users')->where('email', 'kantorpapua@panganaman.my.id')->value('id');
+         $userIdKantorPabar = DB::table('users')->where('email', 'kantorpabar@panganaman.my.id')->value('id');
+         $userIdKantorRiau = DB::table('users')->where('email', 'kantorriau@panganaman.my.id')->value('id');
+         $userIdKantorSulbar = DB::table('users')->where('email', 'kantorsulbar@panganaman.my.id')->value('id');
+         $userIdKantorSulsel = DB::table('users')->where('email', 'kantorsulsel@panganaman.my.id')->value('id');
+         $userIdKantorSulteng = DB::table('users')->where('email', 'kantorsulteng@panganaman.my.id')->value('id');
+         $userIdKantorSultra = DB::table('users')->where('email', 'kantorsultra@panganaman.my.id')->value('id');
+         $userIdKantorSulut = DB::table('users')->where('email', 'kantorsulut@panganaman.my.id')->value('id');
+         $userIdKantorSumbar = DB::table('users')->where('email', 'kantorsumbar@panganaman.my.id')->value('id');
+         $userIdKantorSumsel = DB::table('users')->where('email', 'kantorsumsel@panganaman.my.id')->value('id');
+         $userIdKantorSumut = DB::table('users')->where('email', 'kantorsumut@panganaman.my.id')->value('id');
 
-         $userRoles = [
-             ['id' => Str::uuid(), 'user_id' => $userIdSuperAdmin, 'role_id' => $roleIdUser],        // superadmin has ROLE_USER
-             ['id' => Str::uuid(), 'user_id' => $userIdSuperAdmin, 'role_id' => $roleIdAdmin],       // superadmin has ROLE_ADMIN
-             ['id' => Str::uuid(), 'user_id' => $userIdSuperAdmin, 'role_id' => $roleIdOperator],    // superadmin has ROLE_OPERATOR
-             ['id' => Str::uuid(), 'user_id' => $userIdSuperAdmin, 'role_id' => $roleIdSupervisor],  // superadmin has ROLE_SUPERVISOR
+         $userRoles = [];
 
-             ['id' => Str::uuid(), 'user_id' => $userIdAdmin, 'role_id' => $roleIdUser],        // admin has ROLE_USER
-             ['id' => Str::uuid(), 'user_id' => $userIdAdmin, 'role_id' => $roleIdAdmin],       // admin has ROLE_ADMIN
+         // Add roles for superadmin
+         if ($userIdSuperAdmin) {
+             $userRoles[] = ['id' => Str::uuid(), 'user_id' => $userIdSuperAdmin, 'role_id' => $roleIdUser];
+             $userRoles[] = ['id' => Str::uuid(), 'user_id' => $userIdSuperAdmin, 'role_id' => $roleIdAdmin];
+             $userRoles[] = ['id' => Str::uuid(), 'user_id' => $userIdSuperAdmin, 'role_id' => $roleIdOperator];
+             $userRoles[] = ['id' => Str::uuid(), 'user_id' => $userIdSuperAdmin, 'role_id' => $roleIdSupervisor];
+         }
 
-             ['id' => Str::uuid(), 'user_id' => $userIdSupervisor, 'role_id' => $roleIdUser],        // supervisor has ROLE_USER
-             ['id' => Str::uuid(), 'user_id' => $userIdSupervisor, 'role_id' => $roleIdSupervisor],  // supervisor has ROLE_SUPERVISOR
+         // Add roles for admin
+         if ($userIdAdmin) {
+             $userRoles[] = ['id' => Str::uuid(), 'user_id' => $userIdAdmin, 'role_id' => $roleIdUser];
+             $userRoles[] = ['id' => Str::uuid(), 'user_id' => $userIdAdmin, 'role_id' => $roleIdAdmin];
+         }
 
-             ['id' => Str::uuid(), 'user_id' => $userIdOperator, 'role_id' => $roleIdUser],        // operator has ROLE_USER
-             ['id' => Str::uuid(), 'user_id' => $userIdOperator, 'role_id' => $roleIdOperator],    // operator has ROLE_OPERATOR
+         // Add roles for supervisor
+         if ($userIdSupervisor) {
+             $userRoles[] = ['id' => Str::uuid(), 'user_id' => $userIdSupervisor, 'role_id' => $roleIdUser];
+             $userRoles[] = ['id' => Str::uuid(), 'user_id' => $userIdSupervisor, 'role_id' => $roleIdSupervisor];
+         }
 
-             ['id' => Str::uuid(), 'user_id' => $userIdUser, 'role_id' => $roleIdUser],        // user has ROLE_USER
-             ['id' => Str::uuid(), 'user_id' => $userIdUser2, 'role_id' => $roleIdUser],        // user has ROLE_USER
+         // Add roles for operator
+         if ($userIdOperator) {
+             $userRoles[] = ['id' => Str::uuid(), 'user_id' => $userIdOperator, 'role_id' => $roleIdUser];
+             $userRoles[] = ['id' => Str::uuid(), 'user_id' => $userIdOperator, 'role_id' => $roleIdOperator];
+         }
 
-             ['id' => Str::uuid(), 'user_id' => $userIdPengusaha, 'role_id' => $roleIdUser],        // pengusaha has ROLE_USER
-             ['id' => Str::uuid(), 'user_id' => $userIdPengusaha2, 'role_id' => $roleIdUser],        // pengusaha2 has ROLE_USER
-             ['id' => Str::uuid(), 'user_id' => $userIdPengusaha, 'role_id' => $roleIdPengusaha],        // pengusaha has ROLE_USER_BUSINESS
-             ['id' => Str::uuid(), 'user_id' => $userIdPengusaha2, 'role_id' => $roleIdPengusaha],        // pengusaha2 has ROLE_USER_BUSINESS
+         // Add roles for users
+         if ($userIdUser) {
+             $userRoles[] = ['id' => Str::uuid(), 'user_id' => $userIdUser, 'role_id' => $roleIdUser];
+         }
+         if ($userIdUser2) {
+             $userRoles[] = ['id' => Str::uuid(), 'user_id' => $userIdUser2, 'role_id' => $roleIdUser];
+         }
 
-             ['id' => Str::uuid(), 'user_id' => $userIdKantorPusat, 'role_id' => $roleIdSupervisor], // Kantor Pusat has ROLE_SUPERVISOR
-             ['id' => Str::uuid(), 'user_id' => $userIdKantorPusat, 'role_id' => $roleIdUser],       // Kantor Pusat has ROLE_USER
+         // Add roles for pengusaha
+         if ($userIdPengusaha) {
+             $userRoles[] = ['id' => Str::uuid(), 'user_id' => $userIdPengusaha, 'role_id' => $roleIdUser];
+             $userRoles[] = ['id' => Str::uuid(), 'user_id' => $userIdPengusaha, 'role_id' => $roleIdPengusaha];
+         }
+         if ($userIdPengusaha2) {
+             $userRoles[] = ['id' => Str::uuid(), 'user_id' => $userIdPengusaha2, 'role_id' => $roleIdUser];
+             $userRoles[] = ['id' => Str::uuid(), 'user_id' => $userIdPengusaha2, 'role_id' => $roleIdPengusaha];
+         }
 
-             ['id' => Str::uuid(), 'user_id' => $userIdKantorJatim, 'role_id' => $roleIdOperator],   // Kantor Jatim has ROLE_OPERATOR
-             ['id' => Str::uuid(), 'user_id' => $userIdKantorJatim, 'role_id' => $roleIdUser],       // Kantor Jatim has ROLE_USER
+         // Add roles for kantor pusat
+         if ($userIdKantorPusat) {
+             $userRoles[] = ['id' => Str::uuid(), 'user_id' => $userIdKantorPusat, 'role_id' => $roleIdSupervisor];
+             $userRoles[] = ['id' => Str::uuid(), 'user_id' => $userIdKantorPusat, 'role_id' => $roleIdUser];
+         }
 
-             ['id' => Str::uuid(), 'user_id' => $userIdKantorJateng, 'role_id' => $roleIdOperator],  // Kantor Jateng has ROLE_OPERATOR
-             ['id' => Str::uuid(), 'user_id' => $userIdKantorJateng, 'role_id' => $roleIdUser],      // Kantor Jateng has ROLE_USER
-
-             ['id' => Str::uuid(), 'user_id' => $userIdKantorJogja, 'role_id' => $roleIdOperator],   // Kantor Jogja has ROLE_OPERATOR
-             ['id' => Str::uuid(), 'user_id' => $userIdKantorJogja, 'role_id' => $roleIdUser],       // Kantor Jogja has ROLE_USER
-
-             ['id' => Str::uuid(), 'user_id' => $userIdKantorJabar, 'role_id' => $roleIdOperator],   // Kantor Jabar has ROLE_OPERATOR
-             ['id' => Str::uuid(), 'user_id' => $userIdKantorJabar, 'role_id' => $roleIdUser],       // Kantor Jabar has ROLE_USER
-
-             ['id' => Str::uuid(), 'user_id' => $userIdKantorBanten, 'role_id' => $roleIdOperator],  // Kantor Banten has ROLE_OPERATOR
-             ['id' => Str::uuid(), 'user_id' => $userIdKantorBanten, 'role_id' => $roleIdUser],      // Kantor Banten has ROLE_USER
-
-             ['id' => Str::uuid(), 'user_id' => $userIdKantorJakarta, 'role_id' => $roleIdOperator], // Kantor Jakarta has ROLE_OPERATOR
-             ['id' => Str::uuid(), 'user_id' => $userIdKantorJakarta, 'role_id' => $roleIdUser],     // Kantor Jakarta has ROLE_USER
-
-             ['id' => Str::uuid(), 'user_id' => $userIdKantorSumatera, 'role_id' => $roleIdOperator], // Kantor Sumatera has ROLE_OPERATOR
-             ['id' => Str::uuid(), 'user_id' => $userIdKantorSumatera, 'role_id' => $roleIdUser],    // Kantor Sumatera has ROLE_USER
-
-             ['id' => Str::uuid(), 'user_id' => $userIdKantorKalimantan, 'role_id' => $roleIdOperator], // Kantor Kalimantan has ROLE_OPERATOR
-             ['id' => Str::uuid(), 'user_id' => $userIdKantorKalimantan, 'role_id' => $roleIdUser],    // Kantor Kalimantan has ROLE_USER
-
-             ['id' => Str::uuid(), 'user_id' => $userIdKantorSulawesi, 'role_id' => $roleIdOperator], // Kantor Sulawesi has ROLE_OPERATOR
-             ['id' => Str::uuid(), 'user_id' => $userIdKantorSulawesi, 'role_id' => $roleIdUser],    // Kantor Sulawesi has ROLE_USER
-
-             ['id' => Str::uuid(), 'user_id' => $userIdKantorBali, 'role_id' => $roleIdOperator],    // Kantor Bali has ROLE_OPERATOR
-             ['id' => Str::uuid(), 'user_id' => $userIdKantorBali, 'role_id' => $roleIdUser],        // Kantor Bali has ROLE_USER
-
-             ['id' => Str::uuid(), 'user_id' => $userIdKantorNTT, 'role_id' => $roleIdOperator],     // Kantor NTT has ROLE_OPERATOR
-             ['id' => Str::uuid(), 'user_id' => $userIdKantorNTT, 'role_id' => $roleIdUser],         // Kantor NTT has ROLE_USER
-
-             ['id' => Str::uuid(), 'user_id' => $userIdKantorNTB, 'role_id' => $roleIdOperator],     // Kantor NTB has ROLE_OPERATOR
-             ['id' => Str::uuid(), 'user_id' => $userIdKantorNTB, 'role_id' => $roleIdUser],         // Kantor NTB has ROLE_USER
-
-             ['id' => Str::uuid(), 'user_id' => $userIdLeader, 'role_id' => $roleIdUser],            // Pimpinan has ROLE_USER
-             ['id' => Str::uuid(), 'user_id' => $userIdLeader, 'role_id' => $roleIdLeader],          // Pimpinan has ROLE_LEADER
-
+         // Add roles for existing kantor users
+         $kantorUsers = [
+             $userIdKantorJatim, $userIdKantorJateng, $userIdKantorJogja, $userIdKantorJabar,
+             $userIdKantorBanten, $userIdKantorJakarta, $userIdKantorSumatera, $userIdKantorKalimantan,
+             $userIdKantorSulawesi, $userIdKantorBali, $userIdKantorNTT, $userIdKantorNTB
          ];
+
+         foreach ($kantorUsers as $userId) {
+             if ($userId) {
+                 $userRoles[] = ['id' => Str::uuid(), 'user_id' => $userId, 'role_id' => $roleIdOperator];
+                 $userRoles[] = ['id' => Str::uuid(), 'user_id' => $userId, 'role_id' => $roleIdUser];
+             }
+         }
+
+         // Add roles for new kantor users
+         $newKantorUsers = [
+             $userIdKantorAceh, $userIdKantorBabel, $userIdKantorBengkulu, $userIdKantorDIY,
+             $userIdKantorGorontalo, $userIdKantorJambi, $userIdKantorKalbar, $userIdKantorKalsel,
+             $userIdKantorKalteng, $userIdKantorKaltim, $userIdKantorKaltara, $userIdKantorKepri,
+             $userIdKantorLampung, $userIdKantorMaluku, $userIdKantorMalut, $userIdKantorPapua,
+             $userIdKantorPabar, $userIdKantorRiau, $userIdKantorSulbar, $userIdKantorSulsel,
+             $userIdKantorSulteng, $userIdKantorSultra, $userIdKantorSulut, $userIdKantorSumbar,
+             $userIdKantorSumsel, $userIdKantorSumut
+         ];
+
+         foreach ($newKantorUsers as $userId) {
+             if ($userId) {
+                 $userRoles[] = ['id' => Str::uuid(), 'user_id' => $userId, 'role_id' => $roleIdOperator];
+                 $userRoles[] = ['id' => Str::uuid(), 'user_id' => $userId, 'role_id' => $roleIdUser];
+             }
+         }
+
+         // Add roles for pimpinan
+         if ($userIdLeader) {
+             $userRoles[] = ['id' => Str::uuid(), 'user_id' => $userIdLeader, 'role_id' => $roleIdUser];
+             $userRoles[] = ['id' => Str::uuid(), 'user_id' => $userIdLeader, 'role_id' => $roleIdLeader];
+         }
 
          DB::table('role_user')->insert($userRoles);
     }

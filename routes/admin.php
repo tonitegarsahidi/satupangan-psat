@@ -43,6 +43,10 @@ Route::middleware('auth')->group(function () {
     Route::get('/operator-page', [OperatorController::class, 'index'])->name('operator-page')->middleware('role:ROLE_OPERATOR');
     Route::get('/supervisor-page', [SupervisorController::class, 'index'])->name('supervisor-page')->middleware('role:ROLE_SUPERVISOR');
 
+
+    Route::get('/user/view/{id}', [UserController::class, 'view'])->name('admin.user.view')->middleware('role:ROLE_OPERATOR,ROLE_SUPERVISOR,ROLE_LEADER,ROLE_ADMIN');
+
+
     // Only users with the 'ROLE_ADMIN' can access this route group
     Route::prefix('/admin')
         ->middleware('role:ROLE_ADMIN')

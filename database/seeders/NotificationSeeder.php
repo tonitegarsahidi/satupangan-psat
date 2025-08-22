@@ -17,11 +17,19 @@ class NotificationSeeder extends Seeder
      */
     public function run()
     {
-        // Get all users
-        $users = User::all();
+        // Get all petugas users (users that exist in petugas table)
+        $petugasUsers = DB::table('petugas')->pluck('user_id')->toArray();
+
+        if (empty($petugasUsers)) {
+            $this->command->error('No petugas users found. Please run PetugasSeeder first.');
+            return;
+        }
+
+        // Get full user objects for petugas users
+        $users = User::whereIn('id', $petugasUsers)->get();
 
         if ($users->count() === 0) {
-            $this->command->error('No users found. Please run UserSeeder first.');
+            $this->command->error('No petugas users found. Please run PetugasSeeder first.');
             return;
         }
 
@@ -135,9 +143,30 @@ class NotificationSeeder extends Seeder
 
         $notifications = [];
 
-        // Create 3 notifications for each user
+        // Create at least 2 notifications for each petugas user
         foreach ($users as $user) {
-            for ($i = 0; $i < 3; $i++) {
+            // Ensure at least 2 notifications per user
+            for ($i = 0; $i < 2; $i++) {
+                $template = $notificationTemplates[array_rand($notificationTemplates)];
+
+                $notification = [
+                    'id' => \Illuminate\Support\Str::uuid(),
+                    'user_id' => $user->id,
+                    'type' => $template['type'],
+                    'title' => $template['title'],
+                    'message' => $template['message'],
+                    'data' => $template['data'],
+                    'is_read' => rand(0, 1) === 1, // Randomly set as read or unread
+                    'created_at' => Carbon::now()->subDays(rand(1, 10)),
+                    'updated_at' => Carbon::now()->subDays(rand(1, 10)),
+                ];
+
+                $notifications[] = $notification;
+            }
+
+            // Add 1-2 additional notifications for more variety
+            $extraNotifications = rand(1, 2);
+            for ($i = 0; $i < $extraNotifications; $i++) {
                 $template = $notificationTemplates[array_rand($notificationTemplates)];
 
                 $notification = [

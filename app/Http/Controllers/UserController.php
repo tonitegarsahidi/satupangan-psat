@@ -129,6 +129,21 @@ class UserController extends Controller
 
     /**
      * =============================================
+     *      View user details (read-only for specific roles)
+     * =============================================
+     */
+    public function view(Request $request)
+    {
+        $data = $this->userService->getUserDetail($request->id);
+        $data->load('business'); // Load business relationship if exists
+
+        $breadcrumbs = array_merge($this->mainBreadcrumbs, ['View' => null]);
+
+        return view('admin.pages.user.view', compact('breadcrumbs', 'data'));
+    }
+
+    /**
+     * =============================================
      *     display "edit user" pages
      * =============================================
      */

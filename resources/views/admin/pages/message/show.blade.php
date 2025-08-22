@@ -25,7 +25,18 @@
             <div class="card-body">
                 <div class="row mb-3">
                     <div class="col-md-6">
-                        <small class="text-muted">With: {{ $thread->initiator_id == Auth::id() ? $thread->participant->name : $thread->initiator->name }}</small>
+                        @php
+                            $otherUser = $thread->initiator_id == Auth::id() ? $thread->participant : $thread->initiator;
+                        @endphp
+                        <small class="text-muted">With:
+                            @if (auth()->user()->hasAnyRole(['ROLE_OPERATOR', 'ROLE_SUPERVISOR', 'ROLE_LEADER', 'ROLE_ADMIN']) && $otherUser->hasAnyRole(['ROLE_OPERATOR', 'ROLE_SUPERVISOR', 'ROLE_LEADER', 'ROLE_ADMIN']))
+                                <a href="{{ route('admin.user.view', ['id' => $otherUser->id]) }}" class="text-primary">
+                                    {{ $otherUser->name }}
+                                </a>
+                            @else
+                                {{ $otherUser->name }}
+                            @endif
+                        </small>
                     </div>
                     <div class="col-md-6 text-end">
                         <small class="text-muted">Started: {{ \Carbon\Carbon::parse($thread->created_at)->format('d M Y H:i') }}</small>
