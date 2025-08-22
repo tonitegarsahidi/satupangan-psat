@@ -156,7 +156,12 @@
                                         {{ $earlyWarning->creator ? $earlyWarning->creator->name : '-' }}
                                     @endif
                                 </td>
-                                <td style="white-space: normal; word-wrap: break-word;">{{ $earlyWarning->title }}</td>
+                                <td style="white-space: normal; word-wrap: break-word;">
+                                     <a class="action-icon" href="{{ route('early-warning.detail', ['id' => $earlyWarning->id]) }}"
+                                        title="detail">
+                                        {{ $earlyWarning->title }}</td>
+                                    </a>
+
                                 <td>
                                     @if ($earlyWarning->status == 'Published')
                                         <span class="badge rounded-pill bg-success">{{ $earlyWarning->status }}</span>
@@ -180,25 +185,27 @@
 
                                 {{-- ============ CRUD LINK ICON =============  --}}
                                 <td>
-                                    <a class="action-icon" href="{{ route('early-warning.detail', ['id' => $earlyWarning->id]) }}"
-                                        title="detail">
-                                        <i class='bx bx-search'></i>
-                                    </a>
+                                    @if (
+                                        ($earlyWarning->status == 'Draft' && $earlyWarning->creator_id == auth()->id()) ||
+                                        ($earlyWarning->status == 'Approved' &&
+                                         (auth()->user()->hasRole('ROLE_SUPERVISOR') || auth()->user()->hasRole('ROLE_LEADER')))
+                                    )
+                                        <a class="action-icon" href="{{ route('early-warning.edit', ['id' => $earlyWarning->id]) }}"
+                                            title="edit">
+                                            <i class='bx bx-pencil'></i>
+                                        </a>
+                                    @endif
                                 </td>
+
                                 <td>
-                                    <a class="action-icon" href="{{ route('early-warning.edit', ['id' => $earlyWarning->id]) }}"
-                                        title="edit">
-                                        <i class='bx bx-pencil'></i>
-                                    </a>
-                                </td>
-                                @if ($earlyWarning->status != 'Published')
-                                <td>
+                                    @if ($earlyWarning->status != 'Published')
                                     <a class="action-icon" href="{{ route('early-warning.delete-confirm', ['id' => $earlyWarning->id]) }}"
                                         title="delete">
                                         <i class='bx bx-trash'></i>
                                     </a>
+                                    @endif
                                 </td>
-                                @endif
+
                             </tr>
                         @endforeach
                     </tbody>
