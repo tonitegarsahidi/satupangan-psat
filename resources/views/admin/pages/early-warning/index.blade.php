@@ -70,6 +70,28 @@
                             <th>
                                 <a
                                     href="{{ route('early-warning.index', [
+                                        'sort_field' => 'updated_at',
+                                        'sort_order' => $sortOrder == 'asc' ? 'desc' : 'asc',
+                                        'keyword' => $keyword,
+                                    ]) }}">
+                                    Tanggal
+                                    @include('components.arrow-sort', ['field' => 'updated_at', 'sortField' => $sortField, 'sortOrder' => $sortOrder])
+                                </a>
+                            </th>
+                            <th>
+                                <a
+                                    href="{{ route('early-warning.index', [
+                                        'sort_field' => 'creator_id',
+                                        'sort_order' => $sortOrder == 'asc' ? 'desc' : 'asc',
+                                        'keyword' => $keyword,
+                                    ]) }}">
+                                    Pembuat
+                                    @include('components.arrow-sort', ['field' => 'creator_id', 'sortField' => $sortField, 'sortOrder' => $sortOrder])
+                                </a>
+                            </th>
+                            <th>
+                                <a
+                                    href="{{ route('early-warning.index', [
                                         'sort_field' => 'title',
                                         'sort_order' => $sortOrder == 'asc' ? 'desc' : 'asc',
                                         'keyword' => $keyword,
@@ -113,7 +135,6 @@
                             </th>
                             <th></th>
                             <th></th>
-                            <th></th>
                         </tr>
                     </thead>
 
@@ -125,7 +146,17 @@
                         @foreach ($earlyWarnings as $earlyWarning)
                             <tr>
                                 <td>{{ $startNumber++ }}</td>
-                                <td>{{ Str::limit($earlyWarning->title, 50) }}</td>
+                                 <td>{{ \Carbon\Carbon::parse($earlyWarning->updated_at)->format('d-m-Y') }}</td>
+                                <td>
+                                    @if ($earlyWarning->creator && $earlyWarning->creator->petugas)
+                                        <a href="{{ route('petugas.profile.detail', ['userId' => $earlyWarning->creator->petugas->user_id]) }}" class="text-decoration-none">
+                                            {{ $earlyWarning->creator->petugas->user->name }}
+                                        </a>
+                                    @else
+                                        {{ $earlyWarning->creator ? $earlyWarning->creator->name : '-' }}
+                                    @endif
+                                </td>
+                                <td style="white-space: normal; word-wrap: break-word;">{{ $earlyWarning->title }}</td>
                                 <td>
                                     @if ($earlyWarning->status == 'Published')
                                         <span class="badge rounded-pill bg-success">{{ $earlyWarning->status }}</span>
@@ -146,6 +177,7 @@
                                 </td>
                                 <td>{{ Str::limit($earlyWarning->related_product, 30) }}</td>
 
+
                                 {{-- ============ CRUD LINK ICON =============  --}}
                                 <td>
                                     <a class="action-icon" href="{{ route('early-warning.detail', ['id' => $earlyWarning->id]) }}"
@@ -159,12 +191,14 @@
                                         <i class='bx bx-pencil'></i>
                                     </a>
                                 </td>
+                                @if ($earlyWarning->status != 'Published')
                                 <td>
                                     <a class="action-icon" href="{{ route('early-warning.delete-confirm', ['id' => $earlyWarning->id]) }}"
                                         title="delete">
                                         <i class='bx bx-trash'></i>
                                     </a>
                                 </td>
+                                @endif
                             </tr>
                         @endforeach
                     </tbody>
