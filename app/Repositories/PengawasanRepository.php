@@ -36,7 +36,6 @@ class PengawasanRepository
             'produkPsat',
             'lokasiKota',
             'lokasiProvinsi',
-            'rekap',
             'rekapRecords',
             'attachments'
         ]);
@@ -62,7 +61,6 @@ class PengawasanRepository
             'produkPsat',
             'lokasiKota',
             'lokasiProvinsi',
-            'rekap',
             'rekapRecords',
             'attachments'
         ])->find($pengawasanId);
@@ -100,7 +98,6 @@ class PengawasanRepository
                 'produkPsat',
                 'lokasiKota',
                 'lokasiProvinsi',
-                'rekap',
                 'rekapRecords'
             ])
             ->orderBy("created_at", "desc")
@@ -116,7 +113,6 @@ class PengawasanRepository
                 'produkPsat',
                 'lokasiKota',
                 'lokasiProvinsi',
-                'rekap',
                 'rekapRecords'
             ])
             ->orderBy("created_at", "desc")
@@ -133,7 +129,6 @@ class PengawasanRepository
                 'produkPsat',
                 'lokasiKota',
                 'lokasiProvinsi',
-                'rekap',
                 'rekapRecords'
             ])
             ->orderBy("created_at", "desc")
@@ -142,7 +137,7 @@ class PengawasanRepository
 
     public function getPengawasanWithRekap()
     {
-        return Pengawasan::with('rekap')->get();
+        return Pengawasan::with('rekapRecords')->get();
     }
 
     public function getPengawasanAttachments($pengawasanId)
@@ -160,7 +155,6 @@ class PengawasanRepository
                 'produkPsat',
                 'lokasiKota',
                 'lokasiProvinsi',
-                'rekap',
                 'rekapRecords'
             ])
             ->orderBy("created_at", "desc")
@@ -175,7 +169,6 @@ class PengawasanRepository
                 'jenisPsat',
                 'lokasiKota',
                 'lokasiProvinsi',
-                'rekap',
                 'rekapRecords'
             ])
             ->orderBy("created_at", "desc")
@@ -194,7 +187,6 @@ class PengawasanRepository
                 'initiator',
                 'jenisPsat',
                 'produkPsat',
-                'rekap',
                 'rekapRecords'
             ])
             ->orderBy("created_at", "desc")

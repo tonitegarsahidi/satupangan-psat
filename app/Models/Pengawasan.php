@@ -58,11 +58,6 @@ class Pengawasan extends Model
         return $this->belongsTo(MasterProvinsi::class, 'lokasi_provinsi_id');
     }
 
-    public function rekap()
-    {
-        return $this->hasOne(PengawasanRekap::class);
-    }
-
     public function rekapRecords()
     {
         return $this->belongsToMany(PengawasanRekap::class, 'pengawasan_rekap_pengawasan', 'pengawasan_id', 'pengawasan_rekap_id');
