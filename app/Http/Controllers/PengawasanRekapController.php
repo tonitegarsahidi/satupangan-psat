@@ -60,7 +60,7 @@ class PengawasanRekapController extends Controller
         $keyword = $request->input('keyword');
 
 
-        $pengawasanRekapList = $this->pengawasanRekapService->listAllPengawasanRekap($perPage, $sortField, $sortOrder, $keyword);
+        $pengawasanRekapList = $this->pengawasanRekapService->listAllRekap($perPage, $sortField, $sortOrder, $keyword);
 
         $breadcrumbs = array_merge($this->mainBreadcrumbs, ['List' => null]);
 
@@ -105,7 +105,7 @@ class PengawasanRekapController extends Controller
         $validatedData['created_by'] = $userId;
         $validatedData['updated_by'] = $userId;
 
-        $result = $this->pengawasanRekapService->addNewPengawasanRekap($validatedData);
+        $result = $this->pengawasanRekapService->addNewRekap($validatedData);
 
         $alert = $result
             ? AlertHelper::createAlert('success', 'Data Pengawasan Rekap successfully added')
@@ -124,7 +124,7 @@ class PengawasanRekapController extends Controller
      */
     public function detail(Request $request)
     {
-        $data = $this->pengawasanRekapService->getPengawasanRekapDetail($request->id);
+        $data = $this->pengawasanRekapService->getRekapDetail($request->id);
 
         $breadcrumbs = array_merge($this->mainBreadcrumbs, ['Detail' => null]);
 
@@ -138,7 +138,7 @@ class PengawasanRekapController extends Controller
      */
     public function edit(Request $request, $id)
     {
-        $pengawasanRekap = $this->pengawasanRekapService->getPengawasanRekapDetail($id);
+        $pengawasanRekap = $this->pengawasanRekapService->getRekapDetail($id);
 
         $breadcrumbs = array_merge($this->mainBreadcrumbs, ['Edit' => null]);
 
@@ -168,7 +168,7 @@ class PengawasanRekapController extends Controller
         // Add updated_by with current user ID
         $validatedData['updated_by'] = Auth::id();
 
-        $result = $this->pengawasanRekapService->updatePengawasanRekap($validatedData, $id);
+        $result = $this->pengawasanRekapService->updateRekap($validatedData, $id);
 
         $alert = $result
             ? AlertHelper::createAlert('success', 'Data Pengawasan Rekap successfully updated')
@@ -190,7 +190,7 @@ class PengawasanRekapController extends Controller
      */
     public function deleteConfirm(PengawasanRekapListRequest $request)
     {
-        $data = $this->pengawasanRekapService->getPengawasanRekapDetail($request->id);
+        $data = $this->pengawasanRekapService->getRekapDetail($request->id);
 
         $breadcrumbs = array_merge($this->mainBreadcrumbs, ['Delete' => null]);
 
@@ -204,9 +204,9 @@ class PengawasanRekapController extends Controller
      */
     public function destroy(PengawasanRekapListRequest $request)
     {
-        $pengawasanRekap = $this->pengawasanRekapService->getPengawasanRekapDetail($request->id);
+        $pengawasanRekap = $this->pengawasanRekapService->getRekapDetail($request->id);
         if (!is_null($pengawasanRekap)) {
-            $result = $this->pengawasanRekapService->deletePengawasanRekap($request->id);
+            $result = $this->pengawasanRekapService->deleteRekap($request->id);
         } else {
             $result = false;
         }
@@ -231,11 +231,11 @@ class PengawasanRekapController extends Controller
         // For now, we'll return empty array
         $pengawasanRekapList = [];
 
-        $formattedPengawasan = $pengawasanRekapList->map(function ($pengawasanRekap) {
+        $formattedPengawasanRekap = $pengawasanRekapList->map(function ($pengawasanRekap) {
             return ['id' => $pengawasanRekap->id, 'text' => $pengawasanRekap->hasil_rekap];
         });
 
-        return response()->json($formattedPengasan);
+        return response()->json($formattedPengawasanRekap);
     }
 
     // ============================ END OF ULTIMATE CRUD FUNCTIONALITY ===============================

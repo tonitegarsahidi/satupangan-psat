@@ -19,12 +19,14 @@
                 <div class="p-2 bd-highlight">
                     <h3 class="card-header">List of Pengawasan Rekap</h3>
                 </div>
+                @if(auth()->user()->hasRole('ROLE_SUPERVISOR'))
                 <div class="p-2">
                     <a class="btn btn-primary" href="{{ route('pengawasan-rekap.add') }}">
                         <span class="tf-icons bx bx-plus"></span>&nbsp;
                         Add New Pengawasan Rekap
                     </a>
                 </div>
+                @endif
 
             </div>
 
@@ -67,7 +69,6 @@
                             <th>
                                 No
                             </th>
-                            <th>Admin</th>
                             <th>
                                 <a
                                     href="{{ route('pengawasan-rekap.index', [
@@ -90,7 +91,6 @@
                                     @include('components.arrow-sort', ['field' => 'produk_psat.nama_bahan_pangan_segar', 'sortField' => $sortField, 'sortOrder' => $sortOrder])
                                 </a>
                             </th>
-                            <th>Hasil Rekap</th>
                             <th>
                                 <a
                                     href="{{ route('pengawasan-rekap.index', [
@@ -103,7 +103,6 @@
                                 </a>
                             </th>
                             <th>PIC Tindakan</th>
-                            <th>Aktif</th>
                             <th>
                                 <a
                                     href="{{ route('pengawasan-rekap.index', [
@@ -129,16 +128,6 @@
                             <tr>
                                 <td>{{ $startNumber++ }}</td>
                                 <td>
-                                    @if ($pengawasanRekap->admin)
-                                        <a href="{{ route('petugas.profile.detail', ['userId' => $pengawasanRekap->admin->id]) }}"
-                                           class="text-primary text-decoration-none">
-                                            {{ $pengawasanRekap->admin->name }}
-                                        </a>
-                                    @else
-                                        -
-                                    @endif
-                                </td>
-                                <td>
                                     @if ($pengawasanRekap->jenisPsat)
                                         {{ $pengawasanRekap->jenisPsat->nama_jenis_pangan_segar }}
                                     @else
@@ -152,7 +141,6 @@
                                         -
                                     @endif
                                 </td>
-                                <td>{{ $pengawasanRekap->hasil_rekap }}</td>
                                 <td>
                                     @if ($pengawasanRekap->status == 'DRAFT')
                                         <span class="badge rounded-pill bg-secondary"> {{ $pengawasanRekap->status }} </span>
@@ -167,13 +155,6 @@
                                         {{ $pengawasanRekap->picTindakan->name }}
                                     @else
                                         -
-                                    @endif
-                                </td>
-                                <td>
-                                    @if ($pengawasanRekap->is_active)
-                                        <span class="badge rounded-pill bg-success"> Ya </span>
-                                    @else
-                                        <span class="badge rounded-pill bg-danger"> Tidak </span>
                                     @endif
                                 </td>
                                 <td>{{ \Carbon\Carbon::parse($pengawasanRekap->updated_at)->format('d/m/Y') }}</td>
