@@ -42,7 +42,10 @@ class EarlyWarningController extends Controller
         $page = $request->input('page', config('constant.CRUD.PAGE'));
         $keyword = $request->input('keyword');
 
-        $earlyWarnings = $this->EarlyWarningService->listAllEarlyWarnings($perPage, $sortField, $sortOrder, $keyword);
+        // If user doesn't have ROLE_SUPERVISOR, only show published items
+        $status = Auth::user()->hasRole('ROLE_SUPERVISOR') ? null : 'Published';
+
+        $earlyWarnings = $this->EarlyWarningService->listAllEarlyWarnings($perPage, $sortField, $sortOrder, $keyword, $status);
 
         $breadcrumbs = array_merge($this->mainBreadcrumbs, ['List' => null]);
 

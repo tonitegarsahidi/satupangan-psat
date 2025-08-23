@@ -19,12 +19,14 @@
                 <div class="p-2 bd-highlight">
                     <h3 class="card-header">List of Early Warnings</h3>
                 </div>
+                @if (auth()->user()->hasRole('ROLE_SUPERVISOR'))
                 <div class="p-2">
                     <a class="btn btn-primary" href="{{ route('early-warning.create') }}">
                         <span class="tf-icons bx bx-plus"></span>&nbsp;
                         Add New Early Warning
                     </a>
                 </div>
+                @endif
 
             </div>
 
@@ -133,8 +135,10 @@
                                     @include('components.arrow-sort', ['field' => 'related_product', 'sortField' => $sortField, 'sortOrder' => $sortOrder])
                                 </a>
                             </th>
+                            @if (Auth::user()->hasRole('ROLE_SUPERVISOR'))
                             <th></th>
                             <th></th>
+                            @endif
                         </tr>
                     </thead>
 
@@ -184,6 +188,7 @@
 
 
                                 {{-- ============ CRUD LINK ICON =============  --}}
+                                @if (Auth::user()->hasRole('ROLE_SUPERVISOR'))
                                 <td>
                                     @if (
                                         ($earlyWarning->status == 'Draft' && $earlyWarning->creator_id == auth()->id()) ||
@@ -205,6 +210,7 @@
                                     </a>
                                     @endif
                                 </td>
+                                @endif
 
                             </tr>
                         @endforeach

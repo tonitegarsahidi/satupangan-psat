@@ -28,10 +28,10 @@ class EarlyWarningService
      *  list all EarlyWarnings along with filter, sort, etc
      * =============================================
      */
-    public function listAllEarlyWarnings($perPage, string $sortField = null, string $sortOrder = null, string $keyword = null): LengthAwarePaginator
+    public function listAllEarlyWarnings($perPage, string $sortField = null, string $sortOrder = null, string $keyword = null, string $status = null): LengthAwarePaginator
     {
         $perPage = !is_null($perPage) ? $perPage : config('constant.CRUD.PER_PAGE');
-        return $this->EarlyWarningRepository->getAllEarlyWarnings($perPage, $sortField, $sortOrder, $keyword);
+        return $this->EarlyWarningRepository->getAllEarlyWarnings($perPage, $sortField, $sortOrder, $keyword, $status);
     }
 
     /**

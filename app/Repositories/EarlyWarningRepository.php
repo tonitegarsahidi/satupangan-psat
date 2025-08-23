@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Hash;
 
 class EarlyWarningRepository
 {
-    public function getAllEarlyWarnings(int $perPage = 10, string $sortField = null, string $sortOrder = null, String $keyword = null): LengthAwarePaginator
+    public function getAllEarlyWarnings(int $perPage = 10, string $sortField = null, string $sortOrder = null, String $keyword = null, String $status = null): LengthAwarePaginator
     {
         $queryResult = EarlyWarning::query();
 
@@ -24,6 +24,10 @@ class EarlyWarningRepository
                 ->orWhereRaw('lower(content) LIKE ?', ['%' . strtolower($keyword) . '%'])
                 ->orWhereRaw('lower(related_product) LIKE ?', ['%' . strtolower($keyword) . '%'])
                 ->orWhereRaw('lower(urgency_level) LIKE ?', ['%' . strtolower($keyword) . '%']);
+        }
+
+        if (!is_null($status)) {
+            $queryResult->where('status', $status);
         }
 
         $paginator = $queryResult->paginate($perPage);
