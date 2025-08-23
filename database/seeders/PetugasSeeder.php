@@ -13,10 +13,14 @@ class PetugasSeeder extends Seeder
     {
         $now = Carbon::now();
 
-        // Get all users with "kantor" in their name or email
+        // Get all users with "kantor" in their name or email, plus specific role users
         $users = DB::table('users')
-            ->where('name', 'like', 'Kantor%')
-            ->orWhere('email', 'like', 'kantor%@panganaman.my.id')
+            ->where(function($query) {
+                $query->where('name', 'like', 'Kantor%')
+                      ->orWhere('email', 'like', 'kantor%@panganaman.my.id');
+            })
+            ->orWhere('name', 'Pimpinan')
+            ->orWhere('email', 'pimpinan@panganaman.my.id')
             ->get();
 
         // Get a list of provinsi IDs for penempatan
@@ -90,11 +94,16 @@ class PetugasSeeder extends Seeder
                 }
             }
 
+            $jabatan = 'Petugas';
+            if ($isPimpinan) {
+                $jabatan = 'Pimpinan';
+            }
+
             $petugas[] = [
                 'id' => Str::uuid(),
                 'user_id' => $user->id,
                 'unit_kerja' => $user->name,
-                'jabatan' => 'Petugas',
+                'jabatan' => $jabatan,
                 'is_kantor_pusat' => $isKantorPusat,
                 'penempatan' => $penempatan,
                 'is_active' => true,
