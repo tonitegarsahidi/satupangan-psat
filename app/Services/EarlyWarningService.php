@@ -170,16 +170,23 @@ class EarlyWarningService
 
             Log::info("Found {$users->count()} users to notify for EarlyWarning: {$earlyWarning->title}");
 
-            // Send notification to all users with the specified roles
+            // Create notifications directly in the database
             foreach ($users as $user) {
-                $notification = new EarlyWarningNotification(
-                    $earlyWarning->id,
-                    $earlyWarning->title,
-                    route('earlywarning.detail', $earlyWarning->id)
-                );
+                $notificationData = [
+                    'id' => \Illuminate\Support\Str::uuid(),
+                    'user_id' => $user->id,
+                    'type' => 'EARLY_WARNING',
+                    'title' => $earlyWarning->title,
+                    'message' => "Detail Peringatan dini, pada link berikut : ".route('early-warning.detail', $earlyWarning->id),
+                    'is_read' => false,
+                    // 'data' => json_encode(['earlyWarningId' => $earlyWarning->id]),
+                    'data' => ['earlyWarningId' => $earlyWarning->id],
+                    'created_by' => 'system',
+                    'updated_by' => 'system',
+                ];
 
-                $user->notify($notification);
-                Log::info("Notification sent to user: {$user->email}");
+                \App\Models\Notification::create($notificationData);
+                Log::info("Notification created for user: {$user->email}");
             }
 
             Log::info("Successfully dispatched EarlyWarning notification: {$earlyWarning->title}");

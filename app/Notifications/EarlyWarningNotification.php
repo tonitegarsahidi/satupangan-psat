@@ -26,7 +26,7 @@ class EarlyWarningNotification extends Notification
      */
     public function via($notifiable)
     {
-        return ['database']; // Using database notifications
+        return ['database'];
     }
 
     /**
@@ -41,8 +41,8 @@ class EarlyWarningNotification extends Notification
             'type' => 'EARLY_WARNING',
             'title' => $this->title,
             'message' => $this->message,
-            'status' => 'Unread',
-            'additional_data' => [
+            'is_read' => false,
+            'data' => [
                 'earlyWarningId' => $this->earlyWarningId
             ]
         ];
