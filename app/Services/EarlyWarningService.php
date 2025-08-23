@@ -112,4 +112,36 @@ class EarlyWarningService
             return false;
         }
     }
+
+    /**
+     * =============================================
+     *      process publish EarlyWarning
+     * =============================================
+     */
+    public function publishEarlyWarning($earlyWarningId)
+    {
+        Log::info("Publishing EarlyWarning with id: $earlyWarningId");
+
+        DB::beginTransaction();
+        try {
+            $earlyWarning = EarlyWarning::findOrFail($earlyWarningId);
+            Log::info("Found EarlyWarning: {$earlyWarning->title}, Status: {$earlyWarning->status}");
+
+            // Check if status is already Published
+            if ($earlyWarning->status === 'Published') {
+                Log::info("EarlyWarning is already published");
+                return $earlyWarning;
+            }
+
+            // Update status to Published
+            $result = $this->EarlyWarningRepository->publishEarlyWarning($earlyWarningId);
+            DB::commit();
+            Log::info("Successfully published EarlyWarning: {$earlyWarning->title}");
+            return $earlyWarning;
+        } catch (\Exception $exception) {
+            DB::rollBack();
+            Log::error("Failed to publish EarlyWarning with id $earlyWarningId: {$exception->getMessage()}");
+            return null;
+        }
+    }
 }

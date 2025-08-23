@@ -6,6 +6,7 @@ use App\Models\EarlyWarning;
 use Exception;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Log;
 
 class EarlyWarningRepository
 {
@@ -73,5 +74,23 @@ class EarlyWarningRepository
             // Handle any exceptions, such as Early Warning not found
             throw $e; // Return false if deletion fails
         }
+    }
+
+    /**
+     * =============================================
+     *      process publish EarlyWarning
+     * =============================================
+     */
+    public function publishEarlyWarning($earlyWarningId)
+    {
+        Log::info("Repository: Publishing EarlyWarning with id: $earlyWarningId");
+
+        $earlyWarning = EarlyWarning::findOrFail($earlyWarningId);
+        $earlyWarning->status = 'Published';
+
+        $result = $earlyWarning->save();
+        Log::info("Repository: Save result: " . ($result ? 'Success' : 'Failed'));
+
+        return $result;
     }
 }

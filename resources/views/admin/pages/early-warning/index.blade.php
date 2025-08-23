@@ -2,6 +2,7 @@
 
 @section('page-title', 'List of Early Warnings')
 
+
 {{-- MAIN CONTENT PART --}}
 @section('main-content')
     <div class="container-xxl flex-grow-1 container-p-y">
@@ -19,7 +20,7 @@
                 <div class="p-2 bd-highlight">
                     <h3 class="card-header">List of Early Warnings</h3>
                 </div>
-                @if (auth()->user()->hasRole('ROLE_SUPERVISOR'))
+                @if (auth()->user())
                 <div class="p-2">
                     <a class="btn btn-primary" href="{{ route('early-warning.create') }}">
                         <span class="tf-icons bx bx-plus"></span>&nbsp;
@@ -135,7 +136,7 @@
                                     @include('components.arrow-sort', ['field' => 'related_product', 'sortField' => $sortField, 'sortOrder' => $sortOrder])
                                 </a>
                             </th>
-                            @if (Auth::user()->hasRole('ROLE_SUPERVISOR'))
+                            @if (Auth::user())
                             <th></th>
                             <th></th>
                             @endif
@@ -188,12 +189,11 @@
 
 
                                 {{-- ============ CRUD LINK ICON =============  --}}
-                                @if (Auth::user()->hasRole('ROLE_SUPERVISOR'))
+                                @if (Auth::user())
                                 <td>
                                     @if (
                                         ($earlyWarning->status == 'Draft' && $earlyWarning->creator_id == auth()->id()) ||
-                                        ($earlyWarning->status == 'Approved' &&
-                                         (auth()->user()->hasRole('ROLE_SUPERVISOR') || auth()->user()->hasRole('ROLE_LEADER')))
+                                        ($earlyWarning->status == 'Approved')
                                     )
                                         <a class="action-icon" href="{{ route('early-warning.edit', ['id' => $earlyWarning->id]) }}"
                                             title="edit">
@@ -208,6 +208,15 @@
                                         title="delete">
                                         <i class='bx bx-trash'></i>
                                     </a>
+                                    @endif
+                                </td>
+
+                                {{-- Publish button for ROLE_SUPERVISOR and ROLE_LEADER when status is Approved --}}
+                                <td>
+                                    @if ($earlyWarning->status == 'Approved')
+                                        <a href="{{ route('early-warning.detail', ['id' => $earlyWarning->id]) . '?publish=true' }}" class="btn btn-sm btn-success" title="Publish">
+                                            <i class='bx bx-publish'></i> Publish
+                                        </a>
                                     @endif
                                 </td>
                                 @endif
@@ -228,4 +237,5 @@
         </div>
 
     </div>
+
 @endsection
