@@ -94,7 +94,7 @@
                                 'produkPsats' => $produkPsats ?? [],
                                 'selectedJenisId' => old('jenis_psat_id'),
                                 'selectedProdukId' => old('produk_psat_id'),
-                                'jenisFieldName' => 'nama_jenis_pangan_segar',
+                                'jenisFieldName' => 'jenis_psat_id',
                                 'produkFieldName' => 'produk_psat_id',
                                 'jenisLabel' => 'Jenis PSAT',
                                 'produkLabel' => 'Produk PSAT',

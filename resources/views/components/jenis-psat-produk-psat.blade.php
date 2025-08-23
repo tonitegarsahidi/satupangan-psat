@@ -63,32 +63,47 @@
     </div>
 </div>
 
-@section('footer-code')
 <script>
 document.addEventListener('DOMContentLoaded', function() {
     var jenisSelect = document.getElementById('{{ $uniqueId }}_jenis');
     var produkSelect = document.getElementById('{{ $uniqueId }}_produk');
 
+    console.log('JavaScript initialized for jenis-psat-produk-psat component');
+    console.log('Jenis select element:', jenisSelect);
+    console.log('Produk select element:', produkSelect);
+
     // Function to load produk based on jenis
     function loadProduk(jenisId) {
+        console.log('Loading produk for jenis ID:', jenisId);
         produkSelect.innerHTML = '<option value="">Memuat...</option>';
         if (jenisId) {
-            fetch('{{ $ajaxUrl }}' + jenisId)
-                .then(response => response.json())
+            var url = '{{ $ajaxUrl }}' + jenisId;
+            console.log('Fetching URL:', url);
+
+            fetch(url)
+                .then(response => {
+                    console.log('Fetch response:', response);
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json();
+                })
                 .then(data => {
+                    console.log('Fetched data:', data);
                     produkSelect.innerHTML = '<option value="">Pilih {{ $produkLabel }}</option>';
                     var selectedProdukId = '{{ $selectedProdukId }}';
                     data.forEach(function(produk) {
                         var option = document.createElement('option');
                         option.value = produk.id;
-                        option.text = produk.nama;
-                        if (produk.id === selectedProdukId) {
+                        option.text = produk.nama_bahan_pangan_segar;
+                        if (produk.id == selectedProdukId) {
                             option.selected = true;
                         }
                         produkSelect.appendChild(option);
                     });
                 })
-                .catch(() => {
+                .catch(error => {
+                    console.error('Error fetching produk:', error);
                     produkSelect.innerHTML = '<option value="">Gagal memuat {{ $produkLabel }}</option>';
                 });
         } else {
@@ -97,14 +112,19 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // Load produk when jenis changes
-    jenisSelect.addEventListener('change', function() {
-        loadProduk(this.value);
-    });
+    if (jenisSelect) {
+        jenisSelect.addEventListener('change', function() {
+            console.log('Jenis select changed, value:', this.value);
+            loadProduk(this.value);
+        });
 
-    // Load produk on page load if there's a selected jenis
-    if (jenisSelect.value) {
-        loadProduk(jenisSelect.value);
+        // Load produk on page load if there's a selected jenis
+        if (jenisSelect.value) {
+            console.log('Loading initial produk for jenis ID:', jenisSelect.value);
+            loadProduk(jenisSelect.value);
+        }
+    } else {
+        console.error('Jenis select element not found');
     }
 });
 </script>
-@endsection
