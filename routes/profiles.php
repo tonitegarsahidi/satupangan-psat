@@ -38,3 +38,6 @@ Route::middleware('auth')->group(function () {
 
 // Non-authenticated route for registration
 Route::get('/register/kota-by-provinsi/{provinsiId}', [UserProfileController::class, 'getKotaByProvinsi'])->name('register.kota_by_provinsi');
+
+// Non-authenticated route for produk psat by jenis psat
+Route::get('/register/produk-psat-by-jenis/{jenisId}', [UserProfileController::class, 'getProdukPsatByJenis'])->name('register.produk_psat_by_jenis');

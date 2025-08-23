@@ -81,7 +81,11 @@ class PengawasanController extends Controller
         $provinsis = \App\Models\MasterProvinsi::orderBy('nama_provinsi', 'asc')->get();
         $kotas = [];
 
-        return view('admin.pages.pengawasan.add', compact('breadcrumbs', 'provinsis', 'kotas'));
+        // Get jenis psat and produk psat data
+        $jenisPsats = \App\Models\MasterJenisPanganSegar::where('is_active', 1)->orderBy('nama_jenis_pangan_segar', 'asc')->get();
+        $produkPsats = [];
+
+        return view('admin.pages.pengawasan.add', compact('breadcrumbs', 'provinsis', 'kotas', 'jenisPsats', 'produkPsats'));
     }
 
     /**
@@ -142,7 +146,14 @@ class PengawasanController extends Controller
             $kotas = \App\Models\MasterKota::where('provinsi_id', $pengawasan->lokasi_provinsi_id)->get();
         }
 
-        return view('admin.pages.pengawasan.edit', compact('breadcrumbs', 'pengawasan', 'provinsis', 'kotas'));
+        // Get jenis psat and produk psat data
+        $jenisPsats = \App\Models\MasterJenisPanganSegar::where('is_active', 1)->orderBy('nama_jenis_pangan_segar', 'asc')->get();
+        $produkPsats = [];
+        if ($pengawasan && $pengawasan->jenis_psat_id) {
+            $produkPsats = \App\Models\MasterBahanPanganSegar::where('jenis_id', $pengawasan->jenis_psat_id)->where('is_active', 1)->orderBy('nama_bahan_pangan_segar', 'asc')->get();
+        }
+
+        return view('admin.pages.pengawasan.edit', compact('breadcrumbs', 'pengawasan', 'provinsis', 'kotas', 'jenisPsats', 'produkPsats'));
     }
 
     /**

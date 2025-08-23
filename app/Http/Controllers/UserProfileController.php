@@ -117,4 +117,13 @@ class UserProfileController extends Controller
         $kotas = \App\Models\MasterKota::where('provinsi_id', $provinsiId)->where('is_active', 1)->orderBy('nama_kota')->get(['id', 'nama_kota']);
         return response()->json($kotas);
     }
+
+    /**
+     * Endpoint AJAX: get produk psat by jenis psat
+     */
+    public function getProdukPsatByJenis($jenisId)
+    {
+        $produks = \App\Models\MasterBahanPanganSegar::where('jenis_id', $jenisId)->where('is_active', 1)->orderBy('nama_bahan_pangan_segar')->get(['id', 'nama_bahan_pangan_segar']);
+        return response()->json($produks);
+    }
 }

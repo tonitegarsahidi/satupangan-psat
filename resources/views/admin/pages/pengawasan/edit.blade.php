@@ -97,47 +97,19 @@
                                 </div>
                             </div>
 
-                            {{-- JENIS PSAT FIELD --}}
-                            <div class="row mb-3">
-                                <label class="col-sm-2 col-form-label" for="jenis_psat_id">Jenis PSAT*</label>
-                                <div class="col-sm-10">
-                                    {{-- form validation error --}}
-                                    @include('admin.components.notification.error-validation', [
-                                        'field' => 'jenis_psat_id',
-                                    ])
-
-                                    {{-- input form --}}
-                                    <select name="jenis_psat_id" class="form-select" id="jenis_psat_id">
-                                        <option value="">Select PSAT Type</option>
-                                        @foreach ($jenisPsatList ?? [] as $jenisPsat)
-                                            <option value="{{ $jenisPsat->id }}" {{ old('jenis_psat_id', isset($pengawasan->jenis_psat_id) ? $pengawasan->jenis_psat_id : '') == $jenisPsat->id ? 'selected' : '' }}>
-                                                {{ $jenisPsat->nama }}
-                                            </option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                            </div>
-
-                            {{-- PRODUK PSAT FIELD --}}
-                            <div class="row mb-3">
-                                <label class="col-sm-2 col-form-label" for="produk_psat_id">Produk PSAT*</label>
-                                <div class="col-sm-10">
-                                    {{-- form validation error --}}
-                                    @include('admin.components.notification.error-validation', [
-                                        'field' => 'produk_psat_id',
-                                    ])
-
-                                    {{-- input form --}}
-                                    <select name="produk_psat_id" class="form-select" id="produk_psat_id">
-                                        <option value="">Select PSAT Product</option>
-                                        @foreach ($produkPsatList ?? [] as $produkPsat)
-                                            <option value="{{ $produkPsat->id }}" {{ old('produk_psat_id', isset($pengawasan->produk_psat_id) ? $pengawasan->produk_psat_id : '') == $produkPsat->id ? 'selected' : '' }}>
-                                                {{ $produkPsat->nama }}
-                                            </option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                            </div>
+                            {{-- JENIS PSAT & PRODUK PSAT FIELD --}}
+                            @include('components.jenis-psat-produk-psat', [
+                                'jenisPsats' => $jenisPsats,
+                                'produkPsats' => $produkPsats ?? [],
+                                'selectedJenisId' => old('jenis_psat_id', isset($pengawasan->jenis_psat_id) ? $pengawasan->jenis_psat_id : null),
+                                'selectedProdukId' => old('produk_psat_id', isset($pengawasan->produk_psat_id) ? $pengawasan->produk_psat_id : null),
+                                'jenisFieldName' => 'jenis_psat_id',
+                                'produkFieldName' => 'produk_psat_id',
+                                'jenisLabel' => 'Jenis PSAT',
+                                'produkLabel' => 'Produk PSAT',
+                                'required' => true,
+                                'ajaxUrl' => '/register/produk-psat-by-jenis/'
+                            ])
 
                             {{-- HASIL PENGAWASAN FIELD --}}
                             <div class="row mb-3">
