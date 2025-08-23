@@ -33,12 +33,18 @@ class PengawasanRepository
 
         if (!is_null($sortField) && !is_null($sortOrder)) {
             // Handle sorting by related fields
-            if ($sortField === 'lokasi_provinsi.nama_provinsi') {
-                $queryResult->leftJoin('master_provinsis', 'pengawasan.lokasi_provinsi_id', '=', 'master_provinsis.id')
-                    ->orderBy('master_provinsis.nama_provinsi', $sortOrder);
+            if ($sortField === 'jenis_psat.nama_jenis_pangan_segar') {
+                $queryResult->leftJoin('master_jenis_pangan_segars', 'pengawasan.jenis_psat_id', '=', 'master_jenis_pangan_segars.id')
+                    ->orderBy('master_jenis_pangan_segars.nama_jenis_pangan_segar', $sortOrder);
+            } elseif ($sortField === 'produk_psat.nama_bahan_pangan_segar') {
+                $queryResult->leftJoin('master_bahan_pangan_segars', 'pengawasan.produk_psat_id', '=', 'master_bahan_pangan_segars.id')
+                    ->orderBy('master_bahan_pangan_segars.nama_bahan_pangan_segar', $sortOrder);
+            } elseif ($sortField === 'lokasi_provinsi.nama_provinsi') {
+                $queryResult->leftJoin('master_provinsi', 'pengawasan.lokasi_provinsi_id', '=', 'master_provinsi.id')
+                    ->orderBy('master_provinsi.nama_provinsi', $sortOrder);
             } elseif ($sortField === 'lokasi_kota.nama_kota') {
-                $queryResult->leftJoin('master_kotas', 'pengawasan.lokasi_kota_id', '=', 'master_kotas.id')
-                    ->orderBy('master_kotas.nama_kota', $sortOrder);
+                $queryResult->leftJoin('master_kota', 'pengawasan.lokasi_kota_id', '=', 'master_kota.id')
+                    ->orderBy('master_kota.nama_kota', $sortOrder);
             } else {
                 $queryResult->orderBy($sortField, $sortOrder);
             }

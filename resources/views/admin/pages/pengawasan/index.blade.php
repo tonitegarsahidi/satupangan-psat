@@ -71,23 +71,23 @@
                             <th>
                                 <a
                                     href="{{ route('pengawasan.index', [
-                                        'sort_field' => 'jenis_psat_id',
+                                        'sort_field' => 'jenis_psat.nama_jenis_pangan_segar',
                                         'sort_order' => $sortOrder == 'asc' ? 'desc' : 'asc',
                                         'keyword' => $keyword,
                                     ]) }}">
                                     Jenis PSAT
-                                    @include('components.arrow-sort', ['field' => 'jenis_psat_id', 'sortField' => $sortField, 'sortOrder' => $sortOrder])
+                                    @include('components.arrow-sort', ['field' => 'jenis_psat.nama_jenis_pangan_segar', 'sortField' => $sortField, 'sortOrder' => $sortOrder])
                                 </a>
                             </th>
                             <th>
                                 <a
                                     href="{{ route('pengawasan.index', [
-                                        'sort_field' => 'produk_psat_id',
+                                        'sort_field' => 'produk_psat.nama_bahan_pangan_segar',
                                         'sort_order' => $sortOrder == 'asc' ? 'desc' : 'asc',
                                         'keyword' => $keyword,
                                     ]) }}">
                                     Nama Produk PSAT
-                                    @include('components.arrow-sort', ['field' => 'produk_psat_id', 'sortField' => $sortField, 'sortOrder' => $sortOrder])
+                                    @include('components.arrow-sort', ['field' => 'produk_psat.nama_bahan_pangan_segar', 'sortField' => $sortField, 'sortOrder' => $sortOrder])
                                 </a>
                             </th>
                             <th>
