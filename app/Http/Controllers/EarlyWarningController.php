@@ -122,17 +122,6 @@ class EarlyWarningController extends Controller
     {
         $data = $this->EarlyWarningService->getEarlyWarningDetail($request->id);
 
-        // Check if we need to publish this early warning
-        if ($request->has('publish') && $data->status == 'Approved') {
-            $result = $this->EarlyWarningService->publishEarlyWarning($request->id);
-
-            if ($result) {
-                $data = $this->EarlyWarningService->getEarlyWarningDetail($request->id); // Refresh data
-                $alert = AlertHelper::createAlert('success', 'Data ' . $data->title . ' successfully published');
-                return redirect()->route('early-warning.detail', ['id' => $request->id])->with('alerts', [$alert]);
-            }
-        }
-
         $breadcrumbs = array_merge($this->mainBreadcrumbs, ['Detail' => null]);
 
         return view('admin.pages.early-warning.detail', compact('breadcrumbs', 'data'));
@@ -233,11 +222,11 @@ class EarlyWarningController extends Controller
      */
     public function publishEarlyWarning(Request $request, $id)
     {
-        \Log::info('Publish early warning called with ID: ' . $id);
+        Log::info('Publish early warning called with ID: ' . $id);
 
         $result = $this->EarlyWarningService->publishEarlyWarning($id);
 
-        \Log::info('Publish result: ' . ($result ? 'Success' : 'Failed'));
+        Log::info('Publish result: ' . ($result ? 'Success' : 'Failed'));
 
         $alert = $result
             ? AlertHelper::createAlert('success', 'Data ' . $result->title . ' successfully published')

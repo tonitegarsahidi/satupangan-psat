@@ -3,14 +3,16 @@
 use App\Http\Controllers\EarlyWarningController;
 use Illuminate\Support\Facades\Route;
 
-// Early Warning Routes
-Route::prefix('early-warning')->name('early-warning.')->group(function () {
-    Route::get('/', [EarlyWarningController::class, 'index'])->name('index');
-    Route::get('/create', [EarlyWarningController::class, 'create'])->name('create');
-    Route::post('/', [EarlyWarningController::class, 'store'])->name('store');
-    Route::get('/detail/{id}', [EarlyWarningController::class, 'detail'])->name('detail');
-    Route::get('/edit/{id}', [EarlyWarningController::class, 'edit'])->name('edit');
-    Route::put('/update/{id}', [EarlyWarningController::class, 'update'])->name('update');
-    Route::get('/delete-confirm/{id}', [EarlyWarningController::class, 'deleteConfirm'])->name('delete-confirm');
-    Route::delete('/destroy/{id}', [EarlyWarningController::class, 'destroy'])->name('destroy');
-});
+Route::prefix('/early-warning')
+    ->middleware('role:ROLE_ADMIN,ROLE_SUPERVISOR,ROLE_LEADER')
+    ->group(function () {
+        Route::get('/', [\App\Http\Controllers\EarlyWarningController::class, 'index'])->name('early-warning.index');
+        Route::get('/create', [\App\Http\Controllers\EarlyWarningController::class, 'create'])->name('early-warning.create');
+        Route::post('/', [\App\Http\Controllers\EarlyWarningController::class, 'store'])->name('early-warning.store');
+        Route::get('/detail/{id}', [\App\Http\Controllers\EarlyWarningController::class, 'detail'])->name('early-warning.detail');
+        Route::get('/edit/{id}', [\App\Http\Controllers\EarlyWarningController::class, 'edit'])->name('early-warning.edit');
+        Route::put('/update/{id}', [\App\Http\Controllers\EarlyWarningController::class, 'update'])->name('early-warning.update');
+        Route::get('/delete-confirm/{id}', [\App\Http\Controllers\EarlyWarningController::class, 'deleteConfirm'])->name('early-warning.delete-confirm');
+        Route::delete('/destroy/{id}', [\App\Http\Controllers\EarlyWarningController::class, 'destroy'])->name('early-warning.destroy');
+        Route::post('/publish/{id}', [\App\Http\Controllers\EarlyWarningController::class, 'publishEarlyWarning'])->name('early-warning.publish');
+    });

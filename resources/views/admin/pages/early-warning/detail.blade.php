@@ -11,6 +11,28 @@
 
         {{-- MAIN PARTS --}}
 
+        {{-- Publish Confirmation Section --}}
+        @if (request()->has('publish') && $data->status != 'Published')
+        <div class="card mb-4">
+            <div class="card-body">
+                <div class="alert alert-warning">
+                    <h5 class="alert-heading"><i class='bx bx-error-circle me-2'></i>Konfirmasi Publish</h5>
+                    <p>Apakah Anda yakin akan mempublish Peringatan Dini ini?</p>
+                    <form action="{{ route('early-warning.publish', ['id' => $data->id]) }}" method="POST" class="d-inline">
+                        @csrf
+                        @method('POST')
+                        <button type="submit" class="btn btn-success me-2">
+                            <i class='bx bx-check me-1'></i>Ya, Publikasikan
+                        </button>
+                    </form>
+                    <a href="{{ route('early-warning.detail', ['id' => $data->id]) }}" class="btn btn-secondary">
+                        <i class='bx bx-x me-1'></i>Batal
+                    </a>
+                </div>
+            </div>
+        </div>
+        @endif
+
         <div class="card">
 
             {{-- FIRST ROW,  FOR TITLE --}}

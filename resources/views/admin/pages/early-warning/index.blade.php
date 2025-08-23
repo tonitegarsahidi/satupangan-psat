@@ -211,9 +211,9 @@
                                     @endif
                                 </td>
 
-                                {{-- Publish button for ROLE_SUPERVISOR and ROLE_LEADER when status is Approved --}}
+                                {{-- Publish button for ROLE_SUPERVISOR and ROLE_LEADER --}}
                                 <td>
-                                    @if ($earlyWarning->status == 'Approved')
+                                    @if ($earlyWarning->status != 'Published')
                                         <a href="{{ route('early-warning.detail', ['id' => $earlyWarning->id]) . '?publish=true' }}" class="btn btn-sm btn-success" title="Publish">
                                             <i class='bx bx-publish'></i> Publish
                                         </a>
