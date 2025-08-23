@@ -19,12 +19,14 @@
                 <div class="p-2 bd-highlight">
                     <h3 class="card-header">List of Register Izin EDAR PSATPD</h3>
                 </div>
+                @if (Auth::user()->hasRole('ROLE_USER_BUSINESS'))
                 <div class="p-2">
                     <a class="btn btn-primary" href="{{ route('register-izinedar-psatpd.add') }}">
                         <span class="tf-icons bx bx-plus"></span>&nbsp;
                         Add New Register Izin EDAR PSATPD
                     </a>
                 </div>
+                @endif
 
             </div>
 

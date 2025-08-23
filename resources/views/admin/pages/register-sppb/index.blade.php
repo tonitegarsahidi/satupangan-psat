@@ -19,12 +19,14 @@
                 <div class="p-2 bd-highlight">
                     <h3 class="card-header">List of Register SPPB</h3>
                 </div>
+                @if (Auth::user()->hasRole('ROLE_USER_BUSINESS'))
                 <div class="p-2">
                     <a class="btn btn-primary" href="{{ route('register-sppb.add') }}">
                         <span class="tf-icons bx bx-plus"></span>&nbsp;
                         Add New Register SPPB
                     </a>
                 </div>
+                @endif
 
             </div>
 

@@ -46,7 +46,7 @@ class LaporanPengaduanController extends Controller
     public function create(Request $request)
     {
         $breadcrumbs = array_merge($this->mainBreadcrumbs, ['Add' => null]);
-        $provinsis = \App\Models\MasterProvinsi::all();
+        $provinsis = \App\Models\MasterProvinsi::orderBy('nama_provinsi', 'asc')->get();
         $kotas = [];
 
         $user = Auth::user();
@@ -89,7 +89,7 @@ class LaporanPengaduanController extends Controller
     {
         $laporan = $this->LaporanPengaduanService->getLaporanPengaduanDetail($id);
         $breadcrumbs = array_merge($this->mainBreadcrumbs, ['Edit' => null]);
-        $provinsis = \App\Models\MasterProvinsi::all();
+        $provinsis = \App\Models\MasterProvinsi::orderBy('nama_provinsi', 'asc')->get();
         $kotas = [];
         if ($laporan && $laporan->provinsi_id) {
             $kotas = \App\Models\MasterKota::where('provinsi_id', $laporan->provinsi_id)->get();
