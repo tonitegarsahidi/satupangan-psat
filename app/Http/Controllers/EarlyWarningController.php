@@ -106,6 +106,14 @@ class EarlyWarningController extends Controller
             ]);
         }
 
+        // If it's approved, redirect to detail page with publish parameter
+        if ($request->status === 'Approved') {
+            return redirect()->route('early-warning.detail', [
+                'id' => $result->id,
+                'publish' => 'true'
+            ])->with('alerts', [$alert]);
+        }
+
         // Otherwise, redirect to index page
         return redirect()->route('early-warning.index')->with([
             'alerts'        => [$alert],
@@ -168,6 +176,14 @@ class EarlyWarningController extends Controller
                 'sort_field' => 'updated_at',
                 'sort_order' => 'desc'
             ]);
+        }
+
+        // If it's approved, redirect to detail page with publish parameter
+        if ($request->status === 'Approved') {
+            return redirect()->route('early-warning.detail', [
+                'id' => $id,
+                'publish' => 'true'
+            ])->with('alerts', [$alert]);
         }
 
         // Otherwise, redirect to index page

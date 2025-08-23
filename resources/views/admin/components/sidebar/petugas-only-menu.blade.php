@@ -24,7 +24,7 @@
     'menuId' => 'menu-peringatan-dini',
     'menuText' => 'Peringatan Dini',
     'menuUrl' => route('early-warning.index'),
-    'menuIcon' => 'bx bx-file',
+    'menuIcon' => 'bx bx-meteor',
     'subMenuData' => null,
 ])
 {{-- PENGAWASAN MENU --}}

@@ -9,7 +9,7 @@
 
         @if(session('alerts'))
             @foreach(session('alerts') as $alert)
-                <div class="alert alert-{{ $alert['type'] }} alert-dismissible fade show" role="alert">
+                <div class="alert alert-{{ $alert['type'] }} alert-dismissible fade show text-dark" role="alert">
                     {{ $alert['message'] }}
                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>
@@ -127,7 +127,7 @@
                             <div class="row justify-content-end">
                                 <div class="col-sm-10">
                                     <button type="submit" name="status" value="Draft" class="btn btn-secondary">Simpan Sebagai Draft</button>
-                                    <button type="submit" name="status" value="Approved" class="btn btn-primary">Simpan & Ajukan</button>
+                                    <button type="submit" name="status" value="Approved" class="btn btn-primary">Simpan & Publikasikan</button>
                                 </div>
                             </div>
                         </form>

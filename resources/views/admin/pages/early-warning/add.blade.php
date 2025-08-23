@@ -115,7 +115,7 @@
                             <div class="row justify-content-end">
                                 <div class="col-sm-10">
                                     <button type="submit" name="status" value="Draft" class="btn btn-secondary">Simpan Sebagai Draft</button>
-                                    <button type="submit" name="status" value="Approved" class="btn btn-primary">Simpan & Ajukan</button>
+                                    <button type="submit" name="status" value="Approved" class="btn btn-primary">Simpan & Publikasikan</button>
                                 </div>
                             </div>
                         </form>

@@ -15,13 +15,14 @@
         @if (request()->has('publish') && $data->status != 'Published')
         <div class="card mb-4">
             <div class="card-body">
-                <div class="alert alert-warning">
-                    <h5 class="alert-heading"><i class='bx bx-error-circle me-2'></i>Konfirmasi Publish</h5>
-                    <p>Apakah Anda yakin akan mempublish Peringatan Dini ini?</p>
+                <div class="alert alert-warning text-dark">
+                    <h4 class="alert-heading text-danger"><i class='bx bx-error-circle me-2'></i>Konfirmasi Publish</h4>
+                    <p>Apakah Anda yakin akan mempublikasikan Peringatan Dini ini? <br/>
+                    Tindakan ini akan mengirimkan notifikasi ke seluruh Petugas OKKP</p>
                     <form action="{{ route('early-warning.publish', ['id' => $data->id]) }}" method="POST" class="d-inline">
                         @csrf
                         @method('POST')
-                        <button type="submit" class="btn btn-success me-2">
+                        <button type="submit" class="btn btn-warning text-danger me-2">
                             <i class='bx bx-check me-1'></i>Ya, Publikasikan
                         </button>
                     </form>
