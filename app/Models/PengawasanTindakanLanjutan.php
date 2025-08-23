@@ -7,6 +7,9 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Support\Facades\Config;
 
+// Add the missing import
+use App\Models\User;
+
 class PengawasanTindakanLanjutan extends Model
 {
     use HasUuids, SoftDeletes;

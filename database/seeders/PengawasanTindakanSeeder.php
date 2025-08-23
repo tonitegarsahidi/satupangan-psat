@@ -26,48 +26,48 @@ class PengawasanTindakanSeeder extends Seeder
             [
                 'id' => Str::uuid(),
                 'pengawasan_rekap_id' => $rekapRecords[0] ?? null,
-                'user_id_pimpinan' => $users['admin@panganaman.my.id'] ?? null,
+                'user_id_pimpinan' => $users['pimpinan@panganaman.my.id'] ?? null,
                 'tindak_lanjut' => 'Melakukan monitoring berkala untuk memastikan kualitas produk terjaga.',
                 'status' => 'SELESAI',
                 'pic_tindakan_ids' => json_encode([
-                    $users['supervisor@panganaman.my.id'] ?? null,
-                    $users['operator@panganaman.my.id'] ?? null
+                    $users['kantorpusat@panganaman.my.id'] ?? null,
+                    $users['kantorjatim@panganaman.my.id'] ?? null
                 ]),
                 'is_active' => true,
-                'created_by' => $users['admin@panganaman.my.id'] ?? null,
-                'updated_by' => $users['admin@panganaman.my.id'] ?? null,
+                'created_by' => $users['pimpinan@panganaman.my.id'] ?? null,
+                'updated_by' => $users['pimpinan@panganaman.my.id'] ?? null,
             ],
             [
                 'id' => Str::uuid(),
                 'pengawasan_rekap_id' => $rekapRecords[1] ?? null,
-                'user_id_pimpinan' => $users['supervisor@panganaman.my.id'] ?? null,
+                'user_id_pimpinan' => $users['kantorpusat@panganaman.my.id'] ?? null,
                 'tindak_lanjut' => 'Segera melakukan perbaikan sanitasi dan lakukan pelatihan karyawan.',
                 'status' => 'PROSES',
                 'pic_tindakan_ids' => json_encode([
-                    $users['operator@panganaman.my.id'] ?? null,
-                    $users['user@panganaman.my.id'] ?? null
+                    $users['kantorjatim@panganaman.my.id'] ?? null,
+                    $users['kantorjateng@panganaman.my.id'] ?? null
                 ]),
                 'is_active' => true,
-                'created_by' => $users['supervisor@panganaman.my.id'] ?? null,
-                'updated_by' => $users['supervisor@panganaman.my.id'] ?? null,
+                'created_by' => $users['kantorpusat@panganaman.my.id'] ?? null,
+                'updated_by' => $users['kantorpusat@panganaman.my.id'] ?? null,
             ],
             [
                 'id' => Str::uuid(),
                 'pengawasan_rekap_id' => $rekapRecords[2] ?? null,
-                'user_id_pimpinan' => $users['operator@panganaman.my.id'] ?? null,
+                'user_id_pimpinan' => $users['kantorjatim@panganaman.my.id'] ?? null,
                 'tindak_lanjut' => 'Mempertahankan standar operasional yang ada dan lakukan evaluasi bulanan.',
                 'status' => 'SELESAI',
                 'pic_tindakan_ids' => json_encode([
-                    $users['user@panganaman.my.id'] ?? null
+                    $users['kantorjateng@panganaman.my.id'] ?? null
                 ]),
                 'is_active' => true,
-                'created_by' => $users['operator@panganaman.my.id'] ?? null,
-                'updated_by' => $users['operator@panganaman.my.id'] ?? null,
+                'created_by' => $users['kantorjatim@panganaman.my.id'] ?? null,
+                'updated_by' => $users['kantorjatim@panganaman.my.id'] ?? null,
             ],
             [
                 'id' => Str::uuid(),
                 'pengawasan_rekap_id' => $rekapRecords[3] ?? null,
-                'user_id_pimpinan' => $users['user@panganaman.my.id'] ?? null,
+                'user_id_pimpinan' => $users['kantorjateng@panganaman.my.id'] ?? null,
                 'tindak_lanjut' => 'Melengkapi semua dokumen pelabelan sesuai standar yang berlaku.',
                 'status' => 'PROSES',
                 'pic_tindakan_ids' => json_encode([
@@ -75,8 +75,8 @@ class PengawasanTindakanSeeder extends Seeder
                     $users['kantorjatim@panganaman.my.id'] ?? null
                 ]),
                 'is_active' => true,
-                'created_by' => $users['user@panganaman.my.id'] ?? null,
-                'updated_by' => $users['user@panganaman.my.id'] ?? null,
+                'created_by' => $users['kantorjateng@panganaman.my.id'] ?? null,
+                'updated_by' => $users['kantorjateng@panganaman.my.id'] ?? null,
             ],
             [
                 'id' => Str::uuid(),

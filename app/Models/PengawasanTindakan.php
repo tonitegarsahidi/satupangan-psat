@@ -43,7 +43,7 @@ class PengawasanTindakan extends Model
 
     public function picTindakans()
     {
-        return $this->belongsToMany(User::class, 'pengawasan_tindakan_pic', 'tindakan_id', 'pic_id');
+        return $this->hasMany(PengawasanTindakanPic::class, 'tindakan_id');
     }
 
     public function tindakanLanjutan()
@@ -72,7 +72,7 @@ class PengawasanTindakan extends Model
      *
      * @return string
      */
-    public function getStatusLabel()
+    public function statusLabel()
     {
         return $this->getStatusOptions()[$this->status] ?? $this->status;
     }

@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::middleware(['auth', 'role:ROLE_OPERATOR,ROLE_SUPERVISOR,ROLE_LEADER'])->group(function () {
     // MANAGE PENGAWASAN
-    Route::prefix('/pengawasan')
+    Route::prefix('/pengawasan-data')
         ->group(function () {
             Route::get('/', [PengawasanController::class, 'index'])->name('pengawasan.index');
             Route::get('/add', [PengawasanController::class, 'create'])->name('pengawasan.add');
@@ -40,5 +40,19 @@ Route::middleware(['auth', 'role:ROLE_OPERATOR,ROLE_SUPERVISOR,ROLE_LEADER'])->g
             Route::get('/delete/{id}', [PengawasanRekapController::class, 'deleteConfirm'])->name('pengawasan-rekap.delete');
             Route::delete('/delete/{id}', [PengawasanRekapController::class, 'destroy'])->name('pengawasan-rekap.destroy');
             Route::get('/search', [PengawasanRekapController::class, 'search'])->name('pengawasan-rekap.search');
+        });
+
+    // MANAGE PENGAWASAN TINDAKAN
+    Route::prefix('/pengawasan-tindakan')
+        ->group(function () {
+            Route::get('/', [\App\Http\Controllers\PengawasanTindakanController::class, 'index'])->name('pengawasan-tindakan.index');
+            Route::get('/add', [\App\Http\Controllers\PengawasanTindakanController::class, 'create'])->name('pengawasan-tindakan.add');
+            Route::post('/add', [\App\Http\Controllers\PengawasanTindakanController::class, 'store'])->name('pengawasan-tindakan.store');
+            Route::get('/detail/{id}', [\App\Http\Controllers\PengawasanTindakanController::class, 'detail'])->name('pengawasan-tindakan.detail');
+            Route::get('/edit/{id}', [\App\Http\Controllers\PengawasanTindakanController::class, 'edit'])->name('pengawasan-tindakan.edit');
+            Route::put('/edit/{id}', [\App\Http\Controllers\PengawasanTindakanController::class, 'update'])->name('pengawasan-tindakan.update');
+            Route::get('/delete/{id}', [\App\Http\Controllers\PengawasanTindakanController::class, 'deleteConfirm'])->name('pengawasan-tindakan.delete');
+            Route::delete('/delete/{id}', [\App\Http\Controllers\PengawasanTindakanController::class, 'destroy'])->name('pengawasan-tindakan.destroy');
+            Route::get('/search', [\App\Http\Controllers\PengawasanTindakanController::class, 'search'])->name('pengawasan-tindakan.search');
         });
 });

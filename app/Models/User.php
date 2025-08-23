@@ -5,6 +5,15 @@ namespace App\Models;
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 
 use App\Jobs\SendEmailVerifyEmailJob;
+use App\Models\PengawasanTindakanLanjutan;
+use App\Models\PengawasanTindakanPic;
+use App\Models\RoleMaster;
+use App\Models\Business;
+use App\Models\Petugas;
+use App\Models\UserProfile;
+use App\Models\MessageThread;
+use App\Models\Message;
+use App\Models\Notification;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -178,5 +187,20 @@ class User extends Authenticatable implements MustVerifyEmail
                     ->orWhere('participant_id', $this->id)
                     ->where('is_read_by_participant', false);
             });
+    }
+    /**
+     * Get all pengawasan tindakan PIC assignments for this user
+     */
+    public function picTindakans()
+    {
+        return $this->hasMany(PengawasanTindakanPic::class, 'pic_id');
+    }
+
+    /**
+     * Get all pengawasan tindakan lanjutan assignments for this user as PIC
+     */
+    public function tindakanLanjutans()
+    {
+        return $this->hasMany(PengawasanTindakanLanjutan::class, 'user_id_pic');
     }
 }

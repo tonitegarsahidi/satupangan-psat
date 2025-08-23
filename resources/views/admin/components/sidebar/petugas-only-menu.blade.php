@@ -18,7 +18,7 @@
       'menuIcon' => 'bx bx-id-card',
       'subMenuData' => null,
   ])
-@include('admin.components.sidebar.menu-header', ['textMenuHeader' => 'Pengawasan'])
+
 {{-- PENGAWASAN MENU --}}
 @include('admin.components.sidebar.item', [
     'menuId' => 'menu-peringatan-dini',
@@ -27,6 +27,8 @@
     'menuIcon' => 'bx bx-meteor',
     'subMenuData' => null,
 ])
+
+@include('admin.components.sidebar.menu-header', ['textMenuHeader' => 'Pengawasan'])
 {{-- PENGAWASAN MENU --}}
 @include('admin.components.sidebar.item', [
     'menuId' => 'menu-pengawasan',
@@ -41,6 +43,14 @@
     'menuText' => 'Rekap Pengawasan',
     'menuUrl' => route('pengawasan-rekap.index'),
     'menuIcon' => 'bx bx-bar-chart-square',
+    'subMenuData' => null,
+])
+{{-- PENGAWASAN TINDAKAN MENU --}}
+@include('admin.components.sidebar.item', [
+    'menuId' => 'menu-pengawasan-tindakan',
+    'menuText' => 'Tindakan Pengawasan',
+    'menuUrl' => route('pengawasan-tindakan.index'),
+    'menuIcon' => 'bx bx-run',
     'subMenuData' => null,
 ])
 @endif
