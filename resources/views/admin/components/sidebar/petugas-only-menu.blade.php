@@ -35,4 +35,12 @@
     'menuIcon' => 'bx bx-cctv',
     'subMenuData' => null,
 ])
+{{-- PENGAWASAN REKAP MENU --}}
+@include('admin.components.sidebar.item', [
+    'menuId' => 'menu-pengawasan-rekap',
+    'menuText' => 'Rekap Pengawasan',
+    'menuUrl' => route('pengawasan-rekap.index'),
+    'menuIcon' => 'bx bx-bar-chart-square',
+    'subMenuData' => null,
+])
 @endif
