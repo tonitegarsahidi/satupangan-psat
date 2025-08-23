@@ -34,15 +34,11 @@ class PengawasanRepository
         if (!is_null($sortField) && !is_null($sortOrder)) {
             // Handle sorting by related fields
             if ($sortField === 'lokasi_provinsi.nama_provinsi') {
-                $queryResult->with('lokasiProvinsi')
-                    ->orderByHas('lokasiProvinsi', function($q) use ($sortOrder) {
-                        $q->orderBy('nama_provinsi', $sortOrder);
-                    });
+                $queryResult->leftJoin('master_provinsis', 'pengawasan.lokasi_provinsi_id', '=', 'master_provinsis.id')
+                    ->orderBy('master_provinsis.nama_provinsi', $sortOrder);
             } elseif ($sortField === 'lokasi_kota.nama_kota') {
-                $queryResult->with('lokasiKota')
-                    ->orderByHas('lokasiKota', function($q) use ($sortOrder) {
-                        $q->orderBy('nama_kota', $sortOrder);
-                    });
+                $queryResult->leftJoin('master_kotas', 'pengawasan.lokasi_kota_id', '=', 'master_kotas.id')
+                    ->orderBy('master_kotas.nama_kota', $sortOrder);
             } else {
                 $queryResult->orderBy($sortField, $sortOrder);
             }
