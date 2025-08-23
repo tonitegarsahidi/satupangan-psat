@@ -1,5 +1,5 @@
 {{-- ROLE SPECIFIC MENU -- USER --}}
-@if (auth()->user()->hasAnyRole(['ROLE_LEADER', 'ROLE_OPERATOR', 'ROLE_SUPERVISOR']))
+{{-- @if (auth()->user()->hasAnyRole(['ROLE_LEADER', 'ROLE_OPERATOR', 'ROLE_SUPERVISOR']))
     @include('admin.components.sidebar.item', [
             'menuId' => 'pengawasan',
             'menuText' => 'Pengawasan',
@@ -20,4 +20,4 @@
                 // ],
             ],
         ])
-@endif
+@endif --}}

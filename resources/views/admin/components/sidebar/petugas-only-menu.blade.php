@@ -32,7 +32,7 @@
     'menuId' => 'menu-pengawasan',
     'menuText' => 'Data Pengawasan',
     'menuUrl' => route('pengawasan.index'),
-    'menuIcon' => 'bx bx-file',
+    'menuIcon' => 'bx bx-cctv',
     'subMenuData' => null,
 ])
 @endif

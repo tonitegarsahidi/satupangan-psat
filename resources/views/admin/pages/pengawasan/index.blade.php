@@ -67,44 +67,62 @@
                             <th>
                                 No
                             </th>
-                            <th>
-                                <a
-                                    href="{{ route('pengawasan.index', [
-                                        'sort_field' => 'lokasi_alamat',
-                                        'sort_order' => $sortOrder == 'asc' ? 'desc' : 'asc',
-                                        'keyword' => $keyword,
-                                    ]) }}">
-                                    Location Address
-                                    @include('components.arrow-sort', [
-                                        'field' => 'lokasi_alamat',
-                                        'sortField' => $sortField,
-                                        'sortOrder' => $sortOrder,
-                                    ])
-                                </a>
-                            </th>
-                            <th>
-                                <a
-                                    href="{{ route('pengawasan.index', [
-                                        'sort_field' => 'tanggal_mulai',
-                                        'sort_order' => $sortOrder == 'asc' ? 'desc' : 'asc',
-                                        'keyword' => $keyword,
-                                    ]) }}">
-                                    Start Date
-                                    @include('components.arrow-sort', ['field' => 'tanggal_mulai', 'sortField' => $sortField, 'sortOrder' => $sortOrder])
-                                </a>
-                            </th>
-                            <th>
-                                <a
-                                    href="{{ route('pengawasan.index', [
-                                        'sort_field' => 'status',
-                                        'sort_order' => $sortOrder == 'asc' ? 'desc' : 'asc',
-                                        'keyword' => $keyword,
-                                    ]) }}">
-                                    Status
-                                    @include('components.arrow-sort', ['field' => 'status', 'sortField' => $sortField, 'sortOrder' => $sortOrder])
-                                </a>
-                            </th>
                             <th>Initiator</th>
+                            <th>
+                                <a
+                                    href="{{ route('pengawasan.index', [
+                                        'sort_field' => 'jenis_psat_id',
+                                        'sort_order' => $sortOrder == 'asc' ? 'desc' : 'asc',
+                                        'keyword' => $keyword,
+                                    ]) }}">
+                                    Jenis PSAT
+                                    @include('components.arrow-sort', ['field' => 'jenis_psat_id', 'sortField' => $sortField, 'sortOrder' => $sortOrder])
+                                </a>
+                            </th>
+                            <th>
+                                <a
+                                    href="{{ route('pengawasan.index', [
+                                        'sort_field' => 'produk_psat_id',
+                                        'sort_order' => $sortOrder == 'asc' ? 'desc' : 'asc',
+                                        'keyword' => $keyword,
+                                    ]) }}">
+                                    Nama Produk PSAT
+                                    @include('components.arrow-sort', ['field' => 'produk_psat_id', 'sortField' => $sortField, 'sortOrder' => $sortOrder])
+                                </a>
+                            </th>
+                            <th>
+                                <a
+                                    href="{{ route('pengawasan.index', [
+                                        'sort_field' => 'produk_psat_id',
+                                        'sort_order' => $sortOrder == 'asc' ? 'desc' : 'asc',
+                                        'keyword' => $keyword,
+                                    ]) }}">
+                                    Provinsi
+                                    @include('components.arrow-sort', ['field' => 'produk_psat_id', 'sortField' => $sortField, 'sortOrder' => $sortOrder])
+                                </a>
+                            </th>
+                            <th>
+                                <a
+                                    href="{{ route('pengawasan.index', [
+                                        'sort_field' => 'produk_psat_id',
+                                        'sort_order' => $sortOrder == 'asc' ? 'desc' : 'asc',
+                                        'keyword' => $keyword,
+                                    ]) }}">
+                                    Kota
+                                    @include('components.arrow-sort', ['field' => 'produk_psat_id', 'sortField' => $sortField, 'sortOrder' => $sortOrder])
+                                </a>
+                            </th>
+                            <th>
+                                <a
+                                    href="{{ route('pengawasan.index', [
+                                        'sort_field' => 'updated_at',
+                                        'sort_order' => $sortOrder == 'asc' ? 'desc' : 'asc',
+                                        'keyword' => $keyword,
+                                    ]) }}">
+                                    Tanggal
+                                    @include('components.arrow-sort', ['field' => 'updated_at', 'sortField' => $sortField, 'sortOrder' => $sortOrder])
+                                </a>
+                            </th>
                             <th></th>
                             <th></th>
                             <th></th>
@@ -118,17 +136,6 @@
                         @foreach ($pengawasanList as $pengawasan)
                             <tr>
                                 <td>{{ $startNumber++ }}</td>
-                                <td>{{ $pengawasan->lokasi_alamat }}</td>
-                                <td>{{ \Carbon\Carbon::parse($pengawasan->tanggal_mulai)->format('d/m/Y') }}</td>
-                                <td>
-                                    @if ($pengawasan->status == 'DRAFT')
-                                        <span class="badge rounded-pill bg-secondary"> {{ $pengawasan->status }} </span>
-                                    @elseif ($pengawasan->status == 'PROSES')
-                                        <span class="badge rounded-pill bg-warning"> {{ $pengawasan->status }} </span>
-                                    @else
-                                        <span class="badge rounded-pill bg-success"> {{ $pengawasan->status }} </span>
-                                    @endif
-                                </td>
                                 <td>
                                     @if ($pengawasan->initiator)
                                         <a href="{{ route('petugas.profile.detail', ['userId' => $pengawasan->initiator->id]) }}"
@@ -139,6 +146,35 @@
                                         -
                                     @endif
                                 </td>
+                                <td>
+                                    @if ($pengawasan->jenisPsat)
+                                        {{ $pengawasan->jenisPsat->nama_jenis_pangan_segar }}
+                                    @else
+                                        -
+                                    @endif
+                                </td>
+                                <td>
+                                    @if ($pengawasan->produkPsat)
+                                        {{ $pengawasan->produkPsat->nama_bahan_pangan_segar }}
+                                    @else
+                                        -
+                                    @endif
+                                </td>
+                                <td>
+                                    @if ($pengawasan->lokasiProvinsi)
+                                        {{ $pengawasan->lokasiProvinsi->nama_provinsi }}
+                                    @else
+                                        -
+                                    @endif
+                                </td>
+                                <td>
+                                    @if ($pengawasan->lokasiKota)
+                                        {{ $pengawasan->lokasiKota->nama_kota }}
+                                    @else
+                                        -
+                                    @endif
+                                </td>
+                                <td>{{ \Carbon\Carbon::parse($pengawasan->updated_at)->format('d/m/Y') }}</td>
 
                                 {{-- ============ CRUD LINK ICON =============  --}}
                                 <td>
