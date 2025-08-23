@@ -194,10 +194,20 @@
                             <tr>
                                 <td>{{ $startNumber++ }}</td>
                                 <td>
-                                    <span class="badge {{ $typeColors[$notification->type] ?? 'bg-secondary' }}">{{ $notification->type }}</span>
+                                     @if ($notification->type === 'EARLY_WARNING')
+                                        <span class="badge {{ $typeColors[$notification->type] ?? 'bg-danger' }}">{{ $notification->type }}</span>
+                                     @else
+                                        <span class="badge {{ $typeColors[$notification->type] ?? 'bg-secondary' }}">{{ $notification->type }}</span>
+                                     @endif
+
                                 </td>
                                 <td>
-                                    <strong>{{ $notification->title }}</strong>
+                                    @if ($notification->type === 'EARLY_WARNING')
+                                        <strong class="text-danger">{{ $notification->title }}</strong>
+                                     @else
+                                        <strong>{{ $notification->title }}</strong>
+                                     @endif
+
                                 </td>
                                 <td>
                                     @if ($notification->is_read)

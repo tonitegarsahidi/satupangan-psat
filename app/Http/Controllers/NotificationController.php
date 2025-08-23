@@ -87,6 +87,12 @@ class NotificationController extends Controller
         // Mark as read when viewing
         $this->notificationService->markNotificationAsRead($id, Auth::id());
 
+        // Check if notification type is EARLY_WARNING and has earlyWarningId in additional data
+        if ($notification->type === 'EARLY_WARNING' && isset($notification->data['earlyWarningId'])) {
+            // Redirect to Early Warning Detail page
+            return redirect()->route('early-warning.detail', ['id' => $notification->data['earlyWarningId']]);
+        }
+
         $breadcrumbs = array_merge($this->mainBreadcrumbs, ['Detail' => null]);
 
         return view('admin.pages.notification.detail', compact('breadcrumbs', 'notification'));
