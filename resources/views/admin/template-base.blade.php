@@ -41,6 +41,7 @@
 </div>
 
 @stack('scripts')
+@yield('footer-code')
 
 <script src="https://cdn.jsdelivr.net/npm/qrcode@1.4.4/build/qrcode.min.js"></script>
 @include('admin.components.footer.end-footer')

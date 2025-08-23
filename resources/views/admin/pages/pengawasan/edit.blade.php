@@ -53,47 +53,19 @@
                                 </div>
                             </div>
 
-                            {{-- LOKASI KOTA FIELD --}}
-                            <div class="row mb-3">
-                                <label class="col-sm-2 col-form-label" for="lokasi_kota_id">Kota*</label>
-                                <div class="col-sm-10">
-                                    {{-- form validation error --}}
-                                    @include('admin.components.notification.error-validation', [
-                                        'field' => 'lokasi_kota_id',
-                                    ])
-
-                                    {{-- input form --}}
-                                    <select name="lokasi_kota_id" class="form-select" id="lokasi_kota_id">
-                                        <option value="">Select City</option>
-                                        @foreach ($kotaList ?? [] as $kota)
-                                            <option value="{{ $kota->id }}" {{ old('lokasi_kota_id', isset($pengawasan->lokasi_kota_id) ? $pengawasan->lokasi_kota_id : '') == $kota->id ? 'selected' : '' }}>
-                                                {{ $kota->nama }}
-                                            </option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                            </div>
-
-                            {{-- LOKASI PROVINSI FIELD --}}
-                            <div class="row mb-3">
-                                <label class="col-sm-2 col-form-label" for="lokasi_provinsi_id">Provinsi*</label>
-                                <div class="col-sm-10">
-                                    {{-- form validation error --}}
-                                    @include('admin.components.notification.error-validation', [
-                                        'field' => 'lokasi_provinsi_id',
-                                    ])
-
-                                    {{-- input form --}}
-                                    <select name="lokasi_provinsi_id" class="form-select" id="lokasi_provinsi_id">
-                                        <option value="">Select Province</option>
-                                        @foreach ($provinsiList ?? [] as $provinsi)
-                                            <option value="{{ $provinsi->id }}" {{ old('lokasi_provinsi_id', isset($pengawasan->lokasi_provinsi_id) ? $pengawasan->lokasi_provinsi_id : '') == $provinsi->id ? 'selected' : '' }}>
-                                                {{ $provinsi->nama }}
-                                            </option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                            </div>
+                            {{-- LOKASI PROVINSI & KOTA FIELD --}}
+                            @include('components.provinsi-kota', [
+                                'provinsis' => $provinsis,
+                                'kotas' => $kotas ?? [],
+                                'selectedProvinsiId' => old('lokasi_provinsi_id', isset($pengawasan->lokasi_provinsi_id) ? $pengawasan->lokasi_provinsi_id : null),
+                                'selectedKotaId' => old('lokasi_kota_id', isset($pengawasan->lokasi_kota_id) ? $pengawasan->lokasi_kota_id : null),
+                                'provinsiFieldName' => 'lokasi_provinsi_id',
+                                'kotaFieldName' => 'lokasi_kota_id',
+                                'provinsiLabel' => 'Provinsi',
+                                'kotaLabel' => 'Kota',
+                                'required' => true,
+                                'ajaxUrl' => '/register/kota-by-provinsi/'
+                            ])
 
                             {{-- TANGGAL MULAI FIELD --}}
                             <div class="row mb-3">

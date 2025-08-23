@@ -77,10 +77,11 @@ class PengawasanController extends Controller
     {
         $breadcrumbs = array_merge($this->mainBreadcrumbs, ['Add' => null]);
 
-        // You might need to get dropdown data here (e.g., jenis_psat, produk_psat, etc.)
-        // For now, we'll leave this empty and add it later if needed
+        // Get provinces and cities data
+        $provinsis = \App\Models\MasterProvinsi::orderBy('nama_provinsi', 'asc')->get();
+        $kotas = [];
 
-        return view('admin.pages.pengawasan.add', compact('breadcrumbs'));
+        return view('admin.pages.pengawasan.add', compact('breadcrumbs', 'provinsis', 'kotas'));
     }
 
     /**
@@ -134,7 +135,14 @@ class PengawasanController extends Controller
 
         $breadcrumbs = array_merge($this->mainBreadcrumbs, ['Edit' => null]);
 
-        return view('admin.pages.pengawasan.edit', compact('breadcrumbs', 'pengawasan'));
+        // Get provinces and cities data
+        $provinsis = \App\Models\MasterProvinsi::orderBy('nama_provinsi', 'asc')->get();
+        $kotas = [];
+        if ($pengawasan && $pengawasan->lokasi_provinsi_id) {
+            $kotas = \App\Models\MasterKota::where('provinsi_id', $pengawasan->lokasi_provinsi_id)->get();
+        }
+
+        return view('admin.pages.pengawasan.edit', compact('breadcrumbs', 'pengawasan', 'provinsis', 'kotas'));
     }
 
     /**
