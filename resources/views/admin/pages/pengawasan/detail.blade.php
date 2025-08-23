@@ -29,31 +29,31 @@
                         <table class="table table-hover">
                             <tbody>
                                 <tr>
-                                    <th style="width: 250px;" scope="col" class="bg-dark text-white">Location Address</th>
+                                    <th style="width: 250px;" scope="col" class="bg-dark text-white">Alamat Lokasi</th>
                                     <td>{{ $data->lokasi_alamat }}</td>
                                 </tr>
                                 <tr>
-                                    <th scope="col" class="bg-dark text-white">City</th>
+                                    <th scope="col" class="bg-dark text-white">Kota</th>
                                     <td>{{ $data->lokasiKota ? $data->lokasiKota->nama : '-' }}</td>
                                 </tr>
                                 <tr>
-                                    <th scope="col" class="bg-dark text-white">Province</th>
+                                    <th scope="col" class="bg-dark text-white">Provinsi</th>
                                     <td>{{ $data->lokasiProvinsi ? $data->lokasiProvinsi->nama : '-' }}</td>
                                 </tr>
                                 <tr>
-                                    <th scope="col" class="bg-dark text-white">Start Date</th>
+                                    <th scope="col" class="bg-dark text-white">Tanggal Mulai</th>
                                     <td>{{ $data->tanggal_mulai ? \Carbon\Carbon::parse($data->tanggal_mulai)->format('d/m/Y') : '-' }}</td>
                                 </tr>
                                 <tr>
-                                    <th scope="col" class="bg-dark text-white">End Date</th>
+                                    <th scope="col" class="bg-dark text-white">Tanggal Selesai</th>
                                     <td>{{ $data->tanggal_selesai ? \Carbon\Carbon::parse($data->tanggal_selesai)->format('d/m/Y') : '-' }}</td>
                                 </tr>
                                 <tr>
-                                    <th scope="col" class="bg-dark text-white">PSAT Type</th>
+                                    <th scope="col" class="bg-dark text-white">Jenis PSAT</th>
                                     <td>{{ $data->jenisPsat ? $data->jenisPsat->nama : '-' }}</td>
                                 </tr>
                                 <tr>
-                                    <th scope="col" class="bg-dark text-white">PSAT Product</th>
+                                    <th scope="col" class="bg-dark text-white">Produk PSAT</th>
                                     <td>{{ $data->produkPsat ? $data->produkPsat->nama : '-' }}</td>
                                 </tr>
                                 <tr>
@@ -69,15 +69,15 @@
                                     </td>
                                 </tr>
                                 <tr>
-                                    <th scope="col" class="bg-dark text-white">Supervision Result</th>
+                                    <th scope="col" class="bg-dark text-white">Hasil Pengawasan</th>
                                     <td>{{ $data->hasil_pengawasan ?: '-' }}</td>
                                 </tr>
                                 <tr>
-                                    <th scope="col" class="bg-dark text-white">Recommended Action</th>
+                                    <th scope="col" class="bg-dark text-white">Tindakan Rekomendasi</th>
                                     <td>{{ $data->tindakan_rekomendasikan ?: '-' }}</td>
                                 </tr>
                                 <tr>
-                                    <th scope="col" class="bg-dark text-white">Is Active</th>
+                                    <th scope="col" class="bg-dark text-white">Aktif</th>
                                     <td>
                                         @if ($data->is_active)
                                             <span class="badge rounded-pill bg-success"> Yes </span>
@@ -87,7 +87,7 @@
                                     </td>
                                 </tr>
                                 <tr>
-                                    <th scope="col" class="bg-dark text-white">Initiator</th>
+                                    <th scope="col" class="bg-dark text-white">Pembuat</th>
                                     <td>{{ $data->initiator ? $data->initiator->name : '-' }}</td>
                                 </tr>
                             </tbody>

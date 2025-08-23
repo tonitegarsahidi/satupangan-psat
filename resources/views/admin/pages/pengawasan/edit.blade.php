@@ -23,7 +23,7 @@
 
                             {{-- USER ID INITIATOR FIELD --}}
                             <div class="row mb-3">
-                                <label class="col-sm-2 col-form-label" for="user_id_initiator">Initiator</label>
+                                <label class="col-sm-2 col-form-label" for="user_id_initiator">Pembuat</label>
                                 <div class="col-sm-10">
                                     {{-- form validation error --}}
                                     @include('admin.components.notification.error-validation', [
@@ -39,7 +39,7 @@
 
                             {{-- LOKASI ALAMAT FIELD --}}
                             <div class="row mb-3">
-                                <label class="col-sm-2 col-form-label" for="lokasi_alamat">Location Address*</label>
+                                <label class="col-sm-2 col-form-label" for="lokasi_alamat">Alamat Lokasi*</label>
                                 <div class="col-sm-10">
                                     {{-- form validation error --}}
                                     @include('admin.components.notification.error-validation', [
@@ -55,7 +55,7 @@
 
                             {{-- LOKASI KOTA FIELD --}}
                             <div class="row mb-3">
-                                <label class="col-sm-2 col-form-label" for="lokasi_kota_id">City*</label>
+                                <label class="col-sm-2 col-form-label" for="lokasi_kota_id">Kota*</label>
                                 <div class="col-sm-10">
                                     {{-- form validation error --}}
                                     @include('admin.components.notification.error-validation', [
@@ -76,7 +76,7 @@
 
                             {{-- LOKASI PROVINSI FIELD --}}
                             <div class="row mb-3">
-                                <label class="col-sm-2 col-form-label" for="lokasi_provinsi_id">Province*</label>
+                                <label class="col-sm-2 col-form-label" for="lokasi_provinsi_id">Provinsi*</label>
                                 <div class="col-sm-10">
                                     {{-- form validation error --}}
                                     @include('admin.components.notification.error-validation', [
@@ -97,7 +97,7 @@
 
                             {{-- TANGGAL MULAI FIELD --}}
                             <div class="row mb-3">
-                                <label class="col-sm-2 col-form-label" for="tanggal_mulai">Start Date*</label>
+                                <label class="col-sm-2 col-form-label" for="tanggal_mulai">Tanggal Mulai*</label>
                                 <div class="col-sm-10">
                                     {{-- form validation error --}}
                                     @include('admin.components.notification.error-validation', [
@@ -112,7 +112,7 @@
 
                             {{-- TANGGAL SELESAI FIELD --}}
                             <div class="row mb-3">
-                                <label class="col-sm-2 col-form-label" for="tanggal_selesai">End Date</label>
+                                <label class="col-sm-2 col-form-label" for="tanggal_selesai">Tanggal Selesai</label>
                                 <div class="col-sm-10">
                                     {{-- form validation error --}}
                                     @include('admin.components.notification.error-validation', [
@@ -127,7 +127,7 @@
 
                             {{-- JENIS PSAT FIELD --}}
                             <div class="row mb-3">
-                                <label class="col-sm-2 col-form-label" for="jenis_psat_id">PSAT Type*</label>
+                                <label class="col-sm-2 col-form-label" for="jenis_psat_id">Jenis PSAT*</label>
                                 <div class="col-sm-10">
                                     {{-- form validation error --}}
                                     @include('admin.components.notification.error-validation', [
@@ -148,7 +148,7 @@
 
                             {{-- PRODUK PSAT FIELD --}}
                             <div class="row mb-3">
-                                <label class="col-sm-2 col-form-label" for="produk_psat_id">PSAT Product*</label>
+                                <label class="col-sm-2 col-form-label" for="produk_psat_id">Produk PSAT*</label>
                                 <div class="col-sm-10">
                                     {{-- form validation error --}}
                                     @include('admin.components.notification.error-validation', [
@@ -169,7 +169,7 @@
 
                             {{-- HASIL PENGAWASAN FIELD --}}
                             <div class="row mb-3">
-                                <label class="col-sm-2 col-form-label" for="hasil_pengawasan">Supervision Result*</label>
+                                <label class="col-sm-2 col-form-label" for="hasil_pengawasan">Hasil Pengawasan*</label>
                                 <div class="col-sm-10">
                                     {{-- form validation error --}}
                                     @include('admin.components.notification.error-validation', [
@@ -202,7 +202,7 @@
 
                             {{-- TINDAKAN REKOMENDASIKAN FIELD --}}
                             <div class="row mb-3">
-                                <label class="col-sm-2 col-form-label" for="tindakan_rekomendasikan">Recommended Action</label>
+                                <label class="col-sm-2 col-form-label" for="tindakan_rekomendasikan">Tindakan Rekomendasi</label>
                                 <div class="col-sm-10">
                                     {{-- form validation error --}}
                                     @include('admin.components.notification.error-validation', [
@@ -217,7 +217,7 @@
 
                             {{-- IS ACTIVE FIELD --}}
                             <div class="row mb-3">
-                                <label class="col-sm-2 col-form-label" for="is_active">Is Active*</label>
+                                <label class="col-sm-2 col-form-label" for="is_active">Aktif*</label>
                                 <div class="col-sm-10">
                                     {{-- form validation error --}}
                                     @include('admin.components.notification.error-validation', [
@@ -228,19 +228,19 @@
                                     <div class="form-check form-check-inline">
                                         <input class="form-check-input" type="radio" name="is_active" id="is_active_true" value="1"
                                             {{ old('is_active', isset($pengawasan->is_active) ? $pengawasan->is_active : '') == 1 ? 'checked' : '' }}>
-                                        <label class="form-check-label" for="is_active_true">Yes</label>
+                                        <label class="form-check-label" for="is_active_true">Ya</label>
                                     </div>
                                     <div class="form-check form-check-inline">
                                         <input class="form-check-input" type="radio" name="is_active" id="is_active_false" value="0"
                                             {{ old('is_active', isset($pengawasan->is_active) ? $pengawasan->is_active : '') == 0 ? 'checked' : '' }}>
-                                        <label class="form-check-label" for="is_active_false">No</label>
+                                        <label class="form-check-label" for="is_active_false">Tidak</label>
                                     </div>
                                 </div>
                             </div>
 
                             <div class="row justify-content-end">
                                 <div class="col-sm-10">
-                                    <button type="submit" class="btn btn-primary">Update</button>
+                                    <button type="submit" class="btn btn-primary">Perbarui</button>
                                 </div>
                             </div>
                         </form>
