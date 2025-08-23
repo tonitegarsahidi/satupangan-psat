@@ -16,7 +16,7 @@ class EarlyWarningRepository
         if (!is_null($sortField) && !is_null($sortOrder)) {
             $queryResult->orderBy($sortField, $sortOrder);
         } else {
-            $queryResult->orderBy("created_at", "desc");
+            $queryResult->orderBy("updated_at", "desc");
         }
 
         if (!is_null($keyword)) {

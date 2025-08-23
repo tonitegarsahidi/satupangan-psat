@@ -8,6 +8,15 @@
 
         @include('admin.components.breadcrumb.simple', $breadcrumbs)
 
+        @if(session('alerts'))
+            @foreach(session('alerts') as $alert)
+                <div class="alert alert-{{ $alert['type'] }} alert-dismissible fade show" role="alert">
+                    {{ $alert['message'] }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            @endforeach
+        @endif
+
         <div class="row">
 
 
@@ -25,7 +34,7 @@
 
                             {{-- TITLE FIELD --}}
                             <div class="row mb-3">
-                                <label class="col-sm-2 col-form-label" for="title">Title*</label>
+                                <label class="col-sm-2 col-form-label" for="title">Judul<span class="text-danger">*</span></label>
                                 <div class="col-sm-10">
                                     {{-- form validation error --}}
                                     @include('admin.components.notification.error-validation', ['field' => 'title'])
@@ -36,25 +45,10 @@
                                 </div>
                             </div>
 
-                            {{-- STATUS FIELD --}}
-                            <div class="row mb-3">
-                                <label class="col-sm-2 col-form-label" for="status">Status*</label>
-                                <div class="col-sm-10">
-                                    {{-- form validation error --}}
-                                    @include('admin.components.notification.error-validation', ['field' => 'status'])
-
-                                    {{-- input form --}}
-                                    <select name="status" id="status" class="form-select">
-                                        <option value="Draft" {{ old('status') == 'Draft' ? 'selected' : '' }}>Draft</option>
-                                        <option value="Approved" {{ old('status') == 'Approved' ? 'selected' : '' }}>Approved</option>
-                                        <option value="Published" {{ old('status') == 'Published' ? 'selected' : '' }}>Published</option>
-                                    </select>
-                                </div>
-                            </div>
 
                             {{-- URGENCY LEVEL FIELD --}}
                             <div class="row mb-3">
-                                <label class="col-sm-2 col-form-label" for="urgency_level">Urgency Level*</label>
+                                <label class="col-sm-2 col-form-label" for="urgency_level">Tingkat Keparahan<span class="text-danger">*</span></label>
                                 <div class="col-sm-10">
                                     {{-- form validation error --}}
                                     @include('admin.components.notification.error-validation', ['field' => 'urgency_level'])
@@ -70,7 +64,7 @@
 
                             {{-- CONTENT FIELD --}}
                             <div class="row mb-3">
-                                <label class="col-sm-2 col-form-label" for="content">Content*</label>
+                                <label class="col-sm-2 col-form-label" for="content">Isi Peringatan<span class="text-danger">*</span></label>
                                 <div class="col-sm-10">
                                     {{-- form validation error --}}
                                     @include('admin.components.notification.error-validation', ['field' => 'content'])
@@ -82,7 +76,7 @@
 
                             {{-- RELATED PRODUCT FIELD --}}
                             <div class="row mb-3">
-                                <label class="col-sm-2 col-form-label" for="related_product">Related Product</label>
+                                <label class="col-sm-2 col-form-label" for="related_product">Produk terkait</label>
                                 <div class="col-sm-10">
                                     {{-- form validation error --}}
                                     @include('admin.components.notification.error-validation', ['field' => 'related_product'])
@@ -95,7 +89,7 @@
 
                             {{-- PREVENTIVE STEPS FIELD --}}
                             <div class="row mb-3">
-                                <label class="col-sm-2 col-form-label" for="preventive_steps">Preventive Steps</label>
+                                <label class="col-sm-2 col-form-label" for="preventive_steps">Tindakan yang disarankan</label>
                                 <div class="col-sm-10">
                                     {{-- form validation error --}}
                                     @include('admin.components.notification.error-validation', ['field' => 'preventive_steps'])
@@ -107,7 +101,7 @@
 
                             {{-- URL FIELD --}}
                             <div class="row mb-3">
-                                <label class="col-sm-2 col-form-label" for="url">URL</label>
+                                <label class="col-sm-2 col-form-label" for="url">Link terkait</label>
                                 <div class="col-sm-10">
                                     {{-- form validation error --}}
                                     @include('admin.components.notification.error-validation', ['field' => 'url'])
@@ -120,7 +114,8 @@
 
                             <div class="row justify-content-end">
                                 <div class="col-sm-10">
-                                    <button type="submit" class="btn btn-primary">Send</button>
+                                    <button type="submit" name="status" value="Draft" class="btn btn-secondary">Simpan Sebagai Draft</button>
+                                    <button type="submit" name="status" value="Approved" class="btn btn-primary">Simpan & Ajukan</button>
                                 </div>
                             </div>
                         </form>

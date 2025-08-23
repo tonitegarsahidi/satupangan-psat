@@ -25,11 +25,10 @@
             <div class="row m-2">
 
                 <div class="col-md-8 col-xs-12">
-                    <div class="table-responsive text-nowrap">
-                        <table class="table table-hover">
+                    <table class="table table-hover">
                             <tbody>
                                 <tr>
-                                    <th style="width: 250px;" scope="col" class="bg-dark text-white">Title</th>
+                                    <th style="width: 250px;" scope="col" class="bg-dark text-white">Judul</th>
                                     <td>{{ $data->title }}</td>
                                 </tr>
                                 <tr>
@@ -45,7 +44,7 @@
                                     </td>
                                 </tr>
                                 <tr>
-                                    <th scope="col" class="bg-dark text-white">Urgency Level</th>
+                                    <th scope="col" class="bg-dark text-white">Tingkat Keparahan</th>
                                     <td>
                                         @if ($data->urgency_level == 'Danger')
                                             <span class="badge rounded-pill bg-danger">{{ $data->urgency_level }}</span>
@@ -57,19 +56,19 @@
                                     </td>
                                 </tr>
                                 <tr>
-                                    <th scope="col" class="bg-dark text-white">Content</th>
-                                    <td>{{ nl2br($data->content) }}</td>
+                                    <th scope="col" class="bg-dark text-white">Isi Peringatan</th>
+                                    <td class="text-break word-wrap">{!! nl2br($data->content) !!}</td>
                                 </tr>
                                 <tr>
-                                    <th scope="col" class="bg-dark text-white">Related Product</th>
+                                    <th scope="col" class="bg-dark text-white">Produk terkait</th>
                                     <td>{{ $data->related_product ?: '-' }}</td>
                                 </tr>
                                 <tr>
-                                    <th scope="col" class="bg-dark text-white">Preventive Steps</th>
-                                    <td>{{ nl2br($data->preventive_steps ?: '-') }}</td>
+                                    <th scope="col" class="bg-dark text-white">Tindakan yang disarankan</th>
+                                    <td class="text-break word-wrap">{!! nl2br($data->preventive_steps ?: '-') !!}</td>
                                 </tr>
                                 <tr>
-                                    <th scope="col" class="bg-dark text-white">URL</th>
+                                    <th scope="col" class="bg-dark text-white">Link terkait</th>
                                     <td>
                                         @if ($data->url)
                                             <a href="{{ $data->url }}" target="_blank">{{ $data->url }}</a>
@@ -79,7 +78,7 @@
                                     </td>
                                 </tr>
                                 <tr>
-                                    <th scope="col" class="bg-dark text-white">Attachmentth>
+                                    <th scope="col" class="bg-dark text-white">Lampiran</th>
                                     <td>
                                         @if ($data->attachment_path)
                                             <a href="{{ asset($data->attachment_path) }}" target="_blank">View Attachment</a>

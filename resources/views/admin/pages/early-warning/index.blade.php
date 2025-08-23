@@ -96,7 +96,7 @@
                                         'sort_order' => $sortOrder == 'asc' ? 'desc' : 'asc',
                                         'keyword' => $keyword,
                                     ]) }}">
-                                    Title
+                                    Judul
                                     @include('components.arrow-sort', ['field' => 'title', 'sortField' => $sortField, 'sortOrder' => $sortOrder])
                                 </a>
                             </th>
@@ -118,7 +118,7 @@
                                         'sort_order' => $sortOrder == 'asc' ? 'desc' : 'asc',
                                         'keyword' => $keyword,
                                     ]) }}">
-                                    Urgency Level
+                                    Tingkat Keparahan
                                     @include('components.arrow-sort', ['field' => 'urgency_level', 'sortField' => $sortField, 'sortOrder' => $sortOrder])
                                 </a>
                             </th>
@@ -129,7 +129,7 @@
                                         'sort_order' => $sortOrder == 'asc' ? 'desc' : 'asc',
                                         'keyword' => $keyword,
                                     ]) }}">
-                                    Related Product
+                                    Produk terkait
                                     @include('components.arrow-sort', ['field' => 'related_product', 'sortField' => $sortField, 'sortOrder' => $sortOrder])
                                 </a>
                             </th>

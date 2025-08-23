@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Services\EarlyWarningService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use App\Helpers\AlertHelper;
 use App\Http\Requests\EarlyWarning\EarlyWarningAddRequest;
 use App\Http\Requests\EarlyWarning\EarlyWarningEditRequest;
@@ -34,8 +35,8 @@ class EarlyWarningController extends Controller
      */
     public function index(EarlyWarningListRequest $request)
     {
-        $sortField = session()->get('sort_field', $request->input('sort_field', 'id'));
-        $sortOrder = session()->get('sort_order', $request->input('sort_order', 'asc'));
+        $sortField = session()->get('sort_field', $request->input('sort_field', 'updated_at'));
+        $sortOrder = session()->get('sort_order', $request->input('sort_order', 'desc'));
 
         $perPage = $request->input('per_page', config('constant.CRUD.PER_PAGE'));
         $page = $request->input('page', config('constant.CRUD.PAGE'));
@@ -71,6 +72,17 @@ class EarlyWarningController extends Controller
     public function store(EarlyWarningAddRequest $request)
     {
         $validatedData = $request->validated();
+
+        // Add creator_id from authenticated user
+        $validatedData['creator_id'] = Auth::user()->id;
+
+        // Add status from the button click
+        if ($request->has('status')) {
+            $validatedData['status'] = $request->status;
+        } else {
+            $validatedData['status'] = 'Draft';
+        }
+
         if($this->EarlyWarningService->checkEarlyWarningExist($validatedData["title"])){
             throw ValidationException::withMessages([
                 'title' => 'Judul Peringatan Dini sudah ada sebelumnya.'
@@ -82,8 +94,15 @@ class EarlyWarningController extends Controller
             ? AlertHelper::createAlert('success', 'Data ' . $result->title . ' successfully added')
             : AlertHelper::createAlert('danger', 'Data ' . $request->title . ' failed to be added');
 
+        // If it's a draft, redirect back to create page
+        if ($request->status === 'Draft') {
+            return redirect()->route('early-warning.create')->with([
+                'alerts'        => [$alert],
+                'sort_order'    => 'desc'
+            ]);
+        }
 
-
+        // Otherwise, redirect to index page
         return redirect()->route('early-warning.index')->with([
             'alerts'        => [$alert],
             'sort_order'    => 'desc'
@@ -125,13 +144,29 @@ class EarlyWarningController extends Controller
      */
     public function update(EarlyWarningEditRequest $request, $id)
     {
-        $result = $this->EarlyWarningService->updateEarlyWarning($request->validated(), $id);
+        $validatedData = $request->validated();
 
+        // Add status from the button click if provided
+        if ($request->has('status')) {
+            $validatedData['status'] = $request->status;
+        }
+
+        $result = $this->EarlyWarningService->updateEarlyWarning($validatedData, $id);
 
         $alert = $result
             ? AlertHelper::createAlert('success', 'Data ' . $result->title . ' successfully updated')
             : AlertHelper::createAlert('danger', 'Data ' . $request->title . ' failed to be updated');
 
+        // If it's a draft, redirect back to edit page
+        if ($request->status === 'Draft') {
+            return redirect()->route('early-warning.edit', $id)->with([
+                'alerts' => [$alert],
+                'sort_field' => 'updated_at',
+                'sort_order' => 'desc'
+            ]);
+        }
+
+        // Otherwise, redirect to index page
         return redirect()->route('early-warning.index')->with([
             'alerts' => [$alert],
             'sort_field' => 'updated_at',

@@ -22,15 +22,14 @@ class EarlyWarningEditRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'creator_id' => 'sometimes|exists:users,id',
-            'status' => 'sometimes|string|max:50|in:Draft,Approved,Published',
+            // 'creator_id' => 'sometimes|exists:users,id',
             'title' => 'sometimes|string|max:200',
             'content' => 'sometimes|string',
             'related_product' => 'nullable|string',
             'preventive_steps' => 'nullable|string',
             'attachment_path' => 'nullable|string',
             'url' => 'nullable|string|max:200',
-            'urgency_level' => 'sometimes|string|max:50|in:Info,Warning,Danger',
+            'urgency_level' => 'sometimes|string|max:50',
         ];
     }
 }
