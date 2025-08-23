@@ -28,6 +28,7 @@ class MasterBahanPanganSegarSeeder extends Seeder
             ['kode' => 'BP006', 'nama' => 'Rye', 'jenis' => 'JP001'],
             // Umbi
             ['kode' => 'BP007', 'nama' => 'Ubi Jalar', 'jenis' => 'JP002'],
+            ['kode' => 'BP0081', 'nama' => 'Kentang', 'jenis' => 'JP002'],
             ['kode' => 'BP008', 'nama' => 'Uwi/Gadung/Gembili /Yam', 'jenis' => 'JP002'],
             // Kacang-Kacangan, Polong-Polongan, Biji-Bijian, dan Biji/Buah Berminyak
             ['kode' => 'BP009', 'nama' => 'Kacang-Kacangan Laimnya Pistachio', 'jenis' => 'JP003'],
@@ -63,6 +64,7 @@ class MasterBahanPanganSegarSeeder extends Seeder
             ['kode' => 'BP034', 'nama' => 'Sawi', 'jenis' => 'JP008'],
             // Sayuran Umbi dan Akar
             ['kode' => 'BP035', 'nama' => 'Kentang', 'jenis' => 'JP009'],
+            ['kode' => 'BP135', 'nama' => 'Wortel', 'jenis' => 'JP009'],
             // Sayuran Batang dan Tangkai
             ['kode' => 'BP036', 'nama' => 'Seledri', 'jenis' => 'JP010'],
             // Sayuran Bunga

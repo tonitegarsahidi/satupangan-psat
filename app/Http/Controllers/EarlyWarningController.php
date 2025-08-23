@@ -45,6 +45,9 @@ class EarlyWarningController extends Controller
 
         // If user doesn't have ROLE_SUPERVISOR, only show published items
         $status = null;
+        if(!Auth::user()->hasRole("ROLE_SUPERVISOR")){
+            $status = "published";
+        }
 
         $earlyWarnings = $this->EarlyWarningService->listAllEarlyWarnings($perPage, $sortField, $sortOrder, $keyword, $status);
 

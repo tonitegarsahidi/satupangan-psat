@@ -4,7 +4,7 @@ use App\Http\Controllers\EarlyWarningController;
 use Illuminate\Support\Facades\Route;
 
 Route::prefix('/early-warning')
-    ->middleware('role:ROLE_ADMIN,ROLE_SUPERVISOR,ROLE_LEADER')
+    ->middleware('role:ROLE_ADMIN,ROLE_SUPERVISOR,ROLE_LEADER,ROLE_OPERATOR')
     ->group(function () {
         Route::get('/', [\App\Http\Controllers\EarlyWarningController::class, 'index'])->name('early-warning.index');
         Route::get('/create', [\App\Http\Controllers\EarlyWarningController::class, 'create'])->name('early-warning.create');
