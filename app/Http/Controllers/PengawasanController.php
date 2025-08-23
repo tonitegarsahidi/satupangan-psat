@@ -9,6 +9,7 @@ use App\Services\PengawasanService;
 use Illuminate\Http\Request;
 use App\Helpers\AlertHelper;
 use Illuminate\Validation\ValidationException;
+use Illuminate\Support\Facades\Auth;
 
 /**
  * ################################################
@@ -97,10 +98,17 @@ class PengawasanController extends Controller
     {
         $validatedData = $request->validated();
 
+        // Get current authenticated user ID
+        $userId = Auth::id();
+
         // Add user_id_initiator if not present
         if (!isset($validatedData['user_id_initiator'])) {
-            $validatedData['user_id_initiator'] = auth()->id();
+            $validatedData['user_id_initiator'] = $userId;
         }
+
+        // Add created_by and updated_by with current user ID
+        $validatedData['created_by'] = $userId;
+        $validatedData['updated_by'] = $userId;
 
         $result = $this->pengawasanService->addNewPengawasan($validatedData);
 
@@ -163,7 +171,12 @@ class PengawasanController extends Controller
      */
     public function update(PengawasanEditRequest $request, $id)
     {
-        $result = $this->pengawasanService->updatePengawasan($request->validated(), $id);
+        $validatedData = $request->validated();
+
+        // Add updated_by with current user ID
+        $validatedData['updated_by'] = Auth::id();
+
+        $result = $this->pengawasanService->updatePengawasan($validatedData, $id);
 
         $alert = $result
             ? AlertHelper::createAlert('success', 'Data Pengawasan successfully updated')
