@@ -58,6 +58,7 @@ class PengawasanController extends Controller
         $page = $request->input('page', config('constant.CRUD.PAGE'));
         $keyword = $request->input('keyword');
 
+
         $pengawasanList = $this->pengawasanService->listAllPengawasan($perPage, $sortField, $sortOrder, $keyword);
 
         $breadcrumbs = array_merge($this->mainBreadcrumbs, ['List' => null]);

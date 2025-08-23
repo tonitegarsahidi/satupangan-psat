@@ -22,19 +22,33 @@ class PengawasanRepository
 {
     public function getAllPengawasan(int $perPage = 10, string $sortField = null, string $sortOrder = null, String $keyword = null): LengthAwarePaginator
     {
-        $queryResult = Pengawasan::query();
+        $queryResult = Pengawasan::query()
+            ->with([
+                'initiator',
+                'jenisPsat',
+                'produkPsat',
+                'lokasiKota',
+                'lokasiProvinsi'
+            ]);
 
         if (!is_null($sortField) && !is_null($sortOrder)) {
-            $queryResult->orderBy($sortField, $sortOrder);
+            // Handle sorting by related fields
+            if ($sortField === 'lokasi_provinsi.nama_provinsi') {
+                $queryResult->with('lokasiProvinsi')
+                    ->orderByHas('lokasiProvinsi', function($q) use ($sortOrder) {
+                        $q->orderBy('nama_provinsi', $sortOrder);
+                    });
+            } elseif ($sortField === 'lokasi_kota.nama_kota') {
+                $queryResult->with('lokasiKota')
+                    ->orderByHas('lokasiKota', function($q) use ($sortOrder) {
+                        $q->orderBy('nama_kota', $sortOrder);
+                    });
+            } else {
+                $queryResult->orderBy($sortField, $sortOrder);
+            }
         } else {
             $queryResult->orderBy("updated_at", "desc");
         }
-
-        $queryResult->with([
-            'initiator',
-            'jenisPsat',
-            'produkPsat'
-        ]);
 
         if (!is_null($keyword)) {
             $queryResult->whereRaw('lower(lokasi_alamat) LIKE ?', ['%' . strtolower($keyword) . '%'])

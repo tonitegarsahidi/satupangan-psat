@@ -93,23 +93,23 @@
                             <th>
                                 <a
                                     href="{{ route('pengawasan.index', [
-                                        'sort_field' => 'produk_psat_id',
+                                        'sort_field' => 'lokasi_provinsi.nama_provinsi',
                                         'sort_order' => $sortOrder == 'asc' ? 'desc' : 'asc',
                                         'keyword' => $keyword,
                                     ]) }}">
                                     Provinsi
-                                    @include('components.arrow-sort', ['field' => 'produk_psat_id', 'sortField' => $sortField, 'sortOrder' => $sortOrder])
+                                    @include('components.arrow-sort', ['field' => 'lokasi_provinsi.nama_provinsi', 'sortField' => $sortField, 'sortOrder' => $sortOrder])
                                 </a>
                             </th>
                             <th>
                                 <a
                                     href="{{ route('pengawasan.index', [
-                                        'sort_field' => 'produk_psat_id',
+                                        'sort_field' => 'lokasi_kota.nama_kota',
                                         'sort_order' => $sortOrder == 'asc' ? 'desc' : 'asc',
                                         'keyword' => $keyword,
                                     ]) }}">
                                     Kota
-                                    @include('components.arrow-sort', ['field' => 'produk_psat_id', 'sortField' => $sortField, 'sortOrder' => $sortOrder])
+                                    @include('components.arrow-sort', ['field' => 'lokasi_kota.nama_kota', 'sortField' => $sortField, 'sortOrder' => $sortOrder])
                                 </a>
                             </th>
                             <th>

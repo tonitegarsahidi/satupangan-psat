@@ -25,7 +25,7 @@ class PengawasanListRequest extends FormRequest
             "per_page" => "nullable|integer",
             "page" => "nullable|integer",
             "sort_order" => "nullable|string|in:ASC,DESC,asc,desc",
-            "sort_field" => "nullable|string|in:id,lokasi_alamat,tanggal_mulai,tanggal_selesai,status,created_at",
+            "sort_field" => "nullable|string",
             "keyword" => "nullable|string",
         ];
     }
