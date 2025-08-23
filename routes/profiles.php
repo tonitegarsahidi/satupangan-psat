@@ -28,7 +28,7 @@ Route::middleware('auth')->group(function () {
     });
 
     // PETUGAS PROFILE SETTING
-    Route::middleware('role:ROLE_OPERATOR,ROLE_SUPERVISOR')->group(function () {
+    Route::middleware('role:ROLE_OPERATOR,ROLE_SUPERVISOR,ROLE_LEADER,ROLE_ADMIN')->group(function () {
         Route::get('/data-petugas', [PetugasProfileController::class, 'index'])->name('petugas.profile.index');
         Route::put('/data-petugas', [PetugasProfileController::class, 'updateOrCreate'])->name('petugas.profile.update');
         Route::get('/data-petugas/kota-by-provinsi/{provinsiId}', [PetugasProfileController::class, 'getKotaByProvinsi'])->name('petugas.profile.kota_by_provinsi');
