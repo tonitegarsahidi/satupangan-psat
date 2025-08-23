@@ -7,6 +7,8 @@ use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use App\Repositories\EarlyWarningRepository;
+use App\Notifications\EarlyWarningNotification;
+use App\Models\User;
 
 
 class EarlyWarningService
@@ -135,6 +137,10 @@ class EarlyWarningService
 
             // Update status to Published
             $result = $this->EarlyWarningRepository->publishEarlyWarning($earlyWarningId);
+
+            // Dispatch notification to all users with the specified roles
+            $this->dispatchEarlyWarning($earlyWarningId);
+
             DB::commit();
             Log::info("Successfully published EarlyWarning: {$earlyWarning->title}");
             return $earlyWarning;
@@ -142,6 +148,45 @@ class EarlyWarningService
             DB::rollBack();
             Log::error("Failed to publish EarlyWarning with id $earlyWarningId: {$exception->getMessage()}");
             return null;
+        }
+    }
+
+    /**
+     * =============================================
+     *      Dispatch EarlyWarning Notification
+     * =============================================
+     */
+    public function dispatchEarlyWarning($earlyWarningId)
+    {
+        Log::info("Dispatching EarlyWarning notification with id: $earlyWarningId");
+
+        try {
+            $earlyWarning = EarlyWarning::findOrFail($earlyWarningId);
+
+            // Get all users with the specified roles
+            $users = User::whereHas('roles', function ($query) {
+                $query->whereIn('role_code', ['ROLE_OPERATOR', 'ROLE_SUPERVISOR', 'ROLE_ADMIN', 'ROLE_LEADER']);
+            })->get();
+
+            Log::info("Found {$users->count()} users to notify for EarlyWarning: {$earlyWarning->title}");
+
+            // Send notification to all users with the specified roles
+            foreach ($users as $user) {
+                $notification = new EarlyWarningNotification(
+                    $earlyWarning->id,
+                    $earlyWarning->title,
+                    route('earlywarning.detail', $earlyWarning->id)
+                );
+
+                $user->notify($notification);
+                Log::info("Notification sent to user: {$user->email}");
+            }
+
+            Log::info("Successfully dispatched EarlyWarning notification: {$earlyWarning->title}");
+            return true;
+        } catch (\Exception $exception) {
+            Log::error("Failed to dispatch EarlyWarning notification with id $earlyWarningId: {$exception->getMessage()}");
+            return false;
         }
     }
 }
