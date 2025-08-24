@@ -6,6 +6,34 @@
 
     <div class="container-xxl flex-grow-1 container-p-y">
         <div class="row">
+            <!-- Early Warning Notification Section -->
+            @foreach($unreadEarlyWarningNotifications as $notification)
+                <div class="col-12 mb-2">
+                    <div class="card bg-danger border-0">
+                        <div class="p-2 ml-3">
+                            <h3 class="card-title mb-0 mt-0 text-white">
+                                <i class="bx bx-error-circle me-2"></i>Peringatan Dini
+                            </h3>
+
+                                <div class="alert alert-light alert-dismissible mb-0" role="alert">
+                                    <div class="d-flex align-items-center">
+                                        <div class="flex-grow-1">
+                                            <span class="mb-0 mt-0 text-white">{{ $notification->title }}</span>
+                                        </div>
+                                        <div>
+                                            <a href="{{ route('notification.show', $notification->id) }}"
+                                               class="btn btn-hover bg-white text-danger btn-sm">
+                                                <i class="bx bx-arrow-to-right me-1"></i>Lihat Detail
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+
+                        </div>
+                    </div>
+                </div>
+            @endforeach
+
             <!-- Congratulations Section -->
             <div class="col-lg-8 mb-4 order-0">
                 <div class="card">

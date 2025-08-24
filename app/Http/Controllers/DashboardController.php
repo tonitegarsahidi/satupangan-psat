@@ -25,6 +25,7 @@ class DashboardController extends Controller
         $qrBadanPanganCount = 0;
         $unreadNotificationsCount = 0;
         $unreadMessagesCount = 0;
+        $unreadEarlyWarningNotifications = collect();
 
         // QR Badan Pangan lists
         $qrBadanPanganPendingReviewed = collect();
@@ -120,6 +121,12 @@ class DashboardController extends Controller
             ->where('is_read', false)
             ->count();
 
+        // Get unread EARLY_WARNING notifications
+        $unreadEarlyWarningNotifications = \App\Models\Notification::where('user_id', $user->id)
+            ->where('type', 'EARLY_WARNING')
+            ->where('is_read', false)
+            ->get();
+
         // Get unread messages count
         $unreadMessagesCount = \App\Models\MessageThread::forUser($user->id)
             ->unreadForUser($user->id)
@@ -153,6 +160,7 @@ class DashboardController extends Controller
             'qrBadanPanganCount' => $qrBadanPanganCount,
             'unreadNotificationsCount' => $unreadNotificationsCount,
             'unreadMessagesCount' => $unreadMessagesCount,
+            'unreadEarlyWarningNotifications' => $unreadEarlyWarningNotifications,
             'hasUserRole' => $hasUserRole,
             'hasUserRoleBusiness' => $hasUserRoleBusiness,
             'hasUserRoleOperator' => $hasUserRoleOperator,
