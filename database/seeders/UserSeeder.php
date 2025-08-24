@@ -587,6 +587,32 @@ class UserSeeder extends Seeder
             }
         }
 
+        // Create petugas* users for each kantor* user
+        $kantorUsers = array_filter($allUsers, function($user) {
+            return strpos($user['email'], 'kantor') === 0 && strpos($user['email'], '@panganaman.my.id') !== false;
+        });
+
+        foreach ($kantorUsers as $kantorUser) {
+            $petugasEmail = str_replace('kantor', 'petugas', $kantorUser['email']);
+            $petugasName = str_replace('Kantor', 'Petugas', $kantorUser['name']);
+
+            $petugasUser = [
+                'id' => Str::uuid(),
+                'name' => $petugasName,
+                'email' => $petugasEmail,
+                'password' => Hash::make('password123'),
+                'is_active' => true,
+                'email_verified_at' => Carbon::now(),
+                'phone_number' => '0811111111111',
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
+            ];
+
+            $existing = DB::table('users')->where('email', $petugasUser['email'])->first();
+            if (!$existing) {
+                DB::table('users')->insert($petugasUser);
+            }
+        }
 
     }
 }
