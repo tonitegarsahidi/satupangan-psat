@@ -46,8 +46,8 @@ class LaporanPengaduanSeeder extends Seeder
         );
 
         // Ensure default role exists and assign to users
-        $roleUser = RoleMaster::firstOrCreate(['role_name' => 'ROLE_USER', 'role_code' => 'USER']);
-        $roleAdmin = RoleMaster::firstOrCreate(['role_name' => 'ROLE_ADMIN', 'role_code' => 'ADMIN']); // Assuming an admin role for assignee
+        $roleUser = RoleMaster::where('role_code', 'ROLE_USER')->first();
+        $roleAdmin = RoleMaster::where('role_code', 'ROLE_ADMIN')->first(); // Assuming an admin role for assignee
 
         $user->roles()->syncWithoutDetaching([$roleUser->id => ['id' => Str::uuid()]]);
         $assigneeUser->roles()->syncWithoutDetaching([$roleAdmin->id => ['id' => Str::uuid()]]);
