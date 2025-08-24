@@ -556,7 +556,7 @@ class UserSeeder extends Seeder
             [
                 'id' => Str::uuid(),
                 'name' => 'Kantor NTT',
-                'email' => 'kantornott@panganaman.my.id',
+                'email' => 'kantorntt@panganaman.my.id',
                 'password' => Hash::make('password123'),
                 'is_active' => true,
                 'email_verified_at' => Carbon::now(),
@@ -567,7 +567,7 @@ class UserSeeder extends Seeder
             [
                 'id' => Str::uuid(),
                 'name' => 'Kantor NTB',
-                'email' => 'kantornntb@panganaman.my.id',
+                'email' => 'kantorntb@panganaman.my.id',
                 'password' => Hash::make('password123'),
                 'is_active' => true,
                 'email_verified_at' => Carbon::now(),
@@ -612,7 +612,34 @@ class UserSeeder extends Seeder
             if (!$existing) {
                 DB::table('users')->insert($petugasUser);
             }
-        }
 
+            // Create pimpinan* users for each kantor* user
+            $kantorUsers = array_filter($allUsers, function($user) {
+                return strpos($user['email'], 'kantor') === 0 && strpos($user['email'], '@panganaman.my.id') !== false;
+            });
+
+            foreach ($kantorUsers as $kantorUser) {
+                $pimpinanEmail = str_replace('kantor', 'pimpinan', $kantorUser['email']);
+                $pimpinanName = str_replace('Kantor', 'Pimpinan', $kantorUser['name']);
+
+                $pimpinanUser = [
+                    'id' => Str::uuid(),
+                    'name' => $pimpinanName,
+                    'email' => $pimpinanEmail,
+                    'password' => Hash::make('password123'),
+                    'is_active' => true,
+                    'email_verified_at' => Carbon::now(),
+                    'phone_number' => '0811111111111',
+                    'created_at' => Carbon::now(),
+                    'updated_at' => Carbon::now(),
+                ];
+
+                $existing = DB::table('users')->where('email', $pimpinanUser['email'])->first();
+                if (!$existing) {
+                    DB::table('users')->insert($pimpinanUser);
+                }
+            }
+
+        }
     }
 }

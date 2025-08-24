@@ -16,11 +16,11 @@ class RoleMasterSeeder extends Seeder
         $roles = [
             ['role_name' => 'Pengguna', 'role_code' => 'ROLE_USER'],
             ['role_name' => 'Pelaku Usaha', 'role_code' => 'ROLE_USER_BUSINESS'],
-            ['role_name' => 'Petugas Badan Pangan', 'role_code' => 'ROLE_OPERATOR'],
-            ['role_name' => 'Petugas Badan Pangan', 'role_code' => 'ROLE_SUPERVISOR'],
+            ['role_name' => 'Petugas OKKP', 'role_code' => 'ROLE_OPERATOR'],
+            ['role_name' => 'SPV OKKP', 'role_code' => 'ROLE_SUPERVISOR'],
             ['role_name' => 'Administrator', 'role_code' => 'ROLE_ADMIN'],
             ['role_name' => 'Pimpinan', 'role_code' => 'ROLE_LEADER'],
-            ['role_name' => 'Kantor Badan Pangan', 'role_code' => 'ROLE_KANTOR'],
+            ['role_name' => 'Kantor OKKP', 'role_code' => 'ROLE_KANTOR'],
         ];
 
         DB::table('role_master')->insert($roles);

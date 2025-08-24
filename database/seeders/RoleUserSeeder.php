@@ -33,6 +33,11 @@ class RoleUserSeeder extends Seeder
          $userIdSupervisor  = DB::table('users')->where('email', 'supervisor@panganaman.my.id')->value('id');
          $userIdLeader = DB::table('users')->where('email', 'pimpinan@panganaman.my.id')->value('id');
 
+         // Get all petugas user IDs
+         $petugasUsers = DB::table('users')
+             ->where('email', 'like', 'petugas%@panganaman.my.id')
+             ->pluck('id', 'email');
+
          // Get all kantor user IDs that exist in the database
          $userIdKantorPusat = DB::table('users')->where('email', 'kantorpusat@panganaman.my.id')->value('id');
          $userIdKantorJatim = DB::table('users')->where('email', 'kantorjatim@panganaman.my.id')->value('id');
@@ -47,6 +52,11 @@ class RoleUserSeeder extends Seeder
          $userIdKantorBali = DB::table('users')->where('email', 'kantorbali@panganaman.my.id')->value('id');
          $userIdKantorNTT = DB::table('users')->where('email', 'kantorntt@panganaman.my.id')->value('id');
          $userIdKantorNTB = DB::table('users')->where('email', 'kantorntb@panganaman.my.id')->value('id');
+
+         // Get all pimpinan user IDs
+         $pimpinanUsers = DB::table('users')
+             ->where('email', 'like', 'pimpinan%@panganaman.my.id')
+             ->pluck('id', 'email');
 
          // Get IDs for all new kantor users
          $userIdKantorAceh = DB::table('users')->where('email', 'kantoraceh@panganaman.my.id')->value('id');
@@ -127,6 +137,22 @@ class RoleUserSeeder extends Seeder
          // Add roles for pimpinan
          if ($userIdLeader && !isset($roleAssignments[$userIdLeader])) {
              $roleAssignments[$userIdLeader] = [$roleIdUser, $roleIdLeader];
+         }
+
+         // Add roles for all petugas users (ROLE_OPERATOR, ROLE_SUPERVISOR, and ROLE_KANTOR)
+         $roleIdKantor = DB::table('role_master')->where('role_code', 'ROLE_KANTOR')->value('id');
+
+         foreach ($petugasUsers as $userId) {
+             if ($userId && !isset($roleAssignments[$userId])) {
+                 $roleAssignments[$userId] = [$roleIdUser, $roleIdOperator, $roleIdSupervisor, $roleIdKantor];
+             }
+         }
+
+         // Add roles for all pimpinan users (ROLE_SUPERVISOR and ROLE_LEADER)
+         foreach ($pimpinanUsers as $userId) {
+             if ($userId && !isset($roleAssignments[$userId])) {
+                 $roleAssignments[$userId] = [$roleIdUser, $roleIdSupervisor, $roleIdLeader];
+             }
          }
 
          // Generate role assignments, checking for existing ones first
