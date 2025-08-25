@@ -587,42 +587,42 @@ class UserSeeder extends Seeder
             }
         }
 
-        // Create petugas* users for each kantor* user
+        // Create petugas* and pimpinan* users for each kantor* user
         $kantorUsers = array_filter($allUsers, function($user) {
             return strpos($user['email'], 'kantor') === 0 && strpos($user['email'], '@panganaman.my.id') !== false;
         });
 
+        // Get all existing emails to avoid duplicate queries
+        $existingEmails = DB::table('users')->pluck('email')->toArray();
+
+        $newUsers = [];
+
         foreach ($kantorUsers as $kantorUser) {
+            // Create petugas* user
             $petugasEmail = str_replace('kantor', 'petugas', $kantorUser['email']);
             $petugasName = str_replace('Kantor', 'Petugas', $kantorUser['name']);
 
-            $petugasUser = [
-                'id' => Str::uuid(),
-                'name' => $petugasName,
-                'email' => $petugasEmail,
-                'password' => Hash::make('password123'),
-                'is_active' => true,
-                'email_verified_at' => Carbon::now(),
-                'phone_number' => '0811111111111',
-                'created_at' => Carbon::now(),
-                'updated_at' => Carbon::now(),
-            ];
-
-            $existing = DB::table('users')->where('email', $petugasUser['email'])->first();
-            if (!$existing) {
-                DB::table('users')->insert($petugasUser);
+            if (!in_array($petugasEmail, $existingEmails)) {
+                $newUsers[] = [
+                    'id' => Str::uuid(),
+                    'name' => $petugasName,
+                    'email' => $petugasEmail,
+                    'password' => Hash::make('password123'),
+                    'is_active' => true,
+                    'email_verified_at' => Carbon::now(),
+                    'phone_number' => '0811111111111',
+                    'created_at' => Carbon::now(),
+                    'updated_at' => Carbon::now(),
+                ];
+                $existingEmails[] = $petugasEmail;
             }
 
-            // Create pimpinan* users for each kantor* user
-            $kantorUsers = array_filter($allUsers, function($user) {
-                return strpos($user['email'], 'kantor') === 0 && strpos($user['email'], '@panganaman.my.id') !== false;
-            });
+            // Create pimpinan* user
+            $pimpinanEmail = str_replace('kantor', 'pimpinan', $kantorUser['email']);
+            $pimpinanName = str_replace('Kantor', 'Pimpinan', $kantorUser['name']);
 
-            foreach ($kantorUsers as $kantorUser) {
-                $pimpinanEmail = str_replace('kantor', 'pimpinan', $kantorUser['email']);
-                $pimpinanName = str_replace('Kantor', 'Pimpinan', $kantorUser['name']);
-
-                $pimpinanUser = [
+            if (!in_array($pimpinanEmail, $existingEmails)) {
+                $newUsers[] = [
                     'id' => Str::uuid(),
                     'name' => $pimpinanName,
                     'email' => $pimpinanEmail,
@@ -633,13 +633,44 @@ class UserSeeder extends Seeder
                     'created_at' => Carbon::now(),
                     'updated_at' => Carbon::now(),
                 ];
-
-                $existing = DB::table('users')->where('email', $pimpinanUser['email'])->first();
-                if (!$existing) {
-                    DB::table('users')->insert($pimpinanUser);
-                }
+                $existingEmails[] = $pimpinanEmail;
             }
+        }
 
+        // Special handling for kantorpusat - create petugaspusat and pimpinanpusat
+        if (!in_array('petugaspusat@panganaman.my.id', $existingEmails)) {
+            $newUsers[] = [
+                'id' => Str::uuid(),
+                'name' => 'Petugas Pusat',
+                'email' => 'petugaspusat@panganaman.my.id',
+                'password' => Hash::make('password123'),
+                'is_active' => true,
+                'email_verified_at' => Carbon::now(),
+                'phone_number' => '0811111111111',
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
+            ];
+            $existingEmails[] = 'petugaspusat@panganaman.my.id';
+        }
+
+        if (!in_array('pimpinanpusat@panganaman.my.id', $existingEmails)) {
+            $newUsers[] = [
+                'id' => Str::uuid(),
+                'name' => 'Pimpinan Pusat',
+                'email' => 'pimpinanpusat@panganaman.my.id',
+                'password' => Hash::make('password123'),
+                'is_active' => true,
+                'email_verified_at' => Carbon::now(),
+                'phone_number' => '0811111111111',
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
+            ];
+            $existingEmails[] = 'pimpinanpusat@panganaman.my.id';
+        }
+
+        // Insert all new users in a single query
+        if (!empty($newUsers)) {
+            DB::table('users')->insert($newUsers);
         }
     }
 }

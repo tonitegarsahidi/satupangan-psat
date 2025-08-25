@@ -38,6 +38,9 @@ class RoleUserSeeder extends Seeder
              ->where('email', 'like', 'petugas%@panganaman.my.id')
              ->pluck('id', 'email');
 
+         // Special handling for petugaspusat
+         $userIdPetugasPusat = DB::table('users')->where('email', 'petugaspusat@panganaman.my.id')->value('id');
+
          // Get all kantor user IDs that exist in the database
          $userIdKantorPusat = DB::table('users')->where('email', 'kantorpusat@panganaman.my.id')->value('id');
          $userIdKantorJatim = DB::table('users')->where('email', 'kantorjatim@panganaman.my.id')->value('id');
@@ -57,6 +60,9 @@ class RoleUserSeeder extends Seeder
          $pimpinanUsers = DB::table('users')
              ->where('email', 'like', 'pimpinan%@panganaman.my.id')
              ->pluck('id', 'email');
+
+         // Special handling for pimpinanpusat
+         $userIdPimpinanPusat = DB::table('users')->where('email', 'pimpinanpusat@panganaman.my.id')->value('id');
 
          // Get IDs for all new kantor users
          $userIdKantorAceh = DB::table('users')->where('email', 'kantoraceh@panganaman.my.id')->value('id');
@@ -153,6 +159,17 @@ class RoleUserSeeder extends Seeder
              if ($userId && !isset($roleAssignments[$userId])) {
                  $roleAssignments[$userId] = [$roleIdUser, $roleIdSupervisor, $roleIdLeader];
              }
+         }
+
+         // Special handling for petugaspusat - assign ROLE_OPERATOR, ROLE_SUPERVISOR, and ROLE_KANTOR
+         if ($userIdPetugasPusat && !isset($roleAssignments[$userIdPetugasPusat])) {
+             $roleIdKantor = DB::table('role_master')->where('role_code', 'ROLE_KANTOR')->value('id');
+             $roleAssignments[$userIdPetugasPusat] = [$roleIdUser, $roleIdOperator, $roleIdSupervisor, $roleIdKantor];
+         }
+
+         // Special handling for pimpinanpusat - assign ROLE_SUPERVISOR and ROLE_LEADER
+         if ($userIdPimpinanPusat && !isset($roleAssignments[$userIdPimpinanPusat])) {
+             $roleAssignments[$userIdPimpinanPusat] = [$roleIdUser, $roleIdSupervisor, $roleIdLeader];
          }
 
          // Generate role assignments, checking for existing ones first

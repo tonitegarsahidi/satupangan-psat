@@ -13,14 +13,13 @@ class PetugasSeeder extends Seeder
     {
         $now = Carbon::now();
 
-        // Get all users with "kantor" in their name or email, plus specific role users
+        // Get all users with "kantor", "petugas", or "pimpinan" in their email
         $users = DB::table('users')
             ->where(function($query) {
-                $query->where('name', 'like', 'Kantor%')
-                      ->orWhere('email', 'like', 'kantor%@panganaman.my.id');
+                $query->where('email', 'like', 'kantor%@panganaman.my.id')
+                      ->orWhere('email', 'like', 'petugas%@panganaman.my.id')
+                      ->orWhere('email', 'like', 'pimpinan%@panganaman.my.id');
             })
-            ->orWhere('name', 'Pimpinan')
-            ->orWhere('email', 'pimpinan@panganaman.my.id')
             ->get();
 
         // Get a list of provinsi IDs for penempatan
@@ -29,13 +28,16 @@ class PetugasSeeder extends Seeder
         $petugas = [];
         foreach ($users as $user) {
             $isKantorPusat = (strtolower($user->name) === 'kantor pusat' || $user->email === 'kantorpusat@panganaman.my.id');
-            $isPimpinan = ($user->email === 'pimpinan@panganaman.my.id');
+            $isPimpinan = (strpos($user->email, 'pimpinan') !== false || $user->name === 'Pimpinan' || $user->name === 'Pimpinan Pusat');
+            $isPetugas = (strpos($user->email, 'petugas') !== false);
+            $isPetugasPusat = $user->email === 'petugaspusat@panganaman.my.id';
             $penempatan = null;
+            $provinsiName = '';
 
-            // Only set penempatan if not kantor pusat or pimpinan
-            if (!$isKantorPusat && !$isPimpinan) {
-                // Try to match provinsi from user name, e.g. "Kantor Jatim" => "Jatim"
-                $provinsiName = trim(str_ireplace('Kantor', '', $user->name));
+            // Only set penempatan if not kantor pusat, pimpinan, or petugas pusat
+            if (!$isKantorPusat && !$isPimpinan && !$isPetugasPusat) {
+                // Try to match provinsi from user name, e.g. "Kantor Jatim" => "Jatim" or "Petugas Jatim" => "Jatim"
+                $provinsiName = trim(str_ireplace(['Kantor', 'Petugas', 'Pimpinan'], '', $user->name));
 
                 // Create mapping between abbreviated names and full province names
                 $provinsiMapping = [
@@ -99,10 +101,20 @@ class PetugasSeeder extends Seeder
                 $jabatan = 'Pimpinan';
             }
 
+            // Set unit_kerja based on user type
+            if ($isKantorPusat || $isPetugasPusat) {
+                $unitKerja = 'Kantor Pusat';
+            } elseif ($isPimpinan && $user->email === 'pimpinanpusat@panganaman.my.id') {
+                $unitKerja = 'Kantor Pusat';
+            } else {
+                // $unitKerja = $user->name;
+                $unitKerja = "Kantor OKKP ".$provinsiName;
+            }
+
             $petugas[] = [
                 'id' => Str::uuid(),
                 'user_id' => $user->id,
-                'unit_kerja' => $user->name,
+                'unit_kerja' => $unitKerja,
                 'jabatan' => $jabatan,
                 'is_kantor_pusat' => $isKantorPusat,
                 'penempatan' => $penempatan,

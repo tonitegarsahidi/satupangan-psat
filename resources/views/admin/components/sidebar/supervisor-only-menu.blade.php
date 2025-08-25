@@ -1,7 +1,7 @@
 {{-- ROLE SPECIFIC MENU -- SUPERVISOR --}}
 @if (auth()->user()->hasRole('ROLE_SUPERVISOR'))
     {{-- EXAMPLE MENU HEADER FOR GROUPING --}}
-    @include('admin.components.sidebar.menu-header', ['textMenuHeader' => 'Supervisor Menu'])
+    {{-- @include('admin.components.sidebar.menu-header', ['textMenuHeader' => 'Supervisor Menu']) --}}
     {{-- OPERATOR ONLY MENU --}}
     {{-- @include('admin.components.sidebar.item', [
         'menuId' => 'menu-operator-pages',
@@ -11,11 +11,11 @@
         'subMenuData' => null,
     ]) --}}
     {{-- PETUGAS PROFILE MENU --}}
-    @include('admin.components.sidebar.item', [
+    {{-- @include('admin.components.sidebar.item', [
         'menuId' => 'menu-petugas-profile',
         'menuText' => 'Data Saya',
         'menuUrl' => route('petugas.profile.index'),
         'menuIcon' => 'bx bx-id-card',
         'subMenuData' => null,
-    ])
+    ]) --}}
 @endif
