@@ -121,7 +121,7 @@
                                         'sort_order' => $sortOrder == 'asc' ? 'desc' : 'asc',
                                         'keyword' => $keyword,
                                     ]) }}">
-                                    Tingkat Keparahan
+                                    Analisis Resiko
                                     @include('components.arrow-sort', ['field' => 'urgency_level', 'sortField' => $sortField, 'sortOrder' => $sortOrder])
                                 </a>
                             </th>
@@ -177,9 +177,9 @@
                                     @endif
                                 </td>
                                 <td>
-                                    @if ($earlyWarning->urgency_level == 'Danger')
+                                    @if ($earlyWarning->urgency_level == 'Tinggi')
                                         <span class="badge rounded-pill bg-danger">{{ $earlyWarning->urgency_level }}</span>
-                                    @elseif ($earlyWarning->urgency_level == 'Warning')
+                                    @elseif ($earlyWarning->urgency_level == 'Sedang')
                                         <span class="badge rounded-pill bg-warning text-dark">{{ $earlyWarning->urgency_level }}</span>
                                     @else
                                         <span class="badge rounded-pill bg-info text-dark">{{ $earlyWarning->urgency_level }}</span>

@@ -48,7 +48,7 @@
 
                             {{-- URGENCY LEVEL FIELD --}}
                             <div class="row mb-3">
-                                <label class="col-sm-2 col-form-label" for="urgency_level">Tingkat Keparahan<span class="text-danger">*</span></label>
+                                <label class="col-sm-2 col-form-label" for="urgency_level">Analisis Resiko<span class="text-danger">*</span></label>
                                 <div class="col-sm-10">
                                     {{-- form validation error --}}
                                     @include('admin.components.notification.error-validation', [
@@ -57,9 +57,9 @@
 
                                     {{-- input form --}}
                                     <select name="urgency_level" id="urgency_level" class="form-select">
-                                        <option value="Info" {{ old('urgency_level', $earlyWarning->urgency_level) == 'Info' ? 'selected' : '' }}>Info</option>
-                                        <option value="Warning" {{ old('urgency_level', $earlyWarning->urgency_level) == 'Warning' ? 'selected' : '' }}>Warning</option>
-                                        <option value="Danger" {{ old('urgency_level', $earlyWarning->urgency_level) == 'Danger' ? 'selected' : '' }}>Danger</option>
+                                        <option value="Rendah" {{ old('urgency_level', $earlyWarning->urgency_level) == 'Rendah' ? 'selected' : '' }}>Rendah</option>
+                                        <option value="Sedang" {{ old('urgency_level', $earlyWarning->urgency_level) == 'Sedang' ? 'selected' : '' }}>Sedang</option>
+                                        <option value="Tinggi" {{ old('urgency_level', $earlyWarning->urgency_level) == 'Tinggi' ? 'selected' : '' }}>Tinggi</option>
                                     </select>
                                 </div>
                             </div>

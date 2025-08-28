@@ -52,7 +52,7 @@ class EarlyWarningSeeder extends Seeder
                 'content' => 'Berdasarkan hasil pengawasan laboratorium, ditemukan tingkat timbal (Pb) pada beberapa sampel beras impor yang melebihi batas maksimum yang diizinkan. Timbal dapat menyebabkan gangguan sistem saraf dan perkembangan anak jika dikonsumsi dalam jangka panjang.',
                 'related_product' => $beras ? $beras->nama_bahan_pangan_segar : 'Beras',
                 'preventive_steps' => '1. Hindari mengonsumsi beras impor dari sumber yang tidak terjamin kualitasnya\n2. Lakukan pengujian laboratorium sebelum mengonsumsi beras impor\n3. Pilih beras lokal dengan sertifikasi keamanan pangan\n4. Simpan beras dalam wadah yang tertutup rapat untuk mencegah kontaminasi',
-                'urgency_level' => 'Danger',
+                'urgency_level' => 'Tinggi',
                 'url' => 'https://www.badanpangan.go.id/berita/detail/peringatan-dini-tingkat-timbal-pada-beras-impor'
             ],
             [
@@ -62,7 +62,7 @@ class EarlyWarningSeeder extends Seeder
                 'content' => 'Beberapa sampel tomat yang diuji di laboratorium ditemukan mengandung residu pestisida karbofuran yang melebihi batas maksimum. Karbofuran termasuk pestisida golongan karbamat yang berbahaya bagi kesehatan jika terpapar dalam jumlah banyak.',
                 'related_product' => $tomat ? $tomat->nama_bahan_pangan_segar : 'Tomat',
                 'preventive_steps' => '1. Cuci tomat dengan air mengalir dan sedikit deterjen makanan\n2. Bilas dengan air bersih hingga bersih\n3. Kupas kulit tomat sebelum dikonsumsi\n4. Hindari mengonsumsi tomat yang masih berbau pestisida',
-                'urgency_level' => 'Warning',
+                'urgency_level' => 'Sedang',
                 'url' => 'https://www.badanpangan.go.id/berita/detail/residu-pestisida-pada-tomat'
             ],
             [
@@ -72,7 +72,7 @@ class EarlyWarningSeeder extends Seeder
                 'content' => 'Hasil pengawasan menunjukkan adanya kontaminasi aflatoksin pada beberapa produk kacang tanah. Aflatoksin adalah mikrotoksin yang dihasilkan oleh jamur dan dapat menyebabkan kanker hati jika dikonsumsi dalam jangka panjang.',
                 'related_product' => $kacangTanah ? $kacangTanah->nama_bahan_pangan_segar : 'Kacang Tanah',
                 'preventive_steps' => '1. Periksa kacang tanah sebelum membeli - hindari yang berjamur atau berbau tidak sedap\n2. Simpan kacang tanah di tempat kering dan sejuk\n3. Hindari menyimpan kacang tanah terlalu lama\n4. Gunakan kacang tanah dari sumber terpercaya',
-                'urgency_level' => 'Danger',
+                'urgency_level' => 'Tinggi',
                 'url' => 'https://www.badanpangan.go.id/berita/detail/kontaminasi-aflatoksin-pada-kacang-tanah'
             ],
             [
@@ -82,7 +82,7 @@ class EarlyWarningSeeder extends Seeder
                 'content' => 'Beberapa laporan menunjukkan adanya potensi kontaminasi Escherichia coli pada sayuran segar yang tidak dicuci dengan benar. E. coli dapat menyebabkan gangguan pencernaan yang serius.',
                 'related_product' => 'Sayuran Segar',
                 'preventive_steps' => '1. Cuci semua sayuran dengan air mengalir sebelum dikonsumsi\n2. Gunakan air bersih untuk mencuci sayuran\n3. Hindari menyantap sayuran mentah jika tidak yakin kebersihannya\n4. Simpan sayuran dalam suhu yang tepat',
-                'urgency_level' => 'Info',
+                'urgency_level' => 'Rendah',
                 'url' => null
             ],
             [
@@ -92,7 +92,7 @@ class EarlyWarningSeeder extends Seeder
                 'content' => 'Badan Pengawas Pangan dan Obat-obatan telah mengumumkan pembaruan standar keamanan pangan untuk produk olahan. Standar baru ini akan berlaku mulai 1 Januari 2025.',
                 'related_product' => 'Produk Olahan',
                 'preventive_steps' => '1. Pelajari standar keamanan pangan yang baru\n2. Sesuaikan proses produksi dengan standar yang telah diperbarui\n3. Lakukan pelatihan kepada karyawan tentang standar baru\n4. Dokumentasikan semua langkah keamanan pangan yang dilakukan',
-                'urgency_level' => 'Info',
+                'urgency_level' => 'Rendah',
                 'url' => 'https://www.badanpangan.go.id/berita/detail/pembaruan-standar-keamanan-pangan'
             ]
         ];

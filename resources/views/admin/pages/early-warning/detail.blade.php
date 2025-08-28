@@ -67,11 +67,11 @@
                                     </td>
                                 </tr>
                                 <tr>
-                                    <th scope="col" class="bg-dark text-white">Tingkat Keparahan</th>
+                                    <th scope="col" class="bg-dark text-white">Analisis Resiko</th>
                                     <td>
-                                        @if ($data->urgency_level == 'Danger')
+                                        @if ($data->urgency_level == 'Tinggi')
                                             <span class="badge rounded-pill bg-danger">{{ $data->urgency_level }}</span>
-                                        @elseif ($data->urgency_level == 'Warning')
+                                        @elseif ($data->urgency_level == 'Sedang')
                                             <span class="badge rounded-pill bg-warning text-dark">{{ $data->urgency_level }}</span>
                                         @else
                                             <span class="badge rounded-pill bg-info text-dark">{{ $data->urgency_level }}</span>
