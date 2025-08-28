@@ -103,6 +103,9 @@ class MasterKotaSeeder extends Seeder
                 'Kota Batam', 'Kota Tanjungpinang', 'Kabupaten Bintan', 'Kabupaten Karimun', 'Kabupaten Kepulauan Anambas', 'Kabupaten Lingga',
                 'Kabupaten Natuna'
             ],
+            'KPUSAT' => [
+                'Kewenangan Pusat'
+            ],
             // Kalimantan (contoh, lengkapi sesuai kebutuhan)
             'KALBAR' => [
                 'Kota Pontianak', 'Kota Singkawang', 'Kabupaten Bengkayang', 'Kabupaten Kapuas Hulu', 'Kabupaten Kayong Utara', 'Kabupaten Ketapang',

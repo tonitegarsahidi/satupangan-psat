@@ -45,6 +45,10 @@ class RegisterIzinedarPsatplSeeder extends Seeder
         $provinsi = MasterProvinsi::where('nama_provinsi', 'Jawa Timur')->first();
         $kota = MasterKota::where('nama_kota', 'Kota Malang')->first();
 
+        // Get Kewenangan Pusat provinsi and kota
+        $kewenanganPusatProvinsi = MasterProvinsi::where('nama_provinsi', 'Kewenangan Pusat')->first();
+        $kewenanganPusatKota = MasterKota::where('nama_kota', 'Kewenangan Pusat')->first();
+
         // Get a sample jenis_psat
         // Ensure there are at least two jenis psat records
         $jenispsat1 = MasterJenisPanganSegar::where('nama_jenis_pangan_segar', 'Buah Kulit Tidak Dimakan')->first();
@@ -110,6 +114,52 @@ class RegisterIzinedarPsatplSeeder extends Seeder
 
             'tanggal_terbit' => '2025-01-01',
             'tanggal_terakhir' => '2029-01-01',
+
+            'created_by' => $user->id,
+            'updated_by' => $user->id,
+        ]);
+
+        // Create additional data for Kewenangan Pusat
+        RegisterIzinedarPsatpl::create([
+            'id' => Str::uuid(),
+            'business_id' => $business->id,
+            'status' => 'DIAJUKAN',
+            'is_enabled' => true,
+            'nomor_sppb' => 'REG-SPPB-KEWENANGAN-002',
+            'nomor_izinedar_pl' => 'REG-IZINPL-KEWENANGAN-002',
+
+            // Unit usaha data
+            'is_unitusaha' => true,
+            'nama_unitusaha' => 'Unit Usaha Pusat',
+            'alamat_unitusaha' => 'Jl. Kebon Sirih No. 50',
+            'alamat_unitpenanganan' => 'Jl. Kebon Sirih No. 50',
+            'provinsi_unitusaha' => $kewenanganPusatProvinsi?->id,
+            'kota_unitusaha' => $kewenanganPusatKota?->id,
+            'nib_unitusaha' => 'NIB-PUSAT-002',
+
+            'jenis_psat' => $jenispsat1?->id,
+
+            'nama_komoditas' => 'Mangga',
+            'nama_latin' => 'Mangifera indica',
+            'negara_asal' => 'Indonesia',
+            'merk_dagang' => 'Mangga Manalagi',
+            'jenis_kemasan' => 'Karton',
+            'ukuran_berat' => '10 kg per karton',
+            'klaim' => 'Segar Manis, Kualitas Premium',
+            'foto_1' =>  env('APP_URL').'/'.'images/upload/register/mangga1.jpg',
+            'foto_2' =>  env('APP_URL').'/'.'images/upload/register/mangga2.jpg',
+            'foto_3' =>  env('APP_URL').'/'.'images/upload/register/mangga3.jpg',
+            'foto_4' =>  env('APP_URL').'/'.'images/upload/register/mangga4.jpg',
+            'foto_5' => null,
+            'foto_6' => null,
+            'file_nib' =>  env('APP_URL').'/'.'files/upload/register/contohdokumen.pdf',
+            'file_sppb' =>  env('APP_URL').'/'.'files/upload/register/contohdokumen.pdf',
+            'file_izinedar_psatpl' =>  env('APP_URL').'/'.'files/upload/register/contohdokumen.pdf',
+
+            'okkp_penangungjawab' => $userpetugas->id,
+
+            'tanggal_terbit' => '2025-02-01',
+            'tanggal_terakhir' => '2029-02-01',
 
             'created_by' => $user->id,
             'updated_by' => $user->id,

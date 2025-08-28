@@ -34,8 +34,18 @@ class PetugasSeeder extends Seeder
             $penempatan = null;
             $provinsiName = '';
 
+            // For users with "pusat" in their email, assign to "Kewenangan Pusat" province
+            if ($isKantorPusat || $isPetugasPusat || ($isPimpinan && $user->email === 'pimpinanpusat@panganaman.my.id')) {
+                $provinsiName = 'Kewenangan Pusat';
+
+                // Find the province ID
+                $provinsi = DB::table('master_provinsis')->where('nama_provinsi', $provinsiName)->first();
+                if ($provinsi) {
+                    $penempatan = $provinsi->id;
+                }
+            }
             // Only set penempatan if not kantor pusat, pimpinan, or petugas pusat
-            if (!$isKantorPusat && !$isPimpinan && !$isPetugasPusat) {
+            elseif (!$isKantorPusat && !$isPimpinan && !$isPetugasPusat) {
                 // Try to match provinsi from user name, e.g. "Kantor Jatim" => "Jatim" or "Petugas Jatim" => "Jatim"
                 $provinsiName = trim(str_ireplace(['Kantor', 'Petugas', 'Pimpinan'], '', $user->name));
 
@@ -59,6 +69,7 @@ class PetugasSeeder extends Seeder
                     'Kaltim' => 'Kalimantan Timur',
                     'Kaltara' => 'Kalimantan Utara',
                     'Kepri' => 'Kepulauan Riau',
+                    'Kpusat' => 'Kewenangan Pusat',
                     'Lampung' => 'Lampung',
                     'Maluku' => 'Maluku',
                     'Malut' => 'Maluku Utara',

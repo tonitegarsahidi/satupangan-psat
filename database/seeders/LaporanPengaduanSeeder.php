@@ -104,18 +104,46 @@ class LaporanPengaduanSeeder extends Seeder
             ],
         ];
 
+        // Add a laporan for Kewenangan Pusat
+        $kewenanganPusatProvinsi = MasterProvinsi::where('nama_provinsi', 'Kewenangan Pusat')->first();
+        if ($kewenanganPusatProvinsi) {
+            $kewenanganPusatKota = MasterKota::where('provinsi_id', $kewenanganPusatProvinsi->id)->first();
+
+            if ($kewenanganPusatKota) {
+                $laporanData[] = [
+                    'nama_pelapor' => 'Ahmad Dahlan',
+                    'nik_pelapor' => '5555566667778889',
+                    'nomor_telepon_pelapor' => '085678901234',
+                    'email_pelapor' => 'ahmad.kewenangan@example.com',
+                    'lokasi_kejadian' => 'Gedung Pusat Standar Pangan, Jl. Kebon Sirih No. 50',
+                    'isi_laporan' => 'Ditemukan masalah dalam prosedur penanganan pangan di pusat.',
+                    'tindak_lanjut_pertama' => 'Sudah dilaporkan kepada tim internal.',
+                ];
+            }
+        }
+
         $laporanController = new LaporanPengaduanController(
             app(\App\Services\LaporanPengaduanService::class),
             app(\App\Services\UserService::class)
         );
 
-        foreach ($laporanData as $data) {
+        foreach ($laporanData as $index => $data) {
             $mockRequest = Request::create('/dummy-url', 'POST', $data);
-            $mockRequest->merge([
-                'provinsi_id' => $provinsi->id,
-                'kota_id' => $kota->id,
-                'user_id' => $user->id,
-            ]);
+
+            // Use Kewenangan Pusat for the last report, otherwise use default
+            if ($index === count($laporanData) - 1 && isset($kewenanganPusatProvinsi) && isset($kewenanganPusatKota)) {
+                $mockRequest->merge([
+                    'provinsi_id' => $kewenanganPusatProvinsi->id,
+                    'kota_id' => $kewenanganPusatKota->id,
+                    'user_id' => $user->id,
+                ]);
+            } else {
+                $mockRequest->merge([
+                    'provinsi_id' => $provinsi->id,
+                    'kota_id' => $kota->id,
+                    'user_id' => $user->id,
+                ]);
+            }
 
             $laporanAddRequest = LaporanPengaduanAddRequest::createFromBase($mockRequest);
             $laporanAddRequest->setUserResolver(function () use ($user) {

@@ -458,6 +458,24 @@ class PengawasanSeeder extends Seeder
                 'created_by' => $users['kantorjatim@panganaman.my.id'] ?? null,
                 'updated_by' => $users['kantorjatim@panganaman.my.id'] ?? null,
             ],
+            // Record for Kewenangan Pusat
+            [
+                'id' => Str::uuid(),
+                'user_id_initiator' => $users['kantorpusat@panganaman.my.id'] ?? null,
+                'lokasi_alamat' => 'Jl. Kebon Sirih No. 50, Jakarta Pusat',
+                'lokasi_kota_id' => $kotas['Kewenangan Pusat'] ?? null,
+                'lokasi_provinsi_id' => $provinsis['Kewenangan Pusat'] ?? null,
+                'tanggal_mulai' => Carbon::now()->subDays(5),
+                'tanggal_selesai' => Carbon::now()->subDays(2),
+                'jenis_psat_id' => $jenisPangan['JP001'] ?? null,
+                'produk_psat_id' => $bahanPangan['BP001'] ?? null,
+                'hasil_pengawasan' => 'Pemeriksaan rutin di kantor pusat berjalan lancar, tidak ditemukan pelanggaran.',
+                'status' => 'SELESAI',
+                'tindakan_rekomendasikan' => 'Tidak ada tindakan khusus yang diperlukan.',
+                'is_active' => true,
+                'created_by' => $users['kantorpusat@panganaman.my.id'] ?? null,
+                'updated_by' => $users['kantorpusat@panganaman.my.id'] ?? null,
+            ],
         ];
 
         // Insert pengawasan data
