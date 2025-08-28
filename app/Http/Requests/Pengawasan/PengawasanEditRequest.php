@@ -31,6 +31,12 @@ class PengawasanEditRequest extends FormRequest
             'jenis_psat_id' => 'nullable|exists:master_jenis_pangan_segars,id',
             'produk_psat_id' => 'nullable|exists:master_bahan_pangan_segars,id',
             'hasil_pengawasan' => 'nullable|string',
+            'lampiran1' => 'nullable|file',
+            'lampiran2' => 'nullable|file',
+            'lampiran3' => 'nullable|file',
+            'lampiran4' => 'nullable|file',
+            'lampiran5' => 'nullable|file',
+            'lampiran6' => 'nullable|file',
             'status' => 'nullable|string|in:DRAFT,PROSES,SELESAI',
             'tindakan_rekomendasikan' => 'nullable|string',
             'is_active' => 'nullable|boolean',
@@ -52,6 +58,18 @@ class PengawasanEditRequest extends FormRequest
             'jenis_psat_id.exists' => 'The selected PSAT type is invalid.',
             'produk_psat_id.exists' => 'The selected PSAT product is invalid.',
             'hasil_pengawasan.string' => 'The supervision result must be a string.',
+            'lampiran1.file' => 'Lampiran 1 must be a valid file.',
+            'lampiran1.mimes' => 'Lampiran 1 must be a file of type: pdf, jpeg, jpg, doc, docx, png.',
+            'lampiran2.file' => 'Lampiran 2 must be a valid file.',
+            'lampiran2.mimes' => 'Lampiran 2 must be a file of type: pdf, jpeg, jpg, doc, docx, png.',
+            'lampiran3.file' => 'Lampiran 3 must be a valid file.',
+            'lampiran3.mimes' => 'Lampiran 3 must be a file of type: pdf, jpeg, jpg, doc, docx, png.',
+            'lampiran4.file' => 'Lampiran 4 must be a valid file.',
+            'lampiran4.mimes' => 'Lampiran 4 must be a file of type: pdf, jpeg, jpg, doc, docx, png.',
+            'lampiran5.file' => 'Lampiran 5 must be a valid file.',
+            'lampiran5.mimes' => 'Lampiran 5 must be a file of type: pdf, jpeg, jpg, doc, docx, png.',
+            'lampiran6.file' => 'Lampiran 6 must be a valid file.',
+            'lampiran6.mimes' => 'Lampiran 6 must be a file of type: pdf, jpeg, jpg, doc, docx, png.',
             'status.string' => 'The status must be a string.',
             'status.in' => 'The selected status is invalid.',
             'tindakan_rekomendasikan.string' => 'The recommended action must be a string.',
@@ -61,3 +79,4 @@ class PengawasanEditRequest extends FormRequest
         ];
     }
 }
+

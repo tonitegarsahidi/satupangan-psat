@@ -118,9 +118,10 @@ document.addEventListener('DOMContentLoaded', function() {
             loadProduk(this.value);
         });
 
-        // Load produk on page load if there's a selected jenis
-        if (jenisSelect.value) {
-            console.log('Loading initial produk for jenis ID:', jenisSelect.value);
+        // Only load produk via AJAX if no options are populated server-side
+        var produkOptions = produkSelect.querySelectorAll('option');
+        if (jenisSelect.value && produkOptions.length <= 1) { // Only has the default "Pilih" option
+            console.log('Loading initial produk for jenis ID (no server options):', jenisSelect.value);
             loadProduk(jenisSelect.value);
         }
     } else {

@@ -121,7 +121,8 @@ class PengawasanController extends Controller
      */
     public function store(PengawasanAddRequest $request)
     {
-        $validatedData = $request->validated();
+        // Get validated data except file fields
+        $validatedData = $request->except(['lampiran1', 'lampiran2', 'lampiran3', 'lampiran4', 'lampiran5', 'lampiran6']);
 
         // Get current authenticated user ID
         $userId = Auth::id();
@@ -132,6 +133,27 @@ class PengawasanController extends Controller
 
         // Set is_active to true by default
         $validatedData['is_active'] = 1;
+
+        // Handle file uploads for lampiran1 to lampiran6
+        $uploadPath = 'files/upload';
+        $publicPath = public_path($uploadPath);
+
+        // Create directory if it doesn't exist
+        if (!file_exists($publicPath)) {
+            mkdir($publicPath, 0755, true);
+        }
+
+        // Process each lampiran field
+        for ($i = 1; $i <= 6; $i++) {
+            $lampiranField = 'lampiran' . $i;
+            if ($request->hasFile($lampiranField)) {
+                $file = $request->file($lampiranField);
+                $extension = $file->getClientOriginalExtension();
+                $filename = uniqid() . '_' . $lampiranField . '.' . $extension;
+                $file->move($publicPath, $filename);
+                $validatedData[$lampiranField] = env('BASE_URL') . '/' . $uploadPath . '/' . $filename;
+            }
+        }
 
         $result = $this->pengawasanService->addNewPengawasan($validatedData);
 
@@ -214,13 +236,41 @@ class PengawasanController extends Controller
      */
     public function update(PengawasanEditRequest $request, $id)
     {
-        $validatedData = $request->validated();
+        // Get existing data first
+        $existingData = $this->pengawasanService->getPengawasanDetail($id);
+
+        // Get validated data except file fields
+        $validatedData = $request->except(['lampiran1', 'lampiran2', 'lampiran3', 'lampiran4', 'lampiran5', 'lampiran6']);
 
         // Add updated_by with current user ID
         $validatedData['updated_by'] = Auth::id();
 
         // Ensure is_active is always true
         $validatedData['is_active'] = 1;
+
+        // Handle file uploads for lampiran1 to lampiran6
+        $uploadPath = 'files/upload';
+        $publicPath = public_path($uploadPath);
+
+        // Create directory if it doesn't exist
+        if (!file_exists($publicPath)) {
+            mkdir($publicPath, 0755, true);
+        }
+
+        // Process each lampiran field
+        for ($i = 1; $i <= 6; $i++) {
+            $lampiranField = 'lampiran' . $i;
+            if ($request->hasFile($lampiranField)) {
+                $file = $request->file($lampiranField);
+                $extension = $file->getClientOriginalExtension();
+                $filename = uniqid() . '_' . $lampiranField . '.' . $extension;
+                $file->move($publicPath, $filename);
+                $validatedData[$lampiranField] = env('BASE_URL') . '/' . $uploadPath . '/' . $filename;
+            } else {
+                // Keep existing file if no new file is uploaded
+                $validatedData[$lampiranField] = $existingData->$lampiranField;
+            }
+        }
 
         $result = $this->pengawasanService->updatePengawasan($validatedData, $id);
 
@@ -283,7 +333,7 @@ class PengawasanController extends Controller
 
         // You need to implement a search method in the service
         // For now, we'll return empty array
-        $pengawasanList = [];
+        $pengawasanList = collect([]);
 
         $formattedPengawasan = $pengawasanList->map(function ($pengawasan) {
             return ['id' => $pengawasan->id, 'text' => $pengawasan->lokasi_alamat];

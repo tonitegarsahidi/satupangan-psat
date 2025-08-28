@@ -18,7 +18,7 @@
                     </div>
                     <div class="card-body">
 
-                        <form method="POST" action="{{ route('pengawasan.store') }}">
+                        <form method="POST" action="{{ route('pengawasan.store') }}" enctype="multipart/form-data">
                             @csrf
 
 
@@ -110,8 +110,9 @@
                                     @include('admin.components.notification.error-validation', ['field' => 'lampiran1'])
 
                                     {{-- input form --}}
-                                    <input type="text" name="lampiran1" class="form-control" id="lampiran1"
-                                        placeholder="Enter attachment 1" value="{{ old('lampiran1') }}">
+                                    <input type="file" name="lampiran1" class="form-control" id="lampiran1"
+                                        accept=".pdf,.jpeg,.jpg,.doc,.docx,.png">
+                                    <small class="text-muted">Accepted formats: PDF, JPEG, JPG, DOC, DOCX, PNG</small>
                                 </div>
                             </div>
 
@@ -123,8 +124,9 @@
                                     @include('admin.components.notification.error-validation', ['field' => 'lampiran2'])
 
                                     {{-- input form --}}
-                                    <input type="text" name="lampiran2" class="form-control" id="lampiran2"
-                                        placeholder="Enter attachment 2" value="{{ old('lampiran2') }}">
+                                    <input type="file" name="lampiran2" class="form-control" id="lampiran2"
+                                        accept=".pdf,.jpeg,.jpg,.doc,.docx,.png">
+                                    <small class="text-muted">Accepted formats: PDF, JPEG, JPG, DOC, DOCX, PNG</small>
                                 </div>
                             </div>
 
@@ -136,8 +138,9 @@
                                     @include('admin.components.notification.error-validation', ['field' => 'lampiran3'])
 
                                     {{-- input form --}}
-                                    <input type="text" name="lampiran3" class="form-control" id="lampiran3"
-                                        placeholder="Enter attachment 3" value="{{ old('lampiran3') }}">
+                                    <input type="file" name="lampiran3" class="form-control" id="lampiran3"
+                                        accept=".pdf,.jpeg,.jpg,.doc,.docx,.png">
+                                    <small class="text-muted">Accepted formats: PDF, JPEG, JPG, DOC, DOCX, PNG</small>
                                 </div>
                             </div>
 
@@ -149,8 +152,9 @@
                                     @include('admin.components.notification.error-validation', ['field' => 'lampiran4'])
 
                                     {{-- input form --}}
-                                    <input type="text" name="lampiran4" class="form-control" id="lampiran4"
-                                        placeholder="Enter attachment 4" value="{{ old('lampiran4') }}">
+                                    <input type="file" name="lampiran4" class="form-control" id="lampiran4"
+                                        accept=".pdf,.jpeg,.jpg,.doc,.docx,.png">
+                                    <small class="text-muted">Accepted formats: PDF, JPEG, JPG, DOC, DOCX, PNG</small>
                                 </div>
                             </div>
 
@@ -162,8 +166,9 @@
                                     @include('admin.components.notification.error-validation', ['field' => 'lampiran5'])
 
                                     {{-- input form --}}
-                                    <input type="text" name="lampiran5" class="form-control" id="lampiran5"
-                                        placeholder="Enter attachment 5" value="{{ old('lampiran5') }}">
+                                    <input type="file" name="lampiran5" class="form-control" id="lampiran5"
+                                        accept=".pdf,.jpeg,.jpg,.doc,.docx,.png">
+                                    <small class="text-muted">Accepted formats: PDF, JPEG, JPG, DOC, DOCX, PNG</small>
                                 </div>
                             </div>
 
@@ -175,8 +180,9 @@
                                     @include('admin.components.notification.error-validation', ['field' => 'lampiran6'])
 
                                     {{-- input form --}}
-                                    <input type="text" name="lampiran6" class="form-control" id="lampiran6"
-                                        placeholder="Enter attachment 6" value="{{ old('lampiran6') }}">
+                                    <input type="file" name="lampiran6" class="form-control" id="lampiran6"
+                                        accept=".pdf,.jpeg,.jpg,.doc,.docx,.png">
+                                    <small class="text-muted">Accepted formats: PDF, JPEG, JPG, DOC, DOCX, PNG</small>
                                 </div>
                             </div>
 
