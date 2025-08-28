@@ -10,4 +10,12 @@ class RoleMaster extends Model
     use HasFactory;
 
     protected $table = 'role_master';
+
+    /**
+     * The users that belong to the role.
+     */
+    public function users()
+    {
+        return $this->belongsToMany(User::class, 'role_user', 'role_id', 'user_id');
+    }
 }

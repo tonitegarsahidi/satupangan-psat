@@ -184,10 +184,16 @@
                                     </a>
                                 </td>
                                 <td>
-                                    <a class="action-icon" href="{{ route('pengawasan.edit', ['id' => $pengawasan->id]) }}"
-                                        title="edit">
-                                        <i class='bx bx-pencil'></i>
-                                    </a>
+                                    @php
+                                        $user = Auth::user();
+                                        $canEdit = $user->hasRole('ROLE_LEADER') || $user->hasRole('ROLE_KANTOR') || $pengawasan->created_by == $user->id;
+                                    @endphp
+                                    @if ($canEdit)
+                                        <a class="action-icon" href="{{ route('pengawasan.edit', ['id' => $pengawasan->id]) }}"
+                                            title="edit">
+                                            <i class='bx bx-pencil'></i>
+                                        </a>
+                                    @endif
                                 </td>
                                 <td>
                                     <a class="action-icon" href="{{ route('pengawasan.delete', ['id' => $pengawasan->id]) }}"

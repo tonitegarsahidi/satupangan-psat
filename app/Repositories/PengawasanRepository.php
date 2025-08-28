@@ -20,7 +20,7 @@ use Illuminate\Support\Facades\Log;
 
 class PengawasanRepository
 {
-    public function getAllPengawasan(int $perPage = 10, string $sortField = null, string $sortOrder = null, String $keyword = null): LengthAwarePaginator
+    public function getAllPengawasan(int $perPage = 10, string $sortField = null, string $sortOrder = null, String $keyword = null, $provinsiId = null): LengthAwarePaginator
     {
         $queryResult = Pengawasan::query()
             ->with([
@@ -61,6 +61,11 @@ class PengawasanRepository
                 ->orWhereHas('initiator', function($q) use ($keyword) {
                     $q->whereRaw('lower(name) LIKE ?', ['%' . strtolower($keyword) . '%']);
                 });
+        }
+
+        // Filter by province if provinsiId is provided
+        if (!is_null($provinsiId)) {
+            $queryResult->where('lokasi_provinsi_id', $provinsiId);
         }
 
         $paginator = $queryResult->paginate($perPage);

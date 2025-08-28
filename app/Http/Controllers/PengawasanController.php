@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use App\Helpers\AlertHelper;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 /**
  * ################################################
@@ -59,14 +60,22 @@ class PengawasanController extends Controller
         $page = $request->input('page', config('constant.CRUD.PAGE'));
         $keyword = $request->input('keyword');
 
+        // Get the logged-in user
+        $user = Auth::user();
 
-        $pengawasanList = $this->pengawasanService->listAllPengawasan($perPage, $sortField, $sortOrder, $keyword);
+        // Check if user is petugas and get their province authority
+        $provinsiId = null;
+        if ($user->petugas) {
+            $provinsiId = $user->petugas->penempatan;
+        }
+
+        $pengawasanList = $this->pengawasanService->listAllPengawasan($perPage, $sortField, $sortOrder, $keyword, $provinsiId);
 
         $breadcrumbs = array_merge($this->mainBreadcrumbs, ['List' => null]);
 
         $alerts = AlertHelper::getAlerts();
 
-        return view('admin.pages.pengawasan.index', compact('pengawasanList', 'breadcrumbs', 'sortField', 'sortOrder', 'perPage', 'page', 'keyword', 'alerts'));
+        return view('admin.pages.pengawasan.index', compact('pengawasanList', 'breadcrumbs', 'sortField', 'sortOrder', 'perPage', 'page', 'keyword', 'alerts', 'user'));
     }
 
     /**
@@ -78,8 +87,24 @@ class PengawasanController extends Controller
     {
         $breadcrumbs = array_merge($this->mainBreadcrumbs, ['Add' => null]);
 
-        // Get provinces and cities data
-        $provinsis = \App\Models\MasterProvinsi::orderBy('nama_provinsi', 'asc')->get();
+        // Get the logged-in user
+        $user = Auth::user();
+
+        // Filter provinces based on user role
+        // Check if user has ROLE_ADMIN by querying the database directly
+        $isAdmin = $user->hasRole('ROLE_ADMIN');
+
+        if ($isAdmin) {
+            // Admin can see all provinces
+            $provinsis = \App\Models\MasterProvinsi::orderBy('nama_provinsi', 'asc')->get();
+        } else {
+            // Regular users can only see their assigned province
+            $provinsis = collect();
+            if ($user->petugas && $user->petugas->penempatan) {
+                $provinsis = \App\Models\MasterProvinsi::where('id', $user->petugas->penempatan)->orderBy('nama_provinsi', 'asc')->get();
+            }
+        }
+
         $kotas = [];
 
         // Get jenis psat and produk psat data
@@ -147,8 +172,28 @@ class PengawasanController extends Controller
 
         $breadcrumbs = array_merge($this->mainBreadcrumbs, ['Edit' => null]);
 
-        // Get provinces and cities data
-        $provinsis = \App\Models\MasterProvinsi::orderBy('nama_provinsi', 'asc')->get();
+        // Get the logged-in user
+        $user = Auth::user();
+
+        // Filter provinces based on user role
+        // Check if user has ROLE_ADMIN by querying the database directly
+        $isAdmin = DB::table('role_user')
+            ->join('role_master', 'role_user.role_id', '=', 'role_master.id')
+            ->where('role_user.user_id', $user->id)
+            ->where('role_master.role_code', 'ROLE_ADMIN')
+            ->exists();
+
+        if ($isAdmin) {
+            // Admin can see all provinces
+            $provinsis = \App\Models\MasterProvinsi::orderBy('nama_provinsi', 'asc')->get();
+        } else {
+            // Regular users can only see their assigned province
+            $provinsis = collect();
+            if ($user->petugas && $user->petugas->penempatan) {
+                $provinsis = \App\Models\MasterProvinsi::where('id', $user->petugas->penempatan)->orderBy('nama_provinsi', 'asc')->get();
+            }
+        }
+
         $kotas = [];
         if ($pengawasan && $pengawasan->lokasi_provinsi_id) {
             $kotas = \App\Models\MasterKota::where('provinsi_id', $pengawasan->lokasi_provinsi_id)->get();
@@ -243,7 +288,7 @@ class PengawasanController extends Controller
             return ['id' => $pengawasan->id, 'text' => $pengawasan->lokasi_alamat];
         });
 
-        return response()->json($formattedPengasan);
+        return response()->json($formattedPengawasan);
     }
 
     // ============================ END OF ULTIMATE CRUD FUNCTIONALITY ===============================

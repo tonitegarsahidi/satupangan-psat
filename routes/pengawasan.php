@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware(['auth', 'role:ROLE_OPERATOR,ROLE_SUPERVISOR,ROLE_LEADER'])->group(function () {
+Route::middleware(['auth', 'role:ROLE_OPERATOR,ROLE_SUPERVISOR,ROLE_LEADER,ROLE_ADMIN'])->group(function () {
     // MANAGE PENGAWASAN
     Route::prefix('/pengawasan-data')
         ->group(function () {

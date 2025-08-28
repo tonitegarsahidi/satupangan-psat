@@ -34,10 +34,10 @@ class PengawasanService
         $this->pengawasanRepository = $pengawasanRepository;
     }
 
-    public function listAllPengawasan($perPage, string $sortField = null, string $sortOrder = null, string $keyword = null): LengthAwarePaginator
+    public function listAllPengawasan($perPage, string $sortField = null, string $sortOrder = null, string $keyword = null, $provinsiId = null): LengthAwarePaginator
     {
         $perPage = !is_null($perPage) ? $perPage : config('constant.CRUD.PER_PAGE');
-        return $this->pengawasanRepository->getAllPengawasan($perPage, $sortField, $sortOrder, $keyword);
+        return $this->pengawasanRepository->getAllPengawasan($perPage, $sortField, $sortOrder, $keyword, $provinsiId);
     }
 
     public function getPengawasanDetail($pengawasanId): ?Pengawasan

@@ -164,7 +164,7 @@ class RoleUserSeeder extends Seeder
          // Special handling for petugaspusat - assign ROLE_OPERATOR, ROLE_SUPERVISOR, and ROLE_KANTOR
          if ($userIdPetugasPusat && !isset($roleAssignments[$userIdPetugasPusat])) {
              $roleIdKantor = DB::table('role_master')->where('role_code', 'ROLE_KANTOR')->value('id');
-             $roleAssignments[$userIdPetugasPusat] = [$roleIdUser, $roleIdOperator, $roleIdSupervisor, $roleIdKantor];
+             $roleAssignments[$userIdPetugasPusat] = [$roleIdUser, $roleIdOperator];
          }
 
          // Special handling for pimpinanpusat - assign ROLE_SUPERVISOR and ROLE_LEADER
