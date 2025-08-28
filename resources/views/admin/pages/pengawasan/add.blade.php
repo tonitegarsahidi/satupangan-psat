@@ -21,19 +21,6 @@
                         <form method="POST" action="{{ route('pengawasan.store') }}">
                             @csrf
 
-                            {{-- USER ID INITIATOR FIELD --}}
-                            <div class="row mb-3">
-                                <label class="col-sm-2 col-form-label" for="user_id_initiator">Pembuat</label>
-                                <div class="col-sm-10">
-                                    {{-- form validation error --}}
-                                    @include('admin.components.notification.error-validation', ['field' => 'user_id_initiator'])
-
-                                    {{-- input form --}}
-                                    <select name="user_id_initiator" class="form-select" id="user_id_initiator">
-                                        <option value="{{ auth()->id() }}">{{ auth()->user()->name }}</option>
-                                    </select>
-                                </div>
-                            </div>
 
                             {{-- LOKASI ALAMAT FIELD --}}
                             <div class="row mb-3">
@@ -115,6 +102,84 @@
                                 </div>
                             </div>
 
+                            {{-- LAMPIRAN 1 FIELD --}}
+                            <div class="row mb-3">
+                                <label class="col-sm-2 col-form-label" for="lampiran1">Lampiran 1</label>
+                                <div class="col-sm-10">
+                                    {{-- form validation error --}}
+                                    @include('admin.components.notification.error-validation', ['field' => 'lampiran1'])
+
+                                    {{-- input form --}}
+                                    <input type="text" name="lampiran1" class="form-control" id="lampiran1"
+                                        placeholder="Enter attachment 1" value="{{ old('lampiran1') }}">
+                                </div>
+                            </div>
+
+                            {{-- LAMPIRAN 2 FIELD --}}
+                            <div class="row mb-3">
+                                <label class="col-sm-2 col-form-label" for="lampiran2">Lampiran 2</label>
+                                <div class="col-sm-10">
+                                    {{-- form validation error --}}
+                                    @include('admin.components.notification.error-validation', ['field' => 'lampiran2'])
+
+                                    {{-- input form --}}
+                                    <input type="text" name="lampiran2" class="form-control" id="lampiran2"
+                                        placeholder="Enter attachment 2" value="{{ old('lampiran2') }}">
+                                </div>
+                            </div>
+
+                            {{-- LAMPIRAN 3 FIELD --}}
+                            <div class="row mb-3">
+                                <label class="col-sm-2 col-form-label" for="lampiran3">Lampiran 3</label>
+                                <div class="col-sm-10">
+                                    {{-- form validation error --}}
+                                    @include('admin.components.notification.error-validation', ['field' => 'lampiran3'])
+
+                                    {{-- input form --}}
+                                    <input type="text" name="lampiran3" class="form-control" id="lampiran3"
+                                        placeholder="Enter attachment 3" value="{{ old('lampiran3') }}">
+                                </div>
+                            </div>
+
+                            {{-- LAMPIRAN 4 FIELD --}}
+                            <div class="row mb-3">
+                                <label class="col-sm-2 col-form-label" for="lampiran4">Lampiran 4</label>
+                                <div class="col-sm-10">
+                                    {{-- form validation error --}}
+                                    @include('admin.components.notification.error-validation', ['field' => 'lampiran4'])
+
+                                    {{-- input form --}}
+                                    <input type="text" name="lampiran4" class="form-control" id="lampiran4"
+                                        placeholder="Enter attachment 4" value="{{ old('lampiran4') }}">
+                                </div>
+                            </div>
+
+                            {{-- LAMPIRAN 5 FIELD --}}
+                            <div class="row mb-3">
+                                <label class="col-sm-2 col-form-label" for="lampiran5">Lampiran 5</label>
+                                <div class="col-sm-10">
+                                    {{-- form validation error --}}
+                                    @include('admin.components.notification.error-validation', ['field' => 'lampiran5'])
+
+                                    {{-- input form --}}
+                                    <input type="text" name="lampiran5" class="form-control" id="lampiran5"
+                                        placeholder="Enter attachment 5" value="{{ old('lampiran5') }}">
+                                </div>
+                            </div>
+
+                            {{-- LAMPIRAN 6 FIELD --}}
+                            <div class="row mb-3">
+                                <label class="col-sm-2 col-form-label" for="lampiran6">Lampiran 6</label>
+                                <div class="col-sm-10">
+                                    {{-- form validation error --}}
+                                    @include('admin.components.notification.error-validation', ['field' => 'lampiran6'])
+
+                                    {{-- input form --}}
+                                    <input type="text" name="lampiran6" class="form-control" id="lampiran6"
+                                        placeholder="Enter attachment 6" value="{{ old('lampiran6') }}">
+                                </div>
+                            </div>
+
                             {{-- STATUS FIELD --}}
                             <div class="row mb-3">
                                 <label class="col-sm-2 col-form-label" for="status">Status*</label>
@@ -144,26 +209,6 @@
                                 </div>
                             </div>
 
-                            {{-- IS ACTIVE FIELD --}}
-                            <div class="row mb-3">
-                                <label class="col-sm-2 col-form-label" for="is_active">Aktif*</label>
-                                <div class="col-sm-10">
-                                    {{-- form validation error --}}
-                                    @include('admin.components.notification.error-validation', ['field' => 'is_active'])
-
-                                    {{-- input form --}}
-                                    <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="radio" name="is_active" id="is_active_true" value="1"
-                                            {{ old('is_active') == 1 ? 'checked' : ''}}>
-                                        <label class="form-check-label" for="is_active_true">Ya</label>
-                                    </div>
-                                    <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="radio" name="is_active" id="is_active_false" value="0"
-                                            {{ old('is_active') == 0 ? 'checked' : ''}}>
-                                        <label class="form-check-label" for="is_active_false">Tidak</label>
-                                    </div>
-                                </div>
-                            </div>
 
                             <div class="row justify-content-end">
                                 <div class="col-sm-10">

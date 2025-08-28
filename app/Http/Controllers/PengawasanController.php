@@ -126,14 +126,12 @@ class PengawasanController extends Controller
         // Get current authenticated user ID
         $userId = Auth::id();
 
-        // Add user_id_initiator if not present
-        if (!isset($validatedData['user_id_initiator'])) {
-            $validatedData['user_id_initiator'] = $userId;
-        }
-
         // Add created_by and updated_by with current user ID
         $validatedData['created_by'] = $userId;
         $validatedData['updated_by'] = $userId;
+
+        // Set is_active to true by default
+        $validatedData['is_active'] = 1;
 
         $result = $this->pengawasanService->addNewPengawasan($validatedData);
 
@@ -220,6 +218,9 @@ class PengawasanController extends Controller
 
         // Add updated_by with current user ID
         $validatedData['updated_by'] = Auth::id();
+
+        // Ensure is_active is always true
+        $validatedData['is_active'] = 1;
 
         $result = $this->pengawasanService->updatePengawasan($validatedData, $id);
 
