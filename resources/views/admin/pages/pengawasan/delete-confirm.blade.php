@@ -33,11 +33,11 @@
                                 </tr>
                                 <tr>
                                     <th scope="col" class="bg-dark text-white">City</th>
-                                    <td>{{ $data->lokasiKota ? $data->lokasiKota->nama : '-' }}</td>
+                                    <td>{{ $data->lokasiKota ? $data->lokasiKota->nama_kota : '-' }}</td>
                                 </tr>
                                 <tr>
                                     <th scope="col" class="bg-dark text-white">Province</th>
-                                    <td>{{ $data->lokasiProvinsi ? $data->lokasiProvinsi->nama : '-' }}</td>
+                                    <td>{{ $data->lokasiProvinsi ? $data->lokasiProvinsi->nama_provinsi : '-' }}</td>
                                 </tr>
                                 <tr>
                                     <th scope="col" class="bg-dark text-white">Start Date</th>
@@ -49,11 +49,11 @@
                                 </tr>
                                 <tr>
                                     <th scope="col" class="bg-dark text-white">PSAT Type</th>
-                                    <td>{{ $data->jenisPsat ? $data->jenisPsat->nama : '-' }}</td>
+                                    <td>{{ $data->jenisPsat ? $data->jenisPsat->nama_jenis_pangan_segar : '-' }}</td>
                                 </tr>
                                 <tr>
                                     <th scope="col" class="bg-dark text-white">PSAT Product</th>
-                                    <td>{{ $data->produkPsat ? $data->produkPsat->nama : '-' }}</td>
+                                    <td>{{ $data->produkPsat ? $data->produkPsat->nama_bahan_pangan_segar : '-' }}</td>
                                 </tr>
                                 <tr>
                                     <th scope="col" class="bg-dark text-white">Status</th>
@@ -74,6 +74,67 @@
                                             <span class="badge rounded-pill bg-success"> Yes </span>
                                         @else
                                             <span class="badge rounded-pill bg-danger"> No </span>
+                                        @endif
+                                    </td>
+                                </tr>
+                                <!-- Lampiran Section -->
+                                <tr>
+                                    <th scope="col" class="bg-dark text-white">Lampiran 1</th>
+                                    <td>
+                                        @if($data->lampiran1)
+                                            <a href="{{ $data->lampiran1 }}" target="_blank">Download Lampiran 1</a>
+                                        @else
+                                            -
+                                        @endif
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th scope="col" class="bg-dark text-white">Lampiran 2</th>
+                                    <td>
+                                        @if($data->lampiran2)
+                                            <a href="{{ $data->lampiran2 }}" target="_blank">Download Lampiran 2</a>
+                                        @else
+                                            -
+                                        @endif
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th scope="col" class="bg-dark text-white">Lampiran 3</th>
+                                    <td>
+                                        @if($data->lampiran3)
+                                            <a href="{{ $data->lampiran3 }}" target="_blank">Download Lampiran 3</a>
+                                        @else
+                                            -
+                                        @endif
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th scope="col" class="bg-dark text-white">Lampiran 4</th>
+                                    <td>
+                                        @if($data->lampiran4)
+                                            <a href="{{ $data->lampiran4 }}" target="_blank">Download Lampiran 4</a>
+                                        @else
+                                            -
+                                        @endif
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th scope="col" class="bg-dark text-white">Lampiran 5</th>
+                                    <td>
+                                        @if($data->lampiran5)
+                                            <a href="{{ $data->lampiran5 }}" target="_blank">Download Lampiran 5</a>
+                                        @else
+                                            -
+                                        @endif
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th scope="col" class="bg-dark text-white">Lampiran 6</th>
+                                    <td>
+                                        @if($data->lampiran6)
+                                            <a href="{{ $data->lampiran6 }}" target="_blank">Download Lampiran 6</a>
+                                        @else
+                                            -
                                         @endif
                                     </td>
                                 </tr>
