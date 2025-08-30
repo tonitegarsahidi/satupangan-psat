@@ -19,7 +19,7 @@
                 <div class="p-2 bd-highlight">
                     <h3 class="card-header">List of Pengawasan Rekap</h3>
                 </div>
-                @if(auth()->user()->hasRole('ROLE_SUPERVISOR'))
+                @if(auth()->user()->hasAnyRole(['ROLE_KANTOR']))
                 <div class="p-2">
                     <a class="btn btn-primary" href="{{ route('pengawasan-rekap.add') }}">
                         <span class="tf-icons bx bx-plus"></span>&nbsp;

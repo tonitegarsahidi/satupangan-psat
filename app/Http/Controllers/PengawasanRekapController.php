@@ -83,8 +83,12 @@ class PengawasanRekapController extends Controller
         $produkPsats = [];
 
         // Get admin users data
-        $admins = \App\Models\User::where('role_id', 1)->orderBy('name', 'asc')->get();
-        $pics = \App\Models\User::where('role_id', 2)->orderBy('name', 'asc')->get();
+        $admins = \App\Models\User::whereHas('roles', function($query) {
+            $query->where('role_code', 'admin');
+        })->orderBy('name', 'asc')->get();
+        $pics = \App\Models\User::whereHas('roles', function($query) {
+            $query->where('role_code', 'pic');
+        })->orderBy('name', 'asc')->get();
 
         // Get provinsi data
         $provinsis = \App\Models\MasterProvinsi::where('is_active', 1)->orderBy('nama_provinsi', 'asc')->get();
@@ -153,8 +157,12 @@ class PengawasanRekapController extends Controller
         }
 
         // Get admin users data
-        $admins = \App\Models\User::where('role_id', 1)->orderBy('name', 'asc')->get();
-        $pics = \App\Models\User::where('role_id', 2)->orderBy('name', 'asc')->get();
+        $admins = \App\Models\User::whereHas('roles', function($query) {
+            $query->where('role_code', 'admin');
+        })->orderBy('name', 'asc')->get();
+        $pics = \App\Models\User::whereHas('roles', function($query) {
+            $query->where('role_code', 'pic');
+        })->orderBy('name', 'asc')->get();
 
         // Get provinsi data
         $provinsis = \App\Models\MasterProvinsi::where('is_active', 1)->orderBy('nama_provinsi', 'asc')->get();

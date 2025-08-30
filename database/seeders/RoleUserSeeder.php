@@ -21,6 +21,7 @@ class RoleUserSeeder extends Seeder
          $roleIdOperator = DB::table('role_master')->where('role_code', 'ROLE_OPERATOR')->value('id');
          $roleIdSupervisor = DB::table('role_master')->where('role_code', 'ROLE_SUPERVISOR')->value('id');
          $roleIdLeader = DB::table('role_master')->where('role_code', 'ROLE_LEADER')->value('id');
+         $roleIdKantor = DB::table('role_master')->where('role_code', 'ROLE_KANTOR')->value('id');
 
          //find the id of the users
          $userIdSuperAdmin  = DB::table('users')->where('email', 'superadmin@panganaman.my.id')->value('id');
@@ -136,7 +137,7 @@ class RoleUserSeeder extends Seeder
 
          foreach ($allKantorUsers as $userId) {
              if ($userId && !isset($roleAssignments[$userId])) {
-                 $roleAssignments[$userId] = [$roleIdOperator, $roleIdUser];
+                 $roleAssignments[$userId] = [$roleIdOperator, $roleIdUser, $roleIdKantor];
              }
          }
 
@@ -145,8 +146,7 @@ class RoleUserSeeder extends Seeder
              $roleAssignments[$userIdLeader] = [$roleIdUser, $roleIdLeader];
          }
 
-         // Add roles for all petugas users (ROLE_OPERATOR, ROLE_SUPERVISOR, and ROLE_KANTOR)
-         $roleIdKantor = DB::table('role_master')->where('role_code', 'ROLE_KANTOR')->value('id');
+
 
          foreach ($petugasUsers as $userId) {
              if ($userId && !isset($roleAssignments[$userId])) {
