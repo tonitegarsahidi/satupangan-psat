@@ -30,14 +30,11 @@ class PengawasanRekapRepository
         }
 
         $queryResult->with([
-            'pengawasan',
             'admin',
             'jenisPsat',
             'produkPsat',
             'provinsi',
             'picTindakan',
-            'lokasiKota',
-            'lokasiProvinsi',
             'tindakan',
             'tindakan.pimpinan',
             'tindakan.picTindakans',
@@ -48,9 +45,6 @@ class PengawasanRekapRepository
 
         if (!is_null($keyword)) {
             $queryResult->whereRaw('lower(hasil_rekap) LIKE ?', ['%' . strtolower($keyword) . '%'])
-                ->orWhereHas('pengawasan', function($q) use ($keyword) {
-                    $q->whereRaw('lower(lokasi_alamat) LIKE ?', ['%' . strtolower($keyword) . '%']);
-                })
                 ->orWhereHas('admin', function($q) use ($keyword) {
                     $q->whereRaw('lower(name) LIKE ?', ['%' . strtolower($keyword) . '%']);
                 });
@@ -65,21 +59,23 @@ class PengawasanRekapRepository
     public function getRekapById($rekapId): ?PengawasanRekap
     {
         return PengawasanRekap::with([
-            'pengawasan',
             'admin',
             'jenisPsat',
             'produkPsat',
             'provinsi',
             'picTindakan',
-            'lokasiKota',
-            'lokasiProvinsi',
             'tindakan',
             'tindakan.pimpinan',
             'tindakan.picTindakans',
             'tindakan.tindakanLanjutan',
             'tindakan.tindakanLanjutan.pic',
             'attachments',
-            'pengawasans'
+            'pengawasans',
+            'pengawasans.jenisPsat',
+            'pengawasans.produkPsat',
+            'pengawasans.initiator',
+            'createdBy',
+            'updatedBy'
         ])->find($rekapId);
     }
 

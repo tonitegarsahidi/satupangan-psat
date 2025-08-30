@@ -29,11 +29,7 @@
                         <table class="table table-hover">
                             <tbody>
                                 <tr>
-                                    <th style="width: 250px;" scope="col" class="bg-dark text-white">Pengawasan</th>
-                                    <td>{{ $data->pengawasan ? $data->pengawasan->lokasi_alamat : '-' }}</td>
-                                </tr>
-                                <tr>
-                                    <th scope="col" class="bg-dark text-white">Admin</th>
+                                    <th style="width: 250px;" scope="col" class="bg-dark text-white">Admin</th>
                                     <td>{{ $data->admin ? $data->admin->name : '-' }}</td>
                                 </tr>
                                 <tr>
@@ -45,9 +41,49 @@
                                     <td>{{ $data->produkPsat ? $data->produkPsat->nama_bahan_pangan_segar : '-' }}</td>
                                 </tr>
                                 <tr>
+                                    <th scope="col" class="bg-dark text-white">Provinsi</th>
+                                    <td>{{ $data->provinsi ? $data->provinsi->nama_provinsi : '-' }}</td>
+                                </tr>
+                                <tr>
                                     <th scope="col" class="bg-dark text-white">Hasil Rekap</th>
                                     <td>{{ $data->hasil_rekap ?: '-' }}</td>
                                 </tr>
+                                @if($data->lampiran1)
+                                <tr>
+                                    <th scope="col" class="bg-dark text-white">Lampiran 1</th>
+                                    <td><a href="{{ env('APP_URL') }}/{{ $data->lampiran1 }}" target="_blank" class="btn btn-sm btn-primary">Download Lampiran 1</a></td>
+                                </tr>
+                                @endif
+                                @if($data->lampiran2)
+                                <tr>
+                                    <th scope="col" class="bg-dark text-white">Lampiran 2</th>
+                                    <td><a href="{{ env('APP_URL') }}/{{ $data->lampiran2 }}" target="_blank" class="btn btn-sm btn-primary">Download Lampiran 2</a></td>
+                                </tr>
+                                @endif
+                                @if($data->lampiran3)
+                                <tr>
+                                    <th scope="col" class="bg-dark text-white">Lampiran 3</th>
+                                    <td><a href="{{ env('APP_URL') }}/{{ $data->lampiran3 }}" target="_blank" class="btn btn-sm btn-primary">Download Lampiran 3</a></td>
+                                </tr>
+                                @endif
+                                @if($data->lampiran4)
+                                <tr>
+                                    <th scope="col" class="bg-dark text-white">Lampiran 4</th>
+                                    <td><a href="{{ env('APP_URL') }}/{{ $data->lampiran4 }}" target="_blank" class="btn btn-sm btn-primary">Download Lampiran 4</a></td>
+                                </tr>
+                                @endif
+                                @if($data->lampiran5)
+                                <tr>
+                                    <th scope="col" class="bg-dark text-white">Lampiran 5</th>
+                                    <td><a href="{{ env('APP_URL') }}/{{ $data->lampiran5 }}" target="_blank" class="btn btn-sm btn-primary">Download Lampiran 5</a></td>
+                                </tr>
+                                @endif
+                                @if($data->lampiran6)
+                                <tr>
+                                    <th scope="col" class="bg-dark text-white">Lampiran 6</th>
+                                    <td><a href="{{ env('APP_URL') }}/{{ $data->lampiran6 }}" target="_blank" class="btn btn-sm btn-primary">Download Lampiran 6</a></td>
+                                </tr>
+                                @endif
                                 <tr>
                                     <th scope="col" class="bg-dark text-white">Status</th>
                                     <td>
@@ -63,16 +99,6 @@
                                 <tr>
                                     <th scope="col" class="bg-dark text-white">PIC Tindakan</th>
                                     <td>{{ $data->picTindakan ? $data->picTindakan->name : '-' }}</td>
-                                </tr>
-                                <tr>
-                                    <th scope="col" class="bg-dark text-white">Aktif</th>
-                                    <td>
-                                        @if ($data->is_active)
-                                            <span class="badge rounded-pill bg-success"> Yes </span>
-                                        @else
-                                            <span class="badge rounded-pill bg-danger"> No </span>
-                                        @endif
-                                    </td>
                                 </tr>
                                 <tr>
                                     <th scope="col" class="bg-dark text-white">Dibuat Oleh</th>
@@ -95,7 +121,49 @@
 
             </div>
 
-
+            {{-- MINITABLE FOR PENGAWASANS --}}
+            @if($data->pengawasans && $data->pengawasans->count() > 0)
+            <div class="row m-2">
+                <div class="col-12">
+                    <h4 class="card-header">Data Pengawasan Terkait</h4>
+                    <div class="table-responsive">
+                        <table class="table table-sm table-striped">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>No</th>
+                                    <th>Tanggal Mulai</th>
+                                    <th>Lokasi Alamat</th>
+                                    <th>Jenis PSAT</th>
+                                    <th>Produk PSAT</th>
+                                    <th>Initiator</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach($data->pengawasans as $index => $pengawasan)
+                                <tr>
+                                    <td>{{ $loop->iteration }}</td>
+                                    <td>{{ $pengawasan->tanggal_mulai ? date('d/m/Y H:i', strtotime($pengawasan->tanggal_mulai)) : '-' }}</td>
+                                    <td>{{ $pengawasan->lokasi_alamat ?: '-' }}</td>
+                                    <td>{{ $pengawasan->jenisPsat ? $pengawasan->jenisPsat->nama_jenis_pangan_segar : '-' }}</td>
+                                    <td>{{ $pengawasan->produkPsat ? $pengawasan->produkPsat->nama_bahan_pangan_segar : '-' }}</td>
+                                    <td>{{ $pengawasan->initiator ? $pengawasan->initiator->name : '-' }}</td>
+                                </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            @else
+            <div class="row m-2">
+                <div class="col-12">
+                    <div class="alert alert-info">
+                        <i class="bx bx-info-circle me-2"></i>
+                        Tidak ada data pengawasan terkait untuk rekap ini.
+                    </div>
+                </div>
+            </div>
+            @endif
 
             {{-- ROW FOR ADDITIONAL FUNCTIONALITY BUTTON --}}
             <div class="m-4">
