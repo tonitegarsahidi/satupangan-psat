@@ -90,10 +90,48 @@ class PengawasanRekapController extends Controller
             $query->where('role_code', 'pic');
         })->orderBy('name', 'asc')->get();
 
-        // Get provinsi data
-        $provinsis = \App\Models\MasterProvinsi::where('is_active', 1)->orderBy('nama_provinsi', 'asc')->get();
+        // Get current authenticated user's petugas data
+        $currentPetugas = \App\Models\Petugas::where('user_id', Auth::id())->first();
+        $currentProvinsiId = null;
+        $initiators = collect();
 
-        return view('admin.pages.pengawasan-rekap.add', compact('breadcrumbs', 'jenisPsats', 'produkPsats', 'admins', 'pics', 'provinsis'));
+        if ($currentPetugas && $currentPetugas->penempatan) {
+            $currentProvinsiId = $currentPetugas->penempatan;
+
+            // Get all petugas in the same provinsi for the initiator filter
+            $petugasInSameProvinsi = \App\Models\Petugas::where('penempatan', $currentProvinsiId)
+                ->where('is_active', 1)
+                ->with('user')
+                ->get();
+
+            $initiators = $petugasInSameProvinsi->map(function($petugas) {
+                return $petugas->user;
+            })->filter()->sortBy('name');
+        }
+
+        // Get provinsi data - filter by current user's provinsi if available
+        $provinsis = \App\Models\MasterProvinsi::where('is_active', 1);
+        if ($currentProvinsiId) {
+            $provinsis = $provinsis->where('id', $currentProvinsiId);
+        }
+        $provinsis = $provinsis->orderBy('nama_provinsi', 'asc')->get();
+
+        // Get pengawasan data - filter by current user's provinsi if available
+        $pengawasansQuery = \App\Models\Pengawasan::with([
+            'jenisPsat',
+            'produkPsat',
+            'lokasiProvinsi',
+            'lokasiKota',
+            'initiator'
+        ])->where('is_active', 1);
+
+        if ($currentProvinsiId) {
+            $pengawasansQuery->where('lokasi_provinsi_id', $currentProvinsiId);
+        }
+
+        $pengawasans = $pengawasansQuery->orderBy('tanggal_mulai', 'desc')->get();
+
+        return view('admin.pages.pengawasan-rekap.add', compact('breadcrumbs', 'jenisPsats', 'produkPsats', 'admins', 'pics', 'provinsis', 'pengawasans', 'initiators'));
     }
 
     /**
@@ -111,6 +149,12 @@ class PengawasanRekapController extends Controller
         // Add created_by and updated_by with current user ID
         $validatedData['created_by'] = $userId;
         $validatedData['updated_by'] = $userId;
+
+        // Extract pengawasan IDs from the request
+        $pengawasanIds = $request->input('pengawasan_ids', []);
+
+        // Add pengawasan IDs to the data
+        $validatedData['pengawasan_ids'] = $pengawasanIds;
 
         $result = $this->pengawasanRekapService->addNewRekap($validatedData);
 
@@ -164,10 +208,56 @@ class PengawasanRekapController extends Controller
             $query->where('role_code', 'pic');
         })->orderBy('name', 'asc')->get();
 
-        // Get provinsi data
-        $provinsis = \App\Models\MasterProvinsi::where('is_active', 1)->orderBy('nama_provinsi', 'asc')->get();
+        // Get current authenticated user's petugas data
+        $currentPetugas = \App\Models\Petugas::where('user_id', Auth::id())->first();
+        $currentProvinsiId = null;
+        $initiators = collect();
 
-        return view('admin.pages.pengawasan-rekap.edit', compact('breadcrumbs', 'pengawasanRekap', 'jenisPsats', 'produkPsats', 'admins', 'pics', 'provinsis'));
+        if ($currentPetugas && $currentPetugas->penempatan) {
+            $currentProvinsiId = $currentPetugas->penempatan;
+
+            // Get all petugas in the same provinsi for the initiator filter
+            $petugasInSameProvinsi = \App\Models\Petugas::where('penempatan', $currentProvinsiId)
+                ->where('is_active', 1)
+                ->with('user')
+                ->get();
+
+            $initiators = $petugasInSameProvinsi->map(function($petugas) {
+                return $petugas->user;
+            })->filter()->sortBy('name');
+        }
+
+        // Get provinsi data - filter by current user's provinsi if available
+        $provinsis = \App\Models\MasterProvinsi::where('is_active', 1);
+        if ($currentProvinsiId) {
+            $provinsis = $provinsis->where('id', $currentProvinsiId);
+        }
+        $provinsis = $provinsis->orderBy('nama_provinsi', 'asc')->get();
+
+        // Get pengawasan data - filter by current user's provinsi if available
+        $pengawasansQuery = \App\Models\Pengawasan::with([
+            'jenisPsat',
+            'produkPsat',
+            'lokasiProvinsi',
+            'lokasiKota',
+            'initiator'
+        ])->where('is_active', 1);
+
+        if ($currentProvinsiId) {
+            $pengawasansQuery->where('lokasi_provinsi_id', $currentProvinsiId);
+        }
+
+        $pengawasans = $pengawasansQuery->orderBy('tanggal_mulai', 'desc')->get();
+
+        // Get currently selected pengawasan IDs for this rekap
+        $selectedPengawasanIds = [];
+        if ($pengawasanRekap && $pengawasanRekap->pengawasans) {
+            foreach ($pengawasanRekap->pengawasans as $pengawasan) {
+                $selectedPengawasanIds[] = $pengawasan->id;
+            }
+        }
+
+        return view('admin.pages.pengawasan-rekap.edit', compact('breadcrumbs', 'pengawasanRekap', 'jenisPsats', 'produkPsats', 'admins', 'pics', 'provinsis', 'pengawasans', 'selectedPengawasanIds', 'initiators'));
     }
 
     /**
@@ -181,6 +271,12 @@ class PengawasanRekapController extends Controller
 
         // Add updated_by with current user ID
         $validatedData['updated_by'] = Auth::id();
+
+        // Extract pengawasan IDs from the request
+        $pengawasanIds = $request->input('pengawasan_ids', []);
+
+        // Add pengawasan IDs to the data
+        $validatedData['pengawasan_ids'] = $pengawasanIds;
 
         $result = $this->pengawasanRekapService->updateRekap($validatedData, $id);
 
@@ -292,4 +388,62 @@ class PengawasanRekapController extends Controller
     }
 
     // ============================ END OF ULTIMATE CRUD FUNCTIONALITY ===============================
+
+    /**
+     * =============================================
+     *      Get pengawasan data for select section
+     * =============================================
+     */
+    public function getPengawasanData(Request $request)
+    {
+        $provinsiId = $request->input('provinsi_id');
+        $jenisPsatId = $request->input('jenis_psat_id');
+        $produkPsatId = $request->input('produk_psat_id');
+        $initiatorId = $request->input('initiator_id');
+
+        // Get current authenticated user's petugas data
+        $currentPetugas = \App\Models\Petugas::where('user_id', Auth::id())->first();
+        $currentProvinsiId = null;
+
+        if ($currentPetugas && $currentPetugas->penempatan) {
+            $currentProvinsiId = $currentPetugas->penempatan;
+        }
+
+        $query = \App\Models\Pengawasan::with([
+            'jenisPsat',
+            'produkPsat',
+            'lokasiProvinsi',
+            'lokasiKota',
+            'initiator'
+        ])->where('is_active', 1);
+
+        // Always filter by current user's provinsi if available
+        if ($currentProvinsiId) {
+            $query->where('lokasi_provinsi_id', $currentProvinsiId);
+        }
+
+        // Apply other filters if provided
+        if ($provinsiId) {
+            $query->where('lokasi_provinsi_id', $provinsiId);
+        }
+
+        if ($jenisPsatId) {
+            $query->where('jenis_psat_id', $jenisPsatId);
+        }
+
+        if ($produkPsatId) {
+            $query->where('produk_psat_id', $produkPsatId);
+        }
+
+        if ($initiatorId) {
+            $query->where('initiator_id', $initiatorId);
+        }
+
+        $pengawasanList = $query->orderBy('tanggal_mulai', 'desc')->get();
+
+        return response()->json([
+            'success' => true,
+            'data' => $pengawasanList
+        ]);
+    }
 }

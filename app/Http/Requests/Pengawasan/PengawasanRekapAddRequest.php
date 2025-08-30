@@ -22,7 +22,8 @@ class PengawasanRekapAddRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'pengawasan_id' => 'required|exists:pengawasans,id',
+            'pengawasan_ids' => 'sometimes|array',
+            'pengawasan_ids.*' => 'required|exists:pengawasans,id',
             'user_id_admin' => 'required|exists:users,id',
             'jenis_psat_id' => 'required|exists:master_jenis_pangan_segars,id',
             'produk_psat_id' => 'required|exists:master_bahan_pangan_segars,id',
@@ -45,8 +46,9 @@ class PengawasanRekapAddRequest extends FormRequest
     public function messages()
     {
         return [
-            'pengawasan_id.required' => 'The supervision field is required.',
-            'pengawasan_id.exists' => 'The selected supervision is invalid.',
+            'pengawasan_ids.array' => 'The supervision field must be an array.',
+            'pengawasan_ids.*.required' => 'The supervision field is required.',
+            'pengawasan_ids.*.exists' => 'The selected supervision is invalid.',
             'user_id_admin.required' => 'The admin field is required.',
             'user_id_admin.exists' => 'The selected admin is invalid.',
             'jenis_psat_id.required' => 'The PSAT type field is required.',

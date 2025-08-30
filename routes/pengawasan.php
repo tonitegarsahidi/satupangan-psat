@@ -40,6 +40,7 @@ Route::middleware(['auth', 'role:ROLE_OPERATOR,ROLE_SUPERVISOR,ROLE_LEADER,ROLE_
             Route::get('/delete/{id}', [PengawasanRekapController::class, 'deleteConfirm'])->name('pengawasan-rekap.delete');
             Route::delete('/delete/{id}', [PengawasanRekapController::class, 'destroy'])->name('pengawasan-rekap.destroy');
             Route::get('/search', [PengawasanRekapController::class, 'search'])->name('pengawasan-rekap.search');
+            Route::get('/get-pengawasan-data', [PengawasanRekapController::class, 'getPengawasanData'])->name('pengawasan-rekap.getPengawasanData');
         });
 
     // MANAGE PENGAWASAN TINDAKAN

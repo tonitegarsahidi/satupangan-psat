@@ -53,7 +53,20 @@ class PengawasanRekapService
     {
         DB::beginTransaction();
         try {
+            // Extract pengawasan IDs before creating the rekap
+            $pengawasanIds = $validatedData['pengawasan_ids'] ?? [];
+            unset($validatedData['pengawasan_ids']);
+
+            // Create the rekap record
             $rekap = $this->pengawasanRekapRepository->createRekap($validatedData);
+
+            // Link pengawasan records to the rekap
+            if ($rekap && !empty($pengawasanIds)) {
+                foreach ($pengawasanIds as $pengawasanId) {
+                    $this->pengawasanRekapRepository->linkPengawasanToRekap($pengawasanId, $rekap->id);
+                }
+            }
+
             DB::commit();
             return $rekap;
         } catch (\Exception $exception) {
@@ -67,7 +80,29 @@ class PengawasanRekapService
     {
         DB::beginTransaction();
         try {
+            // Extract pengawasan IDs before updating the rekap
+            $pengawasanIds = $validatedData['pengawasan_ids'] ?? [];
+            unset($validatedData['pengawasan_ids']);
+
+            // Update the rekap record
             $rekap = $this->pengawasanRekapRepository->updateRekap($id, $validatedData);
+
+            // Update pengawasan records linked to the rekap
+            if ($rekap) {
+                // First, unlink all existing pengawasan records
+                $existingPengawasans = $rekap->pengawasans;
+                foreach ($existingPengawasans as $pengawasan) {
+                    $this->pengawasanRekapRepository->unlinkPengawasanFromRekap($pengawasan->id, $rekap->id);
+                }
+
+                // Then link the new pengawasan records
+                if (!empty($pengawasanIds)) {
+                    foreach ($pengawasanIds as $pengawasanId) {
+                        $this->pengawasanRekapRepository->linkPengawasanToRekap($pengawasanId, $rekap->id);
+                    }
+                }
+            }
+
             DB::commit();
             return $rekap;
         } catch (\Exception $exception) {

@@ -85,14 +85,52 @@ class PengawasanRekapRepository
 
     public function createRekap($data)
     {
-        return PengawasanRekap::create($data);
+        return DB::transaction(function () use ($data) {
+            // Create the main rekap record
+            $rekap = PengawasanRekap::create($data);
+
+            // Link pengawasan records if provided
+            if (isset($data['pengawasan_ids']) && is_array($data['pengawasan_ids'])) {
+                foreach ($data['pengawasan_ids'] as $pengawasanId) {
+                    $this->linkPengawasanToRekap($pengawasanId, $rekap->id);
+                }
+            }
+
+            return $rekap;
+        });
     }
 
     public function updateRekap($rekapId, $data)
     {
-        $rekap = PengawasanRekap::findOrFail($rekapId);
-        $rekap->update($data);
-        return $rekap;
+        return DB::transaction(function () use ($rekapId, $data) {
+            // Get the rekap record
+            $rekap = PengawasanRekap::findOrFail($rekapId);
+
+            // Extract pengawasan IDs if present
+            $pengawasanIds = $data['pengawasan_ids'] ?? [];
+            unset($data['pengawasan_ids']);
+
+            // Update the main rekap record
+            $rekap->update($data);
+
+            // Update pengawasan relationships
+            if (isset($pengawasanIds)) {
+                // First, unlink all existing pengawasan records
+                $existingPengawasans = $rekap->pengawasans;
+                foreach ($existingPengawasans as $pengawasan) {
+                    $this->unlinkPengawasanFromRekap($pengawasan->id, $rekapId);
+                }
+
+                // Then link the new pengawasan records
+                if (!empty($pengawasanIds)) {
+                    foreach ($pengawasanIds as $pengawasanId) {
+                        $this->linkPengawasanToRekap($pengawasanId, $rekapId);
+                    }
+                }
+            }
+
+            return $rekap;
+        });
     }
 
     public function delete($rekapId): ?bool
