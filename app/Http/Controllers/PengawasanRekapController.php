@@ -396,10 +396,7 @@ class PengawasanRekapController extends Controller
      */
     public function getPengawasanData(Request $request)
     {
-        $provinsiId = $request->input('provinsi_id');
-        $jenisPsatId = $request->input('jenis_psat_id');
-        $produkPsatId = $request->input('produk_psat_id');
-        $initiatorId = $request->input('initiator_id');
+        $keyword = $request->input('keyword');
 
         // Get current authenticated user's petugas data
         $currentPetugas = \App\Models\Petugas::where('user_id', Auth::id())->first();
@@ -422,21 +419,21 @@ class PengawasanRekapController extends Controller
             $query->where('lokasi_provinsi_id', $currentProvinsiId);
         }
 
-        // Apply other filters if provided
-        if ($provinsiId) {
-            $query->where('lokasi_provinsi_id', $provinsiId);
-        }
-
-        if ($jenisPsatId) {
-            $query->where('jenis_psat_id', $jenisPsatId);
-        }
-
-        if ($produkPsatId) {
-            $query->where('produk_psat_id', $produkPsatId);
-        }
-
-        if ($initiatorId) {
-            $query->where('initiator_id', $initiatorId);
+        // Apply keyword filter if provided
+        if ($keyword) {
+            $query->where(function($q) use ($keyword) {
+                $q->whereHas('initiator', function($q) use ($keyword) {
+                    $q->where('name', 'like', '%' . $keyword . '%');
+                })->orWhereHas('jenisPsat', function($q) use ($keyword) {
+                    $q->where('nama_jenis_pangan_segar', 'like', '%' . $keyword . '%');
+                })->orWhereHas('produkPsat', function($q) use ($keyword) {
+                    $q->where('nama_bahan_pangan_segar', 'like', '%' . $keyword . '%');
+                })->orWhereHas('lokasiProvinsi', function($q) use ($keyword) {
+                    $q->where('nama_provinsi', 'like', '%' . $keyword . '%');
+                })->orWhereHas('lokasiKota', function($q) use ($keyword) {
+                    $q->where('nama_kota', 'like', '%' . $keyword . '%');
+                });
+            });
         }
 
         $pengawasanList = $query->orderBy('tanggal_mulai', 'desc')->get();

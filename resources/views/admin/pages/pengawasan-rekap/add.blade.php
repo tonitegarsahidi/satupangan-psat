@@ -29,11 +29,15 @@
                                     @include('admin.components.notification.error-validation', ['field' => 'provinsi_id'])
 
                                     {{-- input form --}}
-                                    <select name="provinsi_id" class="form-select" id="provinsi_id">
-                                        <option value="">-- Select Provinsi --</option>
-                                        @foreach ($provinsis ?? [] as $provinsi)
-                                            <option value="{{ $provinsi->id }}">{{ $provinsi->nama_provinsi }}</option>
-                                        @endforeach
+                                    <select name="provinsi_id" class="form-select" id="provinsi_id" {{ !empty($provinsis->count() == 1) ? 'disabled' : '' }}>
+                                        @if ($provinsis->count() == 1)
+                                            <option value="{{ $provinsis->first()->id }}" selected>{{ $provinsis->first()->nama_provinsi }}</option>
+                                        @else
+                                            <option value="">-- Select Provinsi --</option>
+                                            @foreach ($provinsis ?? [] as $provinsi)
+                                                <option value="{{ $provinsi->id }}">{{ $provinsi->nama_provinsi }}</option>
+                                            @endforeach
+                                        @endif
                                     </select>
                                 </div>
                             </div>
@@ -50,32 +54,13 @@
                                             <div class="mb-3">
                                                 <label class="form-label">Filter Data Pengawasan</label>
                                                 <div class="row">
-                                                    <div class="col-md-4 mb-3">
-                                                        <label class="form-label small">Berdasarkan Initiator</label>
-                                                        <select class="form-select pengawasan-filter" id="pengawasan_initiator_filter">
-                                                            <option value="">Semua Initiator</option>
-                                                            @foreach ($initiators ?? [] as $initiator)
-                                                                <option value="{{ $initiator->id }}">{{ $initiator->name }}</option>
-                                                            @endforeach
-                                                        </select>
-                                                    </div>
-                                                    <div class="col-md-4 mb-3">
-                                                        <label class="form-label small">Berdasarkan Jenis PSAT</label>
-                                                        <select class="form-select pengawasan-filter" id="pengawasan_jenis_filter">
-                                                            <option value="">Semua Jenis PSAT</option>
-                                                            @foreach ($jenisPsats ?? [] as $jenis)
-                                                                <option value="{{ $jenis->id }}">{{ $jenis->nama_jenis_pangan_segar }}</option>
-                                                            @endforeach
-                                                        </select>
-                                                    </div>
-                                                    <div class="col-md-4 mb-3">
-                                                        <label class="form-label small">Berdasarkan Produk PSAT</label>
-                                                        <select class="form-select pengawasan-filter" id="pengawasan_produk_filter">
-                                                            <option value="">Semua Produk PSAT</option>
-                                                            @foreach ($produkPsats ?? [] as $produk)
-                                                                <option value="{{ $produk->id }}">{{ $produk->nama_bahan_pangan_segar }}</option>
-                                                            @endforeach
-                                                        </select>
+                                                    <div class="col-md-6 mb-3">
+                                                        <div class="input-group">
+                                                            <input type="text" class="form-control" id="pengawasan_keyword_filter" placeholder="Kata kunci pencarian...">
+                                                            <button class="btn btn-primary" type="button" id="search-pengawasan">
+                                                                <i class="bx bx-search me-1"></i> Cari
+                                                            </button>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -115,7 +100,7 @@
                                                                 <td>{{ $pengawasan->produkPsat ? $pengawasan->produkPsat->nama_bahan_pangan_segar : '-' }}</td>
                                                                 <td>{{ $pengawasan->lokasiProvinsi ? $pengawasan->lokasiProvinsi->nama_provinsi : '-' }}</td>
                                                                 <td>{{ $pengawasan->lokasiKota ? $pengawasan->lokasiKota->nama_kota : '-' }}</td>
-                                                                <>{{ $pengawasan->tanggal_mulai ? \Carbon\Carbon::parse($pengawasan->tanggal_mulai)->format('d/m/Y') : '-' }}</td>
+                                                                <td>{{ $pengawasan->tanggal_mulai ? \Carbon\Carbon::parse($pengawasan->tanggal_mulai)->format('d/m/Y') : '-' }}</td>
                                                                 <td>{{ $pengawasan->tanggal_selesai ? \Carbon\Carbon::parse($pengawasan->tanggal_selesai)->format('d/m/Y') : '-' }}</td>
                                                                 <td>
                                                                     <span class="badge bg-{{ $pengawasan->status == 'SELESAI' ? 'success' : ($pengawasan->status == 'PROSES' ? 'warning' : 'secondary') }}">
@@ -267,8 +252,8 @@
                 $('#select-all-pengawasan').prop('checked', totalCheckboxes > 0 && totalCheckboxes === checkedCheckboxes);
             });
 
-            // Handle filter changes
-            $('.pengawasan-filter').on('change', function() {
+            // Handle keyword search
+            $('#search-pengawasan').on('click', function() {
                 applyFilters();
             });
 
@@ -310,9 +295,7 @@
 
             // Apply filters
             function applyFilters() {
-                var jenisFilter = $('#pengawasan_jenis_filter').val();
-                var produkFilter = $('#pengawasan_produk_filter').val();
-                var initiatorFilter = $('#pengawasan_initiator_filter').val();
+                var keywordFilter = $('#pengawasan_keyword_filter').val();
 
                 // Show loading spinner
                 $('#pengawasan-table tbody').html('<tr><td colspan="9" class="text-center"><div class="spinner-border" role="status"><span class="visually-hidden">Loading...</span></div></td></tr>');
@@ -322,9 +305,7 @@
                     url: '{{ route("pengawasan-rekap.getPengawasanData") }}',
                     type: 'GET',
                     data: {
-                        jenis_psat_id: jenisFilter,
-                        produk_psat_id: produkFilter,
-                        initiator_id: initiatorFilter
+                        keyword: keywordFilter
                     },
                     success: function(response) {
                         if (response.success) {
