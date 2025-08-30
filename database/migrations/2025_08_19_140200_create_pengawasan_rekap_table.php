@@ -18,12 +18,12 @@ return new class extends Migration
             $table->uuid('produk_psat_id');
             $table->uuid('provinsi_id')->nullable();
             $table->text('hasil_rekap');
-            $table->string('lampiran1', 200)->nullable()->after('hasil_rekap');
-            $table->string('lampiran2', 200)->nullable()->after('lampiran1');
-            $table->string('lampiran3', 200)->nullable()->after('lampiran2');
-            $table->string('lampiran4', 200)->nullable()->after('lampiran3');
-            $table->string('lampiran5', 200)->nullable()->after('lampiran4');
-            $table->string('lampiran6', 200)->nullable()->after('lampiran5');
+            $table->string('lampiran1', 200)->nullable();
+            $table->string('lampiran2', 200)->nullable();
+            $table->string('lampiran3', 200)->nullable();
+            $table->string('lampiran4', 200)->nullable();
+            $table->string('lampiran5', 200)->nullable();
+            $table->string('lampiran6', 200)->nullable();
             $table->string('status', 50);
             $table->uuid('pic_tindakan_id')->nullable();
             $table->boolean('is_active')->default(true);

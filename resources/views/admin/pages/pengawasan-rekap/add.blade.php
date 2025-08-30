@@ -55,6 +55,23 @@
                                 </div>
                             </div>
 
+                            {{-- PROVINSI FIELD --}}
+                            <div class="row mb-3">
+                                <label class="col-sm-2 col-form-label" for="provinsi_id">Provinsi</label>
+                                <div class="col-sm-10">
+                                    {{-- form validation error --}}
+                                    @include('admin.components.notification.error-validation', ['field' => 'provinsi_id'])
+
+                                    {{-- input form --}}
+                                    <select name="provinsi_id" class="form-select" id="provinsi_id">
+                                        <option value="">-- Select Provinsi --</option>
+                                        @foreach ($provinsis ?? [] as $provinsi)
+                                            <option value="{{ $provinsi->id }}">{{ $provinsi->nama_provinsi }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+
                             {{-- JENIS PSAT & PRODUK PSAT FIELD --}}
                             @include('components.jenis-psat-produk-psat', [
                                 'jenisPsats' => $jenisPsats,
@@ -79,6 +96,51 @@
                                     {{-- input form --}}
                                     <textarea name="hasil_rekap" class="form-control" id="hasil_rekap" rows="3"
                                         placeholder="Enter recap result" required>{{ old('hasil_rekap') }}</textarea>
+                                </div>
+                            </div>
+
+                            {{-- LAMPIRAN FIELDS --}}
+                            <div class="row mb-3">
+                                <label class="col-sm-2 col-form-label">Lampiran</label>
+                                <div class="col-sm-10">
+                                    <div class="row">
+                                        <div class="col-md-6 mb-3">
+                                            <label class="form-label" for="lampiran1">Lampiran 1</label>
+                                            @include('admin.components.notification.error-validation', ['field' => 'lampiran1'])
+                                            <input type="text" class="form-control" id="lampiran1" name="lampiran1"
+                                                placeholder="Enter attachment 1 path" value="{{ old('lampiran1') }}">
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <label class="form-label" for="lampiran2">Lampiran 2</label>
+                                            @include('admin.components.notification.error-validation', ['field' => 'lampiran2'])
+                                            <input type="text" class="form-control" id="lampiran2" name="lampiran2"
+                                                placeholder="Enter attachment 2 path" value="{{ old('lampiran2') }}">
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <label class="form-label" for="lampiran3">Lampiran 3</label>
+                                            @include('admin.components.notification.error-validation', ['field' => 'lampiran3'])
+                                            <input type="text" class="form-control" id="lampiran3" name="lampiran3"
+                                                placeholder="Enter attachment 3 path" value="{{ old('lampiran3') }}">
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <label class="form-label" for="lampiran4">Lampiran 4</label>
+                                            @include('admin.components.notification.error-validation', ['field' => 'lampiran4'])
+                                            <input type="text" class="form-control" id="lampiran4" name="lampiran4"
+                                                placeholder="Enter attachment 4 path" value="{{ old('lampiran4') }}">
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <label class="form-label" for="lampiran5">Lampiran 5</label>
+                                            @include('admin.components.notification.error-validation', ['field' => 'lampiran5'])
+                                            <input type="text" class="form-control" id="lampiran5" name="lampiran5"
+                                                placeholder="Enter attachment 5 path" value="{{ old('lampiran5') }}">
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <label class="form-label" for="lampiran6">Lampiran 6</label>
+                                            @include('admin.components.notification.error-validation', ['field' => 'lampiran6'])
+                                            <input type="text" class="form-control" id="lampiran6" name="lampiran6"
+                                                placeholder="Enter attachment 6 path" value="{{ old('lampiran6') }}">
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
 

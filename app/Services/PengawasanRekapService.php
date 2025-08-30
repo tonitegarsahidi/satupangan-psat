@@ -120,9 +120,21 @@ class PengawasanRekapService
         return $this->pengawasanRekapRepository->getRekapByProdukPsat($produkPsatId, $perPage);
     }
 
-    public function getRekapByLocation($kotaId, $provinsiId = null, int $perPage = 10)
+    public function getRekapByLocation($provinsiId, $kotaId = null, int $perPage = 10)
     {
         return $this->pengawasanRekapRepository->getRekapByLocation($kotaId, $provinsiId, $perPage);
+    }
+
+    /**
+     * Get rekap by provinsi
+     *
+     * @param string $provinsiId
+     * @param int $perPage
+     * @return LengthAwarePaginator
+     */
+    public function getRekapByProvinsi($provinsiId, int $perPage = 10)
+    {
+        return $this->pengawasanRekapRepository->getRekapByProvinsi($provinsiId, $perPage);
     }
 
     public function getRekapWithTindakan()
@@ -274,5 +286,61 @@ class PengawasanRekapService
     public function getStatusOptions()
     {
         return PengawasanRekap::getStatusOptions();
+    }
+
+    /**
+     * Get lampiran fields
+     *
+     * @return array
+     */
+    public function getLampiranFields()
+    {
+        return $this->pengawasanRekapRepository->getLampiranFields();
+    }
+
+    /**
+     * Get rekap with lampirans
+     *
+     * @param string $rekapId
+     * @return PengawasanRekap|null
+     */
+    public function getRekapWithLampirans($rekapId)
+    {
+        return $this->pengawasanRekapRepository->getRekapWithLampirans($rekapId);
+    }
+
+    /**
+     * Update lampiran for rekap
+     *
+     * @param string $rekapId
+     * @param array $lampiranData
+     * @return PengawasanRekap|null
+     */
+    public function updateLampiranForRekap($rekapId, array $lampiranData)
+    {
+        DB::beginTransaction();
+        try {
+            $rekap = $this->pengawasanRekapRepository->getRekapById($rekapId);
+
+            if (!$rekap) {
+                throw new Exception("Rekap not found");
+            }
+
+            // Update lampiran fields
+            foreach ($lampiranData as $field => $value) {
+                if (in_array($field, $this->getLampiranFields())) {
+                    $rekap->$field = $value;
+                }
+            }
+
+            $rekap->save();
+
+            DB::commit();
+            return $rekap;
+        } catch (\Exception $exception) {
+            DB::rollBack();
+            Log::error("Failed to update lampiran for rekap $rekapId: {$exception->getMessage()}");
+            return null;
+        }
     }
 }

@@ -34,6 +34,7 @@ class PengawasanRekapRepository
             'admin',
             'jenisPsat',
             'produkPsat',
+            'provinsi',
             'picTindakan',
             'lokasiKota',
             'lokasiProvinsi',
@@ -68,6 +69,7 @@ class PengawasanRekapRepository
             'admin',
             'jenisPsat',
             'produkPsat',
+            'provinsi',
             'picTindakan',
             'lokasiKota',
             'lokasiProvinsi',
@@ -183,10 +185,10 @@ class PengawasanRekapRepository
 
     public function getRekapByLocation($kotaId, $provinsiId = null, int $perPage = 10)
     {
-        $query = PengawasanRekap::where('lokasi_kota_id', $kotaId);
+        $query = PengawasanRekap::where('provinsi_id', $provinsiId);
 
-        if ($provinsiId) {
-            $query->where('lokasi_provinsi_id', $provinsiId);
+        if ($kotaId) {
+            $query->where('lokasi_kota_id', $kotaId);
         }
 
         return $query->with([
@@ -251,5 +253,48 @@ class PengawasanRekapRepository
     public function getStatusOptions()
     {
         return PengawasanRekap::getStatusOptions();
+    }
+
+    /**
+     * Get rekap by provinsi
+     *
+     * @param string $provinsiId
+     * @param int $perPage
+     * @return LengthAwarePaginator
+     */
+    public function getRekapByProvinsi($provinsiId, int $perPage = 10)
+    {
+        return PengawasanRekap::where('provinsi_id', $provinsiId)
+            ->with([
+                'pengawasan',
+                'admin',
+                'jenisPsat',
+                'produkPsat',
+                'picTindakan',
+                'lokasiKota'
+            ])
+            ->orderBy("created_at", "desc")
+            ->paginate($perPage);
+    }
+
+    /**
+     * Get lampiran fields
+     *
+     * @return array
+     */
+    public function getLampiranFields()
+    {
+        return ['lampiran1', 'lampiran2', 'lampiran3', 'lampiran4', 'lampiran5', 'lampiran6'];
+    }
+
+    /**
+     * Get rekap with lampirans
+     *
+     * @param string $rekapId
+     * @return PengawasanRekap|null
+     */
+    public function getRekapWithLampirans($rekapId)
+    {
+        return PengawasanRekap::find($rekapId);
     }
 }

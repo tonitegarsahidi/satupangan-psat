@@ -21,7 +21,14 @@ class PengawasanRekap extends Model
         'user_id_admin',
         'jenis_psat_id',
         'produk_psat_id',
+        'provinsi_id',
         'hasil_rekap',
+        'lampiran1',
+        'lampiran2',
+        'lampiran3',
+        'lampiran4',
+        'lampiran5',
+        'lampiran6',
         'status',
         'pic_tindakan_id',
         'is_active',
@@ -52,6 +59,11 @@ class PengawasanRekap extends Model
     public function picTindakan()
     {
         return $this->belongsTo(User::class, 'pic_tindakan_id');
+    }
+
+    public function provinsi()
+    {
+        return $this->belongsTo(MasterProvinsi::class, 'provinsi_id');
     }
 
     public function lokasiKota()

@@ -16,49 +16,36 @@ class PengawasanRekapPengawasanSeeder extends Seeder
      */
     public function run(): void
     {
-        // Get reference data
-        $rekapRecords = PengawasanRekap::pluck('id')->toArray();
-        $pengawasanRecords = Pengawasan::pluck('id')->toArray();
+        // Get all rekap and pengawasan records
+        $rekapRecords = PengawasanRekap::all();
+        $pengawasanRecords = Pengawasan::all();
 
-        // Sample pengawasan rekap pengawasan data
-        // This table links rekap records to individual pengawasan records
-        $rekapPengawasanData = [
-            [
-                'id' => Str::uuid(),
-                'pengawasan_rekap_id' => $rekapRecords[0] ?? null,
-                'pengawasan_id' => $pengawasanRecords[0] ?? null,
-            ],
-            [
-                'id' => Str::uuid(),
-                'pengawasan_rekap_id' => $rekapRecords[0] ?? null,
-                'pengawasan_id' => $pengawasanRecords[1] ?? null,
-            ],
-            [
-                'id' => Str::uuid(),
-                'pengawasan_rekap_id' => $rekapRecords[1] ?? null,
-                'pengawasan_id' => $pengawasanRecords[2] ?? null,
-            ],
-            [
-                'id' => Str::uuid(),
-                'pengawasan_rekap_id' => $rekapRecords[2] ?? null,
-                'pengawasan_id' => $pengawasanRecords[3] ?? null,
-            ],
-            [
-                'id' => Str::uuid(),
-                'pengawasan_rekap_id' => $rekapRecords[3] ?? null,
-                'pengawasan_id' => $pengawasanRecords[4] ?? null,
-            ],
-            [
-                'id' => Str::uuid(),
-                'pengawasan_rekap_id' => $rekapRecords[4] ?? null,
-                'pengawasan_id' => $pengawasanRecords[0] ?? null,
-            ],
-            [
-                'id' => Str::uuid(),
-                'pengawasan_rekap_id' => $rekapRecords[4] ?? null,
-                'pengawasan_id' => $pengawasanRecords[2] ?? null,
-            ],
-        ];
+        // Create relationships between rekap and pengawasan records
+        // Group pengawasan records by province, jenis_psat, and produk_psat
+        $groupedPengawasan = $pengawasanRecords->groupBy(function($pengawasan) {
+            return $pengawasan->lokasi_provinsi_id . '_' . $pengawasan->jenis_psat_id . '_' . $pengawasan->produk_psat_id;
+        });
+
+        // Create relationship data
+        $rekapPengawasanData = [];
+
+        foreach ($rekapRecords as $rekap) {
+            // Find pengawasan records that match this rekap's criteria
+            $matchingPengawasan = $pengawasanRecords->filter(function($pengawasan) use ($rekap) {
+                return $pengawasan->lokasi_provinsi_id == $rekap->provinsi_id &&
+                       $pengawasan->jenis_psat_id == $rekap->jenis_psat_id &&
+                       $pengawasan->produk_psat_id == $rekap->produk_psat_id;
+            });
+
+            // Create relationship for each matching pengawasan record
+            foreach ($matchingPengawasan as $pengawasan) {
+                $rekapPengawasanData[] = [
+                    'id' => Str::uuid(),
+                    'pengawasan_rekap_id' => $rekap->id,
+                    'pengawasan_id' => $pengawasan->id,
+                ];
+            }
+        }
 
         // Insert pengawasan rekap pengawasan data
         foreach ($rekapPengawasanData as $data) {

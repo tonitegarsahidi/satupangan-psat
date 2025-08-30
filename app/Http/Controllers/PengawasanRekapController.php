@@ -86,7 +86,10 @@ class PengawasanRekapController extends Controller
         $admins = \App\Models\User::where('role_id', 1)->orderBy('name', 'asc')->get();
         $pics = \App\Models\User::where('role_id', 2)->orderBy('name', 'asc')->get();
 
-        return view('admin.pages.pengawasan-rekap.add', compact('breadcrumbs', 'jenisPsats', 'produkPsats', 'admins', 'pics'));
+        // Get provinsi data
+        $provinsis = \App\Models\MasterProvinsi::where('is_active', 1)->orderBy('nama_provinsi', 'asc')->get();
+
+        return view('admin.pages.pengawasan-rekap.add', compact('breadcrumbs', 'jenisPsats', 'produkPsats', 'admins', 'pics', 'provinsis'));
     }
 
     /**
@@ -153,7 +156,10 @@ class PengawasanRekapController extends Controller
         $admins = \App\Models\User::where('role_id', 1)->orderBy('name', 'asc')->get();
         $pics = \App\Models\User::where('role_id', 2)->orderBy('name', 'asc')->get();
 
-        return view('admin.pages.pengawasan-rekap.edit', compact('breadcrumbs', 'pengawasanRekap', 'jenisPsats', 'produkPsats', 'admins', 'pics'));
+        // Get provinsi data
+        $provinsis = \App\Models\MasterProvinsi::where('is_active', 1)->orderBy('nama_provinsi', 'asc')->get();
+
+        return view('admin.pages.pengawasan-rekap.edit', compact('breadcrumbs', 'pengawasanRekap', 'jenisPsats', 'produkPsats', 'admins', 'pics', 'provinsis'));
     }
 
     /**
@@ -229,13 +235,52 @@ class PengawasanRekapController extends Controller
 
         // You need to implement a search method in the service
         // For now, we'll return empty array
-        $pengawasanRekapList = [];
+        $pengawasanRekapList = collect([]);
 
         $formattedPengawasanRekap = $pengawasanRekapList->map(function ($pengawasanRekap) {
             return ['id' => $pengawasanRekap->id, 'text' => $pengawasanRekap->hasil_rekap];
         });
 
         return response()->json($formattedPengawasanRekap);
+    }
+
+    /**
+     * =============================================
+     *      Get lampiran fields
+     * =============================================
+     */
+    public function getLampiranFields()
+    {
+        $lampiranFields = $this->pengawasanRekapService->getLampiranFields();
+
+        return response()->json([
+            'lampiran_fields' => $lampiranFields
+        ]);
+    }
+
+    /**
+     * =============================================
+     *      Update lampiran for rekap
+     * =============================================
+     */
+    public function updateLampiran(Request $request, $id)
+    {
+        $validatedData = $request->validate([
+            'lampiran1' => 'nullable|string|max:200',
+            'lampiran2' => 'nullable|string|max:200',
+            'lampiran3' => 'nullable|string|max:200',
+            'lampiran4' => 'nullable|string|max:200',
+            'lampiran5' => 'nullable|string|max:200',
+            'lampiran6' => 'nullable|string|max:200',
+        ]);
+
+        $result = $this->pengawasanRekapService->updateLampiranForRekap($id, $validatedData);
+
+        $alert = $result
+            ? AlertHelper::createAlert('success', 'Lampiran Pengawasan Rekap successfully updated')
+            : AlertHelper::createAlert('danger', 'Lampiran Pengawasan Rekap failed to be updated');
+
+        return redirect()->back()->with('alerts', [$alert]);
     }
 
     // ============================ END OF ULTIMATE CRUD FUNCTIONALITY ===============================
