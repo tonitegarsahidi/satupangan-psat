@@ -21,48 +21,6 @@
                             @method('PUT')
                             @csrf
 
-                            {{-- PENGAWASAN ID FIELD --}}
-                            <div class="row mb-3">
-                                <label class="col-sm-2 col-form-label" for="pengawasan_id">Pengawasan*</label>
-                                <div class="col-sm-10">
-                                    {{-- form validation error --}}
-                                    @include('admin.components.notification.error-validation', [
-                                        'field' => 'pengawasan_id',
-                                    ])
-
-                                    {{-- input form --}}
-                                    <select name="pengawasan_id" class="form-select" id="pengawasan_id" required>
-                                        <option value="">-- Select Pengawasan --</option>
-                                        @foreach ($pengawasans ?? [] as $pengawasan)
-                                            <option value="{{ $pengawasan->id }}" {{ old('pengawasan_id', $pengawasanRekap->pengawasan_id) == $pengawasan->id ? 'selected' : '' }}>
-                                                {{ $pengawasan->lokasi_alamat }} - {{ $pengawasan->jenisPsat->nama_jenis_pangan_segar ?? '-' }}
-                                            </option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                            </div>
-
-                            {{-- USER ID ADMIN FIELD --}}
-                            <div class="row mb-3">
-                                <label class="col-sm-2 col-form-label" for="user_id_admin">Admin*</label>
-                                <div class="col-sm-10">
-                                    {{-- form validation error --}}
-                                    @include('admin.components.notification.error-validation', [
-                                        'field' => 'user_id_admin',
-                                    ])
-
-                                    {{-- input form --}}
-                                    <select name="user_id_admin" class="form-select" id="user_id_admin" required>
-                                        <option value="">-- Select Admin --</option>
-                                        @foreach ($admins ?? [] as $admin)
-                                            <option value="{{ $admin->id }}" {{ old('user_id_admin', $pengawasanRekap->user_id_admin) == $admin->id ? 'selected' : '' }}>
-                                                {{ $admin->name }}
-                                            </option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                            </div>
-
                             {{-- PROVINSI FIELD --}}
                             <div class="row mb-3">
                                 <label class="col-sm-2 col-form-label" for="provinsi_id">Provinsi</label>
@@ -173,50 +131,6 @@
                                         <option value="PROSES" {{ old('status', $pengawasanRekap->status) == 'PROSES' ? 'selected' : '' }}>In Process</option>
                                         <option value="SELESAI" {{ old('status', $pengawasanRekap->status) == 'SELESAI' ? 'selected' : '' }}>Completed</option>
                                     </select>
-                                </div>
-                            </div>
-
-                            {{-- PIC TINDAKAN FIELD --}}
-                            <div class="row mb-3">
-                                <label class="col-sm-2 col-form-label" for="pic_tindakan_id">PIC Tindakan</label>
-                                <div class="col-sm-10">
-                                    {{-- form validation error --}}
-                                    @include('admin.components.notification.error-validation', [
-                                        'field' => 'pic_tindakan_id',
-                                    ])
-
-                                    {{-- input form --}}
-                                    <select name="pic_tindakan_id" class="form-select" id="pic_tindakan_id">
-                                        <option value="">-- Select PIC --</option>
-                                        @foreach ($pics ?? [] as $pic)
-                                            <option value="{{ $pic->id }}" {{ old('pic_tindakan_id', $pengawasanRekap->pic_tindakan_id) == $pic->id ? 'selected' : '' }}>
-                                                {{ $pic->name }}
-                                            </option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                            </div>
-
-                            {{-- IS ACTIVE FIELD --}}
-                            <div class="row mb-3">
-                                <label class="col-sm-2 col-form-label" for="is_active">Aktif*</label>
-                                <div class="col-sm-10">
-                                    {{-- form validation error --}}
-                                    @include('admin.components.notification.error-validation', [
-                                        'field' => 'is_active',
-                                    ])
-
-                                    {{-- input form --}}
-                                    <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="radio" name="is_active" id="is_active_true" value="1"
-                                            {{ old('is_active', $pengawasanRekap->is_active) == 1 ? 'checked' : '' }}>
-                                        <label class="form-check-label" for="is_active_true">Ya</label>
-                                    </div>
-                                    <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="radio" name="is_active" id="is_active_false" value="0"
-                                            {{ old('is_active', $pengawasanRekap->is_active) == 0 ? 'checked' : '' }}>
-                                        <label class="form-check-label" for="is_active_false">Tidak</label>
-                                    </div>
                                 </div>
                             </div>
 
