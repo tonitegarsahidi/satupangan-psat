@@ -183,6 +183,27 @@
 @endsection
 
 @section('footer-code')
+    <style>
+        .table-responsive .table td {
+            word-wrap: break-word;
+            white-space: normal;
+            word-break: break-word;
+            vertical-align: top;
+            max-width: none;
+        }
+        .table-responsive .table th {
+            vertical-align: top;
+            white-space: nowrap;
+        }
+        /* Ensure table cells can expand vertically */
+        .table-responsive .table {
+            table-layout: fixed;
+        }
+        .table-responsive .table td a {
+            word-break: break-all;
+            display: inline-block;
+        }
+    </style>
 
     <script>
         function goBack() {
