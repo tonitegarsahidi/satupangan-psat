@@ -199,7 +199,7 @@ class QrBadanPanganSeeder extends Seeder
         $additionalQrBadanPangans = [
             [
                 'id' => Str::uuid(),
-                'qr_code' => strtoupper(substr(md5(time() . rand()), 0, 10)),
+                'qr_code' => 'A1B2C3D4E5',
                 'current_assignee' => $petugas ? $petugas->id : null,
                 'requested_by' => $user1 ? $user1->id : null,
                 'requested_at' => $now->copy()->subDays(1),
@@ -269,7 +269,7 @@ class QrBadanPanganSeeder extends Seeder
             ],
             [
                 'id' => Str::uuid(),
-                'qr_code' => strtoupper(substr(md5(time() . rand()), 0, 10)),
+                'qr_code' => 'F6G7H8I9J0',
                 'current_assignee' => $petugas ? $petugas->id : null,
                 'requested_by' => $user1 ? $user1->id : null,
                 'requested_at' => $now->copy()->subDays(6),
@@ -339,7 +339,7 @@ class QrBadanPanganSeeder extends Seeder
             ],
             [
                 'id' => Str::uuid(),
-                'qr_code' => strtoupper(substr(md5(time() . rand()), 0, 10)),
+                'qr_code' => 'K1L2M3N4O5',
                 'current_assignee' => $petugas ? $petugas->id : null,
                 'requested_by' => $user1 ? $user1->id : null,
                 'requested_at' => $now->copy()->subDays(8),
@@ -409,7 +409,7 @@ class QrBadanPanganSeeder extends Seeder
             ],
             [
                 'id' => Str::uuid(),
-                'qr_code' => strtoupper(substr(md5(time() . rand()), 0, 10)),
+                'qr_code' => 'P6Q7R8S9T0',
                 'current_assignee' => $petugas ? $petugas->id : null,
                 'requested_by' => $user1 ? $user1->id : null,
                 'requested_at' => $now->copy()->subDays(10),
@@ -479,7 +479,7 @@ class QrBadanPanganSeeder extends Seeder
             ],
             [
                 'id' => Str::uuid(),
-                'qr_code' => strtoupper(substr(md5(time() . rand()), 0, 10)),
+                'qr_code' => 'U1V2W3X4Y5',
                 'current_assignee' => $petugas ? $petugas->id : null,
                 'requested_by' => $user1 ? $user1->id : null,
                 'requested_at' => $now->copy()->subDays(12),
