@@ -52,29 +52,32 @@ class LaporanPengaduanSeeder extends Seeder
         $user->roles()->syncWithoutDetaching([$roleUser->id => ['id' => Str::uuid()]]);
         $assigneeUser->roles()->syncWithoutDetaching([$roleAdmin->id => ['id' => Str::uuid()]]);
 
+        // Get all provinces
+        $provinces = MasterProvinsi::all();
 
-        // Ensure default provinsi exists
-        $provinsi = MasterProvinsi::first();
-        if (!$provinsi) {
-            $provinsi = MasterProvinsi::create([
-                'name' => 'DKI Jakarta',
-                'is_active' => true,
-                'created_by' => 'seeder',
-            ]);
+        // Ensure default kota exists for each province
+        $kotasByProvince = [];
+        foreach ($provinces as $province) {
+            $kota = MasterKota::where('provinsi_id', $province->id)->first();
+            if (!$kota) {
+                // Create a default city for the province if none exists
+                $kota = MasterKota::create([
+                    'provinsi_id' => $province->id,
+                    'nama_kota' => $province->nama_provinsi . ' Kota',
+                    'is_active' => true,
+                    'created_by' => 'seeder',
+                ]);
+            }
+            $kotasByProvince[$province->id] = $kota;
         }
 
-        // Ensure default kota exists for the province
-        $kota = MasterKota::where('provinsi_id', $provinsi->id)->first();
-        if (!$kota) {
-            $kota = MasterKota::create([
-                'provinsi_id' => $provinsi->id,
-                'nama_kota' => 'Jakarta Pusat',
-                'is_active' => true,
-                'created_by' => 'seeder',
-            ]);
-        }
+        $laporanController = new LaporanPengaduanController(
+            app(\App\Services\LaporanPengaduanService::class),
+            app(\App\Services\UserService::class)
+        );
 
-        $laporanData = [
+        // Sample laporan data templates
+        $laporanTemplates = [
             [
                 'nama_pelapor' => 'Budi Santoso',
                 'nik_pelapor' => '1234567890123456',
@@ -102,59 +105,74 @@ class LaporanPengaduanSeeder extends Seeder
                 'isi_laporan' => 'Ditemukan produk susu kadaluarsa masih dipajang di rak penjualan.',
                 'tindak_lanjut_pertama' => 'Penjual sudah diminta menarik produk dari rak.',
             ],
+            [
+                'nama_pelapor' => 'Rina Kartika',
+                'nik_pelapor' => '5555566667778889',
+                'nomor_telepon_pelapor' => '085678901234',
+                'email_pelapor' => 'rina@example.com',
+                'lokasi_kejadian' => 'Restoran Mewah, Jl. Sudirman No. 99',
+                'isi_laporan' => 'Makanan tidak layak konsumsi menyebabkan keracunan setelah konsumsi.',
+                'tindak_lanjut_pertama' => 'Sudah dilaporkan ke Dinas Kesehatan.',
+            ],
+            [
+                'nama_pelapor' => 'Hendra Wijaya',
+                'nik_pelapor' => '1111222233334444',
+                'nomor_telepon_pelapor' => '089876543210',
+                'email_pelapor' => 'hendra@example.com',
+                'lokasi_kejadian' => 'Pasar Tradisional, Jl. Ahmad Yani',
+                'isi_laporan' => 'Ditemukan daging tidak segar dengan bau tidak wajar.',
+                'tindak_lanjut_pertama' => 'Kepala pasar sudah diberi tahu.',
+            ],
+            [
+                'nama_pelapor' => 'Maya Putri',
+                'nik_pelapor' => '6666777788889999',
+                'nomor_telepon_pelapor' => '081234567891',
+                'email_pelapor' => 'maya@example.com',
+                'lokasi_kejadian' => 'Warung Makan Sederhana, Jl. Pemuda',
+                'isi_laporan' => 'Kondisi ruangan tidak卫生 (tidak higienis) dan penataan ruang tidak memenuhi standar.',
+                'tindak_lanjut_pertama' => 'Pemilik warung sudah diminta melakukan perbaikan.',
+            ],
         ];
 
-        // Add a laporan for Kewenangan Pusat
-        $kewenanganPusatProvinsi = MasterProvinsi::where('nama_provinsi', 'Kewenangan Pusat')->first();
-        if ($kewenanganPusatProvinsi) {
-            $kewenanganPusatKota = MasterKota::where('provinsi_id', $kewenanganPusatProvinsi->id)->first();
+        $laporans = [];
 
-            if ($kewenanganPusatKota) {
-                $laporanData[] = [
-                    'nama_pelapor' => 'Ahmad Dahlan',
-                    'nik_pelapor' => '5555566667778889',
-                    'nomor_telepon_pelapor' => '085678901234',
-                    'email_pelapor' => 'ahmad.kewenangan@example.com',
-                    'lokasi_kejadian' => 'Gedung Pusat Standar Pangan, Jl. Kebon Sirih No. 50',
-                    'isi_laporan' => 'Ditemukan masalah dalam prosedur penanganan pangan di pusat.',
-                    'tindak_lanjut_pertama' => 'Sudah dilaporkan kepada tim internal.',
-                ];
-            }
-        }
+        foreach ($provinces as $province) {
+            $kota = $kotasByProvince[$province->id];
 
-        $laporanController = new LaporanPengaduanController(
-            app(\App\Services\LaporanPengaduanService::class),
-            app(\App\Services\UserService::class)
-        );
+            // Create 2-3 laporans for each province
+            $reportsForProvince = rand(2, 3);
 
-        foreach ($laporanData as $index => $data) {
-            $mockRequest = Request::create('/dummy-url', 'POST', $data);
+            for ($i = 0; $i < $reportsForProvince; $i++) {
+                // Convert UUID to a numeric value for template index calculation
+                $provinceNumeric = hexdec(substr($province->id, 0, 8)); // Use first 8 characters of UUID
+                $templateIndex = ($provinceNumeric + $i) % count($laporanTemplates);
+                $template = $laporanTemplates[$templateIndex];
 
-            // Use Kewenangan Pusat for the last report, otherwise use default
-            if ($index === count($laporanData) - 1 && isset($kewenanganPusatProvinsi) && isset($kewenanganPusatKota)) {
+                $data = $template;
+
+                // Modify some data for variety
+                $data['nama_pelapor'] = $data['nama_pelapor'] . ' ' . $province->nama_provinsi;
+                $data['lokasi_kejadian'] = $data['lokasi_kejadian'] . ', ' . $kota->nama_kota;
+
+                $mockRequest = Request::create('/dummy-url', 'POST', $data);
                 $mockRequest->merge([
-                    'provinsi_id' => $kewenanganPusatProvinsi->id,
-                    'kota_id' => $kewenanganPusatKota->id,
-                    'user_id' => $user->id,
-                ]);
-            } else {
-                $mockRequest->merge([
-                    'provinsi_id' => $provinsi->id,
+                    'provinsi_id' => $province->id,
                     'kota_id' => $kota->id,
                     'user_id' => $user->id,
                 ]);
+
+                $laporanAddRequest = LaporanPengaduanAddRequest::createFromBase($mockRequest);
+                $laporanAddRequest->setUserResolver(function () use ($user) {
+                    return $user;
+                });
+
+                // Manually set the validator for the request
+                $validator = \Illuminate\Support\Facades\Validator::make($laporanAddRequest->all(), $laporanAddRequest->rules());
+                $laporanAddRequest->setValidator($validator);
+
+                $laporan = $laporanController->store($laporanAddRequest);
+                $laporans[] = $laporan;
             }
-
-            $laporanAddRequest = LaporanPengaduanAddRequest::createFromBase($mockRequest);
-            $laporanAddRequest->setUserResolver(function () use ($user) {
-                return $user;
-            });
-
-            // Manually set the validator for the request
-            $validator = \Illuminate\Support\Facades\Validator::make($laporanAddRequest->all(), $laporanAddRequest->rules());
-            $laporanAddRequest->setValidator($validator);
-
-            $laporanController->store($laporanAddRequest);
         }
     }
 }

@@ -42,6 +42,7 @@ class DatabaseSeeder extends Seeder
             WorkflowThreadSeeder::class,
             WorkflowAttachmentSeeder::class,
             LaporanPengaduanSeeder::class,
+            LaporanPengaduanWorkflowSeeder::class,
 
             // Business & Petugas
             BusinessSeeder::class,
