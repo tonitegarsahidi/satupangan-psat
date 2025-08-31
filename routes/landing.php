@@ -22,6 +22,7 @@ Route::prefix('landing')->group(function () {
     Route::get('/panduan/alur-prosedur', [LandingController::class, 'alurProsedur'])->name('landing.panduan.alur_prosedur');
     Route::get('/panduan/standar-keamanan', [LandingController::class, 'standarKeamananMutuPangan'])->name('landing.panduan.standar_keamanan');
     Route::get('/panduan/batas-cemaran', [LandingController::class, 'batasCemaranResidu'])->name('landing.panduan.batas_cemaran');
+    Route::get('/panduan/pembinaan-konsultasi', [LandingController::class, 'pembinaanKonsultasi'])->name('landing.panduan.pembinaan_konsultasi');
     Route::get('/panduan/batas-cemaran/detail/{id}', [LandingController::class, 'batasCemaranResiduDetail'])->name('landing.panduan.batas_cemaran_detail');
 });
 

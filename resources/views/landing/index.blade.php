@@ -810,12 +810,12 @@
                     <p class="feature-description">Laporan pelanggaran dari masyarakat ditindaklanjuti oleh petugas OKKP.</p>
                 </div>
 
-                <div class="feature-card" onclick="window.location.href='{{ route('landing.layanan.cek_data') }}'">
+                <div class="feature-card" onclick="window.location.href='{{ route('landing.panduan.pembinaan_konsultasi') }}'">
                     <div class="feature-icon">
-                        <i class="fas fa-database"></i>
+                        <i class="fas fa-user-tie"></i>
                     </div>
-                    <h3 class="feature-title">Database Produk Keamanan Pangan</h3>
-                    <p class="feature-description">Database produk pangan yang telah terdaftar dan memiliki izin edar.</p>
+                    <h3 class="feature-title">Pembinaan & Konsultasi</h3>
+                    <p class="feature-description">Pelaku usaha dan masyarakat dapat mengetahui seputar standar dan prosedur keamanan pangan dengan baik dan benar.</p>
                 </div>
 
                 <div class="feature-card" onclick="window.location.href='{{ route('landing.panduan.batas_cemaran') }}'">

@@ -72,6 +72,11 @@ class LandingController extends Controller
         return view('landing.panduan.standar_keamanan');
     }
 
+    public function pembinaanKonsultasi()
+    {
+        return view('landing.panduan.pembinaan_konsultasi');
+    }
+
     public function batasCemaranResidu(Request $request)
     {
         $sortBy = $request->input('sort_by', 'nama_jenis_pangan_segar');

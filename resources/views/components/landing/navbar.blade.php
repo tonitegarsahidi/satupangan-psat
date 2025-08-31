@@ -32,6 +32,7 @@
                         <a href="{{ route('landing.panduan.alur_prosedur') }}" class="dropdown-item">Alur Prosedur</a>
                         <a href="{{ route('landing.panduan.standar_keamanan') }}" class="dropdown-item">Standar Keamanan Mutu Pangan</a>
                         <a href="{{ route('landing.panduan.batas_cemaran') }}" class="dropdown-item">Batas Cemaran & Residu</a>
+                        <a href="{{ route('landing.panduan.pembinaan_konsultasi') }}" class="dropdown-item">Pembinaan & Konsultasi</a>
                     </div>
                 </div>
 
