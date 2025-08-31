@@ -59,8 +59,15 @@ class PengawasanRekapController extends Controller
         $page = $request->input('page', config('constant.CRUD.PAGE'));
         $keyword = $request->input('keyword');
 
+        // Get current authenticated user's petugas data for province filtering
+        $currentPetugas = \App\Models\Petugas::where('user_id', Auth::id())->first();
+        $currentProvinsiId = null;
 
-        $pengawasanRekapList = $this->pengawasanRekapService->listAllRekap($perPage, $sortField, $sortOrder, $keyword);
+        if ($currentPetugas && $currentPetugas->penempatan) {
+            $currentProvinsiId = $currentPetugas->penempatan;
+        }
+
+        $pengawasanRekapList = $this->pengawasanRekapService->listAllRekap($perPage, $sortField, $sortOrder, $keyword, $currentProvinsiId);
 
         $breadcrumbs = array_merge($this->mainBreadcrumbs, ['List' => null]);
 

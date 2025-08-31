@@ -19,7 +19,7 @@ use Illuminate\Support\Facades\Log;
 
 class PengawasanRekapRepository
 {
-    public function getAllRekap(int $perPage = 10, string $sortField = null, string $sortOrder = null, String $keyword = null): LengthAwarePaginator
+    public function getAllRekap(int $perPage = 10, string $sortField = null, string $sortOrder = null, String $keyword = null, $provinsiId = null): LengthAwarePaginator
     {
         $queryResult = PengawasanRekap::query();
 
@@ -48,6 +48,11 @@ class PengawasanRekapRepository
                 ->orWhereHas('admin', function($q) use ($keyword) {
                     $q->whereRaw('lower(name) LIKE ?', ['%' . strtolower($keyword) . '%']);
                 });
+        }
+
+        // Apply province filter if provided
+        if (!is_null($provinsiId)) {
+            $queryResult->where('provinsi_id', $provinsiId);
         }
 
         $paginator = $queryResult->paginate($perPage);
