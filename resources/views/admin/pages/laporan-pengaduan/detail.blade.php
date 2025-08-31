@@ -7,6 +7,11 @@
 
         @include('admin.components.breadcrumb.simple', $breadcrumbs)
 
+        {{-- Display alerts if any --}}
+        @if (session('alerts'))
+            @include('admin.components.notification.general', ['alerts' => session('alerts')])
+        @endif
+
         <div class="card">
 
             <div class="d-flex justify-content-between">

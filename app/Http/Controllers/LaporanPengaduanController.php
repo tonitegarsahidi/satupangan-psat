@@ -108,10 +108,8 @@ class LaporanPengaduanController extends Controller
             ? AlertHelper::createAlert('success', 'Laporan berhasil diupdate')
             : AlertHelper::createAlert('danger', 'Laporan gagal diupdate');
 
-        return redirect()->route('admin.laporan-pengaduan.index')->with([
-            'alerts' => [$alert],
-            'sort_field' => 'updated_at',
-            'sort_order' => 'desc'
+        return redirect()->route('admin.laporan-pengaduan.detail', ['id' => $id])->with([
+            'alerts' => [$alert]
         ]);
     }
 
