@@ -10,6 +10,9 @@ use Illuminate\Http\Request;
 use App\Helpers\AlertHelper;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
+use Exception;
 
 /**
  * ################################################
@@ -148,26 +151,49 @@ class PengawasanRekapController extends Controller
      */
     public function store(PengawasanRekapAddRequest $request)
     {
-        $validatedData = $request->validated();
+        DB::beginTransaction();
+        try {
+            $validatedData = $request->validated();
 
-        // Get current authenticated user ID
-        $userId = Auth::id();
+            // Get current authenticated user ID
+            $userId = Auth::id();
 
-        // Add created_by and updated_by with current user ID
-        $validatedData['created_by'] = $userId;
-        $validatedData['updated_by'] = $userId;
+            // Add created_by and updated_by with current user ID
+            $validatedData['created_by'] = $userId;
+            $validatedData['updated_by'] = $userId;
 
-        // Extract pengawasan IDs from the request
-        $pengawasanIds = $request->input('pengawasan_ids', []);
+            // Extract pengawasan IDs from the request
+            $pengawasanIds = $request->input('pengawasan_ids', []);
 
-        // Add pengawasan IDs to the data
-        $validatedData['pengawasan_ids'] = $pengawasanIds;
+            // Process file uploads
+            $lampiranFields = ['lampiran1', 'lampiran2', 'lampiran3', 'lampiran4', 'lampiran5', 'lampiran6'];
+            foreach ($lampiranFields as $field) {
+                if ($request->hasFile($field) && $request->file($field)->isValid()) {
+                    $file = $request->file($field);
+                    $fileName = time() . '_' . $file->getClientOriginalName();
+                    $filePath = $file->storeAs('pengawasan/rekap', $fileName, 'public');
+                    $validatedData[$field] = $filePath;
+                } else {
+                    $validatedData[$field] = null;
+                }
+            }
 
-        $result = $this->pengawasanRekapService->addNewRekap($validatedData);
+            // Add pengawasan IDs to the data
+            $validatedData['pengawasan_ids'] = $pengawasanIds;
 
-        $alert = $result
-            ? AlertHelper::createAlert('success', 'Data Pengawasan Rekap successfully added')
-            : AlertHelper::createAlert('danger', 'Data Pengawasan Rekap failed to be added');
+            $result = $this->pengawasanRekapService->addNewRekap($validatedData);
+
+            if (!$result) {
+                throw new Exception("Failed to create rekap");
+            }
+
+            DB::commit();
+            $alert = AlertHelper::createAlert('success', 'Data Pengawasan Rekap successfully added');
+        } catch (\Exception $exception) {
+            DB::rollBack();
+            Log::error("Failed to store pengawasan rekap: {$exception->getMessage()}");
+            $alert = AlertHelper::createAlert('danger', 'Data Pengawasan Rekap failed to be added');
+        }
 
         return redirect()->route('pengawasan-rekap.index')->with([
             'alerts'        => [$alert],
@@ -274,22 +300,44 @@ class PengawasanRekapController extends Controller
      */
     public function update(PengawasanRekapEditRequest $request, $id)
     {
-        $validatedData = $request->validated();
+        DB::beginTransaction();
+        try {
+            $validatedData = $request->validated();
 
-        // Add updated_by with current user ID
-        $validatedData['updated_by'] = Auth::id();
+            // Add updated_by with current user ID
+            $validatedData['updated_by'] = Auth::id();
 
-        // Extract pengawasan IDs from the request
-        $pengawasanIds = $request->input('pengawasan_ids', []);
+            // Extract pengawasan IDs from the request
+            $pengawasanIds = $request->input('pengawasan_ids', []);
 
-        // Add pengawasan IDs to the data
-        $validatedData['pengawasan_ids'] = $pengawasanIds;
+            // Process file uploads
+            $lampiranFields = ['lampiran1', 'lampiran2', 'lampiran3', 'lampiran4', 'lampiran5', 'lampiran6'];
+            foreach ($lampiranFields as $field) {
+                if ($request->hasFile($field) && $request->file($field)->isValid()) {
+                    $file = $request->file($field);
+                    $fileName = time() . '_' . $file->getClientOriginalName();
+                    $filePath = $file->storeAs('pengawasan/rekap', $fileName, 'public');
+                    $validatedData[$field] = $filePath;
+                }
+                // If no file is uploaded, keep the existing value (don't set to null)
+            }
 
-        $result = $this->pengawasanRekapService->updateRekap($validatedData, $id);
+            // Add pengawasan IDs to the data
+            $validatedData['pengawasan_ids'] = $pengawasanIds;
 
-        $alert = $result
-            ? AlertHelper::createAlert('success', 'Data Pengawasan Rekap successfully updated')
-            : AlertHelper::createAlert('danger', 'Data Pengawasan Rekap failed to be updated');
+            $result = $this->pengawasanRekapService->updateRekap($validatedData, $id);
+
+            if (!$result) {
+                throw new Exception("Failed to update rekap");
+            }
+
+            DB::commit();
+            $alert = AlertHelper::createAlert('success', 'Data Pengawasan Rekap successfully updated');
+        } catch (\Exception $exception) {
+            DB::rollBack();
+            Log::error("Failed to update pengawasan rekap: {$exception->getMessage()}");
+            $alert = AlertHelper::createAlert('danger', 'Data Pengawasan Rekap failed to be updated');
+        }
 
         return redirect()->route('pengawasan-rekap.index')->with([
             'alerts' => [$alert],
@@ -377,19 +425,45 @@ class PengawasanRekapController extends Controller
     public function updateLampiran(Request $request, $id)
     {
         $validatedData = $request->validate([
-            'lampiran1' => 'nullable|string|max:200',
-            'lampiran2' => 'nullable|string|max:200',
-            'lampiran3' => 'nullable|string|max:200',
-            'lampiran4' => 'nullable|string|max:200',
-            'lampiran5' => 'nullable|string|max:200',
-            'lampiran6' => 'nullable|string|max:200',
+            'lampiran1' => 'nullable|file|max:102400|mimes:pdf,jpeg,jpg,doc,docx,png',
+            'lampiran2' => 'nullable|file|max:102400|mimes:pdf,jpeg,jpg,doc,docx,png',
+            'lampiran3' => 'nullable|file|max:102400|mimes:pdf,jpeg,jpg,doc,docx,png',
+            'lampiran4' => 'nullable|file|max:102400|mimes:pdf,jpeg,jpg,doc,docx,png',
+            'lampiran5' => 'nullable|file|max:102400|mimes:pdf,jpeg,jpg,doc,docx,png',
+            'lampiran6' => 'nullable|file|max:102400|mimes:pdf,jpeg,jpg,doc,docx,png',
         ]);
 
-        $result = $this->pengawasanRekapService->updateLampiranForRekap($id, $validatedData);
+        DB::beginTransaction();
+        try {
+            $rekap = $this->pengawasanRekapService->getRekapDetail($id);
+            if (!$rekap) {
+                throw new Exception("Rekap not found");
+            }
 
-        $alert = $result
-            ? AlertHelper::createAlert('success', 'Lampiran Pengawasan Rekap successfully updated')
-            : AlertHelper::createAlert('danger', 'Lampiran Pengawasan Rekap failed to be updated');
+            // Process each file upload
+            foreach ($validatedData as $field => $file) {
+                if ($file && $file->isValid()) {
+                    // Generate unique filename
+                    $fileName = time() . '_' . $file->getClientOriginalName();
+                    $filePath = $file->storeAs('pengawasan/rekap', $fileName, 'public');
+
+                    // Update the rekap record with file path
+                    $rekap->$field = $filePath;
+                    $rekap->save();
+                } elseif ($file === null) {
+                    // If no file provided, set to null
+                    $rekap->$field = null;
+                    $rekap->save();
+                }
+            }
+
+            DB::commit();
+            $alert = AlertHelper::createAlert('success', 'Lampiran Pengawasan Rekap successfully updated');
+        } catch (\Exception $exception) {
+            DB::rollBack();
+            Log::error("Failed to update lampiran for rekap $id: {$exception->getMessage()}");
+            $alert = AlertHelper::createAlert('danger', 'Lampiran Pengawasan Rekap failed to be updated');
+        }
 
         return redirect()->back()->with('alerts', [$alert]);
     }

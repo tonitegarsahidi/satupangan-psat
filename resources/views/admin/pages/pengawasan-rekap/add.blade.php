@@ -18,7 +18,7 @@
                     </div>
                     <div class="card-body">
 
-                        <form method="POST" action="{{ route('pengawasan-rekap.store') }}">
+                        <form method="POST" action="{{ route('pengawasan-rekap.store') }}" enctype="multipart/form-data">
                             @csrf
 
                             {{-- PROVINSI FIELD --}}
@@ -206,38 +206,44 @@
                                         <div class="col-md-6 mb-3">
                                             <label class="form-label" for="lampiran1">Lampiran 1</label>
                                             @include('admin.components.notification.error-validation', ['field' => 'lampiran1'])
-                                            <input type="text" class="form-control" id="lampiran1" name="lampiran1"
-                                                placeholder="Enter attachment 1 path" value="{{ old('lampiran1') }}">
+                                            <input type="file" class="form-control" id="lampiran1" name="lampiran1"
+                                                accept=".pdf,.jpeg,.jpg,.doc,.docx,.png">
+                                            <small class="text-muted">Format: PDF, JPEG, JPG, DOC, DOCX, PNG, Maks: 2MB</small>
                                         </div>
                                         <div class="col-md-6 mb-3">
                                             <label class="form-label" for="lampiran2">Lampiran 2</label>
                                             @include('admin.components.notification.error-validation', ['field' => 'lampiran2'])
-                                            <input type="text" class="form-control" id="lampiran2" name="lampiran2"
-                                                placeholder="Enter attachment 2 path" value="{{ old('lampiran2') }}">
+                                            <input type="file" class="form-control" id="lampiran2" name="lampiran2"
+                                                accept=".pdf,.jpeg,.jpg,.doc,.docx,.png">
+                                            <small class="text-muted">Format: PDF, JPEG, JPG, DOC, DOCX, PNG, Maks: 100MB</small>
                                         </div>
                                         <div class="col-md-6 mb-3">
                                             <label class="form-label" for="lampiran3">Lampiran 3</label>
                                             @include('admin.components.notification.error-validation', ['field' => 'lampiran3'])
-                                            <input type="text" class="form-control" id="lampiran3" name="lampiran3"
-                                                placeholder="Enter attachment 3 path" value="{{ old('lampiran3') }}">
+                                            <input type="file" class="form-control" id="lampiran3" name="lampiran3"
+                                                accept=".pdf,.jpeg,.jpg,.doc,.docx,.png">
+                                            <small class="text-muted">Format: PDF, JPEG, JPG, DOC, DOCX, PNG, Maks: 100MB</small>
                                         </div>
                                         <div class="col-md-6 mb-3">
                                             <label class="form-label" for="lampiran4">Lampiran 4</label>
                                             @include('admin.components.notification.error-validation', ['field' => 'lampiran4'])
-                                            <input type="text" class="form-control" id="lampiran4" name="lampiran4"
-                                                placeholder="Enter attachment 4 path" value="{{ old('lampiran4') }}">
+                                            <input type="file" class="form-control" id="lampiran4" name="lampiran4"
+                                                accept=".pdf,.jpeg,.jpg,.doc,.docx,.png">
+                                            <small class="text-muted">Format: PDF, JPEG, JPG, DOC, DOCX, PNG, Maks: 100MB</small>
                                         </div>
                                         <div class="col-md-6 mb-3">
                                             <label class="form-label" for="lampiran5">Lampiran 5</label>
                                             @include('admin.components.notification.error-validation', ['field' => 'lampiran5'])
-                                            <input type="text" class="form-control" id="lampiran5" name="lampiran5"
-                                                placeholder="Enter attachment 5 path" value="{{ old('lampiran5') }}">
+                                            <input type="file" class="form-control" id="lampiran5" name="lampiran5"
+                                                accept=".pdf,.jpeg,.jpg,.doc,.docx,.png">
+                                            <small class="text-muted">Format: PDF, JPEG, JPG, DOC, DOCX, PNG, Maks: 100MB</small>
                                         </div>
                                         <div class="col-md-6 mb-3">
                                             <label class="form-label" for="lampiran6">Lampiran 6</label>
                                             @include('admin.components.notification.error-validation', ['field' => 'lampiran6'])
-                                            <input type="text" class="form-control" id="lampiran6" name="lampiran6"
-                                                placeholder="Enter attachment 6 path" value="{{ old('lampiran6') }}">
+                                            <input type="file" class="form-control" id="lampiran6" name="lampiran6"
+                                                accept=".pdf,.jpeg,.jpg,.doc,.docx,.png">
+                                            <small class="text-muted">Format: PDF, JPEG, JPG, DOC, DOCX, PNG, Maks: 100MB</small>
                                         </div>
                                     </div>
                                 </div>
