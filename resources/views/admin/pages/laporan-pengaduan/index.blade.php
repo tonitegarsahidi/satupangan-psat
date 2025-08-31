@@ -66,6 +66,7 @@
                         <tr>
                             <th>No</th>
                             <th>Nama Pelapor</th>
+                            <th>Provinsi</th>
                             <th>Isi Laporan</th>
                             <th>Status</th>
                             <th>Created At</th>
@@ -83,6 +84,7 @@
                             <tr>
                                 <td>{{ $startNumber++ }}</td>
                                 <td>{{ $laporan->nama_pelapor }}</td>
+                                <td>{{ $laporan->provinsi->nama_provinsi ?? '-' }}</td>
                                 <td>{{ Str::limit($laporan->isi_laporan, 50) }}</td>
                                 <td>
                                     @if ($laporan->is_active)

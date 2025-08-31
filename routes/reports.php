@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth')->group(function () {
     // MANAGE LAPORAN PENGADUAN
     Route::prefix('/laporan-pengaduan')
-        ->middleware('role:ROLE_USER')
+        ->middleware('role:ROLE_USER,ROLE_KANTOR')
         ->group(function () {
             Route::get('/', [LaporanPengaduanController::class, 'index'])->name('admin.laporan-pengaduan.index');
             Route::get('/add/new', [LaporanPengaduanController::class, 'create'])->name('admin.laporan-pengaduan.add');
