@@ -578,6 +578,7 @@
             margin-top: 1.5rem;
         }
 
+
         .qr-method {
             padding: 1.5rem;
             border: 2px solid #E0E0E0;
@@ -588,6 +589,45 @@
         .qr-method:hover {
             border-color: var(--primary-color);
             box-shadow: var(--shadow-md);
+        }
+
+        /* Responsive adjustments for QR methods */
+        @media (max-width: 992px) {
+            .qr-methods {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .qr-methods {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+
+            .qr-method {
+                padding: 1rem;
+            }
+
+            .qr-method h4 {
+                font-size: 1rem;
+                margin-bottom: 0.75rem;
+            }
+
+            .qr-method p {
+                font-size: 0.875rem;
+                margin-bottom: 0.75rem;
+            }
+
+            .qr-input-group {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+
+            .qr-input-group input,
+            .qr-input-group button {
+                width: 100%;
+            }
         }
 
         .qr-method h4 {
@@ -921,6 +961,20 @@
                             <button class="btn btn-primary" onclick="checkQRCode()">
                                 <i class="fas fa-search"></i> Cari
                             </button>
+                        </div>
+
+                        <div style="margin-top: 2rem;">
+                            <h4><i class="fas fa-keyboard"></i> Pencarian Berdasarkan Kata Kunci</h4>
+                            <p>Cari berdasarkan merk / nama komoditas / nama perusahaan</p>
+                            <form method="POST" action="{{ route('landing.layanan.cek_data') }}">
+                                @csrf
+                                <div class="qr-input-group">
+                                    <input type="text" class="form-control" name="search" placeholder="Masukkan kata kunci pencarian..." required>
+                                    <button type="submit" class="btn btn-primary">
+                                        <i class="fas fa-search"></i> Cari
+                                    </button>
+                                </div>
+                            </form>
                         </div>
                     </div>
                 </div>
