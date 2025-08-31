@@ -25,5 +25,5 @@ Route::prefix('landing')->group(function () {
     Route::get('/panduan/batas-cemaran/detail/{id}', [LandingController::class, 'batasCemaranResiduDetail'])->name('landing.panduan.batas_cemaran_detail');
 });
 
-// QR Code route
+// QR Code route (moved outside landing prefix to be publicly accessible)
 Route::get('/qr/{qr_code}', [LandingController::class, 'showQRDetail'])->name('qr.detail');
