@@ -38,10 +38,10 @@ class PengawasanRekapService
         $this->pengawasanAttachmentRepository = $pengawasanAttachmentRepository;
     }
 
-    public function listAllRekap($perPage, string $sortField = null, string $sortOrder = null, string $keyword = null): LengthAwarePaginator
+    public function listAllRekap($perPage, string $sortField = null, string $sortOrder = null, string $keyword = null, $provinsiId = null): LengthAwarePaginator
     {
         $perPage = !is_null($perPage) ? $perPage : config('constant.CRUD.PER_PAGE');
-        return $this->pengawasanRekapRepository->getAllRekap($perPage, $sortField, $sortOrder, $keyword);
+        return $this->pengawasanRekapRepository->getAllRekap($perPage, $sortField, $sortOrder, $keyword, $provinsiId);
     }
 
     public function getRekapDetail($rekapId): ?PengawasanRekap

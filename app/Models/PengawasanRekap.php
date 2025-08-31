@@ -17,7 +17,6 @@ class PengawasanRekap extends Model
     protected $keyType = 'string';
 
     protected $fillable = [
-        'pengawasan_id',
         'user_id_admin',
         'jenis_psat_id',
         'produk_psat_id',
@@ -36,10 +35,7 @@ class PengawasanRekap extends Model
         'updated_by',
     ];
 
-    public function pengawasan()
-    {
-        return $this->belongsTo(Pengawasan::class);
-    }
+    // Removed: No pengawasan_id field in migration
 
     public function admin()
     {
@@ -66,15 +62,7 @@ class PengawasanRekap extends Model
         return $this->belongsTo(MasterProvinsi::class, 'provinsi_id');
     }
 
-    public function lokasiKota()
-    {
-        return $this->belongsTo(MasterKota::class, 'lokasi_kota_id');
-    }
-
-    public function lokasiProvinsi()
-    {
-        return $this->belongsTo(MasterProvinsi::class, 'lokasi_provinsi_id');
-    }
+    // Removed: No lokasi_kota_id or lokasi_provinsi_id fields in migration
 
     public function pengawasans()
     {
@@ -90,6 +78,16 @@ class PengawasanRekap extends Model
     {
         return $this->hasMany(PengawasanAttachment::class, 'linked_id')
             ->where('linked_type', 'REKAP');
+    }
+
+    public function createdBy()
+    {
+        return $this->belongsTo(User::class, 'created_by');
+    }
+
+    public function updatedBy()
+    {
+        return $this->belongsTo(User::class, 'updated_by');
     }
 
     /**

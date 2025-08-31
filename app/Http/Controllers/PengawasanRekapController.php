@@ -10,6 +10,9 @@ use Illuminate\Http\Request;
 use App\Helpers\AlertHelper;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
+use Exception;
 
 /**
  * ################################################
@@ -59,8 +62,15 @@ class PengawasanRekapController extends Controller
         $page = $request->input('page', config('constant.CRUD.PAGE'));
         $keyword = $request->input('keyword');
 
+        // Get current authenticated user's petugas data for province filtering
+        $currentPetugas = \App\Models\Petugas::where('user_id', Auth::id())->first();
+        $currentProvinsiId = null;
 
-        $pengawasanRekapList = $this->pengawasanRekapService->listAllRekap($perPage, $sortField, $sortOrder, $keyword);
+        if ($currentPetugas && $currentPetugas->penempatan) {
+            $currentProvinsiId = $currentPetugas->penempatan;
+        }
+
+        $pengawasanRekapList = $this->pengawasanRekapService->listAllRekap($perPage, $sortField, $sortOrder, $keyword, $currentProvinsiId);
 
         $breadcrumbs = array_merge($this->mainBreadcrumbs, ['List' => null]);
 
@@ -141,26 +151,49 @@ class PengawasanRekapController extends Controller
      */
     public function store(PengawasanRekapAddRequest $request)
     {
-        $validatedData = $request->validated();
+        DB::beginTransaction();
+        try {
+            $validatedData = $request->validated();
 
-        // Get current authenticated user ID
-        $userId = Auth::id();
+            // Get current authenticated user ID
+            $userId = Auth::id();
 
-        // Add created_by and updated_by with current user ID
-        $validatedData['created_by'] = $userId;
-        $validatedData['updated_by'] = $userId;
+            // Add created_by and updated_by with current user ID
+            $validatedData['created_by'] = $userId;
+            $validatedData['updated_by'] = $userId;
 
-        // Extract pengawasan IDs from the request
-        $pengawasanIds = $request->input('pengawasan_ids', []);
+            // Extract pengawasan IDs from the request
+            $pengawasanIds = $request->input('pengawasan_ids', []);
 
-        // Add pengawasan IDs to the data
-        $validatedData['pengawasan_ids'] = $pengawasanIds;
+            // Process file uploads
+            $lampiranFields = ['lampiran1', 'lampiran2', 'lampiran3', 'lampiran4', 'lampiran5', 'lampiran6'];
+            foreach ($lampiranFields as $field) {
+                if ($request->hasFile($field) && $request->file($field)->isValid()) {
+                    $file = $request->file($field);
+                    $fileName = time() . '_' . $file->getClientOriginalName();
+                    $filePath = $file->storeAs('pengawasan/rekap', $fileName, 'public');
+                    $validatedData[$field] = $filePath;
+                } else {
+                    $validatedData[$field] = null;
+                }
+            }
 
-        $result = $this->pengawasanRekapService->addNewRekap($validatedData);
+            // Add pengawasan IDs to the data
+            $validatedData['pengawasan_ids'] = $pengawasanIds;
 
-        $alert = $result
-            ? AlertHelper::createAlert('success', 'Data Pengawasan Rekap successfully added')
-            : AlertHelper::createAlert('danger', 'Data Pengawasan Rekap failed to be added');
+            $result = $this->pengawasanRekapService->addNewRekap($validatedData);
+
+            if (!$result) {
+                throw new Exception("Failed to create rekap");
+            }
+
+            DB::commit();
+            $alert = AlertHelper::createAlert('success', 'Data Pengawasan Rekap successfully added');
+        } catch (\Exception $exception) {
+            DB::rollBack();
+            Log::error("Failed to store pengawasan rekap: {$exception->getMessage()}");
+            $alert = AlertHelper::createAlert('danger', 'Data Pengawasan Rekap failed to be added');
+        }
 
         return redirect()->route('pengawasan-rekap.index')->with([
             'alerts'        => [$alert],
@@ -267,22 +300,44 @@ class PengawasanRekapController extends Controller
      */
     public function update(PengawasanRekapEditRequest $request, $id)
     {
-        $validatedData = $request->validated();
+        DB::beginTransaction();
+        try {
+            $validatedData = $request->validated();
 
-        // Add updated_by with current user ID
-        $validatedData['updated_by'] = Auth::id();
+            // Add updated_by with current user ID
+            $validatedData['updated_by'] = Auth::id();
 
-        // Extract pengawasan IDs from the request
-        $pengawasanIds = $request->input('pengawasan_ids', []);
+            // Extract pengawasan IDs from the request
+            $pengawasanIds = $request->input('pengawasan_ids', []);
 
-        // Add pengawasan IDs to the data
-        $validatedData['pengawasan_ids'] = $pengawasanIds;
+            // Process file uploads
+            $lampiranFields = ['lampiran1', 'lampiran2', 'lampiran3', 'lampiran4', 'lampiran5', 'lampiran6'];
+            foreach ($lampiranFields as $field) {
+                if ($request->hasFile($field) && $request->file($field)->isValid()) {
+                    $file = $request->file($field);
+                    $fileName = time() . '_' . $file->getClientOriginalName();
+                    $filePath = $file->storeAs('pengawasan/rekap', $fileName, 'public');
+                    $validatedData[$field] = $filePath;
+                }
+                // If no file is uploaded, keep the existing value (don't set to null)
+            }
 
-        $result = $this->pengawasanRekapService->updateRekap($validatedData, $id);
+            // Add pengawasan IDs to the data
+            $validatedData['pengawasan_ids'] = $pengawasanIds;
 
-        $alert = $result
-            ? AlertHelper::createAlert('success', 'Data Pengawasan Rekap successfully updated')
-            : AlertHelper::createAlert('danger', 'Data Pengawasan Rekap failed to be updated');
+            $result = $this->pengawasanRekapService->updateRekap($validatedData, $id);
+
+            if (!$result) {
+                throw new Exception("Failed to update rekap");
+            }
+
+            DB::commit();
+            $alert = AlertHelper::createAlert('success', 'Data Pengawasan Rekap successfully updated');
+        } catch (\Exception $exception) {
+            DB::rollBack();
+            Log::error("Failed to update pengawasan rekap: {$exception->getMessage()}");
+            $alert = AlertHelper::createAlert('danger', 'Data Pengawasan Rekap failed to be updated');
+        }
 
         return redirect()->route('pengawasan-rekap.index')->with([
             'alerts' => [$alert],
@@ -370,19 +425,45 @@ class PengawasanRekapController extends Controller
     public function updateLampiran(Request $request, $id)
     {
         $validatedData = $request->validate([
-            'lampiran1' => 'nullable|string|max:200',
-            'lampiran2' => 'nullable|string|max:200',
-            'lampiran3' => 'nullable|string|max:200',
-            'lampiran4' => 'nullable|string|max:200',
-            'lampiran5' => 'nullable|string|max:200',
-            'lampiran6' => 'nullable|string|max:200',
+            'lampiran1' => 'nullable|file|max:102400|mimes:pdf,jpeg,jpg,doc,docx,png',
+            'lampiran2' => 'nullable|file|max:102400|mimes:pdf,jpeg,jpg,doc,docx,png',
+            'lampiran3' => 'nullable|file|max:102400|mimes:pdf,jpeg,jpg,doc,docx,png',
+            'lampiran4' => 'nullable|file|max:102400|mimes:pdf,jpeg,jpg,doc,docx,png',
+            'lampiran5' => 'nullable|file|max:102400|mimes:pdf,jpeg,jpg,doc,docx,png',
+            'lampiran6' => 'nullable|file|max:102400|mimes:pdf,jpeg,jpg,doc,docx,png',
         ]);
 
-        $result = $this->pengawasanRekapService->updateLampiranForRekap($id, $validatedData);
+        DB::beginTransaction();
+        try {
+            $rekap = $this->pengawasanRekapService->getRekapDetail($id);
+            if (!$rekap) {
+                throw new Exception("Rekap not found");
+            }
 
-        $alert = $result
-            ? AlertHelper::createAlert('success', 'Lampiran Pengawasan Rekap successfully updated')
-            : AlertHelper::createAlert('danger', 'Lampiran Pengawasan Rekap failed to be updated');
+            // Process each file upload
+            foreach ($validatedData as $field => $file) {
+                if ($file && $file->isValid()) {
+                    // Generate unique filename
+                    $fileName = time() . '_' . $file->getClientOriginalName();
+                    $filePath = $file->storeAs('pengawasan/rekap', $fileName, 'public');
+
+                    // Update the rekap record with file path
+                    $rekap->$field = $filePath;
+                    $rekap->save();
+                } elseif ($file === null) {
+                    // If no file provided, set to null
+                    $rekap->$field = null;
+                    $rekap->save();
+                }
+            }
+
+            DB::commit();
+            $alert = AlertHelper::createAlert('success', 'Lampiran Pengawasan Rekap successfully updated');
+        } catch (\Exception $exception) {
+            DB::rollBack();
+            Log::error("Failed to update lampiran for rekap $id: {$exception->getMessage()}");
+            $alert = AlertHelper::createAlert('danger', 'Lampiran Pengawasan Rekap failed to be updated');
+        }
 
         return redirect()->back()->with('alerts', [$alert]);
     }
@@ -397,6 +478,10 @@ class PengawasanRekapController extends Controller
     public function getPengawasanData(Request $request)
     {
         $keyword = $request->input('keyword');
+        $sortField = $request->input('sort_field', 'tanggal_mulai');
+        $sortOrder = $request->input('sort_order', 'desc');
+        $page = $request->input('page', 1);
+        $perPage = $request->input('per_page', 10); // Default 10 items per page for selection
 
         // Get current authenticated user's petugas data
         $currentPetugas = \App\Models\Petugas::where('user_id', Auth::id())->first();
@@ -406,15 +491,17 @@ class PengawasanRekapController extends Controller
             $currentProvinsiId = $currentPetugas->penempatan;
         }
 
-        $query = \App\Models\Pengawasan::with([
-            'jenisPsat',
-            'produkPsat',
-            'lokasiProvinsi',
-            'lokasiKota',
-            'initiator'
-        ])->where('is_active', 1);
+        // Use the same query structure as in PengawasanRepository::getAllPengawasan
+        $query = \App\Models\Pengawasan::query()
+            ->with([
+                'initiator',
+                'jenisPsat',
+                'produkPsat',
+                'lokasiKota',
+                'lokasiProvinsi'
+            ]);
 
-        // Always filter by current user's provinsi if available
+        // Filter by province if available
         if ($currentProvinsiId) {
             $query->where('lokasi_provinsi_id', $currentProvinsiId);
         }
@@ -422,25 +509,62 @@ class PengawasanRekapController extends Controller
         // Apply keyword filter if provided
         if ($keyword) {
             $query->where(function($q) use ($keyword) {
-                $q->whereHas('initiator', function($q) use ($keyword) {
-                    $q->where('name', 'like', '%' . $keyword . '%');
-                })->orWhereHas('jenisPsat', function($q) use ($keyword) {
-                    $q->where('nama_jenis_pangan_segar', 'like', '%' . $keyword . '%');
-                })->orWhereHas('produkPsat', function($q) use ($keyword) {
-                    $q->where('nama_bahan_pangan_segar', 'like', '%' . $keyword . '%');
-                })->orWhereHas('lokasiProvinsi', function($q) use ($keyword) {
-                    $q->where('nama_provinsi', 'like', '%' . $keyword . '%');
-                })->orWhereHas('lokasiKota', function($q) use ($keyword) {
-                    $q->where('nama_kota', 'like', '%' . $keyword . '%');
-                });
+                $q->whereRaw('lower(lokasi_alamat) LIKE ?', ['%' . strtolower($keyword) . '%'])
+                  ->orWhereHas('initiator', function($q) use ($keyword) {
+                      $q->whereRaw('lower(name) LIKE ?', ['%' . strtolower($keyword) . '%']);
+                  })->orWhereHas('jenisPsat', function($q) use ($keyword) {
+                      $q->whereRaw('lower(nama_jenis_pangan_segar) LIKE ?', ['%' . strtolower($keyword) . '%']);
+                  })->orWhereHas('produkPsat', function($q) use ($keyword) {
+                      $q->whereRaw('lower(nama_bahan_pangan_segar) LIKE ?', ['%' . strtolower($keyword) . '%']);
+                  })->orWhereHas('lokasiProvinsi', function($q) use ($keyword) {
+                      $q->whereRaw('lower(nama_provinsi) LIKE ?', ['%' . strtolower($keyword) . '%']);
+                  })->orWhereHas('lokasiKota', function($q) use ($keyword) {
+                      $q->whereRaw('lower(nama_kota) LIKE ?', ['%' . strtolower($keyword) . '%']);
+                  });
             });
         }
 
-        $pengawasanList = $query->orderBy('tanggal_mulai', 'desc')->get();
+        // Apply sorting
+        if ($sortField === 'jenis_psat.nama_jenis_pangan_segar') {
+            $query->leftJoin('master_jenis_pangan_segars', 'pengawasan.jenis_psat_id', '=', 'master_jenis_pangan_segars.id')
+                  ->select('pengawasan.*')
+                  ->orderBy('master_jenis_pangan_segars.nama_jenis_pangan_segar', $sortOrder);
+        } elseif ($sortField === 'produk_psat.nama_bahan_pangan_segar') {
+            $query->leftJoin('master_bahan_pangan_segars', 'pengawasan.produk_psat_id', '=', 'master_bahan_pangan_segars.id')
+                  ->select('pengawasan.*')
+                  ->orderBy('master_bahan_pangan_segars.nama_bahan_pangan_segar', $sortOrder);
+        } elseif ($sortField === 'lokasi_provinsi.nama_provinsi') {
+            $query->leftJoin('master_provinsis', 'pengawasan.lokasi_provinsi_id', '=', 'master_provinsis.id')
+                  ->select('pengawasan.*')
+                  ->orderBy('master_provinsis.nama_provinsi', $sortOrder);
+        } elseif ($sortField === 'lokasi_kota.nama_kota') {
+            $query->leftJoin('master_kotas', 'pengawasan.lokasi_kota_id', '=', 'master_kotas.id')
+                  ->select('pengawasan.*')
+                  ->orderBy('master_kotas.nama_kota', $sortOrder);
+        } elseif ($sortField === 'initiator.name') {
+            $query->leftJoin('users', 'pengawasan.user_id_initiator', '=', 'users.id')
+                  ->select('pengawasan.*')
+                  ->orderBy('users.name', $sortOrder);
+        } elseif ($sortField === 'status') {
+            $query->orderBy('status', $sortOrder);
+        } else {
+            $query->orderBy($sortField, $sortOrder);
+        }
+
+        // Get paginated results
+        $pengawasanList = $query->paginate($perPage, ['*'], 'page', $page);
 
         return response()->json([
             'success' => true,
-            'data' => $pengawasanList
+            'data' => $pengawasanList->items(),
+            'pagination' => [
+                'current_page' => $pengawasanList->currentPage(),
+                'last_page' => $pengawasanList->lastPage(),
+                'per_page' => $pengawasanList->perPage(),
+                'total' => $pengawasanList->total(),
+                'from' => $pengawasanList->firstItem(),
+                'to' => $pengawasanList->lastItem()
+            ]
         ]);
     }
 }
