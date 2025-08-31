@@ -397,6 +397,10 @@ class PengawasanRekapController extends Controller
     public function getPengawasanData(Request $request)
     {
         $keyword = $request->input('keyword');
+        $sortField = $request->input('sort_field', 'tanggal_mulai');
+        $sortOrder = $request->input('sort_order', 'desc');
+        $page = $request->input('page', 1);
+        $perPage = $request->input('per_page', 10); // Default 10 items per page for selection
 
         // Get current authenticated user's petugas data
         $currentPetugas = \App\Models\Petugas::where('user_id', Auth::id())->first();
@@ -406,15 +410,17 @@ class PengawasanRekapController extends Controller
             $currentProvinsiId = $currentPetugas->penempatan;
         }
 
-        $query = \App\Models\Pengawasan::with([
-            'jenisPsat',
-            'produkPsat',
-            'lokasiProvinsi',
-            'lokasiKota',
-            'initiator'
-        ])->where('is_active', 1);
+        // Use the same query structure as in PengawasanRepository::getAllPengawasan
+        $query = \App\Models\Pengawasan::query()
+            ->with([
+                'initiator',
+                'jenisPsat',
+                'produkPsat',
+                'lokasiKota',
+                'lokasiProvinsi'
+            ]);
 
-        // Always filter by current user's provinsi if available
+        // Filter by province if available
         if ($currentProvinsiId) {
             $query->where('lokasi_provinsi_id', $currentProvinsiId);
         }
@@ -422,25 +428,62 @@ class PengawasanRekapController extends Controller
         // Apply keyword filter if provided
         if ($keyword) {
             $query->where(function($q) use ($keyword) {
-                $q->whereHas('initiator', function($q) use ($keyword) {
-                    $q->where('name', 'like', '%' . $keyword . '%');
-                })->orWhereHas('jenisPsat', function($q) use ($keyword) {
-                    $q->where('nama_jenis_pangan_segar', 'like', '%' . $keyword . '%');
-                })->orWhereHas('produkPsat', function($q) use ($keyword) {
-                    $q->where('nama_bahan_pangan_segar', 'like', '%' . $keyword . '%');
-                })->orWhereHas('lokasiProvinsi', function($q) use ($keyword) {
-                    $q->where('nama_provinsi', 'like', '%' . $keyword . '%');
-                })->orWhereHas('lokasiKota', function($q) use ($keyword) {
-                    $q->where('nama_kota', 'like', '%' . $keyword . '%');
-                });
+                $q->whereRaw('lower(lokasi_alamat) LIKE ?', ['%' . strtolower($keyword) . '%'])
+                  ->orWhereHas('initiator', function($q) use ($keyword) {
+                      $q->whereRaw('lower(name) LIKE ?', ['%' . strtolower($keyword) . '%']);
+                  })->orWhereHas('jenisPsat', function($q) use ($keyword) {
+                      $q->whereRaw('lower(nama_jenis_pangan_segar) LIKE ?', ['%' . strtolower($keyword) . '%']);
+                  })->orWhereHas('produkPsat', function($q) use ($keyword) {
+                      $q->whereRaw('lower(nama_bahan_pangan_segar) LIKE ?', ['%' . strtolower($keyword) . '%']);
+                  })->orWhereHas('lokasiProvinsi', function($q) use ($keyword) {
+                      $q->whereRaw('lower(nama_provinsi) LIKE ?', ['%' . strtolower($keyword) . '%']);
+                  })->orWhereHas('lokasiKota', function($q) use ($keyword) {
+                      $q->whereRaw('lower(nama_kota) LIKE ?', ['%' . strtolower($keyword) . '%']);
+                  });
             });
         }
 
-        $pengawasanList = $query->orderBy('tanggal_mulai', 'desc')->get();
+        // Apply sorting
+        if ($sortField === 'jenis_psat.nama_jenis_pangan_segar') {
+            $query->leftJoin('master_jenis_pangan_segars', 'pengawasan.jenis_psat_id', '=', 'master_jenis_pangan_segars.id')
+                  ->select('pengawasan.*')
+                  ->orderBy('master_jenis_pangan_segars.nama_jenis_pangan_segar', $sortOrder);
+        } elseif ($sortField === 'produk_psat.nama_bahan_pangan_segar') {
+            $query->leftJoin('master_bahan_pangan_segars', 'pengawasan.produk_psat_id', '=', 'master_bahan_pangan_segars.id')
+                  ->select('pengawasan.*')
+                  ->orderBy('master_bahan_pangan_segars.nama_bahan_pangan_segar', $sortOrder);
+        } elseif ($sortField === 'lokasi_provinsi.nama_provinsi') {
+            $query->leftJoin('master_provinsis', 'pengawasan.lokasi_provinsi_id', '=', 'master_provinsis.id')
+                  ->select('pengawasan.*')
+                  ->orderBy('master_provinsis.nama_provinsi', $sortOrder);
+        } elseif ($sortField === 'lokasi_kota.nama_kota') {
+            $query->leftJoin('master_kotas', 'pengawasan.lokasi_kota_id', '=', 'master_kotas.id')
+                  ->select('pengawasan.*')
+                  ->orderBy('master_kotas.nama_kota', $sortOrder);
+        } elseif ($sortField === 'initiator.name') {
+            $query->leftJoin('users', 'pengawasan.user_id_initiator', '=', 'users.id')
+                  ->select('pengawasan.*')
+                  ->orderBy('users.name', $sortOrder);
+        } elseif ($sortField === 'status') {
+            $query->orderBy('status', $sortOrder);
+        } else {
+            $query->orderBy($sortField, $sortOrder);
+        }
+
+        // Get paginated results
+        $pengawasanList = $query->paginate($perPage, ['*'], 'page', $page);
 
         return response()->json([
             'success' => true,
-            'data' => $pengawasanList
+            'data' => $pengawasanList->items(),
+            'pagination' => [
+                'current_page' => $pengawasanList->currentPage(),
+                'last_page' => $pengawasanList->lastPage(),
+                'per_page' => $pengawasanList->perPage(),
+                'total' => $pengawasanList->total(),
+                'from' => $pengawasanList->firstItem(),
+                'to' => $pengawasanList->lastItem()
+            ]
         ]);
     }
 }
