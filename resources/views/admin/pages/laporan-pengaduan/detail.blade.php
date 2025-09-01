@@ -214,24 +214,7 @@
                 <div class="card-body">
                     <style>
                     .chat-container {
-                        max-height: 500px;
-                        overflow-y: auto;
                         padding: 10px;
-                    }
-                    .chat-container::-webkit-scrollbar {
-                        width: 6px;
-                    }
-                    .chat-container::-webkit-scrollbar-track {
-                        background: #f1f1f1;
-                        border-radius: 10px;
-                    }
-                    .chat-container::-webkit-scrollbar-thumb {
-                        background: #c1c1c1;
-                        border-radius: 10px;
-                        transition: background 0.3s;
-                    }
-                    .chat-container::-webkit-scrollbar-thumb:hover {
-                        background: #a1a1a1;
                     }
                     .empty-state {
                         text-align: center;
