@@ -206,12 +206,225 @@
                 </div>
             </div> --}}
 
+            {{-- Workflow History Section --}}
+            <div class="card mt-4">
+                <div class="card-header">
+                    <h4>Riwayat Update Laporan Pengaduan</h4>
+                </div>
+                <div class="card-body">
+                    <style>
+                    .chat-container {
+                        max-height: 500px;
+                        overflow-y: auto;
+                        padding: 10px;
+                    }
+                    .chat-container::-webkit-scrollbar {
+                        width: 6px;
+                    }
+                    .chat-container::-webkit-scrollbar-track {
+                        background: #f1f1f1;
+                        border-radius: 10px;
+                    }
+                    .chat-container::-webkit-scrollbar-thumb {
+                        background: #c1c1c1;
+                        border-radius: 10px;
+                        transition: background 0.3s;
+                    }
+                    .chat-container::-webkit-scrollbar-thumb:hover {
+                        background: #a1a1a1;
+                    }
+                    .empty-state {
+                        text-align: center;
+                        padding: 40px 20px;
+                        color: #666;
+                    }
+                    .empty-state i {
+                        font-size: 3rem;
+                        margin-bottom: 15px;
+                        color: #ddd;
+                    }
+                    .chat-bubble {
+                        margin-bottom: 20px;
+                        padding: 15px;
+                        border-radius: 20px;
+                        max-width: 80%;
+                        position: relative;
+                        word-wrap: break-word;
+                        box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+                        transition: all 0.3s ease;
+                    }
+                    .chat-bubble:hover {
+                        box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+                        transform: translateY(-2px);
+                    }
+                    .chat-bubble.left {
+                        background: #f1f3f4;
+                        border-bottom-left-radius: 5px;
+                        margin-right: auto;
+                        margin-left: 40px;
+                    }
+                    .chat-bubble.right {
+                        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                        color: white;
+                        border-bottom-right-radius: 5px;
+                        margin-left: auto;
+                        margin-right: 40px;
+                    }
+                    .chat-bubble.current-user {
+                        background: linear-gradient(135deg, #a8d5ba 0%, #7ec19e 100%);
+                        color: #2d4a38;
+                        border-bottom-right-radius: 5px;
+                        margin-left: auto;
+                        margin-right: 40px;
+                    }
+                    .chat-bubble.current-user .chat-avatar {
+                        right: -50px;
+                        border-color: #7ec19e;
+                    }
+                    .chat-bubble.current-user .timestamp {
+                        color: rgba(45, 74, 56, 0.7);
+                    }
+                    .chat-bubble.current-user .status-badge .badge {
+                        background: rgba(45, 74, 56, 0.1) !important;
+                        color: #2d4a38 !important;
+                        border: 1px solid rgba(126, 193, 158, 0.3);
+                    }
+                    .chat-bubble .status-badge {
+                        display: inline-block;
+                        margin-bottom: 5px;
+                        font-size: 0.7em;
+                    }
+                    .chat-avatar {
+                        position: absolute;
+                        top: 10px;
+                        width: 40px;
+                        height: 40px;
+                        border-radius: 50%;
+                        border: 3px solid white;
+                        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+                        z-index: 2;
+                    }
+                    .chat-bubble.left .chat-avatar {
+                        left: -50px;
+                    }
+                    .chat-bubble.right .chat-avatar {
+                        right: -50px;
+                        border-color: #667eea;
+                    }
+                    .chat-bubble .message-content {
+                        margin: 8px 0;
+                        font-size: 0.95em;
+                    }
+                    .chat-bubble .timestamp {
+                        font-size: 0.75em;
+                        opacity: 0.8;
+                        margin-top: 5px;
+                    }
+                    .chat-bubble.left .timestamp {
+                        color: #666;
+                    }
+                    .chat-bubble.right .timestamp {
+                        color: rgba(255,255,255,0.8);
+                    }
+                    .chat-user-info {
+                        font-weight: 600;
+                        font-size: 0.85em;
+                        margin-bottom: 5px;
+                    }
+                    .status-icon {
+                        margin-right: 5px;
+                        font-size: 0.8em;
+                    }
+                    </style>
+
+                    <div class="chat-container">
+                        @forelse($workflows as $index => $workflow)
+                        <div class="chat-bubble {{ $workflow->user_id == auth()->id() ? 'current-user' : 'left' }}">
+                            <div class="chat-avatar bg-secondary d-flex align-items-center justify-content-center">
+                                @if($workflow->user && $workflow->user->name)
+                                    <span class="text-white fw-bold">{{ strtoupper(substr($workflow->user->name, 0, 1)) }}</span>
+                                @else
+                                    <i class="bx bx-user"></i>
+                                @endif
+                            </div>
+
+                            <!-- Status Badge -->
+                            <div class="status-badge mb-2">
+                                @if($workflow->status == 'PROSES')
+                                    <span class="badge bg-info text-dark">
+                                        <i class="bx bx-loader-alt status-icon"></i>Proses
+                                    </span>
+                                @elseif($workflow->status == 'SELESAI')
+                                    <span class="badge bg-success">
+                                        <i class="bx bx-check status-icon"></i>Selesai
+                                    </span>
+                                @elseif($workflow->status == 'DITUTUP')
+                                    <span class="badge bg-secondary">
+                                        <i class="bx bx-lock status-icon"></i>Ditutup
+                                    </span>
+                                @elseif($workflow->status == 'DIBATALKAN')
+                                    <span class="badge bg-danger">
+                                        <i class="bx bx-x status-icon"></i>Dibatalkan
+                                    </span>
+                                @elseif($workflow->status == 'MENUNGGU_JAWABAN')
+                                    <span class="badge bg-warning text-dark">
+                                        <i class="bx bx-time-five status-icon"></i>Menunggu Jawaban
+                                    </span>
+                                @elseif($workflow->status == 'DIARSIPKAN')
+                                    <span class="badge bg-secondary">
+                                        <i class="bx bx-archive status-icon"></i>Diarsipkan
+                                    </span>
+                                @elseif($workflow->status == 'DIPINDAHKAN')
+                                    <span class="badge bg-primary">
+                                        <i class="bx bx-transfer status-icon"></i>Dipindahkan
+                                    </span>
+                                @else
+                                    <span class="badge bg-dark">
+                                        <i class="bx bx-info-circle status-icon"></i>{{ $workflow->status }}
+                                    </span>
+                                @endif
+                            </div>
+
+                            <!-- User Info -->
+                            <div class="chat-user-info">
+                                @if($workflow->user && $workflow->user->name)
+                                    {{ $workflow->user->name }}
+                                    @if($workflow->user_id == auth()->id())
+                                        <small class="text-muted">(Anda)</small>
+                                    @endif
+                                @else
+                                    System
+                                @endif
+                            </div>
+
+                            <!-- Message Content -->
+                            @if($workflow->message)
+                            <div class="message-content">
+                                {{ $workflow->message }}
+                            </div>
+                            @endif
+
+                            <!-- Timestamp -->
+                            <div class="timestamp">
+                                {{ \Carbon\Carbon::parse($workflow->created_at)->timezone('Asia/Jakarta')->format('d M Y H:i') }}
+                            </div>
+                        </div>
+                        @empty
+                        <div class="empty-state">
+                            <i class="bx bx-message-dots"></i>
+                            <h5>Belum ada riwayat update</h5>
+                            <p>Riwayat pembaruan status akan muncul di sini setelah ada pembaruan pertama.</p>
+                        </div>
+                        @endforelse
+                    </div>
+                </div>
+            </div>
+
             <div class="card mt-4">
                 <div class="m-4">
                     <h4>Update Laporan Pengaduan</h4>
-                    <form action="{{ route('admin.laporan-pengaduan.update', ['id' => $data->id]) }}" method="POST">
+                    <form action="{{ route('admin.laporan-pengaduan.workflow.update', ['id' => $data->id]) }}" method="POST">
                         @csrf
-                        @method('PUT') {{-- Assuming it's a PUT request for update --}}
                         <div class="mb-3">
                             <label for="status" class="form-label">Status</label>
                             <select class="form-select" id="status" name="status">

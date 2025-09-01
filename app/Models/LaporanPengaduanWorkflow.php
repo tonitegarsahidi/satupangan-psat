@@ -21,8 +21,6 @@ class LaporanPengaduanWorkflow extends Model
         'laporan_pengaduan_id',
         'status',
         'message',
-        'created_by',
-        'updated_by',
     ];
 
     /**

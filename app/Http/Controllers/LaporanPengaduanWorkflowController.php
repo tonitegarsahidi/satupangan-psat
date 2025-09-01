@@ -6,6 +6,7 @@ use App\Services\LaporanPengaduanWorkflowService;
 use App\Services\LaporanPengaduanService;
 use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Session;
@@ -79,10 +80,9 @@ class LaporanPengaduanWorkflowController extends Controller
         }
 
         try {
-            $workflowEntry = $this->laporanPengaduanWorkflowService->addNewWorkflowEntry(
-                $request->all(),
-                auth()->id()
-            );
+            $data = $request->all();
+            $data['user_id'] = Auth::id();
+            $workflowEntry = $this->laporanPengaduanWorkflowService->addNewWorkflowEntry($data);
 
             if ($workflowEntry) {
                 Session::flash('success', 'Workflow entry berhasil ditambahkan.');
@@ -239,6 +239,53 @@ class LaporanPengaduanWorkflowController extends Controller
                 'success' => false,
                 'message' => 'Gagal mengambil data workflow entries: ' . $exception->getMessage()
             ], 500);
+        }
+    }
+
+    /**
+     * Update workflow by adding new entry for laporan pengaduan
+     */
+    public function updateWorkflow(Request $request, string $laporanId)
+    {
+        $validator = Validator::make($request->all(), [
+            'status' => 'required|string|max:100',
+            'message' => 'nullable|string',
+            'user_id_disposisi' => 'nullable|uuid|exists:users,id',
+        ]);
+
+        if ($validator->fails()) {
+            return redirect()->back()
+                ->withErrors($validator)
+                ->withInput();
+        }
+
+        try {
+            $data = [
+                'laporan_pengaduan_id' => $laporanId,
+                'status' => $request->status,
+                'message' => $request->message,
+            ];
+
+            // Add initiator user if status is DIPINDAHKAN
+            if ($request->status === config('workflow.statuses.DIPINDAHKAN') && $request->user_id_disposisi) {
+                $data['user_id'] = $request->user_id_disposisi;
+            } else {
+                $data['user_id'] = Auth::id();
+            }
+
+            $workflowEntry = $this->laporanPengaduanWorkflowService->addNewWorkflowEntry($data, Auth::id());
+
+            if ($workflowEntry) {
+                Session::flash('success', 'Workflow entry berhasil ditambahkan.');
+                return redirect()->back();
+            } else {
+                Session::flash('error', 'Gagal menambahkan workflow entry.');
+                return redirect()->back()->withInput();
+            }
+        } catch (\Exception $exception) {
+            Log::error("Failed to update workflow for laporan {$laporanId}: {$exception->getMessage()}");
+            Session::flash('error', 'Gagal menambahkan workflow entry: ' . $exception->getMessage());
+            return redirect()->back()->withInput();
         }
     }
 }

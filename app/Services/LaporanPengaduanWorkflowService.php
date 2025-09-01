@@ -81,8 +81,6 @@ class LaporanPengaduanWorkflowService
             }
 
             $validatedData['user_id'] = $userId;
-            $validatedData['created_by'] = $userId;
-            $validatedData['updated_by'] = $userId;
 
             $workflowEntry = $this->LaporanPengaduanWorkflowRepository->createWorkflow($validatedData);
             DB::commit();
@@ -100,8 +98,7 @@ class LaporanPengaduanWorkflowService
         try {
             $workflowEntry = LaporanPengaduanWorkflow::findOrFail($workflowId);
 
-            // Update updated_by user
-            $validatedData['updated_by'] = Auth::id();
+            // Record updated by current user - handled by timestamps
 
             $this->LaporanPengaduanWorkflowRepository->update($workflowId, $validatedData);
             DB::commit();
@@ -171,16 +168,13 @@ class LaporanPengaduanWorkflowService
             }
 
             $validatedData['user_id'] = $userId;
-            $validatedData['created_by'] = $userId;
-            $validatedData['updated_by'] = $userId;
 
             $workflowEntry = $this->LaporanPengaduanWorkflowRepository->createWorkflow($validatedData);
 
             // Update the laporan pengaduan status if needed
             if ($validatedData['status'] === 'SELESAI' || $validatedData['status'] === 'DIBATALKAN' || $validatedData['status'] === 'DITUTUP') {
                 $laporanData = [
-                    'is_active' => false,
-                    'updated_by' => $userId
+                    'is_active' => false
                 ];
                 $this->LaporanPengaduanRepository->update($validatedData['laporan_pengaduan_id'], $laporanData);
             }

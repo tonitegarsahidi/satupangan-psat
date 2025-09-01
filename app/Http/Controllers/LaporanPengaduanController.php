@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Services\LaporanPengaduanService;
+use App\Services\LaporanPengaduanWorkflowService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\LaporanPengaduan\LaporanPengaduanAddRequest;
@@ -13,12 +14,17 @@ class LaporanPengaduanController extends Controller
 {
     private $LaporanPengaduanService;
     private $userService;
+    private $laporanPengaduanWorkflowService;
     private $mainBreadcrumbs;
 
-    public function __construct(LaporanPengaduanService $LaporanPengaduanService, UserService $userService)
-    {
+    public function __construct(
+        LaporanPengaduanService $LaporanPengaduanService,
+        UserService $userService,
+        LaporanPengaduanWorkflowService $laporanPengaduanWorkflowService
+    ) {
         $this->LaporanPengaduanService = $LaporanPengaduanService;
         $this->userService = $userService;
+        $this->laporanPengaduanWorkflowService = $laporanPengaduanWorkflowService;
 
         $this->mainBreadcrumbs = [
             'Admin' => route('admin.laporan-pengaduan.index'),
@@ -82,7 +88,11 @@ class LaporanPengaduanController extends Controller
         $data = $this->LaporanPengaduanService->getLaporanPengaduanDetail($request->id);
         $breadcrumbs = array_merge($this->mainBreadcrumbs, ['Detail' => null]);
         $users = $this->userService->getAllUsersSortedByName();
-        return view('admin.pages.laporan-pengaduan.detail', compact('breadcrumbs', 'data', 'users'));
+
+        // Get workflow entries for this laporan
+        $workflows = $this->laporanPengaduanWorkflowService->getAllWorkflowByLaporanId($request->id);
+
+        return view('admin.pages.laporan-pengaduan.detail', compact('breadcrumbs', 'data', 'users', 'workflows'));
     }
 
     public function edit(Request $request, $id)

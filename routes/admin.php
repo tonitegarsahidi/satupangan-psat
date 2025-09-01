@@ -280,6 +280,15 @@ Route::middleware('auth')->group(function () {
 
 
             });
+            // Laporan Pengaduan routes
+            Route::prefix('/laporan-pengaduan')->group(function () {
+                // Existing routes
+                Route::get('/', [\App\Http\Controllers\LaporanPengaduanController::class, 'index'])->name('admin.laporan-pengaduan.index');
+                Route::get('/detail/{id}', [\App\Http\Controllers\LaporanPengaduanController::class, 'detail'])->name('admin.laporan-pengaduan.detail');
+
+                // New route for workflow update
+                Route::post('/workflow/update/{id}', [\App\Http\Controllers\LaporanPengaduanWorkflowController::class, 'updateWorkflow'])->name('admin.laporan-pengaduan.workflow.update');
+            });
 
 
 

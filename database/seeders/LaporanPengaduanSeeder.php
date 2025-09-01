@@ -73,7 +73,8 @@ class LaporanPengaduanSeeder extends Seeder
 
         $laporanController = new LaporanPengaduanController(
             app(\App\Services\LaporanPengaduanService::class),
-            app(\App\Services\UserService::class)
+            app(\App\Services\UserService::class),
+            app(\App\Services\LaporanPengaduanWorkflowService::class)
         );
 
         // Sample laporan data templates
