@@ -119,7 +119,7 @@ class RegisterIzinedarPsatpdukSeeder extends Seeder
             'business_id' => $business->id,
             'status' => 'DISETUJUI',
             'is_enabled' => true,
-            'nomor_sppb' => 'SPPB-KNT-002',
+            'nomor_sppb' => 'REG-SPPB-WRT-015',
             'nomor_izinedar_pduk' => 'REG-IZINPDUK-002',
 
             // Unit usaha data
@@ -133,10 +133,10 @@ class RegisterIzinedarPsatpdukSeeder extends Seeder
 
             'jenis_psat' => $jenispsat2?->id,
 
-            'nama_komoditas' => 'Kentang',
-            'nama_latin' => 'Solanum tuberosum',
+            'nama_komoditas' => 'Wortel',
+            'nama_latin' => 'Daucus carota',
             'negara_asal' => 'Indonesia',
-            'merk_dagang' => 'Kentang Garut',
+            'merk_dagang' => 'Wortel Segar',
             'jenis_kemasan' => 'Karung',
             'ukuran_berat' => '20 kg per karung',
             'kategorilabel' => 'Label Hijau',
@@ -179,7 +179,7 @@ class RegisterIzinedarPsatpdukSeeder extends Seeder
 
             'jenis_psat' => $jenispsat2?->id,
 
-            'nama_komoditas' => 'Kubis',
+            'nama_komoditas' => 'Wortel',
             'nama_latin' => 'Brassica oleracea',
             'negara_asal' => 'Indonesia',
             'merk_dagang' => 'Kubis Segar',
@@ -225,7 +225,7 @@ class RegisterIzinedarPsatpdukSeeder extends Seeder
 
             'jenis_psat' => $jenispsat2?->id,
 
-            'nama_komoditas' => 'Tomat',
+            'nama_komoditas' => 'Wortel',
             'nama_latin' => 'Solanum lycopersicum',
             'negara_asal' => 'Indonesia',
             'merk_dagang' => 'Tomat Rajawali',
@@ -271,7 +271,7 @@ class RegisterIzinedarPsatpdukSeeder extends Seeder
 
             'jenis_psat' => $jenispsat2?->id,
 
-            'nama_komoditas' => 'Bawang Merah',
+            'nama_komoditas' => 'Wortel',
             'nama_latin' => 'Allium cepa',
             'negara_asal' => 'Indonesia',
             'merk_dagang' => 'Bawang Merah Bali',
@@ -317,7 +317,7 @@ class RegisterIzinedarPsatpdukSeeder extends Seeder
 
             'jenis_psat' => $jenispsat2?->id,
 
-            'nama_komoditas' => 'Kacang Panjang',
+            'nama_komoditas' => 'Wortel',
             'nama_latin' => 'Vigna unguiculata',
             'negara_asal' => 'Indonesia',
             'merk_dagang' => 'Kacang Panjang Hijau',
@@ -363,7 +363,7 @@ class RegisterIzinedarPsatpdukSeeder extends Seeder
 
             'jenis_psat' => $jenispsat2?->id,
 
-            'nama_komoditas' => 'Labu',
+            'nama_komoditas' => 'Wortel',
             'nama_latin' => 'Cucurbita pepo',
             'negara_asal' => 'Indonesia',
             'merk_dagang' => 'Labu Siam',
@@ -455,7 +455,7 @@ class RegisterIzinedarPsatpdukSeeder extends Seeder
 
             'jenis_psat' => $jenispsat2?->id,
 
-            'nama_komoditas' => 'Kentang',
+            'nama_komoditas' => 'Wortel',
             'nama_latin' => 'Solanum tuberosum',
             'negara_asal' => 'Indonesia',
             'merk_dagang' => 'Kentang Merah',
@@ -501,7 +501,7 @@ class RegisterIzinedarPsatpdukSeeder extends Seeder
 
             'jenis_psat' => $jenispsat2?->id,
 
-            'nama_komoditas' => 'Kubis',
+            'nama_komoditas' => 'Wortel',
             'nama_latin' => 'Brassica oleracea',
             'negara_asal' => 'Indonesia',
             'merk_dagang' => 'Kubis Putih',
@@ -547,7 +547,7 @@ class RegisterIzinedarPsatpdukSeeder extends Seeder
 
             'jenis_psat' => $jenispsat2?->id,
 
-            'nama_komoditas' => 'Tomat',
+            'nama_komoditas' => 'Wortel',
             'nama_latin' => 'Solanum lycopersicum',
             'negara_asal' => 'Indonesia',
             'merk_dagang' => 'Tomat Cherry',
@@ -593,7 +593,7 @@ class RegisterIzinedarPsatpdukSeeder extends Seeder
 
             'jenis_psat' => $jenispsat2?->id,
 
-            'nama_komoditas' => 'Bawang Putih',
+            'nama_komoditas' => 'Wortel',
             'nama_latin' => 'Allium sativum',
             'negara_asal' => 'Indonesia',
             'merk_dagang' => 'Bawang Putih Lokal',

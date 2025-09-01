@@ -125,7 +125,7 @@ class RegisterIzinedarPsatplSeeder extends Seeder
             'business_id' => $business->id,
             'status' => 'DIAJUKAN',
             'is_enabled' => true,
-            'nomor_sppb' => 'REG-SPPB-KEWENANGAN-002',
+            'nomor_sppb' => 'REG-SPPB-KMSN-002',
             'nomor_izinedar_pl' => 'REG-IZINPL-KEWENANGAN-002',
 
             // Unit usaha data
@@ -139,10 +139,10 @@ class RegisterIzinedarPsatplSeeder extends Seeder
 
             'jenis_psat' => $jenispsat1?->id,
 
-            'nama_komoditas' => 'Mangga',
-            'nama_latin' => 'Mangifera indica',
+            'nama_komoditas' => 'Kentang',
+            'nama_latin' => 'Solanum tuberosum',
             'negara_asal' => 'Indonesia',
-            'merk_dagang' => 'Mangga Manalagi',
+            'merk_dagang' => 'Kentang Garut',
             'jenis_kemasan' => 'Karton',
             'ukuran_berat' => '10 kg per karton',
             'klaim' => 'Segar Manis, Kualitas Premium',
@@ -171,7 +171,7 @@ class RegisterIzinedarPsatplSeeder extends Seeder
             'business_id' => $business->id,
             'status' => 'DISETUJUI',
             'is_enabled' => true,
-            'nomor_sppb' => 'REG-SPPB-MNG-003',
+            'nomor_sppb' => 'REG-SPPB-MNG-023',
             'nomor_izinedar_pl' => 'REG-IZINPL-MNG-003',
 
             // Unit usaha data
@@ -217,7 +217,7 @@ class RegisterIzinedarPsatplSeeder extends Seeder
             'business_id' => $business->id,
             'status' => 'DIAJUKAN',
             'is_enabled' => true,
-            'nomor_sppb' => 'REG-SPPB-PSN-004',
+            'nomor_sppb' => 'REG-SPPB-PSN-014',
             'nomor_izinedar_pl' => 'REG-IZINPL-PSN-004',
 
             // Unit usaha data
@@ -263,7 +263,7 @@ class RegisterIzinedarPsatplSeeder extends Seeder
             'business_id' => $business->id,
             'status' => 'DISETUJUI',
             'is_enabled' => true,
-            'nomor_sppb' => 'REG-SPPB-SMG-005',
+            'nomor_sppb' => 'REG-SPPB-SMG-013',
             'nomor_izinedar_pl' => 'REG-IZINPL-SMG-005',
 
             // Unit usaha data
@@ -309,7 +309,7 @@ class RegisterIzinedarPsatplSeeder extends Seeder
             'business_id' => $business->id,
             'status' => 'DIAJUKAN',
             'is_enabled' => true,
-            'nomor_sppb' => 'REG-SPPB-JRK-006',
+            'nomor_sppb' => 'REG-SPPB-JRK-022',
             'nomor_izinedar_pl' => 'REG-IZINPL-JRK-006',
 
             // Unit usaha data
@@ -355,7 +355,7 @@ class RegisterIzinedarPsatplSeeder extends Seeder
             'business_id' => $business->id,
             'status' => 'DISETUJUI',
             'is_enabled' => true,
-            'nomor_sppb' => 'REG-SPPB-ALP-007',
+            'nomor_sppb' => 'REG-SPPB-ALP-021',
             'nomor_izinedar_pl' => 'REG-IZINPL-ALP-007',
 
             // Unit usaha data
@@ -401,7 +401,7 @@ class RegisterIzinedarPsatplSeeder extends Seeder
             'business_id' => $business->id,
             'status' => 'DIAJUKAN',
             'is_enabled' => true,
-            'nomor_sppb' => 'REG-SPPB-DRN-008',
+            'nomor_sppb' => 'REG-SPPB-DNGN-001',
             'nomor_izinedar_pl' => 'REG-IZINPL-DRN-008',
 
             // Unit usaha data
@@ -415,10 +415,10 @@ class RegisterIzinedarPsatplSeeder extends Seeder
 
             'jenis_psat' => $jenispsat1?->id,
 
-            'nama_komoditas' => 'Durian',
-            'nama_latin' => 'Durio zibethinus',
-            'negara_asal' => 'Indonesia',
-            'merk_dagang' => 'Durian Monthong',
+            'nama_komoditas' => 'Melon',
+            'nama_latin' => 'Cucumis melo',
+            'negara_asal' => 'India',
+            'merk_dagang' => 'Melon Sweet',
             'jenis_kemasan' => 'Kardus',
             'ukuran_berat' => '3 kg per kardus',
             'klaim' => 'Raja Buah, Kualitas Super',
@@ -447,7 +447,7 @@ class RegisterIzinedarPsatplSeeder extends Seeder
             'business_id' => $business->id,
             'status' => 'DISETUJUI',
             'is_enabled' => true,
-            'nomor_sppb' => 'REG-SPPB-NNS-009',
+            'nomor_sppb' => 'REG-SPPB-DNGN-001',
             'nomor_izinedar_pl' => 'REG-IZINPL-NNS-009',
 
             // Unit usaha data
@@ -461,10 +461,10 @@ class RegisterIzinedarPsatplSeeder extends Seeder
 
             'jenis_psat' => $jenispsat1?->id,
 
-            'nama_komoditas' => 'Nanas',
-            'nama_latin' => 'Ananas comosus',
-            'negara_asal' => 'Indonesia',
-            'merk_dagang' => 'Nanas Madu',
+            'nama_komoditas' => 'Melon',
+            'nama_latin' => 'Cucumis melo',
+            'negara_asal' => 'India',
+            'merk_dagang' => 'Melon Sweet',
             'jenis_kemasan' => 'Karton',
             'ukuran_berat' => '8 kg per karton',
             'klaim' => 'Pangan Lokal, Berkualitas Export',
@@ -493,7 +493,7 @@ class RegisterIzinedarPsatplSeeder extends Seeder
             'business_id' => $business->id,
             'status' => 'DIAJUKAN',
             'is_enabled' => true,
-            'nomor_sppb' => 'REG-SPPB-SLK-010',
+            'nomor_sppb' => 'REG-SPPB-DNGN-001',
             'nomor_izinedar_pl' => 'REG-IZINPL-SLK-010',
 
             // Unit usaha data
@@ -507,10 +507,10 @@ class RegisterIzinedarPsatplSeeder extends Seeder
 
             'jenis_psat' => $jenispsat1?->id,
 
-            'nama_komoditas' => 'Salak',
-            'nama_latin' => 'Salacca zalacca',
-            'negara_asal' => 'Indonesia',
-            'merk_dagang' => 'Salak Pondoh',
+            'nama_komoditas' => 'Melon',
+            'nama_latin' => 'Cucumis melo',
+            'negara_asal' => 'India',
+            'merk_dagang' => 'Melon Sweet',
             'jenis_kemasan' => 'Pet',
             'ukuran_berat' => '1 kg per pet',
             'klaim' => 'Pangan Lokal, Berkualitas Export',
@@ -539,7 +539,7 @@ class RegisterIzinedarPsatplSeeder extends Seeder
             'business_id' => $business->id,
             'status' => 'DISETUJUI',
             'is_enabled' => true,
-            'nomor_sppb' => 'REG-SPPB-MKS-011',
+            'nomor_sppb' => 'REG-SPPB-DNGN-001',
             'nomor_izinedar_pl' => 'REG-IZINPL-MKS-011',
 
             // Unit usaha data
@@ -553,10 +553,10 @@ class RegisterIzinedarPsatplSeeder extends Seeder
 
             'jenis_psat' => $jenispsat1?->id,
 
-            'nama_komoditas' => 'Markisa',
-            'nama_latin' => 'Passiflora edulis',
-            'negara_asal' => 'Indonesia',
-            'merk_dagang' => 'Markisa Kuning',
+            'nama_komoditas' => 'Melon',
+            'nama_latin' => 'Cucumis melo',
+            'negara_asal' => 'India',
+            'merk_dagang' => 'Melon Sweet',
             'jenis_kemasan' => 'Kardus',
             'ukuran_berat' => '12 kg per kardus',
             'klaim' => 'Pangan Lokal, Berkualitas Export',
@@ -585,7 +585,7 @@ class RegisterIzinedarPsatplSeeder extends Seeder
             'business_id' => $business->id,
             'status' => 'DIAJUKAN',
             'is_enabled' => true,
-            'nomor_sppb' => 'REG-SPPB-RBT-012',
+            'nomor_sppb' => 'REG-SPPB-DNGN-001',
             'nomor_izinedar_pl' => 'REG-IZINPL-RBT-012',
 
             // Unit usaha data
@@ -599,10 +599,10 @@ class RegisterIzinedarPsatplSeeder extends Seeder
 
             'jenis_psat' => $jenispsat1?->id,
 
-            'nama_komoditas' => 'Rambutan',
-            'nama_latin' => 'Nephelium lappaceum',
-            'negara_asal' => 'Indonesia',
-            'merk_dagang' => 'Rambutan Rapiah',
+            'nama_komoditas' => 'Melon',
+            'nama_latin' => 'Cucumis melo',
+            'negara_asal' => 'India',
+            'merk_dagang' => 'Melon Sweet',
             'jenis_kemasan' => 'Kardus',
             'ukuran_berat' => '6 kg per kardus',
             'klaim' => 'Pangan Lokal, Berkualitas Export',

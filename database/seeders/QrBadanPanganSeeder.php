@@ -36,6 +36,17 @@ class QrBadanPanganSeeder extends Seeder
         $sppb = DB::table('register_sppb')->first();
         $sppb1 = DB::table('register_sppb')->where('nomor_registrasi', 'REG-SPPB-DNGN-001')->first();
         $sppb2 = DB::table('register_sppb')->where('nomor_registrasi', 'REG-SPPB-KMSN-002')->first();
+        $sppbSemangka = DB::table('register_sppb')->where('nomor_registrasi', 'REG-SPPB-SMG-013')->first();
+        $sppbPisang = DB::table('register_sppb')->where('nomor_registrasi', 'REG-SPPB-PSN-014')->first();
+        $sppbWortel = DB::table('register_sppb')->where('nomor_registrasi', 'REG-SPPB-WRT-015')->first();
+        $sppbKubis = DB::table('register_sppb')->where('nomor_registrasi', 'REG-SPPB-KBS-016')->first();
+        $sppbTomat = DB::table('register_sppb')->where('nomor_registrasi', 'REG-SPPB-TMT-017')->first();
+        $sppbBawang = DB::table('register_sppb')->where('nomor_registrasi', 'REG-SPPB-BWM-018')->first();
+        $sppbLabu = DB::table('register_sppb')->where('nomor_registrasi', 'REG-SPPB-LBU-019')->first();
+        $sppbKacang = DB::table('register_sppb')->where('nomor_registrasi', 'REG-SPPB-KCG-020')->first();
+        $sppbAlpukat = DB::table('register_sppb')->where('nomor_registrasi', 'REG-SPPB-ALP-021')->first();
+        $sppbJeruk = DB::table('register_sppb')->where('nomor_registrasi', 'REG-SPPB-JRK-022')->first();
+        $sppbMangga = DB::table('register_sppb')->where('nomor_registrasi', 'REG-SPPB-MNG-023')->first();
         $izinedarPsatpl = DB::table('register_izinedar_psatpl')->first();
         $izinedarPsatpd = DB::table('register_izinedar_psatpd')->first();
         $izinedarPsatpduk = DB::table('register_izinedar_psatpduk')->first();
@@ -215,7 +226,7 @@ class QrBadanPanganSeeder extends Seeder
                 'nama_latin' => 'Musa paradisiaca',
                 'merk_dagang' => 'Pisang Ambon',
                 'jenis_psat' => $jenispsat1 ? $jenispsat1->id : null,
-                'referensi_sppb' => $sppb1 ? $sppb1->id : null,
+                'referensi_sppb' => $sppbPisang ? $sppbPisang->id : null,
                 'referensi_izinedar_psatpl' => $izinedarPsatpl ? $izinedarPsatpl->id : null,
                 'referensi_izinedar_psatpd' => null,
                 'referensi_izinedar_psatpduk' => null,
@@ -285,7 +296,7 @@ class QrBadanPanganSeeder extends Seeder
                 'nama_latin' => 'Persea americana',
                 'merk_dagang' => 'Alpukat Hass',
                 'jenis_psat' => $jenispsat1 ? $jenispsat1->id : null,
-                'referensi_sppb' => $sppb2 ? $sppb2->id : null,
+                'referensi_sppb' => $sppbAlpukat ? $sppbAlpukat->id : null,
                 'referensi_izinedar_psatpl' => null,
                 'referensi_izinedar_psatpd' => $izinedarPsatpd ? $izinedarPsatpd->id : null,
                 'referensi_izinedar_psatpduk' => null,
@@ -355,7 +366,7 @@ class QrBadanPanganSeeder extends Seeder
                 'nama_latin' => 'Citrullus lanatus',
                 'merk_dagang' => 'Semangka Merah',
                 'jenis_psat' => $jenispsat1 ? $jenispsat1->id : null,
-                'referensi_sppb' => $sppb1 ? $sppb1->id : null,
+                'referensi_sppb' => $sppbSemangka ? $sppbSemangka->id : null,
                 'referensi_izinedar_psatpl' => $izinedarPsatpl ? $izinedarPsatpl->id : null,
                 'referensi_izinedar_psatpd' => null,
                 'referensi_izinedar_psatpduk' => null,
@@ -425,7 +436,7 @@ class QrBadanPanganSeeder extends Seeder
                 'nama_latin' => 'Mangifera indica',
                 'merk_dagang' => 'Mangga Manalagi',
                 'jenis_psat' => $jenispsat1 ? $jenispsat1->id : null,
-                'referensi_sppb' => $sppb2 ? $sppb2->id : null,
+                'referensi_sppb' => $sppbMangga ? $sppbMangga->id : null,
                 'referensi_izinedar_psatpl' => null,
                 'referensi_izinedar_psatpd' => $izinedarPsatpd ? $izinedarPsatpd->id : null,
                 'referensi_izinedar_psatpduk' => null,
@@ -495,7 +506,7 @@ class QrBadanPanganSeeder extends Seeder
                 'nama_latin' => 'Citrus sinensis',
                 'merk_dagang' => 'Jeruk Bali',
                 'jenis_psat' => $jenispsat1 ? $jenispsat1->id : null,
-                'referensi_sppb' => $sppb1 ? $sppb1->id : null,
+                'referensi_sppb' => $sppbJeruk ? $sppbJeruk->id : null,
                 'referensi_izinedar_psatpl' => $izinedarPsatpl ? $izinedarPsatpl->id : null,
                 'referensi_izinedar_psatpd' => null,
                 'referensi_izinedar_psatpduk' => null,

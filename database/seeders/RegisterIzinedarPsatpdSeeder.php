@@ -184,7 +184,7 @@ class RegisterIzinedarPsatpdSeeder extends Seeder
             'business_id' => $business->id,
             'status' => 'DIAJUKAN',
             'is_enabled' => true,
-            'nomor_sppb' => 'SPPB-PI-003',
+            'nomor_sppb' => 'REG-SPPB-KMSN-002',
             'nomor_izinedar_pd' => 'REG-IZINPD-KNTNG-003',
 
             // Unit usaha data
@@ -198,10 +198,10 @@ class RegisterIzinedarPsatpdSeeder extends Seeder
 
             'jenis_psat' => $jenispsat1?->id,
 
-            'nama_komoditas' => 'Pisang',
-            'nama_latin' => 'Musa paradisiaca',
+            'nama_komoditas' => 'Kentang',
+            'nama_latin' => 'Solanum tuberosum',
             'negara_asal' => 'Indonesia',
-            'merk_dagang' => 'Pisang Ambon',
+            'merk_dagang' => 'Kentang Garut',
             'jenis_kemasan' => 'Kardus',
             'ukuran_berat' => '15 kg per kardus',
             'klaim' => 'Pangan Lokal, Berkualitas Export',
@@ -230,7 +230,7 @@ class RegisterIzinedarPsatpdSeeder extends Seeder
             'business_id' => $business->id,
             'status' => 'DISETUJUI',
             'is_enabled' => true,
-            'nomor_sppb' => 'SPPB-SM-004',
+            'nomor_sppb' => 'REG-SPPB-KMSN-004',
             'nomor_izinedar_pd' => 'REG-IZINPDUK-004',
 
             // Unit usaha data
@@ -244,10 +244,10 @@ class RegisterIzinedarPsatpdSeeder extends Seeder
 
             'jenis_psat' => $jenispsat1?->id,
 
-            'nama_komoditas' => 'Semangka',
-            'nama_latin' => 'Citrullus lanatus',
+            'nama_komoditas' => 'Kentang',
+            'nama_latin' => 'Solanum tuberosum',
             'negara_asal' => 'Indonesia',
-            'merk_dagang' => 'Semangka Merah',
+            'merk_dagang' => 'Kentang Garut',
             'jenis_kemasan' => 'Karton',
             'ukuran_berat' => '10 kg per karton',
             'klaim' => 'Pangan Lokal, Berkualitas Export',
@@ -276,7 +276,7 @@ class RegisterIzinedarPsatpdSeeder extends Seeder
             'business_id' => $business->id,
             'status' => 'DIAJUKAN',
             'is_enabled' => true,
-            'nomor_sppb' => 'SPPB-AL-005',
+            'nomor_sppb' => 'REG-SPPB-KMSN-006',
             'nomor_izinedar_pd' => 'REG-IZINPD-KNTNG-005',
 
             // Unit usaha data
@@ -290,10 +290,10 @@ class RegisterIzinedarPsatpdSeeder extends Seeder
 
             'jenis_psat' => $jenispsat1?->id,
 
-            'nama_komoditas' => 'Alpukat',
-            'nama_latin' => 'Persea americana',
+            'nama_komoditas' => 'Kentang',
+            'nama_latin' => 'Solanum tuberosum',
             'negara_asal' => 'Indonesia',
-            'merk_dagang' => 'Alpukat Hass',
+            'merk_dagang' => 'Kentang Garut',
             'jenis_kemasan' => 'Sakel',
             'ukuran_berat' => '5 kg per sakel',
             'klaim' => 'Pangan Lokal, Berkualitas Export',
@@ -322,7 +322,7 @@ class RegisterIzinedarPsatpdSeeder extends Seeder
             'business_id' => $business->id,
             'status' => 'DISETUJUI',
             'is_enabled' => true,
-            'nomor_sppb' => 'SPPB-TM-006',
+            'nomor_sppb' => 'REG-SPPB-KMSN-008',
             'nomor_izinedar_pd' => 'REG-IZINPDUK-006',
 
             // Unit usaha data
@@ -336,10 +336,10 @@ class RegisterIzinedarPsatpdSeeder extends Seeder
 
             'jenis_psat' => $jenispsat2?->id,
 
-            'nama_komoditas' => 'Tomat',
-            'nama_latin' => 'Solanum lycopersicum',
+            'nama_komoditas' => 'Kentang',
+            'nama_latin' => 'Solanum tuberosum',
             'negara_asal' => 'Indonesia',
-            'merk_dagang' => 'Tomat Rajawali',
+            'merk_dagang' => 'Kentang Garut',
             'jenis_kemasan' => 'Pet',
             'ukuran_berat' => '1 kg per pet',
             'klaim' => 'Pangan Lokal, Berkualitas Export',
@@ -368,7 +368,7 @@ class RegisterIzinedarPsatpdSeeder extends Seeder
             'business_id' => $business->id,
             'status' => 'DIAJUKAN',
             'is_enabled' => true,
-            'nomor_sppb' => 'SPPB-MG-007',
+            'nomor_sppb' => 'REG-SPPB-KMSN-010',
             'nomor_izinedar_pd' => 'REG-IZINPD-KNTNG-007',
 
             // Unit usaha data
@@ -382,10 +382,10 @@ class RegisterIzinedarPsatpdSeeder extends Seeder
 
             'jenis_psat' => $jenispsat1?->id,
 
-            'nama_komoditas' => 'Mangga',
-            'nama_latin' => 'Mangifera indica',
+            'nama_komoditas' => 'Kentang',
+            'nama_latin' => 'Solanum tuberosum',
             'negara_asal' => 'Indonesia',
-            'merk_dagang' => 'Mangga Manalagi',
+            'merk_dagang' => 'Kentang Garut',
             'jenis_kemasan' => 'Kardus',
             'ukuran_berat' => '8 kg per kardus',
             'klaim' => 'Pangan Lokal, Berkualitas Export',
@@ -414,7 +414,7 @@ class RegisterIzinedarPsatpdSeeder extends Seeder
             'business_id' => $business->id,
             'status' => 'DISETUJUI',
             'is_enabled' => true,
-            'nomor_sppb' => 'SPPB-KB-008',
+            'nomor_sppb' => 'REG-SPPB-KMSN-012',
             'nomor_izinedar_pd' => 'REG-IZINPDUK-008',
 
             // Unit usaha data
@@ -428,10 +428,10 @@ class RegisterIzinedarPsatpdSeeder extends Seeder
 
             'jenis_psat' => $jenispsat2?->id,
 
-            'nama_komoditas' => 'Kubis',
-            'nama_latin' => 'Brassica oleracea',
+            'nama_komoditas' => 'Kentang',
+            'nama_latin' => 'Solanum tuberosum',
             'negara_asal' => 'Indonesia',
-            'merk_dagang' => 'Kubis Segar',
+            'merk_dagang' => 'Kentang Garut',
             'jenis_kemasan' => 'Kardus',
             'ukuran_berat' => '12 kg per kardus',
             'klaim' => 'Pangan Lokal, Berkualitas Export',
@@ -460,7 +460,7 @@ class RegisterIzinedarPsatpdSeeder extends Seeder
             'business_id' => $business->id,
             'status' => 'DIAJUKAN',
             'is_enabled' => true,
-            'nomor_sppb' => 'SPPB-JR-009',
+            'nomor_sppb' => 'REG-SPPB-KMSN-002',
             'nomor_izinedar_pd' => 'REG-IZINPD-KNTNG-009',
 
             // Unit usaha data
@@ -474,10 +474,10 @@ class RegisterIzinedarPsatpdSeeder extends Seeder
 
             'jenis_psat' => $jenispsat1?->id,
 
-            'nama_komoditas' => 'Jeruk',
-            'nama_latin' => 'Citrus sinensis',
+            'nama_komoditas' => 'Kentang',
+            'nama_latin' => 'Solanum tuberosum',
             'negara_asal' => 'Indonesia',
-            'merk_dagang' => 'Jeruk Bali',
+            'merk_dagang' => 'Kentang Garut',
             'jenis_kemasan' => 'Karton',
             'ukuran_berat' => '20 kg per karton',
             'klaim' => 'Pangan Lokal, Berkualitas Export',
@@ -520,7 +520,7 @@ class RegisterIzinedarPsatpdSeeder extends Seeder
 
             'jenis_psat' => $jenispsat2?->id,
 
-            'nama_komoditas' => 'Labu',
+            'nama_komoditas' => 'Kentang',
             'nama_latin' => 'Cucurbita pepo',
             'negara_asal' => 'Indonesia',
             'merk_dagang' => 'Labu Siam',
@@ -566,7 +566,7 @@ class RegisterIzinedarPsatpdSeeder extends Seeder
 
             'jenis_psat' => $jenispsat2?->id,
 
-            'nama_komoditas' => 'Kacang Panjang',
+            'nama_komoditas' => 'Kentang',
             'nama_latin' => 'Vigna unguiculata',
             'negara_asal' => 'Indonesia',
             'merk_dagang' => 'Kacang Panjang Hijau',
@@ -612,7 +612,7 @@ class RegisterIzinedarPsatpdSeeder extends Seeder
 
             'jenis_psat' => $jenispsat2?->id,
 
-            'nama_komoditas' => 'Bawang Merah',
+            'nama_komoditas' => 'Kentang',
             'nama_latin' => 'Allium cepa',
             'negara_asal' => 'Indonesia',
             'merk_dagang' => 'Bawang Merah Bali',
