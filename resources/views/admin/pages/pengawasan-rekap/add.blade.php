@@ -279,7 +279,7 @@
 
     </div>
 
-    @push('js')
+    @push('scripts')
     <script>
         // Global variables for managing state
         let currentPage = 1;
@@ -441,13 +441,11 @@
             $.each(data, function(index, pengawasan) {
                 tbody += '<tr>';
                 tbody += '<td><div class="form-check"><input class="form-check-input pengawasan-checkbox" type="checkbox" name="pengawasan_ids[]" value="' + pengawasan.id + '" id="pengawasan-' + pengawasan.id + '"><label class="form-check-label" for="pengawasan-' + pengawasan.id + '"></label></div></td>';
-                tbody += '<td>' + (pengawasan.initiator ? pengawasan.initiator.name : '-') + '</td>';
-                tbody += '<td>' + (pengawasan.jenisPsat ? pengawasan.jenisPsat.nama_jenis_pangan_segar : '-') + '</td>';
-                tbody += '<td>' + (pengawasan.produkPsat ? pengawasan.produkPsat.nama_bahan_pangan_segar : '-') + '</td>';
-                tbody += '<td>' + (pengawasan.lokasiProvinsi ? pengawasan.lokasiProvinsi.nama_provinsi : '-') + '</td>';
-                tbody += '<td>' + (pengawasan.lokasiKota ? pengawasan.lokasiKota.nama_kota : '-') + '</td>';
+                tbody += '<td>' + (pengawasan.jenis_psat ? pengawasan.jenis_psat.nama_jenis_pangan_segar : '-') + '</td>';
+                tbody += '<td>' + (pengawasan.produk_psat ? pengawasan.produk_psat.nama_bahan_pangan_segar : '-') + '</td>';
+                tbody += '<td>' + (pengawasan.lokasi_provinsi ? pengawasan.lokasi_provinsi.nama_provinsi : '-') + '</td>';
+                tbody += '<td>' + (pengawasan.lokasi_kota ? pengawasan.lokasi_kota.nama_kota : '-') + '</td>';
                 tbody += '<td>' + (pengawasan.tanggal_mulai ? new Date(pengawasan.tanggal_mulai).toLocaleDateString('id-ID') : '-') + '</td>';
-                tbody += '<td>' + (pengawasan.tanggal_selesai ? new Date(pengawasan.tanggal_selesai).toLocaleDateString('id-ID') : '-') + '</td>';
                 tbody += '<td><span class="badge bg-' + (pengawasan.status === 'SELESAI' ? 'success' : (pengawasan.status === 'PROSES' ? 'warning' : 'secondary')) + '">' + pengawasan.status + '</span></td>';
                 tbody += '</tr>';
             });
@@ -552,7 +550,7 @@
         function updateSelectedCount() {
             var count = $('.pengawasan-checkbox:checked').length;
             $('#selected-count').text(count);
-            $('#add-selected-pengawusan').prop('disabled', count === 0);
+            $('#add-selected-pengawasan').prop('disabled', count === 0);
 
             // Update button text based on selection
             if (count > 0) {

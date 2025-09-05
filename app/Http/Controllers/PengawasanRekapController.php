@@ -477,19 +477,35 @@ class PengawasanRekapController extends Controller
      */
     public function getPengawasanData(Request $request)
     {
-        $keyword = $request->input('keyword');
-        $sortField = $request->input('sort_field', 'tanggal_mulai');
-        $sortOrder = $request->input('sort_order', 'desc');
-        $page = $request->input('page', 1);
-        $perPage = $request->input('per_page', 10); // Default 10 items per page for selection
+        try {
+            $keyword = $request->input('keyword');
+            $sortField = $request->input('sort_field', 'tanggal_mulai');
+            $sortOrder = $request->input('sort_order', 'desc');
+            $page = $request->input('page', 1);
+            $perPage = $request->input('per_page', 10); // Default 10 items per page for selection
 
-        // Get current authenticated user's petugas data
-        $currentPetugas = \App\Models\Petugas::where('user_id', Auth::id())->first();
-        $currentProvinsiId = null;
+            Log::info('getPengawasanData called', [
+                'keyword' => $keyword,
+                'sortField' => $sortField,
+                'sortOrder' => $sortOrder,
+                'page' => $page,
+                'perPage' => $perPage,
+                'user_id' => Auth::id()
+            ]);
 
-        if ($currentPetugas && $currentPetugas->penempatan) {
-            $currentProvinsiId = $currentPetugas->penempatan;
-        }
+            // Get current authenticated user's petugas data
+            $currentPetugas = \App\Models\Petugas::where('user_id', Auth::id())->first();
+            $currentProvinsiId = null;
+
+            if ($currentPetugas && $currentPetugas->penempatan) {
+                $currentProvinsiId = $currentPetugas->penempatan;
+            }
+
+            Log::info('User province info', [
+                'petugas_found' => $currentPetugas ? true : false,
+                'penempatan' => $currentPetugas ? $currentPetugas->penempatan : null,
+                'currentProvinsiId' => $currentProvinsiId
+            ]);
 
         // Use the same query structure as in PengawasanRepository::getAllPengawasan
         $query = \App\Models\Pengawasan::query()
@@ -554,6 +570,13 @@ class PengawasanRekapController extends Controller
         // Get paginated results
         $pengawasanList = $query->paginate($perPage, ['*'], 'page', $page);
 
+        Log::info('Query results', [
+            'total_results' => $pengawasanList->total(),
+            'current_page' => $pengawasanList->currentPage(),
+            'per_page' => $pengawasanList->perPage(),
+            'items_count' => count($pengawasanList->items())
+        ]);
+
         return response()->json([
             'success' => true,
             'data' => $pengawasanList->items(),
@@ -566,5 +589,16 @@ class PengawasanRekapController extends Controller
                 'to' => $pengawasanList->lastItem()
             ]
         ]);
+        } catch (\Exception $exception) {
+            Log::error('Error in getPengawasanData', [
+                'error' => $exception->getMessage(),
+                'trace' => $exception->getTraceAsString()
+            ]);
+
+            return response()->json([
+                'success' => false,
+                'message' => 'Terjadi kesalahan saat memuat data pengawasan: ' . $exception->getMessage()
+            ], 500);
+        }
     }
 }
