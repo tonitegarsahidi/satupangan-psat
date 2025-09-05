@@ -21,26 +21,7 @@
                         <form method="POST" action="{{ route('pengawasan-rekap.store') }}" enctype="multipart/form-data">
                             @csrf
 
-                            {{-- PROVINSI FIELD --}}
-                            <div class="row mb-3">
-                                <label class="col-sm-2 col-form-label" for="provinsi_id">Provinsi</label>
-                                <div class="col-sm-10">
-                                    {{-- form validation error --}}
-                                    @include('admin.components.notification.error-validation', ['field' => 'provinsi_id'])
 
-                                    {{-- input form --}}
-                                    <select name="provinsi_id" class="form-select" id="provinsi_id" {{ !empty($provinsis->count() == 1) ? 'disabled' : '' }}>
-                                        @if ($provinsis->count() == 1)
-                                            <option value="{{ $provinsis->first()->id }}" selected>{{ $provinsis->first()->nama_provinsi }}</option>
-                                        @else
-                                            <option value="">-- Select Provinsi --</option>
-                                            @foreach ($provinsis ?? [] as $provinsi)
-                                                <option value="{{ $provinsi->id }}">{{ $provinsi->nama_provinsi }}</option>
-                                            @endforeach
-                                        @endif
-                                    </select>
-                                </div>
-                            </div>
 
                             {{-- MEMILIH DATA PENGAWASAN SECTION --}}
                             <div class="card mb-4" style="background-color: #fffef0; border: 1px solid #ffeaa7;">
@@ -127,6 +108,14 @@
                                                             </th>
                                                             <th>
                                                                 <a href="#" class="text-decoration-none sort-link" data-field="status">
+                                                                    Tanggal Selesai
+                                                                    <span class="sort-icon" id="sort-status" style="display:none;">
+                                                                        <i class="bx bx-sort-up"></i>
+                                                                    </span>
+                                                                </a>
+                                                            </th>
+                                                            <th>
+                                                                <a href="#" class="text-decoration-none sort-link" data-field="status">
                                                                     Status
                                                                     <span class="sort-icon" id="sort-status" style="display:none;">
                                                                         <i class="bx bx-sort-up"></i>
@@ -168,6 +157,27 @@
                                             </div>
                                         </div>
                                     </div>
+                                </div>
+                            </div>
+
+                            {{-- PROVINSI FIELD --}}
+                            <div class="row mb-3">
+                                <label class="col-sm-2 col-form-label" for="provinsi_id">Provinsi</label>
+                                <div class="col-sm-10">
+                                    {{-- form validation error --}}
+                                    @include('admin.components.notification.error-validation', ['field' => 'provinsi_id'])
+
+                                    {{-- input form --}}
+                                    <select name="provinsi_id" class="form-select" id="provinsi_id" {{ !empty($provinsis->count() == 1) ? 'disabled' : '' }}>
+                                        @if ($provinsis->count() == 1)
+                                            <option value="{{ $provinsis->first()->id }}" selected>{{ $provinsis->first()->nama_provinsi }}</option>
+                                        @else
+                                            <option value="">-- Select Provinsi --</option>
+                                            @foreach ($provinsis ?? [] as $provinsi)
+                                                <option value="{{ $provinsi->id }}">{{ $provinsi->nama_provinsi }}</option>
+                                            @endforeach
+                                        @endif
+                                    </select>
                                 </div>
                             </div>
 
@@ -446,6 +456,7 @@
                 tbody += '<td>' + (pengawasan.lokasi_provinsi ? pengawasan.lokasi_provinsi.nama_provinsi : '-') + '</td>';
                 tbody += '<td>' + (pengawasan.lokasi_kota ? pengawasan.lokasi_kota.nama_kota : '-') + '</td>';
                 tbody += '<td>' + (pengawasan.tanggal_mulai ? new Date(pengawasan.tanggal_mulai).toLocaleDateString('id-ID') : '-') + '</td>';
+                tbody += '<td>' + (pengawasan.tanggal_selesai ? new Date(pengawasan.tanggal_selesai).toLocaleDateString('id-ID') : '-') + '</td>';
                 tbody += '<td><span class="badge bg-' + (pengawasan.status === 'SELESAI' ? 'success' : (pengawasan.status === 'PROSES' ? 'warning' : 'secondary')) + '">' + pengawasan.status + '</span></td>';
                 tbody += '</tr>';
             });
