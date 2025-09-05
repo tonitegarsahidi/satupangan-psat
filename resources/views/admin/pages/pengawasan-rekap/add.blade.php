@@ -396,6 +396,7 @@
             // Handle add selected button
             $(document).on('click', '#add-selected-pengawasan', function() {
                 var selectedIds = [];
+                var selectedData = [];
                 $('.pengawasan-checkbox:checked').each(function() {
                     selectedIds.push($(this).val());
                 });
@@ -419,16 +420,20 @@
                         value: id
                     });
                     $('form').append(hiddenInput);
+                    // Simpan data terpilih ke variable
+                    var data = allPengawasanData.find(function(item) { return item.id == id; });
+                    if (data) selectedData.push(data);
                 });
 
-                console.log('Selected IDs to be added:', selectedIds); // Debug log
+                window.selectedPengawasanData = selectedData; // simpan global
+                console.log('Selected Data:', selectedData);
 
                 // Hide the selection section
                 $('#pengawasan-selection-section').hide();
 
                 // Show the selected data section and populate it
                 $('#selected-pengawasan-section').show();
-                populateSelectedPengawasanTable(selectedIds);
+                populateSelectedPengawasanTable(selectedData);
 
                 // Show success feedback
                 showFeedback('success', selectedIds.length + ' data pengawasan berhasil ditambahkan ke dalam rekap');
@@ -636,39 +641,25 @@
 
         // Populate selected pengawasan table
         function populateSelectedPengawasanTable(selectedIds) {
-            console.log('Populating selected pengawasan table with IDs:', selectedIds);
+            console.log('Populating selected pengawasan table with data:', selectedIds);
 
             if (!selectedIds.length) {
                 $('#selected-pengawasan-tbody').html('<tr><td colspan="8" class="text-center">Tidak ada data pengawasan yang dipilih</td></tr>');
                 return;
             }
 
-            // For now, we'll use a simple approach - get data from current table
             var tbody = '';
-            selectedIds.forEach(function(id) {
-                // Find the row in the current table
-                var row = $('#pengawasan-' + id).closest('tr');
-                if (row.length) {
-                    var cells = row.find('td');
-                    var jenisPsat = cells.eq(1).text();
-                    var produkPsat = cells.eq(2).text();
-                    var provinsi = cells.eq(3).text();
-                    var kota = cells.eq(4).text();
-                    var tanggalMulai = cells.eq(5).text();
-                    var tanggalSelesai = cells.eq(6).text();
-                    var statusBadge = cells.eq(7).html();
-
-                    tbody += '<tr>';
-                    tbody += '<td>' + jenisPsat + '</td>';
-                    tbody += '<td>' + produkPsat + '</td>';
-                    tbody += '<td>' + provinsi + '</td>';
-                    tbody += '<td>' + kota + '</td>';
-                    tbody += '<td>' + tanggalMulai + '</td>';
-                    tbody += '<td>' + tanggalSelesai + '</td>';
-                    tbody += '<td>' + statusBadge + '</td>';
-                    tbody += '<td><button type="button" class="btn btn-sm btn-danger" onclick="removePengawasan(' + id + ')"><i class="bx bx-trash"></i></button></td>';
-                    tbody += '</tr>';
-                }
+            selectedIds.forEach(function(data) {
+                tbody += '<tr>';
+                tbody += '<td>' + (data.jenis_psat && data.jenis_psat.nama_jenis_pangan_segar ? data.jenis_psat.nama_jenis_pangan_segar : '-') + '</td>';
+                tbody += '<td>' + (data.produk_psat && data.produk_psat.nama_bahan_pangan_segar ? data.produk_psat.nama_bahan_pangan_segar : '-') + '</td>';
+                tbody += '<td>' + (data.lokasi_provinsi && data.lokasi_provinsi.nama_provinsi ? data.lokasi_provinsi.nama_provinsi : '-') + '</td>';
+                tbody += '<td>' + (data.lokasi_kota && data.lokasi_kota.nama_kota ? data.lokasi_kota.nama_kota : '-') + '</td>';
+                tbody += '<td>' + (data.tanggal_mulai ? new Date(data.tanggal_mulai).toLocaleDateString('id-ID') : '-') + '</td>';
+                tbody += '<td>' + (data.tanggal_selesai ? new Date(data.tanggal_selesai).toLocaleDateString('id-ID') : '-') + '</td>';
+                tbody += '<td><span class="badge bg-' + (data.status === 'SELESAI' ? 'success' : (data.status === 'PROSES' ? 'warning' : 'secondary')) + '">' + data.status + '</span></td>';
+                tbody += '<td><button type="button" class="btn btn-sm btn-danger" onclick="removePengawasan(' + data.id + ')"><i class="bx bx-trash"></i></button></td>';
+                tbody += '</tr>';
             });
 
             $('#selected-pengawasan-tbody').html(tbody);
