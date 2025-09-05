@@ -309,6 +309,11 @@ class PengawasanRekapController extends Controller
 
             // Extract pengawasan IDs from the request
             $pengawasanIds = $request->input('pengawasan_ids', []);
+            Log::info('PengawasanRekap store - Received pengawasan_ids:', [
+                'count' => count($pengawasanIds),
+                'ids' => $pengawasanIds,
+                'user_id' => Auth::id()
+            ]);
 
             // Process file uploads
             $lampiranFields = ['lampiran1', 'lampiran2', 'lampiran3', 'lampiran4', 'lampiran5', 'lampiran6'];

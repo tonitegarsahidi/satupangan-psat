@@ -21,7 +21,7 @@
 
 
                             {{-- MEMILIH DATA PENGAWASAN SECTION --}}
-                            <div class="card mb-4" style="background-color: #fffef0; border: 1px solid #ffeaa7;">
+                            <div class="card mb-4" id="pengawasan-selection-section" style="background-color: #fffef0; border: 1px solid #ffeaa7;">
                                 <div class="card-header" style="background-color: #fffaf0;">
                                     <h5 class="mb-0">Memilih Data Pengawasan</h5>
                                     <p class="text-muted mb-0 small">Pilih data pengawasan yang akan digunakan untuk rekapitulasi</p>
@@ -159,6 +159,38 @@
 
                             <form method="POST" action="{{ route('pengawasan-rekap.store') }}" enctype="multipart/form-data">
                             @csrf
+
+                            {{-- DATA PENGAWASAN YANG DIPILIH SECTION --}}
+                            <div class="card mb-4" id="selected-pengawasan-section" style="background-color: #f8f9fa; border: 1px solid #dee2e6; display: none;">
+                                <div class="card-header" style="background-color: #e9ecef;">
+                                    <h5 class="mb-0">Data Pengawasan Yang Dipilih</h5>
+                                    <small class="text-muted">Data pengawasan yang telah dipilih untuk dikumpulkan dalam rekapitulasi ini</small>
+                                </div>
+                                <div class="card-body">
+                                    <div class="table-responsive">
+                                        <table class="table table-sm" id="selected-pengawasan-table">
+                                            <thead class="table-light">
+                                                <tr>
+                                                    <th>Jenis PSAT</th>
+                                                    <th>Produk PSAT</th>
+                                                    <th>Provinsi</th>
+                                                    <th>Kota</th>
+                                                    <th>Tanggal Mulai</th>
+                                                    <th>Tanggal Selesai</th>
+                                                    <th>Status</th>
+                                                    <th width="50">Aksi</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="selected-pengawasan-tbody">
+                                                <!-- Selected pengawasan data will be populated here -->
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <div id="selected-pengawasan-feedback" class="mt-2" style="display:none;">
+                                        <!-- Feedback messages will appear here -->
+                                    </div>
+                                </div>
+                            </div>
 
                             {{-- taruh section data terpilih ada disini, make sure mereka masuk ke sebuah hidden form yang juga akan ikut terkirim --}}
 
@@ -300,6 +332,7 @@
         let currentSortOrder = 'desc';
         let currentKeyword = '';
         let currentPerPage = 10;
+        let allPengawasanData = []; // Store all pengawusan data for selected table population
 
         $(document).ready(function() {
             // Load initial data
@@ -387,6 +420,15 @@
                     });
                     $('form').append(hiddenInput);
                 });
+
+                console.log('Selected IDs to be added:', selectedIds); // Debug log
+
+                // Hide the selection section
+                $('#pengawasan-selection-section').hide();
+
+                // Show the selected data section and populate it
+                $('#selected-pengawasan-section').show();
+                populateSelectedPengawasanTable(selectedIds);
 
                 // Show success feedback
                 showFeedback('success', selectedIds.length + ' data pengawasan berhasil ditambahkan ke dalam rekap');
@@ -588,6 +630,87 @@
             if (type === 'success') {
                 setTimeout(function() {
                     $('#selection-feedback .alert').fadeOut();
+                }, 5000);
+            }
+        }
+
+        // Populate selected pengawasan table
+        function populateSelectedPengawasanTable(selectedIds) {
+            console.log('Populating selected pengawasan table with IDs:', selectedIds);
+
+            if (!selectedIds.length) {
+                $('#selected-pengawasan-tbody').html('<tr><td colspan="8" class="text-center">Tidak ada data pengawasan yang dipilih</td></tr>');
+                return;
+            }
+
+            // For now, we'll use a simple approach - get data from current table
+            var tbody = '';
+            selectedIds.forEach(function(id) {
+                // Find the row in the current table
+                var row = $('#pengawasan-' + id).closest('tr');
+                if (row.length) {
+                    var cells = row.find('td');
+                    var jenisPsat = cells.eq(1).text();
+                    var produkPsat = cells.eq(2).text();
+                    var provinsi = cells.eq(3).text();
+                    var kota = cells.eq(4).text();
+                    var tanggalMulai = cells.eq(5).text();
+                    var tanggalSelesai = cells.eq(6).text();
+                    var statusBadge = cells.eq(7).html();
+
+                    tbody += '<tr>';
+                    tbody += '<td>' + jenisPsat + '</td>';
+                    tbody += '<td>' + produkPsat + '</td>';
+                    tbody += '<td>' + provinsi + '</td>';
+                    tbody += '<td>' + kota + '</td>';
+                    tbody += '<td>' + tanggalMulai + '</td>';
+                    tbody += '<td>' + tanggalSelesai + '</td>';
+                    tbody += '<td>' + statusBadge + '</td>';
+                    tbody += '<td><button type="button" class="btn btn-sm btn-danger" onclick="removePengawasan(' + id + ')"><i class="bx bx-trash"></i></button></td>';
+                    tbody += '</tr>';
+                }
+            });
+
+            $('#selected-pengawasan-tbody').html(tbody);
+        }
+
+        // Remove pengawasan from selection
+        function removePengawasan(id) {
+            console.log('Removing pengawasan ID:', id);
+
+            // Remove from hidden inputs
+            $('input[name="pengawasan_ids[]"][value="' + id + '"]').remove();
+
+            // Remove from table
+            $('#selected-pengawasan-tbody').find('tr').each(function() {
+                // Assuming we can identify the row by some means
+                // For now, remove all and repopulate
+            });
+
+            // If no more selected, hide section and show original
+            var remainingInput = $('input[name="pengawasan_ids[]"]').first();
+            if (!remainingInput.length) {
+                $('#selected-pengawasan-section').hide();
+                $('#pengawasan-selection-section').show();
+                window.location.reload();
+            }
+
+            showSelectedFeedback('success', 'Data pengawasan berhasil dihapus dari rekap');
+        }
+
+        // Show feedback in selected section
+        function showSelectedFeedback(type, message) {
+            var alertClass = type === 'success' ? 'alert-success' : 'alert-danger';
+            var feedbackHtml = '<div class="alert ' + alertClass + ' alert-dismissible fade show" role="alert">' +
+                message +
+                '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>' +
+                '</div>';
+
+            $('#selected-pengawasan-feedback').html(feedbackHtml).show();
+
+            if (type === 'success') {
+                setTimeout(function() {
+                    $('#selected-pengawasan-feedback .alert').fadeOut();
                 }, 5000);
             }
         }

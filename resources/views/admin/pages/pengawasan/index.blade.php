@@ -115,6 +115,17 @@
                             <th>
                                 <a
                                     href="{{ route('pengawasan.index', [
+                                        'sort_field' => 'status',
+                                        'sort_order' => $sortOrder == 'asc' ? 'desc' : 'asc',
+                                        'keyword' => $keyword,
+                                    ]) }}">
+                                    Status
+                                    @include('components.arrow-sort', ['field' => 'status', 'sortField' => $sortField, 'sortOrder' => $sortOrder])
+                                </a>
+                            </th>
+                            <th>
+                                <a
+                                    href="{{ route('pengawasan.index', [
                                         'sort_field' => 'updated_at',
                                         'sort_order' => $sortOrder == 'asc' ? 'desc' : 'asc',
                                         'keyword' => $keyword,
@@ -173,6 +184,15 @@
                                     @else
                                         -
                                     @endif
+                                </td>
+                                <td>
+                                    @php
+                                        $statusClass = $pengawasan->status === 'SELESAI' ? 'success' : ($pengawasan->status === 'PROSES' ? 'warning' : 'secondary');
+                                    @endphp
+                                    <span class="badge bg-{{ $statusClass }}">
+                                        {{ $pengawasan->status }}
+
+                                    </span>
                                 </td>
                                 <td>{{ \Carbon\Carbon::parse($pengawasan->updated_at)->format('d/m/Y') }}</td>
 
