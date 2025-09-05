@@ -401,6 +401,9 @@
                     selectedIds.push($(this).val());
                 });
 
+                console.log('allPengawasanData:', allPengawasanData);
+                console.log('selectedIds:', selectedIds);
+
                 if (selectedIds.length === 0) {
                     showFeedback('danger', 'Silakan pilih minimal satu data pengawasan');
                     return;
@@ -421,8 +424,12 @@
                     });
                     $('form').append(hiddenInput);
                     // Simpan data terpilih ke variable
-                    var data = allPengawasanData.find(function(item) { return item.id == id; });
-                    if (data) selectedData.push(data);
+                    var data = allPengawasanData.find(function(item) { return String(item.id) === String(id); });
+                    if (data) {
+                        selectedData.push(data);
+                    } else {
+                        console.warn('Data not found for id:', id);
+                    }
                 });
 
                 window.selectedPengawasanData = selectedData; // simpan global
@@ -443,10 +450,7 @@
                 $('#select-all-pengawasan').prop('checked', false);
                 updateSelectedCount();
 
-                // Optionally reload data to reflect changes
-                setTimeout(function() {
-                    loadPengawasanData();
-                }, 1000);
+                // Jangan reload data agar allPengawasanData tetap ada
             });
 
             // Clear keyword on Enter in search field
@@ -475,6 +479,8 @@
                 },
                 success: function(response) {
                     if (response.success) {
+                        allPengawasanData = response.data; // Simpan data AJAX ke variable global
+                        console.log('AJAX response.data:', response.data);
                         renderPengawasanTable(response.data);
                         renderPagination(response.pagination);
                     } else {
