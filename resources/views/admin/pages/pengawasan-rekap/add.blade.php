@@ -312,10 +312,11 @@
 
                             <div class="row justify-content-end">
                                 <div class="col-sm-10">
-                                    <button type="submit" class="btn btn-primary">Kirim</button>
+                                    <button type="submit" class="btn btn-primary" id="submit-btn">Kirim</button>
                                 </div>
                             </div>
                         </form>
+
                     </div>
                 </div>
             </div>
@@ -335,6 +336,7 @@
         let allPengawasanData = []; // Store all pengawusan data for selected table population
 
         $(document).ready(function() {
+
             // Load initial data
             loadPengawasanData();
 

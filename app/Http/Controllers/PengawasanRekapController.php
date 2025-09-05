@@ -158,6 +158,14 @@ class PengawasanRekapController extends Controller
             // Get current authenticated user ID
             $userId = Auth::id();
 
+            // Set default values
+            if (!isset($validatedData['user_id_admin']) || empty($validatedData['user_id_admin'])) {
+                $validatedData['user_id_admin'] = $userId;
+            }
+            if (!isset($validatedData['pic_tindakan_id'])) {
+                $validatedData['pic_tindakan_id'] = null;
+            }
+
             // Add created_by and updated_by with current user ID
             $validatedData['created_by'] = $userId;
             $validatedData['updated_by'] = $userId;
