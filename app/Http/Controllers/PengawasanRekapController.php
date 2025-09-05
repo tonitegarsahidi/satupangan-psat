@@ -155,6 +155,14 @@ class PengawasanRekapController extends Controller
         try {
             $validatedData = $request->validated();
 
+            Log::info('PengawasanRekap store - Initial validatedData:', [
+                'validatedData' => $validatedData,
+                'request_all' => $request->all(),
+                'has_provinsi_id' => $request->has('provinsi_id'),
+                'provinsi_id_value' => $request->input('provinsi_id'),
+                'user_id' => Auth::id()
+            ]);
+
             // Get current authenticated user ID
             $userId = Auth::id();
 
@@ -188,6 +196,12 @@ class PengawasanRekapController extends Controller
 
             // Add pengawasan IDs to the data
             $validatedData['pengawasan_ids'] = $pengawasanIds;
+
+            Log::info('PengawasanRekap store - Final data to save:', [
+                'validatedData' => $validatedData,
+                'pengawasanIds' => $pengawasanIds,
+                'user_id' => Auth::id()
+            ]);
 
             $result = $this->pengawasanRekapService->addNewRekap($validatedData);
 

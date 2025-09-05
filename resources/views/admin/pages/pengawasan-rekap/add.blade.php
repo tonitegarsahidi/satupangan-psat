@@ -203,16 +203,19 @@
                                     @include('admin.components.notification.error-validation', ['field' => 'provinsi_id'])
 
                                     {{-- input form --}}
-                                    <select name="provinsi_id" class="form-select" id="provinsi_id" {{ !empty($provinsis->count() == 1) ? 'disabled' : '' }}>
-                                        @if ($provinsis->count() == 1)
-                                            <option value="{{ $provinsis->first()->id }}" selected>{{ $provinsis->first()->nama_provinsi }}</option>
-                                        @else
+                                    @if ($provinsis->count() == 1)
+                                        {{-- Single province: show as read-only but still submit --}}
+                                        <input type="text" class="form-control" value="{{ $provinsis->first()->nama_provinsi }}" readonly>
+                                        <input type="hidden" name="provinsi_id" value="{{ $provinsis->first()->id }}">
+                                    @else
+                                        {{-- Multiple provinces: show select --}}
+                                        <select name="provinsi_id" class="form-select" id="provinsi_id">
                                             <option value="">-- Select Provinsi --</option>
                                             @foreach ($provinsis ?? [] as $provinsi)
                                                 <option value="{{ $provinsi->id }}">{{ $provinsi->nama_provinsi }}</option>
                                             @endforeach
-                                        @endif
-                                    </select>
+                                        </select>
+                                    @endif
                                 </div>
                             </div>
 
