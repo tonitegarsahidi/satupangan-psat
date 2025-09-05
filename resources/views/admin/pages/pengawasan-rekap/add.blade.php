@@ -18,9 +18,6 @@
                     </div>
                     <div class="card-body">
 
-                        <form method="POST" action="{{ route('pengawasan-rekap.store') }}" enctype="multipart/form-data">
-                            @csrf
-
 
 
                             {{-- MEMILIH DATA PENGAWASAN SECTION --}}
@@ -146,7 +143,7 @@
                                             </div>
 
                                             <div class="mt-3">
-                                                <button type="button" class="btn btn-success" id="add-selected-pengawasan" disabled>
+                                                <button type="button" class="btn btn-primary"  id="add-selected-pengawasan" disabled>
                                                     <i class="bx bx-plus me-1"></i> Tambahkan (<span id="selected-count">0</span>)
                                                 </button>
                                                 <div class="mt-2">
@@ -159,6 +156,12 @@
                                     </div>
                                 </div>
                             </div>
+
+                            <form method="POST" action="{{ route('pengawasan-rekap.store') }}" enctype="multipart/form-data">
+                            @csrf
+
+                            {{-- taruh section data terpilih ada disini, make sure mereka masuk ke sebuah hidden form yang juga akan ikut terkirim --}}
+
 
                             {{-- PROVINSI FIELD --}}
                             <div class="row mb-3">
