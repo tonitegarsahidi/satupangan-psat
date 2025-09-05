@@ -23,7 +23,7 @@ class PengawasanRekapAddRequest extends FormRequest
     {
         return [
             'pengawasan_ids' => 'sometimes|array',
-            'pengawasan_ids.*' => 'required|exists:pengawasans,id',
+            'pengawasan_ids.*' => 'required|exists:pengawasan,id',
             'user_id_admin' => 'required|exists:users,id',
             'jenis_psat_id' => 'required|exists:master_jenis_pangan_segars,id',
             'produk_psat_id' => 'required|exists:master_bahan_pangan_segars,id',
@@ -35,9 +35,9 @@ class PengawasanRekapAddRequest extends FormRequest
             'lampiran4' => 'nullable|file|max:102400|mimes:pdf,jpeg,jpg,doc,docx,png',
             'lampiran5' => 'nullable|file|max:102400|mimes:pdf,jpeg,jpg,doc,docx,png',
             'lampiran6' => 'nullable|file|max:102400|mimes:pdf,jpeg,jpg,doc,docx,png',
-            'status' => 'required|string|in:DRAFT,PROSES,SELESAI',
+            'status' => 'nullable|string|in:DRAFT,PROSES,SELESAI',
             'pic_tindakan_id' => 'nullable|exists:users,id',
-            'is_active' => 'required|boolean',
+            'is_active' => 'nullable|boolean',
             'created_by' => 'nullable|exists:users,id',
             'updated_by' => 'nullable|exists:users,id',
         ];
