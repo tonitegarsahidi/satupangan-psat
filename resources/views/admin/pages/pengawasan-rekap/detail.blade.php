@@ -45,6 +45,10 @@
                                     <td>{{ $data->provinsi ? $data->provinsi->nama_provinsi : '-' }}</td>
                                 </tr>
                                 <tr>
+                                    <th scope="col" class="bg-dark text-white">Judul Rekap</th>
+                                    <td>{{ $data->judul_rekap ?: '-' }}</td>
+                                </tr>
+                                <tr>
                                     <th scope="col" class="bg-dark text-white">Hasil Rekap</th>
                                     <td>{{ $data->hasil_rekap ?: '-' }}</td>
                                 </tr>
@@ -111,10 +115,6 @@
                             </tbody>
                         </table>
 
-                        @if (config('constant.CRUD.DISPLAY_TIMESTAMPS'))
-                            @include('components.crud-timestamps', $data)
-                        @endif
-
                     </div>
 
                 </div>
@@ -163,6 +163,10 @@
                     </div>
                 </div>
             </div>
+            @endif
+
+            @if (config('constant.CRUD.DISPLAY_TIMESTAMPS'))
+                @include('components.crud-timestamps', $data)
             @endif
 
             {{-- ROW FOR ADDITIONAL FUNCTIONALITY BUTTON --}}

@@ -45,6 +45,7 @@ class PengawasanRekapRepository
 
         if (!is_null($keyword)) {
             $queryResult->whereRaw('lower(hasil_rekap) LIKE ?', ['%' . strtolower($keyword) . '%'])
+                ->orWhereRaw('lower(judul_rekap) LIKE ?', ['%' . strtolower($keyword) . '%'])
                 ->orWhereHas('admin', function($q) use ($keyword) {
                     $q->whereRaw('lower(name) LIKE ?', ['%' . strtolower($keyword) . '%']);
                 });

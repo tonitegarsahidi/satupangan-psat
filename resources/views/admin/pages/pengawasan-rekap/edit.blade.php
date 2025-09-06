@@ -167,20 +167,36 @@
                                 'ajaxUrl' => '/register/produk-psat-by-jenis/'
                             ])
 
-                            {{-- HASIL REKAP FIELD --}}
-                            <div class="row mb-3">
-                                <label class="col-sm-2 col-form-label" for="hasil_rekap">Hasil Rekap*</label>
-                                <div class="col-sm-10">
-                                    {{-- form validation error --}}
-                                    @include('admin.components.notification.error-validation', [
-                                        'field' => 'hasil_rekap',
-                                    ])
+                            {{-- JUDUL REKAP FIELD --}}
+                                                        <div class="row mb-3">
+                                                            <label class="col-sm-2 col-form-label" for="judul_rekap">Judul Rekap</label>
+                                                            <div class="col-sm-10">
+                                                                {{-- form validation error --}}
+                                                                @include('admin.components.notification.error-validation', [
+                                                                    'field' => 'judul_rekap',
+                                                                ])
 
-                                    {{-- input form --}}
-                                    <textarea name="hasil_rekap" class="form-control" id="hasil_rekap" rows="3"
-                                        placeholder="Enter recap result" required>{{ old('hasil_rekap', $pengawasanRekap->hasil_rekap) }}</textarea>
-                                </div>
-                            </div>
+                                                                {{-- input form --}}
+                                                                <input type="text" class="form-control" id="judul_rekap" name="judul_rekap"
+                                                                    placeholder="Enter recap title" maxlength="200" value="{{ old('judul_rekap', $pengawasanRekap->judul_rekap) }}">
+                                                                <small class="text-muted">Maksimal 200 karakter</small>
+                                                            </div>
+                                                        </div>
+
+                            {{-- HASIL REKAP FIELD --}}
+                                                        <div class="row mb-3">
+                                                            <label class="col-sm-2 col-form-label" for="hasil_rekap">Hasil Rekap*</label>
+                                                            <div class="col-sm-10">
+                                                                {{-- form validation error --}}
+                                                                @include('admin.components.notification.error-validation', [
+                                                                    'field' => 'hasil_rekap',
+                                                                ])
+
+                                                                {{-- input form --}}
+                                                                <textarea name="hasil_rekap" class="form-control" id="hasil_rekap" rows="3"
+                                                                    placeholder="Enter recap result" required>{{ old('hasil_rekap', $pengawasanRekap->hasil_rekap) }}</textarea>
+                                                            </div>
+                                                        </div>
 
                             {{-- LAMPIRAN FIELDS --}}
                             <div class="row mb-3">

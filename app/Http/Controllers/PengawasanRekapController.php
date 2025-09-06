@@ -424,7 +424,8 @@ class PengawasanRekapController extends Controller
         $pengawasanRekapList = collect([]);
 
         $formattedPengawasanRekap = $pengawasanRekapList->map(function ($pengawasanRekap) {
-            return ['id' => $pengawasanRekap->id, 'text' => $pengawasanRekap->hasil_rekap];
+            $displayText = $pengawasanRekap->judul_rekap ?? $pengawasanRekap->hasil_rekap;
+            return ['id' => $pengawasanRekap->id, 'text' => $displayText];
         });
 
         return response()->json($formattedPengawasanRekap);

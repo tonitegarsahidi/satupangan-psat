@@ -21,6 +21,7 @@ class PengawasanRekap extends Model
         'jenis_psat_id',
         'produk_psat_id',
         'provinsi_id',
+        'judul_rekap',
         'hasil_rekap',
         'lampiran1',
         'lampiran2',
