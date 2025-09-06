@@ -69,6 +69,7 @@
                             <th>
                                 No
                             </th>
+                            <th>Judul Rekap</th>
                             <th>
                                 <a
                                     href="{{ route('pengawasan-rekap.index', [
@@ -127,6 +128,7 @@
                         @foreach ($pengawasanRekapList as $pengawasanRekap)
                             <tr>
                                 <td>{{ $startNumber++ }}</td>
+                                <td>{{ $pengawasanRekap->judul_rekap }}</td>
                                 <td>
                                     @if ($pengawasanRekap->jenisPsat)
                                         {{ $pengawasanRekap->jenisPsat->nama_jenis_pangan_segar }}
@@ -154,7 +156,7 @@
                                     @if ($pengawasanRekap->picTindakan)
                                         {{ $pengawasanRekap->picTindakan->name }}
                                     @else
-                                        -
+                                        <a class="btn btn-primary btn-sm" href="{{ route('pengawasan-tindakan.add') }}">Add Tindakan</a>
                                     @endif
                                 </td>
                                 <td>{{ \Carbon\Carbon::parse($pengawasanRekap->updated_at)->format('d/m/Y') }}</td>
