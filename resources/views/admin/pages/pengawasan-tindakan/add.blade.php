@@ -91,16 +91,16 @@
 
                             {{-- USER ID PEMIMPIN FIELD --}}
                             <div class="row mb-3">
-                                <label class="col-sm-2 col-form-label" for="user_id_pimpinan">Pimpinan*</label>
+                                <label class="col-sm-2 col-form-label" for="user_id_petugas">Petugas*</label>
                                 <div class="col-sm-10">
                                     {{-- form validation error --}}
-                                    @include('admin.components.notification.error-validation', ['field' => 'user_id_pimpinan'])
+                                    @include('admin.components.notification.error-validation', ['field' => 'user_id_petugas'])
 
                                     {{-- input form --}}
-                                    <select name="user_id_pimpinan" class="form-select" id="user_id_pimpinan" required>
-                                        <option value="">-- Pilih Pimpinan --</option>
-                                        @foreach ($pimpinans as $pimpinan)
-                                            <option value="{{ $pimpinan->id }}">{{ $pimpinan->name }}</option>
+                                    <select name="user_id_petugas" class="form-select" id="user_id_petugas" required>
+                                        <option value="">-- Pilih Petugas --</option>
+                                        @foreach ($petugass as $petugas)
+                                            <option value="{{ $petugas->id }}">{{ $petugas->name }}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -146,8 +146,8 @@
                                     {{-- input form --}}
                                     <select name="pic_tindakan_ids[]" class="form-select" id="pic_tindakan_ids" multiple>
                                         <option value="">-- Pilih PIC --</option>
-                                        @foreach ($pimpinans as $pimpinan)
-                                            <option value="{{ $pimpinan->id }}">{{ $pimpinan->name }}</option>
+                                        @foreach ($petugass as $petugas)
+                                            <option value="{{ $petugas->id }}">{{ $petugas->name }}</option>
                                         @endforeach
                                     </select>
                                     <small class="text-muted">Klik Ctrl/Cmd untuk memilih beberapa PIC</small>

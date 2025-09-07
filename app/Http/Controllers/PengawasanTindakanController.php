@@ -87,7 +87,7 @@ class PengawasanTindakanController extends Controller
         }
 
         // Get all users for pimpinan and PIC selection
-        $pimpinans = \App\Models\User::where('is_active', 1)->orderBy('name', 'asc')->get();
+        $petugass = \App\Models\User::where('is_active', 1)->orderBy('name', 'asc')->get();
 
         // Get pengawasan rekap options
         $pengawasanRekaps = \App\Models\PengawasanRekap::where('is_active', 1)
@@ -106,7 +106,7 @@ class PengawasanTindakanController extends Controller
                 ];
             });
 
-        return view('admin.pages.pengawasan-tindakan.add', compact('breadcrumbs', 'pimpinans', 'pengawasanRekaps'));
+        return view('admin.pages.pengawasan-tindakan.add', compact('breadcrumbs', 'petugass', 'pengawasanRekaps'));
     }
 
     /**
