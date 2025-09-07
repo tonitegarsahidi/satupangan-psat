@@ -93,7 +93,8 @@ class PengawasanRekapSeeder extends Seeder
                 'lampiran5' => 'files/upload/lampiran5_rekap_' . strtolower(str_replace(' ', '_', $provinsiName)) . '.pdf',
                 'lampiran6' => 'files/upload/lampiran6_rekap_' . strtolower(str_replace(' ', '_', $provinsiName)) . '.pdf',
                 'status' => $status,
-                'pic_tindakan_id' => $adminUser,
+                'pic_tindakan_id' => null,
+                'tindakan_id' => null,
                 'is_active' => true,
                 'created_by' => $adminUser,
                 'updated_by' => $adminUser,
@@ -106,3 +107,4 @@ class PengawasanRekapSeeder extends Seeder
         }
     }
 }
+

@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Support\Facades\Config;
 
+use App\Models\PengawasanTindakan;
+
 class PengawasanRekap extends Model
 {
     use HasUuids, SoftDeletes;
@@ -31,6 +33,7 @@ class PengawasanRekap extends Model
         'lampiran6',
         'status',
         'pic_tindakan_id',
+        'tindakan_id',
         'is_active',
         'created_by',
         'updated_by',
@@ -73,6 +76,11 @@ class PengawasanRekap extends Model
     public function tindakan()
     {
         return $this->hasOne(PengawasanTindakan::class);
+    }
+
+    public function selectedTindakan()
+    {
+        return $this->belongsTo(PengawasanTindakan::class, 'tindakan_id');
     }
 
     public function attachments()

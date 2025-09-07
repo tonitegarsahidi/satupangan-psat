@@ -26,6 +26,7 @@ return new class extends Migration
             $table->string('lampiran6', 200)->nullable();
             $table->string('status', 50);
             $table->uuid('pic_tindakan_id')->nullable();
+            $table->uuid('tindakan_id')->nullable();
             $table->boolean('is_active')->default(true);
             $table->uuid('created_by');
             $table->uuid('updated_by')->nullable();
@@ -39,6 +40,7 @@ return new class extends Migration
             $table->foreign('pic_tindakan_id')->references('id')->on('users');
             $table->foreign('created_by')->references('id')->on('users');
             $table->foreign('updated_by')->references('id')->on('users');
+            $table->foreign('tindakan_id')->references('id')->on('pengawasan_tindakan');
         });
     }
 
