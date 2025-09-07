@@ -67,7 +67,6 @@
                             <th>
                                 No
                             </th>
-                            <th>Initiator</th>
                             <th>
                                 <a
                                     href="{{ route('pengawasan.index', [
@@ -112,6 +111,7 @@
                                     @include('components.arrow-sort', ['field' => 'lokasi_kota.nama_kota', 'sortField' => $sortField, 'sortOrder' => $sortOrder])
                                 </a>
                             </th>
+                            <th>Alamat</th>
                             <th>
                                 <a
                                     href="{{ route('pengawasan.index', [
@@ -126,12 +126,12 @@
                             <th>
                                 <a
                                     href="{{ route('pengawasan.index', [
-                                        'sort_field' => 'updated_at',
+                                        'sort_field' => 'tanggal_selesai',
                                         'sort_order' => $sortOrder == 'asc' ? 'desc' : 'asc',
                                         'keyword' => $keyword,
                                     ]) }}">
-                                    Tanggal
-                                    @include('components.arrow-sort', ['field' => 'updated_at', 'sortField' => $sortField, 'sortOrder' => $sortOrder])
+                                    Tanggal Selesai
+                                    @include('components.arrow-sort', ['field' => 'tanggal_selesai', 'sortField' => $sortField, 'sortOrder' => $sortOrder])
                                 </a>
                             </th>
                             <th></th>
@@ -147,16 +147,6 @@
                         @foreach ($pengawasanList as $pengawasan)
                             <tr>
                                 <td>{{ $startNumber++ }}</td>
-                                <td>
-                                    @if ($pengawasan->initiator)
-                                        <a href="{{ route('petugas.profile.detail', ['userId' => $pengawasan->initiator->id]) }}"
-                                           class="text-primary text-decoration-none">
-                                            {{ $pengawasan->initiator->name }}
-                                        </a>
-                                    @else
-                                        -
-                                    @endif
-                                </td>
                                 <td>
                                     @if ($pengawasan->jenisPsat)
                                         {{ $pengawasan->jenisPsat->nama_jenis_pangan_segar }}
@@ -185,6 +175,7 @@
                                         -
                                     @endif
                                 </td>
+                                <td>{{ $pengawasan->lokasi_alamat }}</td>
                                 <td>
                                     @php
                                         $statusClass = $pengawasan->status === 'SELESAI' ? 'success' : ($pengawasan->status === 'PROSES' ? 'warning' : 'secondary');
@@ -194,7 +185,7 @@
 
                                     </span>
                                 </td>
-                                <td>{{ \Carbon\Carbon::parse($pengawasan->updated_at)->format('d/m/Y') }}</td>
+                                <td>{{ \Carbon\Carbon::parse($pengawasan->tanggal_selesai)->format('d/m/Y') }}</td>
 
                                 {{-- ============ CRUD LINK ICON =============  --}}
                                 <td>

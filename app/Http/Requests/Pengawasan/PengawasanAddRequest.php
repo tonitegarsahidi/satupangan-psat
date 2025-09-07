@@ -39,7 +39,6 @@ class PengawasanAddRequest extends FormRequest
             'lampiran6' => 'nullable|file',
             'status' => 'required|string|in:DRAFT,PROSES,SELESAI',
             'tindakan_rekomendasikan' => 'nullable|string',
-            'is_active' => 'required|boolean',
             'created_by' => 'nullable|exists:users,id',
             'updated_by' => 'nullable|exists:users,id',
         ];

@@ -18,6 +18,22 @@
                     </div>
                     <div class="card-body">
 
+                        {{-- Validation Errors Notification --}}
+                        @if ($errors->any() || session('loginError'))
+                            <div class="alert alert-danger" role="alert">
+                                <ul>
+                                    @if ($errors->any())
+                                        @foreach ($errors->all() as $error)
+                                            <li>{{ $error }}</li>
+                                        @endforeach
+                                    @endif
+                                    @if(session('loginError'))
+                                        <li>{{ session('loginError') }}</li>
+                                    @endif
+                                </ul>
+                            </div>
+                        @endif
+
                         <form method="POST" action="{{ route('pengawasan.store') }}" enctype="multipart/form-data">
                             @csrf
 

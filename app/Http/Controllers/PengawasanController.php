@@ -133,6 +133,7 @@ class PengawasanController extends Controller
 
         // Set is_active to true by default
         $validatedData['is_active'] = 1;
+        $validatedData['user_id_initiator'] = $userId;
 
         // Handle file uploads for lampiran1 to lampiran6
         $uploadPath = 'files/upload';
