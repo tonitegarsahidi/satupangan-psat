@@ -181,16 +181,26 @@ class PengawasanRekapController extends Controller
             // Extract pengawasan IDs from the request
             $pengawasanIds = $request->input('pengawasan_ids', []);
 
-            // Process file uploads
-            $lampiranFields = ['lampiran1', 'lampiran2', 'lampiran3', 'lampiran4', 'lampiran5', 'lampiran6'];
-            foreach ($lampiranFields as $field) {
-                if ($request->hasFile($field) && $request->file($field)->isValid()) {
-                    $file = $request->file($field);
-                    $fileName = time() . '_' . $file->getClientOriginalName();
-                    $filePath = $file->storeAs('pengawasan/rekap', $fileName, 'public');
-                    $validatedData[$field] = $filePath;
+            // Handle file uploads for lampiran1 to lampiran6
+            $uploadPath = 'files/upload';
+            $publicPath = public_path($uploadPath);
+
+            // Create directory if it doesn't exist
+            if (!file_exists($publicPath)) {
+                mkdir($publicPath, 0755, true);
+            }
+
+            // Process each lampiran field
+            for ($i = 1; $i <= 6; $i++) {
+                $lampiranField = 'lampiran' . $i;
+                if ($request->hasFile($lampiranField)) {
+                    $file = $request->file($lampiranField);
+                    $extension = $file->getClientOriginalExtension();
+                    $filename = uniqid() . '_' . $lampiranField . '.' . $extension;
+                    $file->move($publicPath, $filename);
+                    $validatedData[$lampiranField] = env('BASE_URL') . '/' . $uploadPath . '/' . $filename;
                 } else {
-                    $validatedData[$field] = null;
+                    $validatedData[$lampiranField] = null;
                 }
             }
 
@@ -337,16 +347,29 @@ class PengawasanRekapController extends Controller
                 'user_id' => Auth::id()
             ]);
 
-            // Process file uploads
-            $lampiranFields = ['lampiran1', 'lampiran2', 'lampiran3', 'lampiran4', 'lampiran5', 'lampiran6'];
-            foreach ($lampiranFields as $field) {
-                if ($request->hasFile($field) && $request->file($field)->isValid()) {
-                    $file = $request->file($field);
-                    $fileName = time() . '_' . $file->getClientOriginalName();
-                    $filePath = $file->storeAs('pengawasan/rekap', $fileName, 'public');
-                    $validatedData[$field] = $filePath;
+            // Handle file uploads for lampiran1 to lampiran6
+            $uploadPath = 'files/upload';
+            $publicPath = public_path($uploadPath);
+
+            // Create directory if it doesn't exist
+            if (!file_exists($publicPath)) {
+                mkdir($publicPath, 0755, true);
+            }
+
+            // Process each lampiran field
+            for ($i = 1; $i <= 6; $i++) {
+                $lampiranField = 'lampiran' . $i;
+                if ($request->hasFile($lampiranField)) {
+                    $file = $request->file($lampiranField);
+                    $extension = $file->getClientOriginalExtension();
+                    $filename = uniqid() . '_' . $lampiranField . '.' . $extension;
+                    $file->move($publicPath, $filename);
+                    $validatedData[$lampiranField] = env('BASE_URL') . '/' . $uploadPath . '/' . $filename;
+                } else {
+                    // Keep existing file if no new file is uploaded
+                    $existingData = $this->pengawasanRekapService->getRekapDetail($id);
+                    $validatedData[$lampiranField] = $existingData->$lampiranField;
                 }
-                // If no file is uploaded, keep the existing value (don't set to null)
             }
 
             // Add pengawasan IDs to the data
@@ -468,15 +491,24 @@ class PengawasanRekapController extends Controller
                 throw new Exception("Rekap not found");
             }
 
+            // Handle file uploads for lampiran fields
+            $uploadPath = 'files/upload';
+            $publicPath = public_path($uploadPath);
+
+            // Create directory if it doesn't exist
+            if (!file_exists($publicPath)) {
+                mkdir($publicPath, 0755, true);
+            }
+
             // Process each file upload
             foreach ($validatedData as $field => $file) {
                 if ($file && $file->isValid()) {
-                    // Generate unique filename
-                    $fileName = time() . '_' . $file->getClientOriginalName();
-                    $filePath = $file->storeAs('pengawasan/rekap', $fileName, 'public');
+                    $extension = $file->getClientOriginalExtension();
+                    $filename = uniqid() . '_' . $field . '.' . $extension;
+                    $file->move($publicPath, $filename);
 
-                    // Update the rekap record with file path
-                    $rekap->$field = $filePath;
+                    // Update the rekap record with full URL
+                    $rekap->$field = env('BASE_URL') . '/' . $uploadPath . '/' . $filename;
                     $rekap->save();
                 } elseif ($file === null) {
                     // If no file provided, set to null
