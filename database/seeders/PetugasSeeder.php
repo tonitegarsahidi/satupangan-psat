@@ -45,7 +45,7 @@ class PetugasSeeder extends Seeder
                 }
             }
             // Only set penempatan if not kantor pusat, pimpinan, or petugas pusat
-            elseif (!$isKantorPusat && !$isPimpinan && !$isPetugasPusat) {
+            elseif (!$isKantorPusat && !$isPetugasPusat) {
                 // Try to match provinsi from user name, e.g. "Kantor Jatim" => "Jatim" or "Petugas Jatim" => "Jatim"
                 $provinsiName = trim(str_ireplace(['Kantor', 'Petugas', 'Pimpinan'], '', $user->name));
 

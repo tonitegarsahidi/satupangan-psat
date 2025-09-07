@@ -86,8 +86,15 @@ class PengawasanTindakanController extends Controller
             $currentProvinsiId = $currentPetugas->penempatan;
         }
 
-        // Get all users for pimpinan and PIC selection
-        $petugass = \App\Models\User::where('is_active', 1)->orderBy('name', 'asc')->get();
+        // Get users for pimpinan and PIC selection, filtered by current user's province
+        $petugass = \App\Models\User::where('is_active', 1)
+            ->whereHas('petugas', function($query) use ($currentProvinsiId) {
+                if ($currentProvinsiId) {
+                    $query->where('penempatan', $currentProvinsiId);
+                }
+            })
+            ->orderBy('name', 'asc')
+            ->get();
 
         // Get pengawasan rekap options
         $pengawasanRekaps = \App\Models\PengawasanRekap::where('is_active', 1)
@@ -162,8 +169,22 @@ class PengawasanTindakanController extends Controller
 
         $breadcrumbs = array_merge($this->mainBreadcrumbs, ['Edit' => null]);
 
-        // Get all users for pimpinan and PIC selection
-        $pimpinans = \App\Models\User::where('is_active', 1)->orderBy('name', 'asc')->get();
+        // Get users for pimpinan selection, filtered by current user's province
+        $currentPetugasEdit = \App\Models\Petugas::where('user_id', Auth::id())->first();
+        $currentProvinsiIdEdit = null;
+
+        if ($currentPetugasEdit && $currentPetugasEdit->penempatan) {
+            $currentProvinsiIdEdit = $currentPetugasEdit->penempatan;
+        }
+
+        $pimpinans = \App\Models\User::where('is_active', 1)
+            ->whereHas('petugas', function($query) use ($currentProvinsiIdEdit) {
+                if ($currentProvinsiIdEdit) {
+                    $query->where('penempatan', $currentProvinsiIdEdit);
+                }
+            })
+            ->orderBy('name', 'asc')
+            ->get();
 
         // Get pengawasan rekap options
         $pengawasanRekaps = \App\Models\PengawasanRekap::where('is_active', 1)

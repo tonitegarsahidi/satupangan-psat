@@ -40,7 +40,8 @@ return new class extends Migration
             $table->foreign('pic_tindakan_id')->references('id')->on('users');
             $table->foreign('created_by')->references('id')->on('users');
             $table->foreign('updated_by')->references('id')->on('users');
-            $table->foreign('tindakan_id')->references('id')->on('pengawasan_tindakan');
+            // Add foreign key constraint for tindakan_id after ensuring pengawasan_tindakan table exists
+            // This will be added in a separate migration if needed
         });
     }
 

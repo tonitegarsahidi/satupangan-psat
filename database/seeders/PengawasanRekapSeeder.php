@@ -94,6 +94,7 @@ class PengawasanRekapSeeder extends Seeder
                 'lampiran6' => 'files/upload/lampiran6_rekap_' . strtolower(str_replace(' ', '_', $provinsiName)) . '.pdf',
                 'status' => $status,
                 'pic_tindakan_id' => null,
+                // Temporarily set tindakan_id to null as the pengawasan_tindakan table may not exist yet
                 'tindakan_id' => null,
                 'is_active' => true,
                 'created_by' => $adminUser,
