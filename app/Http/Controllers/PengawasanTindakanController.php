@@ -78,11 +78,20 @@ class PengawasanTindakanController extends Controller
     {
         $breadcrumbs = array_merge($this->mainBreadcrumbs, ['Add' => null]);
 
+        // Get current authenticated user's petugas data for province filtering
+        $currentPetugas = \App\Models\Petugas::where('user_id', Auth::id())->first();
+        $currentProvinsiId = null;
+
+        if ($currentPetugas && $currentPetugas->penempatan) {
+            $currentProvinsiId = $currentPetugas->penempatan;
+        }
+
         // Get all users for pimpinan and PIC selection
         $pimpinans = \App\Models\User::where('is_active', 1)->orderBy('name', 'asc')->get();
 
         // Get pengawasan rekap options
         $pengawasanRekaps = \App\Models\PengawasanRekap::where('is_active', 1)
+            ->where('provinsi_id', $currentProvinsiId) // Filter by current user's province
             ->with(['pengawasans', 'jenisPsat', 'produkPsat'])
             ->orderBy('created_at', 'desc')
             ->get()
