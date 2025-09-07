@@ -34,13 +34,61 @@
                                     <select name="pengawasan_rekap_id" class="form-select" id="pengawasan_rekap_id" required>
                                         <option value="">-- Pilih Rekap Pengawasan --</option>
                                         @foreach ($pengawasanRekaps as $rekap)
-                                            <option value="{{ $rekap->id }}"
-                                                data-info="{{ $rekap->pengawasan ? $rekap->pengawasan->lokasi_alamat : 'N/A' }}"
-                                                {{ old('pengawasan_rekap_id', isset($pengawasanTindakan->pengawasan_rekap_id) ? $pengawasanTindakan->pengawasan_rekap_id : '') == $rekap->id ? 'selected' : '' }}>
-                                                {{ $rekap->pengawasan ? $rekap->pengawasan->lokasi_alamat : 'N/A' }} - {{ $rekap->created_at->format('d/m/Y') }}
+                                            <option value="{{ $rekap['id'] }}"
+                                                data-judul-rekap="{{ $rekap['judul_rekap'] }}"
+                                                data-created-at="{{ $rekap['formatted_date'] }}"
+                                                data-jenis-psat="{{ $rekap['jenis_psat_nama'] }}"
+                                                data-produk-psat="{{ $rekap['produk_psat_nama'] }}"
+                                                {{ old('pengawasan_rekap_id', isset($pengawasanTindakan->pengawasan_rekap_id) ? $pengawasanTindakan->pengawasan_rekap_id : '') == $rekap['id'] ? 'selected' : '' }}>
+                                                {{ $rekap['judul_rekap'] }} - {{ $rekap['formatted_date'] }}
                                             </option>
                                         @endforeach
                                     </select>
+                                </div>
+                            </div>
+
+                            {{-- REKAP DETAILS SECTION (DYNAMICALLY SHOWN) --}}
+                            <div id="rekap-details-section" class="row mb-3" style="display: none;">
+                                <div class="col-sm-12">
+                                    <div class="card bg-light">
+                                        <div class="card-header">
+                                            <h6 class="card-title mb-0">
+                                                <i class="bx bx-info-circle me-2"></i>
+                                                Detail Rekap Pengawasan Terpilih
+                                            </h6>
+                                        </div>
+                                        <div class="card-body">
+                                            <div class="row">
+                                                <div class="col-md-3">
+                                                    <strong>Judul Rekap:</strong>
+                                                    <p id="selected-judul-rekap" class="mb-1">...</p>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <strong>Tanggal Dibuat:</strong>
+                                                    <p id="selected-created-at" class="mb-1">...</p>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <strong>Jenis PSAT:</strong>
+                                                    <p id="selected-jenis-psat" class="mb-1">...</p>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <strong>Nama Produk PSAT:</strong>
+                                                    <p id="selected-produk-psat" class="mb-1">...</p>
+                                                </div>
+                                            </div>
+                                            <div class="row mt-2">
+                                                <div class="col-md-12">
+                                                    <strong>Detail Lengkap:</strong>
+                                                    <p class="mb-1">
+                                                        <a id="rekap-detail-link" href="#" target="_blank" class="btn btn-sm btn-outline-primary">
+                                                            <i class="bx bx-show me-1"></i>
+                                                            Lihat Detail Rekap
+                                                        </a>
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
 
@@ -157,6 +205,49 @@
                 </div>
             </div>
         </div>
+</div>
 
-    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+const pengawasanRekapSelect = document.getElementById('pengawasan_rekap_id');
+const rekapDetailsSection = document.getElementById('rekap-details-section');
+const selectedJudulRekapElement = document.getElementById('selected-judul-rekap');
+const selectedCreatedAtElement = document.getElementById('selected-created-at');
+const selectedJenisPsatElement = document.getElementById('selected-jenis-psat');
+const selectedProdukPsatElement = document.getElementById('selected-produk-psat');
+const rekapDetailLinkElement = document.getElementById('rekap-detail-link');
+
+pengawasanRekapSelect.addEventListener('change', function() {
+   const selectedOption = this.options[this.selectedIndex];
+
+   if (this.value === '') {
+       // Hide the section if no option is selected
+       rekapDetailsSection.style.display = 'none';
+   } else {
+       // Show the section and populate data
+       const judulRekap = selectedOption.getAttribute('data-judul-rekap') || 'N/A';
+       const createdAt = selectedOption.getAttribute('data-created-at') || 'N/A';
+       const jenisPsat = selectedOption.getAttribute('data-jenis-psat') || 'N/A';
+       const produkPsat = selectedOption.getAttribute('data-produk-psat') || 'N/A';
+       const rekapId = this.value;
+
+       selectedJudulRekapElement.textContent = judulRekap;
+       selectedCreatedAtElement.textContent = createdAt;
+       selectedJenisPsatElement.textContent = jenisPsat;
+       selectedProdukPsatElement.textContent = produkPsat;
+       rekapDetailLinkElement.href = `{{ url('pengawasan-rekap/detail') }}/${rekapId}`;
+
+       rekapDetailsSection.style.display = 'block';
+   }
+});
+
+// Trigger change event on page load if a value is already selected (for edit mode)
+if (pengawasanRekapSelect.value !== '') {
+   pengawasanRekapSelect.dispatchEvent(new Event('change'));
+}
+});
+</script>
+
 @endsection

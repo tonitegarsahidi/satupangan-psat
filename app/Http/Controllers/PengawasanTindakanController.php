@@ -83,9 +83,19 @@ class PengawasanTindakanController extends Controller
 
         // Get pengawasan rekap options
         $pengawasanRekaps = \App\Models\PengawasanRekap::where('is_active', 1)
-            ->with(['pengawasan'])
+            ->with(['pengawasans', 'jenisPsat', 'produkPsat'])
             ->orderBy('created_at', 'desc')
-            ->get();
+            ->get()
+            ->map(function ($rekap) {
+                return [
+                    'id' => $rekap->id,
+                    'judul_rekap' => $rekap->judul_rekap ?? 'N/A',
+                    'created_at' => $rekap->created_at,
+                    'formatted_date' => $rekap->created_at->format('d/m/Y'),
+                    'jenis_psat_nama' => $rekap->jenisPsat?->nama_jenis_pangan_segar ?? 'N/A',
+                    'produk_psat_nama' => $rekap->produkPsat?->nama_bahan_pangan_segar ?? 'N/A',
+                ];
+            });
 
         return view('admin.pages.pengawasan-tindakan.add', compact('breadcrumbs', 'pimpinans', 'pengawasanRekaps'));
     }
@@ -148,9 +158,19 @@ class PengawasanTindakanController extends Controller
 
         // Get pengawasan rekap options
         $pengawasanRekaps = \App\Models\PengawasanRekap::where('is_active', 1)
-            ->with(['pengawasan'])
+            ->with(['pengawasans', 'jenisPsat', 'produkPsat'])
             ->orderBy('created_at', 'desc')
-            ->get();
+            ->get()
+            ->map(function ($rekap) {
+                return [
+                    'id' => $rekap->id,
+                    'judul_rekap' => $rekap->judul_rekap ?? 'N/A',
+                    'created_at' => $rekap->created_at,
+                    'formatted_date' => $rekap->created_at->format('d/m/Y'),
+                    'jenis_psat_nama' => $rekap->jenisPsat?->nama_jenis_pangan_segar ?? 'N/A',
+                    'produk_psat_nama' => $rekap->produkPsat?->nama_bahan_pangan_segar ?? 'N/A',
+                ];
+            });
 
         return view('admin.pages.pengawasan-tindakan.edit', compact('breadcrumbs', 'pengawasanTindakan', 'pimpinans', 'pengawasanRekaps'));
     }
@@ -228,7 +248,7 @@ class PengawasanTindakanController extends Controller
 
         // You need to implement a search method in the service
         // For now, we'll return empty array
-        $pengawasanTindakanList = [];
+        $pengawasanTindakanList = collect([]);
 
         $formattedPengawasanTindakan = $pengawasanTindakanList->map(function ($pengawasanTindakan) {
             return ['id' => $pengawasanTindakan->id, 'text' => $pengawasanTindakan->tindak_lanjut];
