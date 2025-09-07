@@ -38,6 +38,7 @@ class PengawasanRekapEditRequest extends FormRequest
             'lampiran6' => 'nullable|file|max:102400|mimes:pdf,jpeg,jpg,doc,docx,png',
             'status' => 'nullable|string|in:DRAFT,PROSES,SELESAI',
             'pic_tindakan_id' => 'nullable|exists:users,id',
+            'tindakan_id' => 'nullable|exists:pengawasan_tindakan,id',
             'is_active' => 'nullable|boolean',
             'created_by' => 'nullable|exists:users,id',
             'updated_by' => 'nullable|exists:users,id',

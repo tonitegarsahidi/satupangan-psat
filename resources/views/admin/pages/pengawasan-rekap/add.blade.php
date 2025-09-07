@@ -350,7 +350,7 @@
         let currentSortOrder = 'desc';
         let currentKeyword = '';
         let currentPerPage = 10;
-        let allPengawasanData = []; // Store all pengawusan data for selected table population
+        let allPengawasanData = []; // Store all pengawasan data for selected table population
 
         $(document).ready(function() {
 
@@ -640,9 +640,9 @@
 
             // Update button text based on selection
             if (count > 0) {
-                $('#add-selected-pengawusan').html('<i class="bx bx-plus me-1"></i> Tambahkan (' + count + ')');
+                $('#add-selected-pengawasan').html('<i class="bx bx-plus me-1"></i> Tambahkan (' + count + ')');
             } else {
-                $('#add-selected-pengawusan').html('<i class="bx bx-plus me-1"></i> Tambahkan (0)');
+                $('#add-selected-pengawasan').html('<i class="bx bx-plus me-1"></i> Tambahkan (0)');
             }
         }
 
