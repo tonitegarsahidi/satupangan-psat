@@ -84,6 +84,7 @@ class PengawasanRekapSeeder extends Seeder
                 'user_id_admin' => $adminUser,
                 'jenis_psat_id' => $jenisPsatId,
                 'produk_psat_id' => $produkPsatId,
+                'judul_rekap' => "Rekapitulasi Pengawasan {$provinsiName}",
                 'provinsi_id' => $provinsiId,
                 'hasil_rekap' => $summary,
                 'lampiran1' => 'files/upload/lampiran1_rekap_' . strtolower(str_replace(' ', '_', $provinsiName)) . '.pdf',
