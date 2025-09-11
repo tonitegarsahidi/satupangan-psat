@@ -36,7 +36,8 @@
                                                 data-judul-rekap="{{ $rekap['judul_rekap'] }}"
                                                 data-created-at="{{ $rekap['formatted_date'] }}"
                                                 data-jenis-psat="{{ $rekap['jenis_psat_nama'] }}"
-                                                data-produk-psat="{{ $rekap['produk_psat_nama'] }}">
+                                                data-produk-psat="{{ $rekap['produk_psat_nama'] }}"
+                                                {{ isset($pengawasanRekapId) && $pengawasanRekapId == $rekap['id'] ? 'selected' : '' }}>
                                                 {{ $rekap['judul_rekap'] }} - {{ $rekap['formatted_date'] }}
                                             </option>
                                         @endforeach

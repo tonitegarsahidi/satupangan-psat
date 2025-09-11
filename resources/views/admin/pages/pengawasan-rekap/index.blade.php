@@ -103,7 +103,7 @@
                                     @include('components.arrow-sort', ['field' => 'status', 'sortField' => $sortField, 'sortOrder' => $sortOrder])
                                 </a>
                             </th>
-                            <th>PIC Tindakan</th>
+                            <th>Tindakan</th>
                             <th>
                                 <a
                                     href="{{ route('pengawasan-rekap.index', [
@@ -153,10 +153,10 @@
                                     @endif
                                 </td>
                                 <td>
-                                    @if ($pengawasanRekap->picTindakan)
-                                        {{ $pengawasanRekap->picTindakan->name }}
+                                    @if ($pengawasanRekap->tindakan_id)
+                                        {{ $pengawasanRekap->tindakan_id }}
                                     @else
-                                        <a class="btn btn-primary btn-sm" href="{{ route('pengawasan-tindakan.add') }}">Add Tindakan</a>
+                                        <a class="btn btn-primary btn-sm" href="{{ route('pengawasan-tindakan.add', ['pengawasanRekapId' => $pengawasanRekap->id]) }}">Tambah Tindakan</a>
                                     @endif
                                 </td>
                                 <td>{{ \Carbon\Carbon::parse($pengawasanRekap->updated_at)->format('d/m/Y') }}</td>

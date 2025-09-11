@@ -74,7 +74,7 @@ class PengawasanTindakanController extends Controller
      *      display "add new pengawasan tindakan" pages
      * =============================================
      */
-    public function create(Request $request)
+    public function create(Request $request, $pengawasanRekapId = null)
     {
         $breadcrumbs = array_merge($this->mainBreadcrumbs, ['Add' => null]);
 
@@ -113,7 +113,7 @@ class PengawasanTindakanController extends Controller
                 ];
             });
 
-        return view('admin.pages.pengawasan-tindakan.add', compact('breadcrumbs', 'petugass', 'pengawasanRekaps'));
+        return view('admin.pages.pengawasan-tindakan.add', compact('breadcrumbs', 'petugass', 'pengawasanRekaps', 'pengawasanRekapId'));
     }
 
     /**
