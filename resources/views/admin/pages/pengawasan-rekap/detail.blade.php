@@ -100,18 +100,6 @@
                                         @endif
                                     </td>
                                 </tr>
-                                <tr>
-                                    <th scope="col" class="bg-dark text-white">PIC Tindakan</th>
-                                    <td>{{ $data->picTindakan ? $data->picTindakan->name : '-' }}</td>
-                                </tr>
-                                <tr>
-                                    <th scope="col" class="bg-dark text-white">Dibuat Oleh</th>
-                                    <td>{{ $data->createdBy ? $data->createdBy->name : '-' }}</td>
-                                </tr>
-                                <tr>
-                                    <th scope="col" class="bg-dark text-white">Diupdate Oleh</th>
-                                    <td>{{ $data->updatedBy ? $data->updatedBy->name : '-' }}</td>
-                                </tr>
                             </tbody>
                         </table>
 
@@ -132,21 +120,25 @@
                                 <tr>
                                     <th>No</th>
                                     <th>Tanggal Mulai</th>
+                                    <th>Kota</th>
                                     <th>Lokasi Alamat</th>
                                     <th>Jenis PSAT</th>
                                     <th>Produk PSAT</th>
-                                    <th>Initiator</th>
+                                    <th>Status</th>
+                                    <th>Aksi</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 @foreach($data->pengawasans as $index => $pengawasan)
                                 <tr>
                                     <td>{{ $loop->iteration }}</td>
-                                    <td>{{ $pengawasan->tanggal_mulai ? date('d/m/Y H:i', strtotime($pengawasan->tanggal_mulai)) : '-' }}</td>
+                                    <td>{{ $pengawasan->tanggal_mulai ? date('d/m/Y', strtotime($pengawasan->tanggal_mulai)) : '-' }}</td>
+                                    <td>{{ $pengawasan->lokasiKota ? $pengawasan->lokasiKota->nama_kota : '-' }}</td>
                                     <td>{{ $pengawasan->lokasi_alamat ?: '-' }}</td>
                                     <td>{{ $pengawasan->jenisPsat ? $pengawasan->jenisPsat->nama_jenis_pangan_segar : '-' }}</td>
                                     <td>{{ $pengawasan->produkPsat ? $pengawasan->produkPsat->nama_bahan_pangan_segar : '-' }}</td>
-                                    <td>{{ $pengawasan->initiator ? $pengawasan->initiator->name : '-' }}</td>
+                                    <td>{{ $pengawasan->status ?: '-' }}</td>
+                                    <td><a href="{{ route('pengawasan.detail', ['id' => $pengawasan->id]) }}" class="btn btn-sm btn-primary"><i class="bx bx-show"></i> Detail</a></td>
                                 </tr>
                                 @endforeach
                             </tbody>

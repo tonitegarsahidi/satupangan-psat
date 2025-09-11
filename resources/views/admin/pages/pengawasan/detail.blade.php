@@ -70,11 +70,11 @@
                                 </tr>
                                 <tr>
                                     <th scope="col" class="bg-dark text-white">Hasil Pengawasan</th>
-                                    <td>{{ $data->hasil_pengawasan ?: '-' }}</td>
+                                    <td><div style="min-height: 150px; vertical-align: top; white-space: normal;">{{ $data->hasil_pengawasan ?: '-' }}</div></td>
                                 </tr>
                                 <tr>
                                     <th scope="col" class="bg-dark text-white">Tindakan Rekomendasi</th>
-                                    <td>{{ $data->tindakan_rekomendasikan ?: '-' }}</td>
+                                    <td><div style="min-height: 75px; vertical-align: top; white-space: normal;">{{ $data->tindakan_rekomendasikan ?: '-' }}</div></td>
                                 </tr>
                                 <!-- Lampiran Section -->
                                 <tr>
