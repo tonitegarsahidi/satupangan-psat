@@ -48,43 +48,43 @@
                             {{-- REKAP DETAILS SECTION (DYNAMICALLY SHOWN) --}}
                             <div id="rekap-details-section" class="row mb-3" style="display: none;">
                                 <div class="col-sm-12">
-                                    <div class="card bg-light">
+                                    <div class="card bg-light" style="background-color: rgba(255, 235, 125, 0.2) !important; border-width:2px">
                                         <div class="card-header">
                                             <h6 class="card-title mb-0">
                                                 <i class="bx bx-info-circle me-2"></i>
-                                                Detail Rekap Pengawasan Terpilih
+                                                <strong> Rekap Pengawasan Terpilih</strong>
                                             </h6>
                                         </div>
                                         <div class="card-body">
-                                            <div class="row">
-                                                <div class="col-md-3">
-                                                    <strong>Judul Rekap:</strong>
-                                                    <p id="selected-judul-rekap" class="mb-1">...</p>
-                                                </div>
-                                                <div class="col-md-3">
-                                                    <strong>Tanggal Dibuat:</strong>
-                                                    <p id="selected-created-at" class="mb-1">...</p>
-                                                </div>
-                                                <div class="col-md-3">
-                                                    <strong>Jenis PSAT:</strong>
-                                                    <p id="selected-jenis-psat" class="mb-1">...</p>
-                                                </div>
-                                                <div class="col-md-3">
-                                                    <strong>Nama Produk PSAT:</strong>
-                                                    <p id="selected-produk-psat" class="mb-1">...</p>
-                                                </div>
-                                            </div>
-                                            <div class="row mt-2">
-                                                <div class="col-md-12">
-                                                    <strong>Detail Lengkap:</strong>
-                                                    <p class="mb-1">
-                                                        <a id="rekap-detail-link" href="#" target="_blank" class="btn btn-sm btn-outline-primary">
-                                                            <i class="bx bx-show me-1"></i>
-                                                            Lihat Detail Rekap
-                                                        </a>
-                                                    </p>
-                                                </div>
-                                            </div>
+                                            <table class="table table-bordered">
+                                                <tbody>
+                                                    <tr>
+                                                        <td class="bg-primary text-white" style="width:300px"><strong>Judul Rekap</strong></td>
+                                                        <td class="bg-white"><p id="selected-judul-rekap" class="mb-0">...</p></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="bg-primary text-white" style="width:300px"><strong>Tanggal Dibuat</strong></td>
+                                                        <td class="bg-white"><p id="selected-created-at" class="mb-0">...</p></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="bg-primary text-white"  style="width:300px"><strong>Jenis PSAT</strong></td>
+                                                        <td class="bg-white"><p id="selected-jenis-psat" class="mb-0">...</p></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="bg-primary text-white"  style="width:300px"><strong>Nama Produk PSAT</strong></td>
+                                                        <td class="bg-white"><p id="selected-produk-psat" class="mb-0">...</p></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="bg-primary text-white"  style="width:300px"><strong>Detail Lengkap</strong></td>
+                                                        <td class="bg-white">
+                                                            <a id="rekap-detail-link" href="#" target="_blank" class="btn btn-sm btn-outline-primary">
+                                                                <i class="bx bx-show me-1"></i>
+                                                                Lihat Detail Rekap
+                                                            </a>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
                                         </div>
                                     </div>
                                 </div>
