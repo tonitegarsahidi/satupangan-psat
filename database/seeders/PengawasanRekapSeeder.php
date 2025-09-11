@@ -24,7 +24,7 @@ class PengawasanRekapSeeder extends Seeder
         $users = User::pluck('id', 'email')->toArray();
         $jenisPangan = MasterJenisPanganSegar::pluck('id', 'kode_jenis_pangan_segar')->toArray();
         $bahanPangan = MasterBahanPanganSegar::pluck('id', 'kode_bahan_pangan_segar')->toArray();
-        $provinsis = MasterProvinsi::pluck('id', 'nama_provinsi')->toArray();
+        $provinsis = MasterProvinsi::pluck('nama_provinsi', 'id')->toArray();
 
         // Get pengawasan records grouped by province and product type for aggregation
         $pengawasanRecords = Pengawasan::all();
@@ -41,6 +41,11 @@ class PengawasanRekapSeeder extends Seeder
             // Extract province, jenis_psat, and produk_psat from the key
             list($provinsiId, $jenisPsatId, $produkPsatId) = explode('_', $key);
 
+            // Skip if any of the IDs are null or empty
+            if (empty($provinsiId) || empty($jenisPsatId) || empty($produkPsatId)) {
+                continue;
+            }
+
             // Get corresponding province name
             $provinsiName = $provinsis[$provinsiId] ?? 'Unknown';
 
@@ -51,15 +56,15 @@ class PengawasanRekapSeeder extends Seeder
             $positiveResults = $group->where('status', 'SELESAI')->count();
             $percentage = $count > 0 ? round(($positiveResults / $count) * 100) : 0;
 
-            // Determine admin user based on province ID
+            // Determine admin user based on province name
             $adminUser = null;
-            if ($provinsiId == $provinsis['Jawa Tengah'] ?? null) {
+            if ($provinsiName === 'Jawa Tengah') {
                 $adminUser = $users['kantorjateng@panganaman.my.id'] ?? null;
-            } elseif ($provinsiId == $provinsis['Jawa Timur'] ?? null) {
+            } elseif ($provinsiName === 'Jawa Timur') {
                 $adminUser = $users['kantorjatim@panganaman.my.id'] ?? null;
-            } elseif ($provinsiId == $provinsis['Jawa Barat'] ?? null) {
+            } elseif ($provinsiName === 'Jawa Barat') {
                 $adminUser = $users['kantorjabar@panganaman.my.id'] ?? null;
-            } elseif ($provinsiId == $provinsis['Kewenangan Pusat'] ?? null) {
+            } elseif ($provinsiName === 'Kewenangan Pusat') {
                 $adminUser = $users['kantorpusat@panganaman.my.id'] ?? null;
             }
 
