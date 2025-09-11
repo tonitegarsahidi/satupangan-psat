@@ -23,7 +23,7 @@ class PengawasanRekapSeeder extends Seeder
         // Get reference data
         $users = User::pluck('id', 'email')->toArray();
         $jenisPangan = MasterJenisPanganSegar::pluck('id', 'kode_jenis_pangan_segar')->toArray();
-        $bahanPangan = MasterBahanPanganSegar::pluck('id', 'kode_bahan_pangan_segar')->toArray();
+        $bahanPangan = MasterBahanPanganSegar::pluck('nama_bahan_pangan_segar', 'id')->toArray();
         $provinsis = MasterProvinsi::pluck('nama_provinsi', 'id')->toArray();
 
         // Get pengawasan records grouped by province and product type for aggregation
@@ -48,6 +48,9 @@ class PengawasanRekapSeeder extends Seeder
 
             // Get corresponding province name
             $provinsiName = $provinsis[$provinsiId] ?? 'Unknown';
+
+            // Get corresponding product name
+            $produkName = $bahanPangan[$produkPsatId] ?? 'Unknown';
 
             // Count pengawasan records in this group
             $count = $group->count();
@@ -89,7 +92,7 @@ class PengawasanRekapSeeder extends Seeder
                 'user_id_admin' => $adminUser,
                 'jenis_psat_id' => $jenisPsatId,
                 'produk_psat_id' => $produkPsatId,
-                'judul_rekap' => "Rekapitulasi Pengawasan {$provinsiName}",
+                'judul_rekap' => "Rekapitulasi Pengawasan {$provinsiName} - {$produkName}",
                 'provinsi_id' => $provinsiId,
                 'hasil_rekap' => $summary,
                 'lampiran1' => 'files/upload/lampiran1_rekap_' . strtolower(str_replace(' ', '_', $provinsiName)) . '.pdf',
