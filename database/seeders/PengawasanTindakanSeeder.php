@@ -151,9 +151,13 @@ class PengawasanTindakanSeeder extends Seeder
             ];
         }
 
-        // Insert pengawasan tindakan data
+        // Insert pengawasan tindakan data and update corresponding rekap records
         foreach ($tindakanData as $data) {
-            PengawasanTindakan::create($data);
+            $tindakan = PengawasanTindakan::create($data);
+
+            // Update the corresponding rekap record with the tindakan_id
+            PengawasanRekap::where('id', $data['pengawasan_rekap_id'])
+                ->update(['tindakan_id' => $tindakan->id]);
         }
     }
 
