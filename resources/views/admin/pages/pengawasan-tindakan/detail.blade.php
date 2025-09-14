@@ -31,8 +31,21 @@
                                 <tr>
                                     <th style="width: 250px;" scope="col" class="bg-dark text-white">Rekap Pengawasan</th>
                                     <td>
-                                        @if ($data->rekap && $data->rekap->pengawasan)
-                                            {{ $data->rekap->pengawasan->lokasi_alamat }}
+                                        @if ($data->rekap)
+                                            <a href="{{ route('pengawasan-rekap.detail', ['id' => $data->rekap->id]) }}"
+                                               class="text-primary text-decoration-none">
+                                                <div>
+                                                    @if ($data->rekap->judul_rekap)
+                                                        <strong>{{ $data->rekap->judul_rekap }}</strong><br>
+                                                    @endif
+                                                    @if ($data->rekap->jenisPsat)
+                                                        <small class="text-muted">Jenis: {{ $data->rekap->jenisPsat->nama_jenis_pangan_segar }}</small><br>
+                                                    @endif
+                                                    @if ($data->rekap->produkPsat)
+                                                        <small class="text-muted">Produk: {{ $data->rekap->produkPsat->nama_bahan_pangan_segar }}</small>
+                                                    @endif
+                                                </div>
+                                            </a>
                                         @else
                                             -
                                         @endif

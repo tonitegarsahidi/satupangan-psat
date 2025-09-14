@@ -135,17 +135,20 @@
                                 </td>
                                 <td style="max-width: 280px;">
                                     @if ($pengawasanTindakan->rekap)
-                                        <div>
-                                            @if ($pengawasanTindakan->rekap->judul_rekap)
-                                                <strong>{{ $pengawasanTindakan->rekap->judul_rekap }}</strong><br>
-                                            @endif
-                                            @if ($pengawasanTindakan->rekap->jenisPsat)
-                                                <small class="text-muted">Jenis: {{ $pengawasanTindakan->rekap->jenisPsat->nama_jenis_pangan_segar }}</small><br>
-                                            @endif
-                                            @if ($pengawasanTindakan->rekap->produkPsat)
-                                                <small class="text-muted">Produk: {{ $pengawasanTindakan->rekap->produkPsat->nama_bahan_pangan_segar }}</small>
-                                            @endif
-                                        </div>
+                                        <a href="{{ route('pengawasan-rekap.detail', ['id' => $pengawasanTindakan->rekap->id]) }}"
+                                           class="text-primary text-decoration-none">
+                                            <div>
+                                                @if ($pengawasanTindakan->rekap->judul_rekap)
+                                                    <strong>{{ $pengawasanTindakan->rekap->judul_rekap }}</strong><br>
+                                                @endif
+                                                @if ($pengawasanTindakan->rekap->jenisPsat)
+                                                    <small class="text-muted">Jenis: {{ $pengawasanTindakan->rekap->jenisPsat->nama_jenis_pangan_segar }}</small><br>
+                                                @endif
+                                                @if ($pengawasanTindakan->rekap->produkPsat)
+                                                    <small class="text-muted">Produk: {{ $pengawasanTindakan->rekap->produkPsat->nama_bahan_pangan_segar }}</small>
+                                                @endif
+                                            </div>
+                                        </a>
                                     @else
                                         -
                                     @endif
