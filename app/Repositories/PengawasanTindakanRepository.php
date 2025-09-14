@@ -27,7 +27,9 @@ class PengawasanTindakanRepository
 
         $queryResult->with([
             'rekap',
-            'rekap.pengawasan',
+            'rekap.pengawasans',
+            'rekap.jenisPsat',
+            'rekap.produkPsat',
             'pimpinan',
             'picTindakans',
             'picTindakans.pic',
@@ -56,7 +58,9 @@ class PengawasanTindakanRepository
     {
         return PengawasanTindakan::with([
             'rekap',
-            'rekap.pengawasan',
+            'rekap.pengawasans',
+            'rekap.jenisPsat',
+            'rekap.produkPsat',
             'pimpinan',
             'picTindakans',
             'picTindakans.pic',
@@ -108,7 +112,9 @@ class PengawasanTindakanRepository
         return PengawasanTindakan::where('user_id_pimpinan', $pimpinanId)
             ->with([
                 'rekap',
-                'rekap.pengawasan',
+                'rekap.pengawasans',
+                'rekap.jenisPsat',
+                'rekap.produkPsat',
                 'picTindakans',
                 'picTindakans.pic',
                 'tindakanLanjutan',
@@ -125,7 +131,9 @@ class PengawasanTindakanRepository
         })
         ->with([
             'rekap',
-            'rekap.pengawasan',
+            'rekap.pengawasans',
+            'rekap.jenisPsat',
+            'rekap.produkPsat',
             'pimpinan',
             'picTindakans',
             'picTindakans.pic',
@@ -141,7 +149,9 @@ class PengawasanTindakanRepository
         return PengawasanTindakan::where('status', $status)
             ->with([
                 'rekap',
-                'rekap.pengawasan',
+                'rekap.pengawasans',
+                'rekap.jenisPsat',
+                'rekap.produkPsat',
                 'pimpinan',
                 'picTindakans',
                 'picTindakans.pic',

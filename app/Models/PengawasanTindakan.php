@@ -33,7 +33,7 @@ class PengawasanTindakan extends Model
 
     public function rekap()
     {
-        return $this->belongsTo(PengawasanRekap::class);
+        return $this->belongsTo(PengawasanRekap::class, 'pengawasan_rekap_id');
     }
 
     public function pimpinan()

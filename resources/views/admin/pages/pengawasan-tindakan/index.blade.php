@@ -65,7 +65,7 @@
                     <thead>
                         <tr>
                             <th style="width: 50px;">No</th>
-                            <th style="min-width: 120px;">Pimpinan</th>
+                            <th style="min-width: 120px;">PIC</th>
                             <th style="min-width: 180px;">
                                 <a
                                     href="{{ route('pengawasan-tindakan.index', [
@@ -133,14 +133,24 @@
                                         -
                                     @endif
                                 </td>
-                                <td style="min-width: 180px;">
-                                    @if ($pengawasanTindakan->rekap && $pengawasanTindakan->rekap->pengawasan)
-                                        {{ $pengawasanTindakan->rekap->pengawasan->lokasi_alamat }}
+                                <td style="max-width: 280px;">
+                                    @if ($pengawasanTindakan->rekap)
+                                        <div>
+                                            @if ($pengawasanTindakan->rekap->judul_rekap)
+                                                <strong>{{ $pengawasanTindakan->rekap->judul_rekap }}</strong><br>
+                                            @endif
+                                            @if ($pengawasanTindakan->rekap->jenisPsat)
+                                                <small class="text-muted">Jenis: {{ $pengawasanTindakan->rekap->jenisPsat->nama_jenis_pangan_segar }}</small><br>
+                                            @endif
+                                            @if ($pengawasanTindakan->rekap->produkPsat)
+                                                <small class="text-muted">Produk: {{ $pengawasanTindakan->rekap->produkPsat->nama_bahan_pangan_segar }}</small>
+                                            @endif
+                                        </div>
                                     @else
                                         -
                                     @endif
                                 </td>
-                                <td style="min-width: 200px; word-wrap: break-word;">{{ $pengawasanTindakan->tindak_lanjut ?: '-' }}</td>
+                                <td style="max-width: 280px; word-wrap: break-word;">{{ $pengawasanTindakan->tindak_lanjut ?: '-' }}</td>
                                 <td style="width: 80px;">
                                     <span class="badge rounded-pill bg-info">{{ $pengawasanTindakan->statusLabel() }}</span>
                                 </td>
