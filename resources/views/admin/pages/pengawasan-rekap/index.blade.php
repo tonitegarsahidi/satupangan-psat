@@ -59,18 +59,16 @@
                 @include('admin.components.notification.general', $alerts)
             @endif
 
-            <div class="table-responsive text-nowrap">
+            <div class="table-responsive">
                 <!-- Table data with Striped Rows -->
                 <table class="table table-striped table-hover align-middle">
 
                     {{-- TABLE HEADER --}}
                     <thead>
                         <tr>
-                            <th>
-                                No
-                            </th>
-                            <th>Judul Rekap</th>
-                            <th>
+                            <th style="width: 50px;">No</th>
+                            <th style="min-width: 200px; word-wrap: break-word;">Judul Rekap</th>
+                            <th style="min-width: 100px;">
                                 <a
                                     href="{{ route('pengawasan-rekap.index', [
                                         'sort_field' => 'jenis_psat.nama_jenis_pangan_segar',
@@ -81,7 +79,7 @@
                                     @include('components.arrow-sort', ['field' => 'jenis_psat.nama_jenis_pangan_segar', 'sortField' => $sortField, 'sortOrder' => $sortOrder])
                                 </a>
                             </th>
-                            <th>
+                            <th style="min-width: 120px;">
                                 <a
                                     href="{{ route('pengawasan-rekap.index', [
                                         'sort_field' => 'produk_psat.nama_bahan_pangan_segar',
@@ -92,7 +90,7 @@
                                     @include('components.arrow-sort', ['field' => 'produk_psat.nama_bahan_pangan_segar', 'sortField' => $sortField, 'sortOrder' => $sortOrder])
                                 </a>
                             </th>
-                            <th>
+                            <th style="width: 80px;">
                                 <a
                                     href="{{ route('pengawasan-rekap.index', [
                                         'sort_field' => 'status',
@@ -103,8 +101,8 @@
                                     @include('components.arrow-sort', ['field' => 'status', 'sortField' => $sortField, 'sortOrder' => $sortOrder])
                                 </a>
                             </th>
-                            <th>Tindakan</th>
-                            <th>
+                            <th style="min-width: 120px;">Tindakan</th>
+                            <th style="width: 80px;">
                                 <a
                                     href="{{ route('pengawasan-rekap.index', [
                                         'sort_field' => 'updated_at',
@@ -115,9 +113,9 @@
                                     @include('components.arrow-sort', ['field' => 'updated_at', 'sortField' => $sortField, 'sortOrder' => $sortOrder])
                                 </a>
                             </th>
-                            <th></th>
-                            <th></th>
-                            <th></th>
+                            <th style="width: 40px;"></th>
+                            <th style="width: 40px;"></th>
+                            <th style="width: 40px;"></th>
                         </tr>
                     </thead>
 
@@ -127,23 +125,23 @@
                         @endphp
                         @foreach ($pengawasanRekapList as $pengawasanRekap)
                             <tr>
-                                <td>{{ $startNumber++ }}</td>
-                                <td>{{ $pengawasanRekap->judul_rekap }}</td>
-                                <td>
+                                <td style="width: 50px;">{{ $startNumber++ }}</td>
+                                <td style="min-width: 200px; word-wrap: break-word;">{{ $pengawasanRekap->judul_rekap }}</td>
+                                <td style="min-width: 100px;">
                                     @if ($pengawasanRekap->jenisPsat)
                                         {{ $pengawasanRekap->jenisPsat->nama_jenis_pangan_segar }}
                                     @else
                                         -
                                     @endif
                                 </td>
-                                <td>
+                                <td style="min-width: 120px;">
                                     @if ($pengawasanRekap->produkPsat)
                                         {{ $pengawasanRekap->produkPsat->nama_bahan_pangan_segar }}
                                     @else
                                         -
                                     @endif
                                 </td>
-                                <td>
+                                <td style="width: 80px;">
                                     @if ($pengawasanRekap->status == 'DRAFT')
                                         <span class="badge rounded-pill bg-secondary"> {{ $pengawasanRekap->status }} </span>
                                     @elseif ($pengawasanRekap->status == 'PROSES')
@@ -152,29 +150,29 @@
                                         <span class="badge rounded-pill bg-success"> {{ $pengawasanRekap->status }} </span>
                                     @endif
                                 </td>
-                                <td>
+                                <td style="min-width: 120px;">
                                     @if ($pengawasanRekap->tindakan_id)
-                                        {{ $pengawasanRekap->tindakan_id }}
+                                        <a class="btn btn-info btn-sm" href="{{ route('pengawasan-tindakan.detail', ['id' => $pengawasanRekap->tindakan_id]) }}">Lihat Tindakan</a>
                                     @else
                                         <a class="btn btn-primary btn-sm" href="{{ route('pengawasan-tindakan.add', ['pengawasanRekapId' => $pengawasanRekap->id]) }}">Tambah Tindakan</a>
                                     @endif
                                 </td>
-                                <td>{{ \Carbon\Carbon::parse($pengawasanRekap->updated_at)->format('d/m/Y') }}</td>
+                                <td style="width: 80px;">{{ \Carbon\Carbon::parse($pengawasanRekap->updated_at)->format('d/m/Y') }}</td>
 
                                 {{-- ============ CRUD LINK ICON =============  --}}
-                                <td>
+                                <td style="width: 40px;">
                                     <a class="action-icon" href="{{ route('pengawasan-rekap.detail', ['id' => $pengawasanRekap->id]) }}"
                                         title="detail">
                                         <i class='bx bx-search'></i>
                                     </a>
                                 </td>
-                                <td>
+                                <td style="width: 40px;">
                                     <a class="action-icon" href="{{ route('pengawasan-rekap.edit', ['id' => $pengawasanRekap->id]) }}"
                                         title="edit">
                                         <i class='bx bx-pencil'></i>
                                     </a>
                                 </td>
-                                <td>
+                                <td style="width: 40px;">
                                     <a class="action-icon" href="{{ route('pengawasan-rekap.delete', ['id' => $pengawasanRekap->id]) }}"
                                         title="delete">
                                         <i class='bx bx-trash'></i>

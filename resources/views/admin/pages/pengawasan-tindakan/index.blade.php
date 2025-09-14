@@ -57,18 +57,16 @@
                 @include('admin.components.notification.general', $alerts)
             @endif
 
-            <div class="table-responsive text-nowrap">
+            <div class="table-responsive">
                 <!-- Table data with Striped Rows -->
                 <table class="table table-striped table-hover align-middle">
 
                     {{-- TABLE HEADER --}}
                     <thead>
                         <tr>
-                            <th>
-                                No
-                            </th>
-                            <th>Pimpinan</th>
-                            <th>
+                            <th style="width: 50px;">No</th>
+                            <th style="min-width: 120px;">Pimpinan</th>
+                            <th style="min-width: 180px;">
                                 <a
                                     href="{{ route('pengawasan-tindakan.index', [
                                         'sort_field' => 'rekap.hasil_rekap',
@@ -79,7 +77,7 @@
                                     @include('components.arrow-sort', ['field' => 'rekap.hasil_rekap', 'sortField' => $sortField, 'sortOrder' => $sortOrder])
                                 </a>
                             </th>
-                            <th>
+                            <th style="min-width: 200px; word-wrap: break-word;">
                                 <a
                                     href="{{ route('pengawasan-tindakan.index', [
                                         'sort_field' => 'tindak_lanjut',
@@ -90,7 +88,7 @@
                                     @include('components.arrow-sort', ['field' => 'tindak_lanjut', 'sortField' => $sortField, 'sortOrder' => $sortOrder])
                                 </a>
                             </th>
-                            <th>
+                            <th style="width: 80px;">
                                 <a
                                     href="{{ route('pengawasan-tindakan.index', [
                                         'sort_field' => 'status',
@@ -101,7 +99,7 @@
                                     @include('components.arrow-sort', ['field' => 'status', 'sortField' => $sortField, 'sortOrder' => $sortOrder])
                                 </a>
                             </th>
-                            <th>
+                            <th style="width: 80px;">
                                 <a
                                     href="{{ route('pengawasan-tindakan.index', [
                                         'sort_field' => 'updated_at',
@@ -112,9 +110,9 @@
                                     @include('components.arrow-sort', ['field' => 'updated_at', 'sortField' => $sortField, 'sortOrder' => $sortOrder])
                                 </a>
                             </th>
-                            <th></th>
-                            <th></th>
-                            <th></th>
+                            <th style="width: 40px;"></th>
+                            <th style="width: 40px;"></th>
+                            <th style="width: 40px;"></th>
                         </tr>
                     </thead>
 
@@ -124,8 +122,8 @@
                         @endphp
                         @foreach ($pengawasanTindakanList as $pengawasanTindakan)
                             <tr>
-                                <td>{{ $startNumber++ }}</td>
-                                <td>
+                                <td style="width: 50px;">{{ $startNumber++ }}</td>
+                                <td style="min-width: 120px;">
                                     @if ($pengawasanTindakan->pimpinan)
                                         <a href="{{ route('petugas.profile.detail', ['userId' => $pengawasanTindakan->pimpinan->id]) }}"
                                            class="text-primary text-decoration-none">
@@ -135,33 +133,33 @@
                                         -
                                     @endif
                                 </td>
-                                <td>
+                                <td style="min-width: 180px;">
                                     @if ($pengawasanTindakan->rekap && $pengawasanTindakan->rekap->pengawasan)
                                         {{ $pengawasanTindakan->rekap->pengawasan->lokasi_alamat }}
                                     @else
                                         -
                                     @endif
                                 </td>
-                                <td>{{ $pengawasanTindakan->tindak_lanjut ?: '-' }}</td>
-                                <td>
+                                <td style="min-width: 200px; word-wrap: break-word;">{{ $pengawasanTindakan->tindak_lanjut ?: '-' }}</td>
+                                <td style="width: 80px;">
                                     <span class="badge rounded-pill bg-info">{{ $pengawasanTindakan->statusLabel() }}</span>
                                 </td>
-                                <td>{{ \Carbon\Carbon::parse($pengawasanTindakan->updated_at)->format('d/m/Y') }}</td>
+                                <td style="width: 80px;">{{ \Carbon\Carbon::parse($pengawasanTindakan->updated_at)->format('d/m/Y') }}</td>
 
                                 {{-- ============ CRUD LINK ICON =============  --}}
-                                <td>
+                                <td style="width: 40px;">
                                     <a class="action-icon" href="{{ route('pengawasan-tindakan.detail', ['id' => $pengawasanTindakan->id]) }}"
                                         title="detail">
                                         <i class='bx bx-search'></i>
                                     </a>
                                 </td>
-                                <td>
+                                <td style="width: 40px;">
                                     <a class="action-icon" href="{{ route('pengawasan-tindakan.edit', ['id' => $pengawasanTindakan->id]) }}"
                                         title="edit">
                                         <i class='bx bx-pencil'></i>
                                     </a>
                                 </td>
-                                <td>
+                                <td style="width: 40px;">
                                     <a class="action-icon" href="{{ route('pengawasan-tindakan.delete', ['id' => $pengawasanTindakan->id]) }}"
                                         title="delete">
                                         <i class='bx bx-trash'></i>
