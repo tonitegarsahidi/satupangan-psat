@@ -18,16 +18,19 @@ use Exception;
 class PengawasanTindakanService
 {
     private $pengawasanTindakanRepository;
+    private $pengawasanTindakanLanjutanDetailService;
     private $pengawasanTindakanLanjutanRepository;
     private $pengawasanTindakanPicRepository;
     private $pengawasanAttachmentRepository;
 
     public function __construct(
         PengawasanTindakanRepository $pengawasanTindakanRepository,
-        PengawasanAttachmentRepository $pengawasanAttachmentRepository
+        PengawasanAttachmentRepository $pengawasanAttachmentRepository,
+        PengawasanTindakanLanjutanDetailService $pengawasanTindakanLanjutanDetailService
     ) {
         $this->pengawasanTindakanRepository = $pengawasanTindakanRepository;
         $this->pengawasanAttachmentRepository = $pengawasanAttachmentRepository;
+        $this->pengawasanTindakanLanjutanDetailService = $pengawasanTindakanLanjutanDetailService;
     }
 
     public function listAllTindakan($perPage, string $sortField = null, string $sortOrder = null, string $keyword = null): LengthAwarePaginator
@@ -41,16 +44,24 @@ class PengawasanTindakanService
         return $this->pengawasanTindakanRepository->getTindakanById($tindakanId);
     }
 
-    public function addNewTindakan(array $validatedData)
+    public function addNewTindakan(array $validatedData, array $tindakanLanjutanData = [])
     {
         DB::beginTransaction();
         try {
             $tindakan = $this->pengawasanTindakanRepository->createTindakan($validatedData);
 
-            // Link PICs to tindakan
+            // Link PICs to tindakan (old method - for backward compatibility)
             if (isset($validatedData['pic_tindakan_ids']) && is_array($validatedData['pic_tindakan_ids'])) {
                 foreach ($validatedData['pic_tindakan_ids'] as $picId) {
                     $this->pengawasanTindakanRepository->linkPicToTindakan($tindakan->id, $picId);
+                }
+            }
+
+            // Create tindakan lanjutan if data exists
+            if (!empty($tindakanLanjutanData)) {
+                foreach ($tindakanLanjutanData as $lanjutanItem) {
+                    $lanjutanItem['pengawasan_tindakan_id'] = $tindakan->id;
+                    $this->pengawasanTindakanLanjutanRepository->createTindakanLanjutanDetail($lanjutanItem);
                 }
             }
 
@@ -184,14 +195,11 @@ class PengawasanTindakanService
 
             if ($tindakan->tindakanLanjutan) {
                 // Update existing lanjutan
-                // $lanjutan = $this->pengawasanTindakanLanjutanRepository->updateTindakanLanjutan(
-                //     $tindakan->tindakanLanjutan->id,
-                //     $lanjutanData
-                // );
+                $lanjutan = $this->pengawasanTindakanLanjutanDetailService->updateDetail($tindakan->tindakanLanjutan->id, $lanjutanData);
             } else {
                 // Create new lanjutan
-                // $lanjutanData['pengawasan_tindakan_id'] = $tindakanId;
-                // $lanjutan = $this->pengawasanTindakanLanjutanRepository->createTindakanLanjutan($lanjutanData);
+                $lanjutanData['pengawasan_tindakan_id'] = $tindakanId;
+                $lanjutan = $this->pengawasanTindakanLanjutanDetailService->createDetail($tindakanId, $lanjutanData);
             }
 
             DB::commit();

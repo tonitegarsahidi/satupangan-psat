@@ -138,7 +138,27 @@ class PengawasanTindakanController extends Controller
         // Set is_active to 1 (active) by default
         $validatedData['is_active'] = 1;
 
-        $result = $this->pengawasanTindakanService->addNewTindakan($validatedData);
+        // Handle tindakan lanjutan data if status requires it
+        $tindakanLanjutanData = [];
+        if (isset($validatedData['penugasan_pic_id']) && is_array($validatedData['penugasan_pic_id'])) {
+            $tindakanLanjutanData = [];
+            foreach ($validatedData['penugasan_pic_id'] as $index => $picId) {
+                if (isset($validatedData['penugasan_arahan'][$index])) {
+                    $tindakanLanjutanData[] = [
+                        'user_id' => $picId,
+                        'arahan' => $validatedData['penugasan_arahan'][$index],
+                        'created_by' => $userId,
+                        'updated_by' => $userId,
+                        'is_active' => 1,
+                    ];
+                }
+            }
+        }
+
+        // Remove penugasan data from main validated data
+        unset($validatedData['penugasan_pic_id'], $validatedData['penugasan_arahan']);
+
+        $result = $this->pengawasanTindakanService->addNewTindakan($validatedData, $tindakanLanjutanData);
 
         $alert = $result
             ? AlertHelper::createAlert('success', 'Data Pengawasan Tindakan successfully added')
