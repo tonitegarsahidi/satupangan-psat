@@ -145,8 +145,8 @@ class PengawasanTindakanController extends Controller
             foreach ($validatedData['penugasan_pic_id'] as $index => $picId) {
                 if (isset($validatedData['penugasan_arahan'][$index])) {
                     $tindakanLanjutanData[] = [
-                        'user_id' => $picId,
-                        'arahan' => $validatedData['penugasan_arahan'][$index],
+                        'user_id_pic' => $picId,
+                        'arahan_tindak_lanjut' => $validatedData['penugasan_arahan'][$index],
                         'created_by' => $userId,
                         'updated_by' => $userId,
                         'is_active' => 1,
@@ -181,15 +181,9 @@ class PengawasanTindakanController extends Controller
     {
         $data = $this->pengawasanTindakanService->getTindakanDetail($request->id);
 
-        // Get tindakan lanjutan details if they exist
-        $tindakanLanjutanDetails = collect();
-        if ($data->tindakanLanjutan) {
-            $tindakanLanjutanDetails = $this->pengawasanTindakanLanjutanDetailService->getDetailsByLanjutanId($data->tindakanLanjutan->id);
-        }
-
         $breadcrumbs = array_merge($this->mainBreadcrumbs, ['Detail' => null]);
 
-        return view('admin.pages.pengawasan-tindakan.detail', compact('breadcrumbs', 'data', 'tindakanLanjutanDetails'));
+        return view('admin.pages.pengawasan-tindakan.detail', compact('breadcrumbs', 'data'));
     }
 
     /**

@@ -48,7 +48,7 @@ class PengawasanTindakan extends Model
 
     public function tindakanLanjutan()
     {
-        return $this->hasOne(PengawasanTindakanLanjutan::class);
+        return $this->hasMany(PengawasanTindakanLanjutan::class, 'pengawasan_tindakan_id');
     }
 
     public function attachments()
