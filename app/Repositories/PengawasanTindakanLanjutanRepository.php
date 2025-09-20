@@ -26,7 +26,6 @@ class PengawasanTindakanLanjutanRepository
         $queryResult->with([
             'tindakan',
             'tindakan.rekap',
-            'tindakan.rekap.pengawasan',
             'tindakan.pimpinan',
             'tindakan.picTindakans',
             'pic',
@@ -36,7 +35,10 @@ class PengawasanTindakanLanjutanRepository
         if (!is_null($keyword)) {
             $queryResult->whereRaw('lower(tindak_lanjut) LIKE ?', ['%' . strtolower($keyword) . '%'])
                 ->orWhereHas('tindakan', function($q) use ($keyword) {
-                    $q->whereRaw('lower(tindak_lanjut) LIKE ?', ['%' . strtolower($keyword) . '%']);
+                    $q->whereRaw('lower(tindak_lanjut) LIKE ?', ['%' . strtolower($keyword) . '%'])
+                      ->orWhereHas('pimpinan', function($q) use ($keyword) {
+                          $q->whereRaw('lower(name) LIKE ?', ['%' . strtolower($keyword) . '%']);
+                      });
                 })
                 ->orWhereHas('pic', function($q) use ($keyword) {
                     $q->whereRaw('lower(name) LIKE ?', ['%' . strtolower($keyword) . '%']);
@@ -54,7 +56,6 @@ class PengawasanTindakanLanjutanRepository
         return PengawasanTindakanLanjutan::with([
             'tindakan',
             'tindakan.rekap',
-            'tindakan.rekap.pengawasan',
             'tindakan.pimpinan',
             'tindakan.picTindakans',
             'pic',
@@ -101,7 +102,6 @@ class PengawasanTindakanLanjutanRepository
             ->with([
                 'tindakan',
                 'tindakan.rekap',
-                'tindakan.rekap.pengawasan',
                 'tindakan.pimpinan',
                 'tindakan.picTindakans'
             ])
@@ -115,7 +115,6 @@ class PengawasanTindakanLanjutanRepository
             ->with([
                 'tindakan',
                 'tindakan.rekap',
-                'tindakan.rekap.pengawasan',
                 'tindakan.pimpinan',
                 'tindakan.picTindakans',
                 'pic'

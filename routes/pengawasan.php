@@ -44,7 +44,7 @@ Route::middleware(['auth', 'role:ROLE_OPERATOR,ROLE_SUPERVISOR,ROLE_LEADER,ROLE_
         });
 
     // MANAGE PENGAWASAN TINDAKAN
-    Route::prefix('/pengawasan-tindakan')
+    Route::prefix('/pengawasan-tindakan-utama')
         ->group(function () {
             Route::get('/', [\App\Http\Controllers\PengawasanTindakanController::class, 'index'])->name('pengawasan-tindakan.index');
             Route::get('/add/{pengawasanRekapId?}', [\App\Http\Controllers\PengawasanTindakanController::class, 'create'])->name('pengawasan-tindakan.add');

@@ -69,12 +69,12 @@
                             <th style="min-width: 180px;">
                                 <a
                                     href="{{ route('pengawasan-tindakan-lanjutan.index', [
-                                        'sort_field' => 'tindakan.tindak_lanjut',
+                                        'sort_field' => 'tindakan.pimpinan.name',
                                         'sort_order' => $sortOrder == 'asc' ? 'desc' : 'asc',
                                         'keyword' => $keyword,
                                     ]) }}">
-                                    Tindakan Asal
-                                    @include('components.arrow-sort', ['field' => 'tindakan.tindak_lanjut', 'sortField' => $sortField, 'sortOrder' => $sortOrder])
+                                    Penanggung Jawab
+                                    @include('components.arrow-sort', ['field' => 'tindakan.pimpinan.name', 'sortField' => $sortField, 'sortOrder' => $sortOrder])
                                 </a>
                             </th>
                             <th style="min-width: 200px; word-wrap: break-word;">
@@ -134,22 +134,15 @@
                                     @endif
                                 </td>
                                 <td style="max-width: 280px;">
-                                    @if ($pengawasanTindakanLanjutan->tindakan)
-                                        <a href="{{ route('pengawasan-tindakan.detail', ['id' => $pengawasanTindakanLanjutan->tindakan->id]) }}"
+                                    {{-- {{dd($pengawasanTindakanLanjutan->tindakan->pimpinan)}} --}}
+                                    @if ($pengawasanTindakanLanjutan->tindakan && $pengawasanTindakanLanjutan->tindakan->pimpinan)
+                                        <a href="{{ route('petugas.profile.detail', ['userId' => $pengawasanTindakanLanjutan->tindakan->pimpinan->id]) }}"
                                            class="text-primary text-decoration-none">
-                                            <div>
-                                                @if ($pengawasanTindakanLanjutan->tindakan->tindak_lanjut)
-                                                    <strong>{{ $pengawasanTindakanLanjutan->tindakan->tindak_lanjut }}</strong><br>
-                                                @endif
-                                                @if ($pengawasanTindakanLanjutan->tindakan->rekap)
-                                                    @if ($pengawasanTindakanLanjutan->tindakan->rekap->judul_rekap)
-                                                        <small class="text-muted">Rekap: {{ $pengawasanTindakanLanjutan->tindakan->rekap->judul_rekap }}</small><br>
-                                                    @endif
-                                                @endif
-                                            </div>
+
+                                            {{ $pengawasanTindakanLanjutan->tindakan->pimpinan->name }}
                                         </a>
                                     @else
-                                        -
+                                        <span class="text-muted">-</span>
                                     @endif
                                 </td>
                                 <td style="max-width: 280px; word-wrap: break-word;">{{ $pengawasanTindakanLanjutan->tindak_lanjut ?: '-' }}</td>

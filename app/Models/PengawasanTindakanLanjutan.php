@@ -31,7 +31,7 @@ class PengawasanTindakanLanjutan extends Model
 
     public function tindakan()
     {
-        return $this->belongsTo(PengawasanTindakan::class);
+        return $this->belongsTo(PengawasanTindakan::class, 'pengawasan_tindakan_id');
     }
 
     public function pic()
