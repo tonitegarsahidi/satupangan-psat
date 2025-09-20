@@ -17,12 +17,6 @@ return new class extends Migration
             $table->uuid('user_id_pic');
             $table->text('tindak_lanjut');
             $table->string('status', 50);
-            $table->string('lampiran1', 200)->nullable();
-            $table->string('lampiran2', 200)->nullable();
-            $table->string('lampiran3', 200)->nullable();
-            $table->string('lampiran4', 200)->nullable();
-            $table->string('lampiran5', 200)->nullable();
-            $table->string('lampiran6', 200)->nullable();
             $table->boolean('is_active')->default(true);
             $table->uuid('created_by');
             $table->uuid('updated_by')->nullable();

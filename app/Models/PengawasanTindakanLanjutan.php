@@ -45,6 +45,17 @@ class PengawasanTindakanLanjutan extends Model
             ->where('linked_type', 'TINDAKAN_LANJUTAN');
     }
 
+    public function details()
+    {
+        return $this->hasMany(PengawasanTindakanLanjutanDetail::class, 'pengawasan_tindakan_lanjutan_id');
+    }
+
+    public function latestDetail()
+    {
+        return $this->hasOne(PengawasanTindakanLanjutanDetail::class, 'pengawasan_tindakan_lanjutan_id')
+            ->latestOfMany();
+    }
+
     /**
      * Get valid status options
      *
