@@ -13,7 +13,7 @@
             <div class="col-xxl">
                 <div class="card mb-4">
                     <div class="card-header d-flex align-items-center justify-content-between">
-                        <h5 class="mb-0">Tambah Pengawasan Tindakan</h5>
+                        <h5 class="mb-0">Buat Tindakan Pengawasan Baru</h5>
                         <small class="text-muted float-end">* : must be filled</small>
                     </div>
                     <div class="card-body">
@@ -92,14 +92,14 @@
 
                             {{-- USER ID PEMIMPIN FIELD --}}
                             <div class="row mb-3">
-                                <label class="col-sm-2 col-form-label" for="user_id_petugas">Petugas*</label>
+                                <label class="col-sm-2 col-form-label" for="user_id_petugas">Penanggung Jawab*</label>
                                 <div class="col-sm-10">
                                     {{-- form validation error --}}
                                     @include('admin.components.notification.error-validation', ['field' => 'user_id_petugas'])
 
                                     {{-- input form --}}
                                     <select name="user_id_petugas" class="form-select" id="user_id_petugas" required>
-                                        <option value="">-- Pilih Petugas --</option>
+                                        <option value="">-- Pilih Petugas Penanggung Jawab --</option>
                                         @foreach ($petugass as $petugas)
                                             <option value="{{ $petugas->id }}">{{ $petugas->name }}</option>
                                         @endforeach
@@ -109,7 +109,7 @@
 
                             {{-- TINDAK LANJUT FIELD --}}
                             <div class="row mb-3">
-                                <label class="col-sm-2 col-form-label" for="tindak_lanjut">Tindak Lanjut*</label>
+                                <label class="col-sm-2 col-form-label" for="tindak_lanjut">Arahan Tindak Lanjut*</label>
                                 <div class="col-sm-10">
                                     {{-- form validation error --}}
                                     @include('admin.components.notification.error-validation', ['field' => 'tindak_lanjut'])
@@ -122,7 +122,7 @@
 
                             {{-- STATUS FIELD --}}
                             <div class="row mb-3">
-                                <label class="col-sm-2 col-form-label" for="status">Status*</label>
+                                <label class="col-sm-2 col-form-label" for="status">Status Tindak Lanjut*</label>
                                 <div class="col-sm-10">
                                     {{-- form validation error --}}
                                     @include('admin.components.notification.error-validation', ['field' => 'status'])
