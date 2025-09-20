@@ -17,6 +17,7 @@ class PengawasanTindakanLanjutanDetail extends Model
 
     protected $fillable = [
         'pengawasan_tindakan_lanjutan_id',
+        'user_id',
         'message',
         'lampiran1',
         'lampiran2',
@@ -42,6 +43,11 @@ class PengawasanTindakanLanjutanDetail extends Model
     public function updater()
     {
         return $this->belongsTo(User::class, 'updated_by');
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'user_id');
     }
 
     public function tindakan()

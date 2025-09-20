@@ -6,6 +6,7 @@ use App\Http\Requests\Pengawasan\PengawasanListRequest;
 use App\Http\Requests\Pengawasan\PengawasanTindakanAddRequest;
 use App\Http\Requests\Pengawasan\PengawasanTindakanEditRequest;
 use App\Services\PengawasanTindakanService;
+use App\Services\PengawasanTindakanLanjutanDetailService;
 use Illuminate\Http\Request;
 use App\Helpers\AlertHelper;
 use Illuminate\Validation\ValidationException;
@@ -30,11 +31,13 @@ use Illuminate\Support\Facades\Auth;
 class PengawasanTindakanController extends Controller
 {
     private $pengawasanTindakanService;
+    private $pengawasanTindakanLanjutanDetailService;
     private $mainBreadcrumbs;
 
-    public function __construct(PengawasanTindakanService $pengawasanTindakanService)
+    public function __construct(PengawasanTindakanService $pengawasanTindakanService, PengawasanTindakanLanjutanDetailService $pengawasanTindakanLanjutanDetailService)
     {
         $this->pengawasanTindakanService = $pengawasanTindakanService;
+        $this->pengawasanTindakanLanjutanDetailService = $pengawasanTindakanLanjutanDetailService;
 
         // Store common breadcrumbs in the constructor
         $this->mainBreadcrumbs = [
@@ -153,9 +156,15 @@ class PengawasanTindakanController extends Controller
     {
         $data = $this->pengawasanTindakanService->getTindakanDetail($request->id);
 
+        // Get tindakan lanjutan details if they exist
+        $tindakanLanjutanDetails = collect();
+        if ($data->tindakanLanjutan) {
+            $tindakanLanjutanDetails = $this->pengawasanTindakanLanjutanDetailService->getDetailsByLanjutanId($data->tindakanLanjutan->id);
+        }
+
         $breadcrumbs = array_merge($this->mainBreadcrumbs, ['Detail' => null]);
 
-        return view('admin.pages.pengawasan-tindakan.detail', compact('breadcrumbs', 'data'));
+        return view('admin.pages.pengawasan-tindakan.detail', compact('breadcrumbs', 'data', 'tindakanLanjutanDetails'));
     }
 
     /**

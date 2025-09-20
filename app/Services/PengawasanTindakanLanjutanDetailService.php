@@ -108,6 +108,11 @@ class PengawasanTindakanLanjutanDetailService
         return $this->pengawasanTindakanLanjutanDetailRepository->getDetailsByPIC($picId, $perPage);
     }
 
+    public function getDetailsByUserId($userId, int $perPage = 10)
+    {
+        return $this->pengawasanTindakanLanjutanDetailRepository->getDetailsByUserId($userId, $perPage);
+    }
+
     public function getLatestDetailByLanjutanId($lanjutanId)
     {
         return $this->pengawasanTindakanLanjutanDetailRepository->getLatestDetailByLanjutanId($lanjutanId);
@@ -133,6 +138,10 @@ class PengawasanTindakanLanjutanDetailService
 
         if (isset($data['pengawasan_tindakan_lanjutan_id']) && !PengawasanTindakanLanjutan::find($data['pengawasan_tindakan_lanjutan_id'])) {
             $errors['pengawasan_tindakan_lanjutan_id'] = 'Related tindakan lanjutan not found';
+        }
+
+        if (isset($data['user_id']) && !User::find($data['user_id'])) {
+            $errors['user_id'] = 'User not found';
         }
 
         return $errors;

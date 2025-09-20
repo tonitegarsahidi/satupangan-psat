@@ -36,7 +36,8 @@ class PengawasanTindakanLanjutanDetailRepository
             'tindakanLanjutan.tindakan.rekap.pengawasan',
             'tindakanLanjutan.pic',
             'creator',
-            'updater'
+            'updater',
+            'user'
         ]);
 
         if (!is_null($keyword)) {
@@ -64,7 +65,8 @@ class PengawasanTindakanLanjutanDetailRepository
             'tindakanLanjutan.tindakan.rekap.pengawasan',
             'tindakanLanjutan.pic',
             'creator',
-            'updater'
+            'updater',
+            'user'
         ])->find($detailId);
     }
 
@@ -107,7 +109,8 @@ class PengawasanTindakanLanjutanDetailRepository
     {
         return PengawasanTindakanLanjutanDetail::with([
             'creator',
-            'updater'
+            'updater',
+            'user'
         ])->where('pengawasan_tindakan_lanjutan_id', $lanjutanId)
         ->orderBy("created_at", "desc")
         ->get();
@@ -121,7 +124,8 @@ class PengawasanTindakanLanjutanDetailRepository
                 'tindakanLanjutan.tindakan',
                 'tindakanLanjutan.tindakan.rekap',
                 'tindakanLanjutan.tindakan.rekap.pengawasan',
-                'tindakanLanjutan.pic'
+                'tindakanLanjutan.pic',
+                'user'
             ])
             ->orderBy("created_at", "desc")
             ->paginate($perPage);
@@ -135,7 +139,8 @@ class PengawasanTindakanLanjutanDetailRepository
                 'tindakanLanjutan.tindakan',
                 'tindakanLanjutan.tindakan.rekap',
                 'tindakanLanjutan.tindakan.rekap.pengawasan',
-                'tindakanLanjutan.pic'
+                'tindakanLanjutan.pic',
+                'user'
             ])
             ->orderBy("updated_at", "desc")
             ->paginate($perPage);
@@ -152,7 +157,8 @@ class PengawasanTindakanLanjutanDetailRepository
                 'tindakanLanjutan.tindakan.rekap',
                 'tindakanLanjutan.tindakan.rekap.pengawasan',
                 'creator',
-                'updater'
+                'updater',
+                'user'
             ])
             ->orderBy("created_at", "desc")
             ->paginate($perPage);
@@ -160,7 +166,8 @@ class PengawasanTindakanLanjutanDetailRepository
 
     public function getLatestDetailByLanjutanId($lanjutanId): ?PengawasanTindakanLanjutanDetail
     {
-        return PengawasanTindakanLanjutanDetail::where('pengawasan_tindakan_lanjutan_id', $lanjutanId)
+        return PengawasanTindakanLanjutanDetail::with(['user'])
+            ->where('pengawasan_tindakan_lanjutan_id', $lanjutanId)
             ->orderBy("created_at", "desc")
             ->first();
     }
@@ -169,5 +176,21 @@ class PengawasanTindakanLanjutanDetailRepository
     {
         return PengawasanTindakanLanjutanDetail::where('pengawasan_tindakan_lanjutan_id', $lanjutanId)
             ->count();
+    }
+
+    public function getDetailsByUserId($userId, int $perPage = 10)
+    {
+        return PengawasanTindakanLanjutanDetail::where('user_id', $userId)
+            ->with([
+                'tindakanLanjutan',
+                'tindakanLanjutan.tindakan',
+                'tindakanLanjutan.tindakan.rekap',
+                'tindakanLanjutan.tindakan.rekap.pengawasan',
+                'tindakanLanjutan.pic',
+                'creator',
+                'updater'
+            ])
+            ->orderBy("created_at", "desc")
+            ->paginate($perPage);
     }
 }

@@ -121,34 +121,43 @@ class PengawasanTindakanSeeder extends Seeder
         $tindakanData = [];
 
         foreach ($rekapRecords as $rekap) {
-            // Get province name from relationship
-            $provinsiName = $rekap->provinsi ? $rekap->provinsi->nama_provinsi : 'Unknown';
+            // Create 2-3 tindakan entries for each rekap
+            $entriesCount = rand(2, 3);
 
-            // Get appropriate template based on province
-            if (isset($tindakanTemplatesByProvince[$provinsiName])) {
-                $templates = $tindakanTemplatesByProvince[$provinsiName];
-            } else {
-                $templates = $defaultTemplates;
+            for ($i = 0; $i < $entriesCount; $i++) {
+                // Get province name from relationship
+                $provinsiName = $rekap->provinsi ? $rekap->provinsi->nama_provinsi : 'Unknown';
+
+                // Get appropriate template based on province
+                if (isset($tindakanTemplatesByProvince[$provinsiName])) {
+                    $templates = $tindakanTemplatesByProvince[$provinsiName];
+                } else {
+                    $templates = $defaultTemplates;
+                }
+
+                // Select template based on rekap status or randomly
+                $templateIndex = $rekap->status === 'SELESAI' ? 0 : (count($templates) > 1 ? 1 : 0);
+                $template = $templates[$templateIndex] ?? $templates[0];
+
+                // Ensure PIC tindakan IDs are filtered for valid users
+                $picTindakanIds = array_filter($template['pic_tindakan_ids'], fn($id) => $id !== null);
+
+                // Add variation to tindak_lanjut text
+                $variationText = $i > 0 ? " (Tindakan ke-" . ($i + 1) . ")" : "";
+                $tindakLanjut = $template['tindak_lanjut'] . $variationText;
+
+                $tindakanData[] = [
+                    'id' => Str::uuid(),
+                    'pengawasan_rekap_id' => $rekap->id,
+                    'user_id_pimpinan' => $template['user_id_pimpinan'] ?: $this->getRandomUser($users),
+                    'tindak_lanjut' => $tindakLanjut,
+                    'status' => $template['status'],
+                    'pic_tindakan_ids' => json_encode($picTindakanIds),
+                    'is_active' => true,
+                    'created_by' => $template['created_by'] ?: $this->getRandomUser($users),
+                    'updated_by' => $template['updated_by'] ?: $this->getRandomUser($users),
+                ];
             }
-
-            // Select template based on rekap status or randomly
-            $templateIndex = $rekap->status === 'SELESAI' ? 0 : (count($templates) > 1 ? 1 : 0);
-            $template = $templates[$templateIndex] ?? $templates[0];
-
-            // Ensure PIC tindakan IDs are filtered for valid users
-            $picTindakanIds = array_filter($template['pic_tindakan_ids'], fn($id) => $id !== null);
-
-            $tindakanData[] = [
-                'id' => Str::uuid(),
-                'pengawasan_rekap_id' => $rekap->id,
-                'user_id_pimpinan' => $template['user_id_pimpinan'] ?: $this->getRandomUser($users),
-                'tindak_lanjut' => $template['tindak_lanjut'],
-                'status' => $template['status'],
-                'pic_tindakan_ids' => json_encode($picTindakanIds),
-                'is_active' => true,
-                'created_by' => $template['created_by'] ?: $this->getRandomUser($users),
-                'updated_by' => $template['updated_by'] ?: $this->getRandomUser($users),
-            ];
         }
 
         // Insert pengawasan tindakan data and update corresponding rekap records

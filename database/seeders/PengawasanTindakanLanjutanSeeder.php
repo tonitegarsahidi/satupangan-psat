@@ -19,61 +19,58 @@ class PengawasanTindakanLanjutanSeeder extends Seeder
     {
         // Get reference data
         $users = User::pluck('id', 'email')->toArray();
-        $tindakanRecords = PengawasanTindakan::pluck('id')->toArray();
+        $tindakanRecords = PengawasanTindakan::all();
 
-        // Sample pengawasan tindakan lanjutan data
-        $tindakanLanjutanData = [
+        // Get user IDs from PengawasanTindakan for pimpinan
+        $pimpinanUserIds = $tindakanRecords->pluck('user_id_pimpinan')->unique()->filter()->values()->toArray();
+
+        // Sample pengawasan tindakan lanjutan data templates
+        $tindakanLanjutanTemplates = [
             [
-                'id' => Str::uuid(),
-                'pengawasan_tindakan_id' => $tindakanRecords[0] ?? null,
-                'user_id_pic' => $users['supervisor@panganaman.my.id'] ?? null,
                 'tindak_lanjut' => 'Monitoring telah dilakukan dan hasilnya menunjukkan peningkatan kualitas.',
                 'status' => 'SELESAI',
-                'is_active' => true,
-                'created_by' => $users['admin@panganaman.my.id'] ?? null,
-                'updated_by' => $users['admin@panganaman.my.id'] ?? null,
             ],
             [
-                'id' => Str::uuid(),
-                'pengawasan_tindakan_id' => $tindakanRecords[1] ?? null,
-                'user_id_pic' => $users['operator@panganaman.my.id'] ?? null,
                 'tindak_lanjut' => 'Perbaikan sanitasi telah selesai dilakukan, menunggu verifikasi dari supervisor.',
                 'status' => 'PROSES',
-                'is_active' => true,
-                'created_by' => $users['supervisor@panganaman.my.id'] ?? null,
-                'updated_by' => $users['supervisor@panganaman.my.id'] ?? null,
             ],
             [
-                'id' => Str::uuid(),
-                'pengawasan_tindakan_id' => $tindakanRecords[2] ?? null,
-                'user_id_pic' => $users['user@panganaman.my.id'] ?? null,
                 'tindak_lanjut' => 'Evaluasi bulanan telah selesai dilakukan, tidak ada masalah signifikan.',
                 'status' => 'SELESAI',
-                'is_active' => true,
-                'created_by' => $users['operator@panganaman.my.id'] ?? null,
-                'updated_by' => $users['operator@panganaman.my.id'] ?? null,
-            ],
-            [
-                'id' => Str::uuid(),
-                'pengawasan_tindakan_id' => $tindakanRecords[3] ?? null,
-                'user_id_pic' => $users['kantorjabar@panganaman.my.id'] ?? null,
-                'tindak_lanjut' => 'Dokumen pelabelan sedang dalam proses pengumpulan dan pengecekan.',
-                'status' => 'PROSES',
-                'is_active' => true,
-                'created_by' => $users['user@panganaman.my.id'] ?? null,
-                'updated_by' => $users['user@panganaman.my.id'] ?? null,
-            ],
-            [
-                'id' => Str::uuid(),
-                'pengawasan_tindakan_id' => $tindakanRecords[4] ?? null,
-                'user_id_pic' => $users['kantorjateng@panganaman.my.id'] ?? null,
-                'tindak_lanjut' => 'Kalibrasi alat laboratorium telah selesai dilakukan, semua dalam kondisi baik.',
-                'status' => 'SELESAI',
-                'is_active' => true,
-                'created_by' => $users['kantorjatim@panganaman.my.id'] ?? null,
-                'updated_by' => $users['kantorjatim@panganaman.my.id'] ?? null,
             ],
         ];
+
+        // Generate pengawasan tindakan lanjutan data with 2-3 entries per tindakan
+        $tindakanLanjutanData = [];
+        $picUserIds = [
+            $users['supervisor@panganaman.my.id'] ?? null,
+            $users['operator@panganaman.my.id'] ?? null,
+            $users['user@panganaman.my.id'] ?? null,
+            $users['kantorjabar@panganaman.my.id'] ?? null,
+            $users['kantorjateng@panganaman.my.id'] ?? null,
+            $users['kantorjatim@panganaman.my.id'] ?? null,
+        ];
+
+        foreach ($tindakanRecords as $index => $tindakan) {
+            // Create 2-3 lanjutan entries for each tindakan
+            $entriesCount = rand(2, 3);
+
+            for ($i = 0; $i < $entriesCount; $i++) {
+                $template = $tindakanLanjutanTemplates[array_rand($tindakanLanjutanTemplates)];
+                $randomPicUserId = $picUserIds[array_rand(array_filter($picUserIds))];
+
+                $tindakanLanjutanData[] = [
+                    'id' => Str::uuid(),
+                    'pengawasan_tindakan_id' => $tindakan->id,
+                    'user_id_pic' => $randomPicUserId,
+                    'tindak_lanjut' => $template['tindak_lanjut'],
+                    'status' => $template['status'],
+                    'is_active' => true,
+                    'created_by' => $randomPicUserId,
+                    'updated_by' => $randomPicUserId,
+                ];
+            }
+        }
 
         // Insert pengawasan tindakan lanjutan data
         foreach ($tindakanLanjutanData as $data) {

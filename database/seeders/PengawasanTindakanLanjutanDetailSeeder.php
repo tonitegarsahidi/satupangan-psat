@@ -6,6 +6,7 @@ use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use App\Models\PengawasanTindakanLanjutanDetail;
 use App\Models\PengawasanTindakanLanjutan;
+use App\Models\PengawasanTindakan;
 use App\Models\User;
 use Illuminate\Support\Str;
 use Carbon\Carbon;
@@ -19,35 +20,53 @@ class PengawasanTindakanLanjutanDetailSeeder extends Seeder
     {
         // Get reference data
         $users = User::pluck('id', 'email')->toArray();
-        $tindakanLanjutanRecords = PengawasanTindakanLanjutan::pluck('id')->toArray();
+        $tindakanRecords = PengawasanTindakan::all();
+        $tindakanLanjutanRecords = PengawasanTindakanLanjutan::all();
 
-        // Sample pengawasan tindakan lanjutan detail data
-        $tindakanLanjutanDetailData = [
-            [
-                'id' => Str::uuid(),
-                'pengawasan_tindakan_lanjutan_id' => $tindakanLanjutanRecords[0] ?? null,
-                'message' => 'Pemeriksaan telah dilakukan dan hasilnya memenuhi standar.',
-                'is_active' => true,
-                'created_by' => $users['admin@panganaman.my.id'] ?? null,
-                'updated_by' => $users['admin@panganaman.my.id'] ?? null,
-            ],
-            [
-                'id' => Str::uuid(),
-                'pengawasan_tindakan_lanjutan_id' => $tindakanLanjutanRecords[1] ?? null,
-                'message' => 'Tindakan perbaikan sedang dalam proses pengawasan.',
-                'is_active' => true,
-                'created_by' => $users['supervisor@panganaman.my.id'] ?? null,
-                'updated_by' => $users['supervisor@panganaman.my.id'] ?? null,
-            ],
-            [
-                'id' => Str::uuid(),
-                'pengawasan_tindakan_lanjutan_id' => $tindakanLanjutanRecords[2] ?? null,
-                'message' => 'Evaluasi telah selesai, tidak ada temuan baru.',
-                'is_active' => true,
-                'created_by' => $users['operator@panganaman.my.id'] ?? null,
-                'updated_by' => $users['operator@panganaman.my.id'] ?? null,
-            ],
+        // Get user IDs from PengawasanTindakan for pimpinan
+        $pimpinanUserIds = $tindakanRecords->pluck('user_id_pimpinan')->unique()->filter()->values()->toArray();
+
+        // Get user IDs from PengawasanTindakanLanjutan for PIC
+        $picUserIds = $tindakanLanjutanRecords->pluck('user_id_pic')->unique()->filter()->values()->toArray();
+
+        // Sample pengawasan tindakan lanjutan detail data templates
+        $detailTemplates = [
+            'Pemeriksaan telah dilakukan dan hasilnya memenuhi standar.',
+            'Tindakan perbaikan sedang dalam proses pengawasan.',
+            'Evaluasi telah selesai, tidak ada temuan baru.',
+            'Dokumen telah diperbarui sesuai standar yang berlaku.',
+            'Monitoring rutin telah selesai dilakukan.',
+            'Pelatihan karyawan telah diselenggarakan.',
+            'Kalibrasi alat telah dilakukan dan dalam kondisi baik.',
+            'Verifikasi dokumen sedang dalam proses.',
         ];
+
+        // Generate pengawasan tindakan lanjutan detail data with 2-5 entries per lanjutan
+        $tindakanLanjutanDetailData = [];
+
+        foreach ($tindakanLanjutanRecords as $lanjutan) {
+            // Create 2-5 detail entries for each lanjutan
+            $entriesCount = rand(2, 5);
+
+            for ($i = 0; $i < $entriesCount; $i++) {
+                $template = $detailTemplates[array_rand($detailTemplates)];
+
+                // Randomly choose between pimpinan and pic user IDs
+                $userId = rand(0, 1) ?
+                    $pimpinanUserIds[array_rand($pimpinanUserIds)] :
+                    $picUserIds[array_rand($picUserIds)];
+
+                $tindakanLanjutanDetailData[] = [
+                    'id' => Str::uuid(),
+                    'pengawasan_tindakan_lanjutan_id' => $lanjutan->id,
+                    'user_id' => $userId,
+                    'message' => $template,
+                    'is_active' => true,
+                    'created_by' => $userId,
+                    'updated_by' => $userId,
+                ];
+            }
+        }
 
         // Insert pengawasan tindakan lanjutan detail data
         foreach ($tindakanLanjutanDetailData as $data) {

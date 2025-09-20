@@ -127,15 +127,76 @@
                             </tbody>
                         </table>
 
-                        @if (config('constant.CRUD.DISPLAY_TIMESTAMPS'))
-                            @include('components.crud-timestamps', $data)
-                        @endif
-
                     </div>
 
                 </div>
-
             </div>
+
+            {{-- MINITABLE FOR TINDAKAN LANJUTAN DETAILS --}}
+            @if($data->tindakanLanjutan && $tindakanLanjutanDetails && $tindakanLanjutanDetails->count() > 0)
+            <div class="row m-2">
+                <div class="col-12">
+                    <h4 class="card-header">Detail Tindakan Lanjutan</h4>
+                    <div class="table-responsive">
+                        <table class="table table-sm table-striped">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>No</th>
+                                    <th>Pesan</th>
+                                    <th>Lampiran</th>
+                                    <th>Pembuat</th>
+                                    <th>Tanggal</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach($tindakanLanjutanDetails as $index => $detail)
+                                <tr>
+                                    <td>{{ $loop->iteration }}</td>
+                                    <td>{{ $detail->message ?: '-' }}</td>
+                                    <td>
+                                        @if($detail->getAttachments() && count($detail->getAttachments()) > 0)
+                                            <div class="d-flex flex-wrap gap-1">
+                                                @foreach($detail->getAttachments() as $attachment)
+                                                    <a href="{{ $attachment['url'] }}" target="_blank" class="btn btn-sm btn-primary">
+                                                        <i class="bx bx-download"></i> {{ $attachment['name'] }}
+                                                    </a>
+                                                @endforeach
+                                            </div>
+                                        @else
+                                            -
+                                        @endif
+                                    </td>
+                                    <td>{{ $detail->creator ? $detail->creator->name : '-' }}</td>
+                                    <td>{{ $detail->created_at ? date('d/m/Y H:i', strtotime($detail->created_at)) : '-' }}</td>
+                                    <td>
+                                        @if ($detail->is_active)
+                                            <span class="badge rounded-pill bg-success"> Aktif </span>
+                                        @else
+                                            <span class="badge rounded-pill bg-danger"> Tidak Aktif </span>
+                                        @endif
+                                    </td>
+                                </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            @elseif($data->tindakanLanjutan)
+            <div class="row m-2">
+                <div class="col-12">
+                    <div class="alert alert-info">
+                        <i class="bx bx-info-circle me-2"></i>
+                        Belum ada detail tindakan lanjutan untuk tindakan ini.
+                    </div>
+                </div>
+            </div>
+            @endif
+
+            @if (config('constant.CRUD.DISPLAY_TIMESTAMPS'))
+                @include('components.crud-timestamps', $data)
+            @endif
 
 
 
