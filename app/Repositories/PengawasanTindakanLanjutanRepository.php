@@ -33,7 +33,7 @@ class PengawasanTindakanLanjutanRepository
         ]);
 
         if (!is_null($keyword)) {
-            $queryResult->whereRaw('lower(tindak_lanjut) LIKE ?', ['%' . strtolower($keyword) . '%'])
+            $queryResult->whereRaw('lower(arahan_tindak_lanjut) LIKE ?', ['%' . strtolower($keyword) . '%'])
                 ->orWhereHas('tindakan', function($q) use ($keyword) {
                     $q->whereRaw('lower(tindak_lanjut) LIKE ?', ['%' . strtolower($keyword) . '%'])
                       ->orWhereHas('pimpinan', function($q) use ($keyword) {

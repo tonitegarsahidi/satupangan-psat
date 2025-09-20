@@ -109,14 +109,14 @@
 
                             {{-- TINDAK LANJUT FIELD --}}
                             <div class="row mb-3">
-                                <label class="col-sm-2 col-form-label" for="tindak_lanjut">Tindak Lanjut*</label>
+                                <label class="col-sm-2 col-form-label" for="arahan_tindak_lanjut">Arah Tindak Lanjut*</label>
                                 <div class="col-sm-10">
                                     {{-- form validation error --}}
-                                    @include('admin.components.notification.error-validation', ['field' => 'tindak_lanjut'])
+                                    @include('admin.components.notification.error-validation', ['field' => 'arahan_tindak_lanjut'])
 
                                     {{-- input form --}}
-                                    <textarea name="tindak_lanjut" class="form-control" id="tindak_lanjut" rows="3"
-                                        placeholder="Enter follow-up action" required>{{ old('tindak_lanjut') }}</textarea>
+                                    <textarea name="arahan_tindak_lanjut" class="form-control" id="arahan_tindak_lanjut" rows="3"
+                                        placeholder="Enter follow-up action" required>{{ old('arahan_tindak_lanjut') }}</textarea>
                                 </div>
                             </div>
 

@@ -48,8 +48,8 @@
                                     </td>
                                 </tr>
                                 <tr>
-                                    <th scope="col" class="bg-dark text-white">Tindak Lanjut</th>
-                                    <td>{{ $data->tindak_lanjut ?: '-' }}</td>
+                                    <th scope="col" class="bg-dark text-white">Arah Tindak Lanjut</th>
+                                    <td>{{ $data->arahan_tindak_lanjut ?: '-' }}</td>
                                 </tr>
                                 <tr>
                                     <th scope="col" class="bg-dark text-white">Status</th>

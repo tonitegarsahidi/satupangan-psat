@@ -27,16 +27,28 @@ class PengawasanTindakanLanjutanSeeder extends Seeder
         // Sample pengawasan tindakan lanjutan data templates
         $tindakanLanjutanTemplates = [
             [
-                'tindak_lanjut' => 'Monitoring telah dilakukan dan hasilnya menunjukkan peningkatan kualitas.',
+                'arahan_tindak_lanjut' => 'Lakukan monitoring rutin setiap minggu untuk memastikan kualitas produk terjaga.',
                 'status' => 'SELESAI',
             ],
             [
-                'tindak_lanjut' => 'Perbaikan sanitasi telah selesai dilakukan, menunggu verifikasi dari supervisor.',
+                'arahan_tindak_lanjut' => 'Segera lakukan perbaikan sanitasi area produksi dan lapor hasilnya dalam 3 hari kerja.',
                 'status' => 'PROSES',
             ],
             [
-                'tindak_lanjut' => 'Evaluasi bulanan telah selesai dilakukan, tidak ada masalah signifikan.',
+                'arahan_tindak_lanjut' => 'Lakukan evaluasi komprehensif sistem manajemen mutu pada akhir bulan ini.',
                 'status' => 'SELESAI',
+            ],
+            [
+                'arahan_tindak_lanjut' => 'Periksa kembali semua alat produksi dan pastikan semua terjaga dengan baik.',
+                'status' => 'PROSES',
+            ],
+            [
+                'arahan_tindak_lanjut' => 'Lakukan pelatihan standar operasional prosedur (SOP) bagi seluruh karyawan.',
+                'status' => 'SELESAI',
+            ],
+            [
+                'arahan_tindak_lanjut' => 'Lakukan investigasi menyeluruh mengenai penyebab kontaminasi dan laporkan temuan.',
+                'status' => 'PROSES',
             ],
         ];
 
@@ -63,7 +75,7 @@ class PengawasanTindakanLanjutanSeeder extends Seeder
                     'id' => Str::uuid(),
                     'pengawasan_tindakan_id' => $tindakan->id,
                     'user_id_pic' => $randomPicUserId,
-                    'tindak_lanjut' => $template['tindak_lanjut'],
+                    'arahan_tindak_lanjut' => $template['arahan_tindak_lanjut'],
                     'status' => $template['status'],
                     'is_active' => true,
                     'created_by' => $randomPicUserId,

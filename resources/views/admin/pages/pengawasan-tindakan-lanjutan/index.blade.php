@@ -80,12 +80,12 @@
                             <th style="min-width: 200px; word-wrap: break-word;">
                                 <a
                                     href="{{ route('pengawasan-tindakan-lanjutan.index', [
-                                        'sort_field' => 'tindak_lanjut',
+                                        'sort_field' => 'arahan_tindak_lanjut',
                                         'sort_order' => $sortOrder == 'asc' ? 'desc' : 'asc',
                                         'keyword' => $keyword,
                                     ]) }}">
-                                    Tindak Lanjut
-                                    @include('components.arrow-sort', ['field' => 'tindak_lanjut', 'sortField' => $sortField, 'sortOrder' => $sortOrder])
+                                    Arah Tindak Lanjut
+                                    @include('components.arrow-sort', ['field' => 'arahan_tindak_lanjut', 'sortField' => $sortField, 'sortOrder' => $sortOrder])
                                 </a>
                             </th>
                             <th style="width: 80px;">
@@ -145,7 +145,7 @@
                                         <span class="text-muted">-</span>
                                     @endif
                                 </td>
-                                <td style="max-width: 280px; word-wrap: break-word;">{{ $pengawasanTindakanLanjutan->tindak_lanjut ?: '-' }}</td>
+                                <td style="max-width: 280px; word-wrap: break-word;">{{ $pengawasanTindakanLanjutan->arahan_tindak_lanjut ?: '-' }}</td>
                                 <td style="width: 80px;">
                                     <span class="badge rounded-pill bg-info">{{ $pengawasanTindakanLanjutan->getStatusLabel() }}</span>
                                 </td>

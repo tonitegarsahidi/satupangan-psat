@@ -22,7 +22,7 @@ class PengawasanTindakanLanjutan extends Model
     protected $fillable = [
         'pengawasan_tindakan_id',
         'user_id_pic',
-        'tindak_lanjut',
+        'arahan_tindak_lanjut',
         'status',
         'is_active',
         'created_by',

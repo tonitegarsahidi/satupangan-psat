@@ -15,7 +15,7 @@ return new class extends Migration
             $table->uuid('id')->primary();
             $table->uuid('pengawasan_tindakan_id');
             $table->uuid('user_id_pic');
-            $table->text('tindak_lanjut');
+            $table->text('arahan_tindak_lanjut');
             $table->string('status', 50);
             $table->boolean('is_active')->default(true);
             $table->uuid('created_by');
