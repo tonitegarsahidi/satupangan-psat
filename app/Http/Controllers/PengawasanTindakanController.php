@@ -135,6 +135,9 @@ class PengawasanTindakanController extends Controller
         $validatedData['created_by'] = $userId;
         $validatedData['updated_by'] = $userId;
 
+        // Set is_active to 1 (active) by default
+        $validatedData['is_active'] = 1;
+
         $result = $this->pengawasanTindakanService->addNewTindakan($validatedData);
 
         $alert = $result

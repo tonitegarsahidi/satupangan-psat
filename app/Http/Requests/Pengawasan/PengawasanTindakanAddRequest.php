@@ -28,7 +28,6 @@ class PengawasanTindakanAddRequest extends FormRequest
             'status' => 'required|string',
             'pic_tindakan_ids' => 'nullable|array',
             'pic_tindakan_ids.*' => 'exists:users,id',
-            'is_active' => 'required|boolean',
             'created_by' => 'nullable|exists:users,id',
             'updated_by' => 'nullable|exists:users,id',
         ];
@@ -47,8 +46,6 @@ class PengawasanTindakanAddRequest extends FormRequest
             'status.string' => 'The status must be a string.',
             'pic_tindakan_ids.array' => 'The PIC field must be an array.',
             'pic_tindakan_ids.*.exists' => 'One or more selected PICs are invalid.',
-            'is_active.required' => 'The active field is required.',
-            'is_active.boolean' => 'The active field must be true or false.',
             'created_by.exists' => 'The selected creator is invalid.',
             'updated_by.exists' => 'The selected updater is invalid.',
         ];
