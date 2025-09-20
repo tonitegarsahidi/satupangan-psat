@@ -38,6 +38,7 @@ class PengawasanTindakanLanjutanService
 
     public function addNewTindakanLanjutan(array $validatedData)
     {
+
         DB::beginTransaction();
         try {
             $lanjutan = $this->pengawasanTindakanLanjutanRepository->createTindakanLanjutan($validatedData);

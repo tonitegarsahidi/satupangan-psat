@@ -18,6 +18,7 @@ use Exception;
 class PengawasanTindakanService
 {
     private $pengawasanTindakanRepository;
+    private $pengawasanTindakanLanjutanService;
     private $pengawasanTindakanLanjutanDetailService;
     private $pengawasanTindakanLanjutanRepository;
     private $pengawasanTindakanPicRepository;
@@ -26,10 +27,12 @@ class PengawasanTindakanService
     public function __construct(
         PengawasanTindakanRepository $pengawasanTindakanRepository,
         PengawasanAttachmentRepository $pengawasanAttachmentRepository,
+        PengawasanTindakanLanjutanService $pengawasanTindakanLanjutanService,
         PengawasanTindakanLanjutanDetailService $pengawasanTindakanLanjutanDetailService
     ) {
         $this->pengawasanTindakanRepository = $pengawasanTindakanRepository;
         $this->pengawasanAttachmentRepository = $pengawasanAttachmentRepository;
+        $this->pengawasanTindakanLanjutanService = $pengawasanTindakanLanjutanService;
         $this->pengawasanTindakanLanjutanDetailService = $pengawasanTindakanLanjutanDetailService;
     }
 
@@ -58,10 +61,12 @@ class PengawasanTindakanService
             }
 
             // Create tindakan lanjutan if data exists
-            if (!empty($tindakanLanjutanData)) {
+            if (!empty($tindakanLanjutanData) && $this->pengawasanTindakanLanjutanService) {
                 foreach ($tindakanLanjutanData as $lanjutanItem) {
                     $lanjutanItem['pengawasan_tindakan_id'] = $tindakan->id;
-                    $this->pengawasanTindakanLanjutanRepository->createTindakanLanjutanDetail($lanjutanItem);
+                    $lanjutanItem['status'] = 'PROSES';
+                    $lanjutanItem['is_active'] = true;
+                    $this->pengawasanTindakanLanjutanService->addNewTindakanLanjutan($lanjutanItem);
                 }
             }
 

@@ -155,6 +155,8 @@ class PengawasanTindakanController extends Controller
             }
         }
 
+        // dd($tindakanLanjutanData);
+
         // Remove penugasan data from main validated data
         unset($validatedData['penugasan_pic_id'], $validatedData['penugasan_arahan']);
 
