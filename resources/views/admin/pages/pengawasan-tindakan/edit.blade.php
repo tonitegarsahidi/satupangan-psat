@@ -7,6 +7,18 @@
 
         @include('admin.components.breadcrumb.simple', $breadcrumbs)
 
+        {{-- Display validation errors at the top --}}
+        @if ($errors->any())
+            <div class="alert alert-danger">
+                <h5><i class="fas fa-exclamation-triangle me-2"></i> Harap perbaiki kesalahan berikut:</h5>
+                <ul>
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
+
         <div class="row">
             <!-- Edit Pengawasan Tindakan Form -->
             <div class="col-xxl">

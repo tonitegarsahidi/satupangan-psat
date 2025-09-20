@@ -22,7 +22,7 @@ class PengawasanTindakanEditRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'pengawasan_rekap_id' => 'nullable|exists:pengawasan_rekaps,id',
+            'pengawasan_rekap_id' => 'nullable|exists:pengawasan_rekap,id',
             'user_id_pimpinan' => 'nullable|exists:users,id',
             'tindak_lanjut' => 'nullable|string',
             'status' => 'nullable|string',

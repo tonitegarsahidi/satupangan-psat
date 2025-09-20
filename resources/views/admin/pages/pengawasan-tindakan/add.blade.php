@@ -7,6 +7,18 @@
 
         @include('admin.components.breadcrumb.simple', $breadcrumbs)
 
+        {{-- Display validation errors at the top --}}
+        @if ($errors->any())
+            <div class="alert alert-danger">
+                <h5><i class="fas fa-exclamation-triangle me-2"></i> Harap perbaiki kesalahan berikut:</h5>
+                <ul>
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
+
         <div class="row">
 
             <!-- Basic Layout -->
@@ -92,13 +104,13 @@
 
                             {{-- USER ID PEMIMPIN FIELD --}}
                             <div class="row mb-3">
-                                <label class="col-sm-2 col-form-label" for="user_id_petugas">Penanggung Jawab*</label>
+                                <label class="col-sm-2 col-form-label" for="user_id_pimpinan">Penanggung Jawab*</label>
                                 <div class="col-sm-10">
                                     {{-- form validation error --}}
-                                    @include('admin.components.notification.error-validation', ['field' => 'user_id_petugas'])
+                                    @include('admin.components.notification.error-validation', ['field' => 'user_id_pimpinan'])
 
                                     {{-- input form --}}
-                                    <select name="user_id_petugas" class="form-select" id="user_id_petugas" required>
+                                    <select name="user_id_pimpinan" class="form-select" id="user_id_pimpinan" required>
                                         <option value="">-- Pilih Petugas Penanggung Jawab --</option>
                                         @foreach ($petugass as $petugas)
                                             <option value="{{ $petugas->id }}">{{ $petugas->name }}</option>
