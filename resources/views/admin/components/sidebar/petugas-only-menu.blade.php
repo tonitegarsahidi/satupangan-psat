@@ -49,8 +49,17 @@
 @include('admin.components.sidebar.item', [
     'menuId' => 'menu-pengawasan-tindakan',
     'menuText' => 'Tindakan Pengawasan',
-    'menuUrl' => route('pengawasan-tindakan.index'),
+    'menuUrl' => '#',
     'menuIcon' => 'bx bx-run',
-    'subMenuData' => null,
+    'subMenuData' => [
+        [
+            'subMenuUrl' => route('pengawasan-tindakan.index'),
+            'subMenuText' => 'Tindakan Pengawasan',
+        ],
+        [
+            'subMenuUrl' => route('pengawasan-tindakan-lanjutan.index'),
+            'subMenuText' => 'Tindakan Lanjutan',
+        ],
+    ],
 ])
 @endif

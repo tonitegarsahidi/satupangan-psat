@@ -56,4 +56,18 @@ Route::middleware(['auth', 'role:ROLE_OPERATOR,ROLE_SUPERVISOR,ROLE_LEADER,ROLE_
             Route::delete('/delete/{id}', [\App\Http\Controllers\PengawasanTindakanController::class, 'destroy'])->name('pengawasan-tindakan.destroy');
             Route::get('/search', [\App\Http\Controllers\PengawasanTindakanController::class, 'search'])->name('pengawasan-tindakan.search');
         });
+
+    // MANAGE PENGAWASAN TINDAKAN LANJUTAN
+    Route::prefix('/pengawasan-tindakan-lanjutan')
+        ->group(function () {
+            Route::get('/', [\App\Http\Controllers\PengawasanTindakanLanjutanController::class, 'index'])->name('pengawasan-tindakan-lanjutan.index');
+            Route::get('/add/{pengawasanTindakanId?}', [\App\Http\Controllers\PengawasanTindakanLanjutanController::class, 'create'])->name('pengawasan-tindakan-lanjutan.add');
+            Route::post('/add', [\App\Http\Controllers\PengawasanTindakanLanjutanController::class, 'store'])->name('pengawasan-tindakan-lanjutan.store');
+            Route::get('/detail/{id}', [\App\Http\Controllers\PengawasanTindakanLanjutanController::class, 'detail'])->name('pengawasan-tindakan-lanjutan.detail');
+            Route::get('/edit/{id}', [\App\Http\Controllers\PengawasanTindakanLanjutanController::class, 'edit'])->name('pengawasan-tindakan-lanjutan.edit');
+            Route::put('/edit/{id}', [\App\Http\Controllers\PengawasanTindakanLanjutanController::class, 'update'])->name('pengawasan-tindakan-lanjutan.update');
+            Route::get('/delete/{id}', [\App\Http\Controllers\PengawasanTindakanLanjutanController::class, 'deleteConfirm'])->name('pengawasan-tindakan-lanjutan.delete');
+            Route::delete('/delete/{id}', [\App\Http\Controllers\PengawasanTindakanLanjutanController::class, 'destroy'])->name('pengawasan-tindakan-lanjutan.destroy');
+            Route::get('/search', [\App\Http\Controllers\PengawasanTindakanLanjutanController::class, 'search'])->name('pengawasan-tindakan-lanjutan.search');
+        });
 });
