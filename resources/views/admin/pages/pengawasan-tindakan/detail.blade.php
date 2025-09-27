@@ -99,8 +99,16 @@
                                     <th scope="col" class="bg-dark text-white">Tindakan Lanjutan</th>
                                     <td>
                                         @if ($data->tindakanLanjutan->count() > 0)
-                                            <p>{{ $data->tindakanLanjutan->first()->arahan_tindak_lanjut ?: '-' }}</p>
-                                            <p class="text-muted small">PIC: {{ $data->tindakanLanjutan->first()->pic ? $data->tindakanLanjutan->first()->pic->name : '-' }}</p>
+                                            <ul class="list-unstyled mb-0">
+                                                @foreach ($data->tindakanLanjutan as $tindakanLanjutanItem)
+                                                    <li>
+                                                        <div>
+                                                            <strong>{{ $tindakanLanjutanItem->arahan_tindak_lanjut ?: '-' }}</strong><br>
+                                                            <small class="text-muted">PIC: {{ $tindakanLanjutanItem->pic ? $tindakanLanjutanItem->pic->name : '-' }}</small>
+                                                        </div>
+                                                    </li>
+                                                @endforeach
+                                            </ul>
                                         @else
                                             -
                                         @endif
@@ -133,7 +141,7 @@
             </div>
 
             {{-- SECTION FOR TINDAKAN LANJUTAN --}}
-            @if($data->tindakanLanjutans && $data->tindakanLanjutans->count() > 0)
+            @if($data->tindakanLanjutan && $data->tindakanLanjutan->count() > 0)
             <div class="row m-2">
                 <div class="col-12">
                     <h4 class="card-header">Tindakan Lanjutan</h4>
@@ -148,9 +156,9 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach($data->tindakanLanjutans as $tindakanLanjutan)
+                                @foreach($data->tindakanLanjutan as $tindakanLanjutan)
                                 <tr>
-                                    <td>{{ $tindakanLanjutan->deskripsi ?: '-' }}</td>
+                                    <td>{{ $tindakanLanjutan->arahan_tindak_lanjut ?: '-' }}</td>
                                     <td>{{ $tindakanLanjutan->pic ? $tindakanLanjutan->pic->name : '-' }}</td>
                                     <td>
                                         <span class="badge rounded-pill bg-info">{{ $tindakanLanjutan->getStatusLabel() }}</span>
@@ -162,38 +170,6 @@
                                     </td>
                                 </tr>
                                 @endforeach
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-            @elseif($data->tindakanLanjutan->count() > 0)
-            <div class="row m-2">
-                <div class="col-12">
-                    <h4 class="card-header">Tindakan Lanjutan</h4>
-                    <div class="table-responsive">
-                        <table class="table table-sm table-striped">
-                            <thead class="table-light">
-                                <tr>
-                                    <th>Pesan</th>
-                                    <th>PIC</th>
-                                    <th>Status</th>
-                                    <th>Aksi</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>{{ $data->tindakanLanjutan->first()->arahan_tindak_lanjut ?: '-' }}</td>
-                                    <td>{{ $data->tindakanLanjutan->first()->pic ? $data->tindakanLanjutan->first()->pic->name : '-' }}</td>
-                                    <td>
-                                        <span class="badge rounded-pill bg-info">{{ $data->tindakanLanjutan->first()->getStatusLabel() }}</span>
-                                    </td>
-                                    <td>
-                                        <a href="{{ route('pengawasan-tindakan-lanjutan.detail', ['id' => $data->tindakanLanjutan->first()->id]) }}" class="btn btn-sm btn-primary">
-                                            <i class="bx bx-eye me-1"></i> Lihat Detail
-                                        </a>
-                                    </td>
-                                </tr>
                             </tbody>
                         </table>
                     </div>
