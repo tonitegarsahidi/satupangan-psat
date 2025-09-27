@@ -25,11 +25,11 @@
             <div class="row m-2">
 
                 <div class="col-md-8 col-xs-12">
-                    <div class="table-responsive text-nowrap">
-                        <table class="table table-hover">
+                    <div style="overflow-x: visible; width: 100%;">
+                        <table class="table table-hover" style="table-layout: auto; width: 100%;">
                             <tbody>
                                 <tr>
-                                    <th style="width: 250px;" scope="col" class="bg-dark text-white">Rekap Pengawasan</th>
+                                    <th style="width: 30%; min-width: 200px;" scope="col" class="bg-dark text-white">Rekap Pengawasan</th>
                                     <td>
                                         @if ($data->rekap)
                                             <a href="{{ route('pengawasan-rekap.detail', ['id' => $data->rekap->id]) }}"
@@ -92,25 +92,6 @@
                                             <span class="badge rounded-pill bg-success"> Yes </span>
                                         @else
                                             <span class="badge rounded-pill bg-danger"> No </span>
-                                        @endif
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <th scope="col" class="bg-dark text-white">Tindakan Lanjutan</th>
-                                    <td>
-                                        @if ($data->tindakanLanjutan->count() > 0)
-                                            <ul class="list-unstyled mb-0">
-                                                @foreach ($data->tindakanLanjutan as $tindakanLanjutanItem)
-                                                    <li>
-                                                        <div>
-                                                            <strong>{{ $tindakanLanjutanItem->arahan_tindak_lanjut ?: '-' }}</strong><br>
-                                                            <small class="text-muted">PIC: {{ $tindakanLanjutanItem->pic ? $tindakanLanjutanItem->pic->name : '-' }}</small>
-                                                        </div>
-                                                    </li>
-                                                @endforeach
-                                            </ul>
-                                        @else
-                                            -
                                         @endif
                                     </td>
                                 </tr>
@@ -202,10 +183,31 @@
 
 @section('footer-code')
 
-    <script>
-        function goBack() {
-            window.history.back();
-        }
-    </script>
+     <style>
+         .table td {
+             word-wrap: break-word;
+             word-break: break-word;
+             white-space: normal;
+             vertical-align: top;
+         }
+
+         .table th {
+             word-wrap: break-word;
+             word-break: break-word;
+             white-space: normal;
+             vertical-align: top;
+         }
+
+         /* Ensure long URLs and text in links wrap properly */
+         .table td a {
+             word-break: break-all;
+         }
+     </style>
+
+     <script>
+         function goBack() {
+             window.history.back();
+         }
+     </script>
 
 @endsection

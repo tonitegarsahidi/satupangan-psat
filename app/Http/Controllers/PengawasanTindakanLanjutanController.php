@@ -159,6 +159,12 @@ class PengawasanTindakanLanjutanController extends Controller
     {
         $data = $this->pengawasanTindakanLanjutanService->getTindakanLanjutanDetail($request->id);
 
+        // Check if data exists
+        if (!$data) {
+            $alert = AlertHelper::createAlert('danger', 'Data Pengawasan Tindakan Lanjutan tidak ditemukan');
+            return redirect()->route('pengawasan-tindakan-lanjutan.index')->with(['alerts' => [$alert]]);
+        }
+
         // Get tindakan lanjutan details if they exist
         $tindakanLanjutanDetails = collect();
         if ($data->details) {
