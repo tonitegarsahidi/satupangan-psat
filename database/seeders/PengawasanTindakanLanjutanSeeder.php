@@ -63,19 +63,32 @@ class PengawasanTindakanLanjutanSeeder extends Seeder
             $users['kantorjatim@panganaman.my.id'] ?? null,
         ];
 
-        foreach ($tindakanRecords as $index => $tindakan) {
-            // Create 2-3 lanjutan entries for each tindakan
-            $entriesCount = rand(2, 3);
+        // Filter out null user IDs
+        $validPicUserIds = array_filter($picUserIds);
+
+        // Ensure we have at least some valid users
+        if (empty($validPicUserIds)) {
+            // If no specific users found, use any available user
+            $validPicUserIds = $users;
+        }
+
+        foreach ($tindakanRecords as $tindakan) {
+            // Create exactly 2-3 lanjutan entries for each tindakan
+            $entriesCount = rand(2, 5);
 
             for ($i = 0; $i < $entriesCount; $i++) {
                 $template = $tindakanLanjutanTemplates[array_rand($tindakanLanjutanTemplates)];
-                $randomPicUserId = $picUserIds[array_rand(array_filter($picUserIds))];
+                $randomPicUserId = $validPicUserIds[array_rand($validPicUserIds)];
+
+                // Add variation to arahan_tindak_lanjut text based on tindakan
+                $variationText = " (Tindakan Lanjutan ke-" . ($i + 1) . " untuk " . substr($tindakan->tindak_lanjut, 0, 30) . "...)";
+                $arahanTindakLanjut = $template['arahan_tindak_lanjut'] . $variationText;
 
                 $tindakanLanjutanData[] = [
                     'id' => Str::uuid(),
                     'pengawasan_tindakan_id' => $tindakan->id,
                     'user_id_pic' => $randomPicUserId,
-                    'arahan_tindak_lanjut' => $template['arahan_tindak_lanjut'],
+                    'arahan_tindak_lanjut' => $arahanTindakLanjut,
                     'status' => $template['status'],
                     'is_active' => true,
                     'created_by' => $randomPicUserId,

@@ -35,7 +35,7 @@ class PengawasanTindakanSeeder extends Seeder
                 [
                     'user_id_pimpinan' => $provinciUsers['Jawa Barat'],
                     'tindak_lanjut' => 'Melakukan monitoring berkala untuk memastikan kualitas produk terjaga di wilayah Jawa Barat.',
-                    'status' => 'SELESAI',
+                    'status' => config('pengawasan.pengawasan_tindakan_statuses.BUTUH_TINDAKAN_LANJUTAN'),
                     'pic_tindakan_ids' => [$provinciUsers['Jawa Barat'], $provinciUsers['Jawa Tengah']],
                     'created_by' => $provinciUsers['Jawa Barat'],
                     'updated_by' => $provinciUsers['Jawa Barat'],
@@ -43,7 +43,7 @@ class PengawasanTindakanSeeder extends Seeder
                 [
                     'user_id_pimpinan' => $users['pimpinan@panganaman.my.id'] ?? $this->getRandomUser($users),
                     'tindak_lanjut' => 'Segera melakukan perbaikan sanitasi dan lakukan pelatihan karyawan di Jawa Barat.',
-                    'status' => 'PROSES',
+                    'status' => config('pengawasan.pengawasan_tindakan_statuses.BUTUH_TINDAKAN_LANJUTAN'),
                     'pic_tindakan_ids' => [$provinciUsers['Jawa Barat'], $provinciUsers['Jawa Timur']],
                     'created_by' => $users['pimpinan@panganaman.my.id'] ?? $this->getRandomUser($users),
                     'updated_by' => $users['pimpinan@panganaman.my.id'] ?? $this->getRandomUser($users),
@@ -53,7 +53,7 @@ class PengawasanTindakanSeeder extends Seeder
                 [
                     'user_id_pimpinan' => $provinciUsers['Jawa Tengah'],
                     'tindak_lanjut' => 'Mempertahankan standar operasional yang ada dan lakukan evaluasi bulanan di Jawa Tengah.',
-                    'status' => 'SELESAI',
+                    'status' => config('pengawasan.pengawasan_tindakan_statuses.BUTUH_TINDAKAN_LANJUTAN'),
                     'pic_tindakan_ids' => [$provinciUsers['Jawa Tengah'], $provinciUsers['Jawa Barat']],
                     'created_by' => $provinciUsers['Jawa Tengah'],
                     'updated_by' => $provinciUsers['Jawa Tengah'],
@@ -61,7 +61,7 @@ class PengawasanTindakanSeeder extends Seeder
                 [
                     'user_id_pimpinan' => $users['pimpinan@panganaman.my.id'] ?? $this->getRandomUser($users),
                     'tindak_lanjut' => 'Melengkapi semua dokumen pelabelan sesuai standar yang berlaku di Jawa Tengah.',
-                    'status' => 'PROSES',
+                    'status' => config('pengawasan.pengawasan_tindakan_statuses.BUTUH_TINDAKAN_LANJUTAN'),
                     'pic_tindakan_ids' => [$provinciUsers['Jawa Tengah'], $provinciUsers['Jawa Timur']],
                     'created_by' => $users['pimpinan@panganaman.my.id'] ?? $this->getRandomUser($users),
                     'updated_by' => $users['pimpinan@panganaman.my.id'] ?? $this->getRandomUser($users),
@@ -71,7 +71,7 @@ class PengawasanTindakanSeeder extends Seeder
                 [
                     'user_id_pimpinan' => $provinciUsers['Jawa Timur'],
                     'tindak_lanjut' => 'Terus mempertahankan kualitas laboratorium dan lakukan kalibrasi rutin di Jawa Timur.',
-                    'status' => 'SELESAI',
+                    'status' => config('pengawasan.pengawasan_tindakan_statuses.BUTUH_TINDAKAN_LANJUTAN'),
                     'pic_tindakan_ids' => [$provinciUsers['Jawa Timur'], $provinciUsers['Jawa Tengah']],
                     'created_by' => $provinciUsers['Jawa Timur'],
                     'updated_by' => $provinciUsers['Jawa Timur'],
@@ -79,7 +79,7 @@ class PengawasanTindakanSeeder extends Seeder
                 [
                     'user_id_pimpinan' => $users['pimpinan@panganaman.my.id'] ?? $this->getRandomUser($users),
                     'tindak_lanjut' => 'Melakukan peningkatan sistem pengawasan dan pengujian berkala di Jawa Timur.',
-                    'status' => 'PROSES',
+                    'status' => config('pengawasan.pengawasan_tindakan_statuses.BUTUH_TINDAKAN_LANJUTAN'),
                     'pic_tindakan_ids' => [$provinciUsers['Jawa Timur'], $provinciUsers['Jawa Barat']],
                     'created_by' => $users['pimpinan@panganaman.my.id'] ?? $this->getRandomUser($users),
                     'updated_by' => $users['pimpinan@panganaman.my.id'] ?? $this->getRandomUser($users),
@@ -89,7 +89,7 @@ class PengawasanTindakanSeeder extends Seeder
                 [
                     'user_id_pimpinan' => $provinciUsers['Kewenangan Pusat'] ?? $users['pimpinan@panganaman.my.id'],
                     'tindak_lanjut' => 'Melakukan koordinasi nasional untuk standarisasi pengawasan pangan.',
-                    'status' => 'SELESAI',
+                    'status' => config('pengawasan.pengawasan_tindakan_statuses.BUTUH_TINDAKAN_LANJUTAN'),
                     'pic_tindakan_ids' => [$provinciUsers['Kewenangan Pusat'], $provinciUsers['Jawa Barat'], $provinciUsers['Jawa Tengah']],
                     'created_by' => $provinciUsers['Kewenangan Pusat'] ?? $users['pimpinan@panganaman.my.id'],
                     'updated_by' => $provinciUsers['Kewenangan Pusat'] ?? $users['pimpinan@panganaman.my.id'],
@@ -97,7 +97,7 @@ class PengawasanTindakanSeeder extends Seeder
                 [
                     'user_id_pimpinan' => $users['pimpinan@panganaman.my.id'] ?? $this->getRandomUser($users),
                     'tindak_lanjut' => 'Segera melakukan harmonisasi regulasi dan standar nasional pengawasan.',
-                    'status' => 'PROSES',
+                    'status' => config('pengawasan.pengawasan_tindakan_statuses.BUTUH_TINDAKAN_LANJUTAN'),
                     'pic_tindakan_ids' => [$provinciUsers['Kewenangan Pusat'], $provinciUsers['Jawa Timur']],
                     'created_by' => $users['pimpinan@panganaman.my.id'] ?? $this->getRandomUser($users),
                     'updated_by' => $users['pimpinan@panganaman.my.id'] ?? $this->getRandomUser($users),
@@ -110,7 +110,7 @@ class PengawasanTindakanSeeder extends Seeder
             [
                 'user_id_pimpinan' => $users['pimpinan@panganaman.my.id'] ?? $this->getRandomUser($users),
                 'tindak_lanjut' => 'Melakukan monitoring dan evaluasi berkala untuk memastikan kepatuhan standar pangan.',
-                'status' => 'SELESAI',
+                'status' => config('pengawasan.pengawasan_tindakan_statuses.BUTUH_TINDAKAN_LANJUTAN'),
                 'pic_tindakan_ids' => array_filter($provinciUsers, fn($user) => $user !== null),
                 'created_by' => $users['pimpinan@panganaman.my.id'] ?? $this->getRandomUser($users),
                 'updated_by' => $users['pimpinan@panganaman.my.id'] ?? $this->getRandomUser($users),
