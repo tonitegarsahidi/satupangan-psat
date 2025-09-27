@@ -25,11 +25,11 @@
             <div class="row m-2">
 
                 <div class="col-md-8 col-xs-12">
-                    <div class="table-responsive text-nowrap">
-                        <table class="table table-hover">
+                    <div style="overflow-x: visible; width: 100%;">
+                        <table class="table table-hover" style="table-layout: auto; width: 100%;">
                             <tbody>
                                 <tr>
-                                    <th style="width: 250px;" scope="col" class="bg-dark text-white">Tindakan Asal</th>
+                                    <th style="width: 30%; min-width: 200px;" scope="col" class="bg-dark text-white">Tindakan Asal</th>
                                     <td>
                                         @if ($data->tindakan)
                                             <a href="{{ route('pengawasan-tindakan.detail', ['id' => $data->tindakan->id]) }}"
@@ -193,10 +193,31 @@
 
 @section('footer-code')
 
-    <script>
-        function goBack() {
-            window.history.back();
-        }
-    </script>
+     <style>
+         .table td {
+             word-wrap: break-word;
+             word-break: break-word;
+             white-space: normal;
+             vertical-align: top;
+         }
+
+         .table th {
+             word-wrap: break-word;
+             word-break: break-word;
+             white-space: normal;
+             vertical-align: top;
+         }
+
+         /* Ensure long URLs and text in links wrap properly */
+         .table td a {
+             word-break: break-all;
+         }
+     </style>
+
+     <script>
+         function goBack() {
+             window.history.back();
+         }
+     </script>
 
 @endsection
