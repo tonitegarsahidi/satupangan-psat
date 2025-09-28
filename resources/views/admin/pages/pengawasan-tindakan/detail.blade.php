@@ -68,7 +68,11 @@
                                 <tr>
                                     <th scope="col" class="bg-dark text-white">Status</th>
                                     <td>
-                                        <span class="badge rounded-pill bg-info">{{ $data->statusLabel() }}</span>
+                                        @if ($data->statusLabel() == config('pengawasan.pengawasan_tindakan_statuses.SETUJUI_SELESAI'))
+                                        <span class="badge rounded-pill bg-success">{{ $data->statusLabel() }}</span>
+                                    @else
+                                        <span class="badge rounded-pill bg-warning">{{ $data->statusLabel() }}</span>
+                                    @endif
                                     </td>
                                 </tr>
                                 <tr>
@@ -85,7 +89,7 @@
                                         @endif
                                     </td>
                                 </tr>
-                                <tr>
+                                {{-- <tr>
                                     <th scope="col" class="bg-dark text-white">Aktif</th>
                                     <td>
                                         @if ($data->is_active)
@@ -94,7 +98,7 @@
                                             <span class="badge rounded-pill bg-danger"> No </span>
                                         @endif
                                     </td>
-                                </tr>
+                                </tr> --}}
                                 <tr>
                                     <th scope="col" class="bg-dark text-white">Attachments</th>
                                     <td>
@@ -130,19 +134,27 @@
                         <table class="table table-sm table-striped">
                             <thead class="table-light">
                                 <tr>
-                                    <th>Pesan</th>
-                                    <th>PIC</th>
-                                    <th>Status</th>
-                                    <th>Aksi</th>
+                                    <th style="width: 5%;">No</th>
+                                    <th style="width: 15%;">PIC</th>
+                                    <th style="width: 40%; max-width: 40%;">Pesan</th>
+                                    <th style="width: 10%;">Status</th>
+                                    <th style="width: 30%;">Aksi</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 @foreach($data->tindakanLanjutan as $tindakanLanjutan)
                                 <tr>
-                                    <td>{{ $tindakanLanjutan->arahan_tindak_lanjut ?: '-' }}</td>
+                                    <td>{{ $loop->iteration }}</td>
                                     <td>{{ $tindakanLanjutan->pic ? $tindakanLanjutan->pic->name : '-' }}</td>
+                                    <td style="max-width: 40%; word-wrap: break-word; word-break: break-word;">
+                                        {{ $tindakanLanjutan->arahan_tindak_lanjut ?: '-' }}
+                                    </td>
                                     <td>
-                                        <span class="badge rounded-pill bg-info">{{ $tindakanLanjutan->getStatusLabel() }}</span>
+                                        @if($tindakanLanjutan->is_active)
+                                            <span class="badge rounded-pill bg-success">Selesai</span>
+                                        @else
+                                            <span class="badge rounded-pill bg-warning">Belum Selesai</span>
+                                        @endif
                                     </td>
                                     <td>
                                         <a href="{{ route('pengawasan-tindakan-lanjutan.detail', ['id' => $tindakanLanjutan->id]) }}" class="btn btn-sm btn-primary">

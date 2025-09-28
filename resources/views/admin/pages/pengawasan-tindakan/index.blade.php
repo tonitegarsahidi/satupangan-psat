@@ -65,7 +65,7 @@
                     <thead>
                         <tr>
                             <th style="width: 50px;">No</th>
-                            <th style="min-width: 120px;">PIC</th>
+                            <th style="min-width: 120px;">Penanggung Jawab</th>
                             <th style="min-width: 180px;">
                                 <a
                                     href="{{ route('pengawasan-tindakan.index', [
@@ -73,7 +73,7 @@
                                         'sort_order' => $sortOrder == 'asc' ? 'desc' : 'asc',
                                         'keyword' => $keyword,
                                     ]) }}">
-                                    Rekap Pengawasan
+                                    Rekap Pengawasan Terkait
                                     @include('components.arrow-sort', ['field' => 'rekap.hasil_rekap', 'sortField' => $sortField, 'sortOrder' => $sortOrder])
                                 </a>
                             </th>
@@ -142,10 +142,10 @@
                                                     <strong>{{ $pengawasanTindakan->rekap->judul_rekap }}</strong><br>
                                                 @endif
                                                 @if ($pengawasanTindakan->rekap->jenisPsat)
-                                                    <small class="text-muted">Jenis: {{ $pengawasanTindakan->rekap->jenisPsat->nama_jenis_pangan_segar }}</small><br>
+                                                    <small class="text-black">Jenis: {{ $pengawasanTindakan->rekap->jenisPsat->nama_jenis_pangan_segar }}</small><br>
                                                 @endif
                                                 @if ($pengawasanTindakan->rekap->produkPsat)
-                                                    <small class="text-muted">Produk: {{ $pengawasanTindakan->rekap->produkPsat->nama_bahan_pangan_segar }}</small>
+                                                    <small class="text-black">Produk: {{ $pengawasanTindakan->rekap->produkPsat->nama_bahan_pangan_segar }}</small>
                                                 @endif
                                             </div>
                                         </a>
@@ -155,7 +155,12 @@
                                 </td>
                                 <td style="max-width: 280px; word-wrap: break-word;">{{ $pengawasanTindakan->tindak_lanjut ?: '-' }}</td>
                                 <td style="width: 80px;">
-                                    <span class="badge rounded-pill bg-info">{{ $pengawasanTindakan->statusLabel() }}</span>
+                                    @if ($pengawasanTindakan->statusLabel() == config('pengawasan.pengawasan_tindakan_statuses.SETUJUI_SELESAI'))
+                                        <span class="badge rounded-pill bg-success">{{ $pengawasanTindakan->statusLabel() }}</span>
+                                    @else
+                                        <span class="badge rounded-pill bg-warning">{{ $pengawasanTindakan->statusLabel() }}</span>
+                                    @endif
+
                                 </td>
                                 <td style="width: 80px;">{{ \Carbon\Carbon::parse($pengawasanTindakan->updated_at)->format('d/m/Y') }}</td>
 

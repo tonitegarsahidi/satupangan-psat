@@ -115,19 +115,22 @@
                         <table class="table table-sm table-striped">
                             <thead class="table-light">
                                 <tr>
-                                    <th>No</th>
-                                    <th>Pesan</th>
-                                    <th>Lampiran</th>
-                                    <th>Pembuat</th>
-                                    <th>Tanggal</th>
-                                    <th>Status</th>
+                                    <th style="width: 5%;">No</th>
+                                    <th style="width: 15%;">PIC</th>
+                                    <th style="width: 40%; max-width: 40%;">Pesan</th>
+                                    <th style="width: 20%;">Lampiran</th>
+                                    <th style="width: 10%;">Tanggal</th>
+                                    <th style="width: 10%;">Status</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 @foreach($tindakanLanjutanDetails as $index => $detail)
                                 <tr>
                                     <td>{{ $loop->iteration }}</td>
-                                    <td>{{ $detail->message ?: '-' }}</td>
+                                    <td>{{ $detail->user ? $detail->user->name : '-' }}</td>
+                                    <td style="max-width: 40%; word-wrap: break-word; word-break: break-word;">
+                                        {{ $detail->message ?: '-' }}
+                                    </td>
                                     <td>
                                         @if($detail->attachments && count($detail->attachments) > 0)
                                             <div class="d-flex flex-wrap gap-1">
@@ -141,13 +144,12 @@
                                             -
                                         @endif
                                     </td>
-                                    <td>{{ $detail->user ? $detail->user->name : '-' }}</td>
                                     <td>{{ $detail->created_at ? date('d/m/Y H:i', strtotime($detail->created_at)) : '-' }}</td>
                                     <td>
                                         @if ($detail->is_active)
-                                            <span class="badge rounded-pill bg-success"> Aktif </span>
+                                            <span class="badge rounded-pill bg-success"> Selesai </span>
                                         @else
-                                            <span class="badge rounded-pill bg-danger"> Tidak Aktif </span>
+                                            <span class="badge rounded-pill bg-warning"> Belum Selesai </span>
                                         @endif
                                     </td>
                                 </tr>

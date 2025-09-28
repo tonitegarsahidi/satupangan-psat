@@ -20,11 +20,7 @@ class PengawasanTindakanLanjutanDetailSeeder extends Seeder
     {
         // Get reference data
         $users = User::pluck('id', 'email')->toArray();
-        $tindakanRecords = PengawasanTindakan::all();
         $tindakanLanjutanRecords = PengawasanTindakanLanjutan::all();
-
-        // Get user IDs from PengawasanTindakan for pimpinan
-        $pimpinanUserIds = $tindakanRecords->pluck('user_id_pimpinan')->unique()->filter()->values()->toArray();
 
         // Get user IDs from PengawasanTindakanLanjutan for PIC
         $picUserIds = $tindakanLanjutanRecords->pluck('user_id_pic')->unique()->filter()->values()->toArray();
@@ -52,8 +48,11 @@ class PengawasanTindakanLanjutanDetailSeeder extends Seeder
                 $template = $detailTemplates[array_rand($detailTemplates)];
 
                 // Randomly choose between pimpinan and pic user IDs
+                // Get pimpinan user ID from the related PengawasanTindakan
+                $pimpinanUserId = $lanjutan->tindakan->user_id_pimpinan;
+
                 $userId = rand(0, 1) ?
-                    $pimpinanUserIds[array_rand($pimpinanUserIds)] :
+                    $pimpinanUserId :
                     $picUserIds[array_rand($picUserIds)];
 
                 $tindakanLanjutanDetailData[] = [
