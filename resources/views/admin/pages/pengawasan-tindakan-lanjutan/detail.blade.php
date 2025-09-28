@@ -65,12 +65,6 @@
                                     <td>{{ $data->arahan_tindak_lanjut ?: '-' }}</td>
                                 </tr>
                                 <tr>
-                                    <th scope="col" class="bg-dark text-white">Status</th>
-                                    <td>
-                                        <span class="badge rounded-pill bg-info">{{ $data->getStatusLabel() }}</span>
-                                    </td>
-                                </tr>
-                                <tr>
                                     <th scope="col" class="bg-dark text-white">Aktif</th>
                                     <td>
                                         @if ($data->is_active)
@@ -106,56 +100,72 @@
                 </div>
             </div>
 
-            {{-- MINITABLE FOR TINDAKAN LANJUTAN DETAILS --}}
+            {{-- CHAT BUBBLE FOR TINDAKAN LANJUTAN DETAILS --}}
             @if($tindakanLanjutanDetails && $tindakanLanjutanDetails->count() > 0)
             <div class="row m-2">
                 <div class="col-12">
                     <h4 class="card-header">Detail Tindakan Lanjutan</h4>
-                    <div class="table-responsive">
-                        <table class="table table-sm table-striped">
-                            <thead class="table-light">
-                                <tr>
-                                    <th style="width: 5%;">No</th>
-                                    <th style="width: 15%;">PIC</th>
-                                    <th style="width: 40%; max-width: 40%;">Pesan</th>
-                                    <th style="width: 20%;">Lampiran</th>
-                                    <th style="width: 10%;">Tanggal</th>
-                                    <th style="width: 10%;">Status</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach($tindakanLanjutanDetails as $index => $detail)
-                                <tr>
-                                    <td>{{ $loop->iteration }}</td>
-                                    <td>{{ $detail->user ? $detail->user->name : '-' }}</td>
-                                    <td style="max-width: 40%; word-wrap: break-word; word-break: break-word;">
-                                        {{ $detail->message ?: '-' }}
-                                    </td>
-                                    <td>
-                                        @if($detail->attachments && count($detail->attachments) > 0)
-                                            <div class="d-flex flex-wrap gap-1">
-                                                @foreach($detail->attachments as $attachment)
-                                                    <a href="{{ asset($attachment->file_path) }}" target="_blank" class="btn btn-sm btn-primary">
-                                                        <i class="bx bx-download"></i> {{ $attachment->file_name }}
-                                                    </a>
-                                                @endforeach
+                    <div class="chat-container" style="max-height: 600px; overflow-y: auto; padding: 20px;">
+                        @foreach($tindakanLanjutanDetails as $index => $detail)
+                        @php
+                            $currentUserId = auth()->id();
+                            $isCurrentUser = $detail->user_id === $currentUserId;
+                            $userName = $detail->user ? $detail->user->name : 'Unknown User';
+                            $messageTime = $detail->created_at ? date('d/m/Y H:i', strtotime($detail->created_at)) : '';
+                            $attachments = $detail->getAttachments();
+                        @endphp
+                        <div class="chat-message {{ $isCurrentUser ? 'chat-message-current-user' : 'chat-message-other-user' }} mb-3">
+                            <div class="d-flex align-items-start {{ $isCurrentUser ? 'justify-content-end' : '' }}">
+                                @if(!$isCurrentUser)
+                                <div class="chat-avatar me-3">
+                                    <div class="avatar avatar-xs">
+                                        <span class="avatar-initial bg-label-info rounded-circle">
+                                            {{ strtoupper(substr($userName, 0, 1)) }}
+                                        </span>
+                                    </div>
+                                </div>
+                                @endif
+                                <div class="chat-bubble flex-grow-1">
+                                    @if(!$isCurrentUser)
+                                    <div class="d-flex justify-content-between align-items-center mb-1">
+                                        <span class="chat-user-name fw-semibold">{{ $userName }}</span>
+                                        <small class="chat-time text-muted">{{ $messageTime }}</small>
+                                    </div>
+                                    @endif
+                                    <div class="chat-message-content">
+                                        @if($isCurrentUser)
+                                        <div class="d-flex justify-content-between align-items-center mb-1">
+                                            <small class="chat-time text-muted">{{ $messageTime }}</small>
+                                        </div>
+                                        @endif
+                                        <p class="mb-2">{{ $detail->message ?: '-' }}</p>
+
+                                        @if(!empty($attachments))
+                                        <div class="chat-attachments">
+                                            @foreach($attachments as $attachment)
+                                            <div class="attachment-item mb-1">
+                                                <a href="{{ $attachment['url'] }}" target="_blank" class="btn btn-sm btn-outline-primary">
+                                                    <i class="bx bx-paperclip me-1"></i>
+                                                    {{ $attachment['name'] }}
+                                                </a>
                                             </div>
-                                        @else
-                                            -
+                                            @endforeach
+                                        </div>
                                         @endif
-                                    </td>
-                                    <td>{{ $detail->created_at ? date('d/m/Y H:i', strtotime($detail->created_at)) : '-' }}</td>
-                                    <td>
-                                        @if ($detail->is_active)
-                                            <span class="badge rounded-pill bg-success"> Selesai </span>
-                                        @else
-                                            <span class="badge rounded-pill bg-warning"> Belum Selesai </span>
-                                        @endif
-                                    </td>
-                                </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
+                                    </div>
+                                </div>
+                                @if($isCurrentUser)
+                                <div class="chat-avatar ms-3">
+                                    <div class="avatar avatar-xs">
+                                        <span class="avatar-initial bg-label-primary rounded-circle">
+                                            {{ strtoupper(substr($userName, 0, 1)) }}
+                                        </span>
+                                    </div>
+                                </div>
+                                @endif
+                            </div>
+                        </div>
+                        @endforeach
                     </div>
                 </div>
             </div>
@@ -213,6 +223,108 @@
          /* Ensure long URLs and text in links wrap properly */
          .table td a {
              word-break: break-all;
+         }
+
+         /* Chat bubble styles */
+         .chat-container {
+             background-color: #f8f9fa;
+             border-radius: 10px;
+             padding: 20px;
+         }
+
+         .chat-message {
+             margin-bottom: 20px;
+         }
+
+         .chat-message-other-user {
+             text-align: left;
+         }
+
+         .chat-message-current-user {
+             text-align: right;
+         }
+
+         .chat-avatar {
+             flex-shrink: 0;
+         }
+
+         .avatar-initial {
+             width: 36px;
+             height: 36px;
+             display: flex;
+             align-items: center;
+             justify-content: center;
+             font-weight: 600;
+             font-size: 14px;
+             color: white;
+         }
+
+         .chat-bubble {
+             max-width: 70%;
+             padding: 12px 16px;
+             border-radius: 18px;
+             position: relative;
+         }
+
+         .chat-message-other-user .chat-bubble {
+             background-color: #fcffce;
+             color: #333;
+             margin-right: auto;
+             border: 2px solid #fcefef;
+             border-bottom-left-radius: 4px;
+         }
+
+         .chat-message-current-user .chat-bubble {
+             background-color: #baf7d6;
+             color: rgb(34, 22, 22);
+             margin-left: auto;
+             border-bottom-right-radius: 4px;
+         }
+
+         .chat-user-name {
+             font-size: 12px;
+             opacity: 0.8;
+         }
+
+         .chat-time {
+             font-size: 11px;
+             opacity: 0.7;
+         }
+
+         .chat-message-content p {
+             margin: 0;
+             line-height: 1.4;
+         }
+
+         .chat-attachments {
+             margin-top: 8px;
+         }
+
+         .attachment-item {
+             display: inline-block;
+         }
+
+         .chat-attachments .btn {
+             font-size: 12px;
+             padding: 4px 8px;
+             border-radius: 12px;
+         }
+
+         /* Responsive adjustments */
+         @media (max-width: 768px) {
+             .chat-bubble {
+                 max-width: 85%;
+             }
+
+             .chat-message-other-user,
+             .chat-message-current-user {
+                 text-align: left;
+             }
+
+             .chat-message-other-user .chat-bubble,
+             .chat-message-current-user .chat-bubble {
+                 margin: 0;
+             }
          }
      </style>
 

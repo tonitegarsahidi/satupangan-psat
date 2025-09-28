@@ -47,14 +47,13 @@ class PengawasanTindakanLanjutanDetailSeeder extends Seeder
             for ($i = 0; $i < $entriesCount; $i++) {
                 $template = $detailTemplates[array_rand($detailTemplates)];
 
-                // Randomly choose between pimpinan and pic user IDs
+                // Use specific user IDs instead of random selection
                 // Get pimpinan user ID from the related PengawasanTindakan
                 $pimpinanUserId = $lanjutan->tindakan->user_id_pimpinan;
 
-                $userId = rand(0, 1) ?
-                    $pimpinanUserId :
-                    // $picUserIds[array_rand($picUserIds)];
-                    $lanjutan->user_id_pic;
+                // Use specific user IDs - prioritize PIC user, fallback to pimpinan
+                $availableUserIds = array_filter([$lanjutan->user_id_pic, $pimpinanUserId]);
+                $userId = !empty($availableUserIds) ? $availableUserIds[0] : $pimpinanUserId;
 
                 $tindakanLanjutanDetailData[] = [
                     'id' => Str::uuid(),
