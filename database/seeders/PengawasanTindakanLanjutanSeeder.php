@@ -54,31 +54,34 @@ class PengawasanTindakanLanjutanSeeder extends Seeder
 
         // Generate pengawasan tindakan lanjutan data with 2-3 entries per tindakan
         $tindakanLanjutanData = [];
-        $picUserIds = [
-            $users['supervisor@panganaman.my.id'] ?? null,
-            $users['operator@panganaman.my.id'] ?? null,
-            $users['user@panganaman.my.id'] ?? null,
-            $users['kantorjabar@panganaman.my.id'] ?? null,
-            $users['kantorjateng@panganaman.my.id'] ?? null,
-            $users['kantorjatim@panganaman.my.id'] ?? null,
-        ];
-
-        // Filter out null user IDs
-        $validPicUserIds = array_filter($picUserIds);
-
-        // Ensure we have at least some valid users
-        if (empty($validPicUserIds)) {
-            // If no specific users found, use any available user
-            $validPicUserIds = $users;
-        }
 
         foreach ($tindakanRecords as $tindakan) {
+            // Get pimpinan's province through their Petugas record
+            $pimpinanPetugas = \App\Models\Petugas::where('user_id', $tindakan->user_id_pimpinan)->first();
+
+            // Get users from the same province as the pimpinan
+            $sameProvinceUserIds = [];
+            if ($pimpinanPetugas && $pimpinanPetugas->penempatan) {
+                $sameProvinceUserIds = \App\Models\Petugas::where('penempatan', $pimpinanPetugas->penempatan)
+                    ->where('user_id', '!=', $tindakan->user_id_pimpinan) // Exclude the pimpinan themselves
+                    ->whereHas('user', function($query) {
+                        $query->where('is_active', 1);
+                    })
+                    ->pluck('user_id')
+                    ->toArray();
+            }
+
+            // If no users found in same province, fall back to any active users
+            if (empty($sameProvinceUserIds)) {
+                $sameProvinceUserIds = array_filter($users);
+            }
+
             // Create exactly 2-3 lanjutan entries for each tindakan
-            $entriesCount = rand(2, 5);
+            $entriesCount = rand(1, 2);
 
             for ($i = 0; $i < $entriesCount; $i++) {
                 $template = $tindakanLanjutanTemplates[array_rand($tindakanLanjutanTemplates)];
-                $randomPicUserId = $validPicUserIds[array_rand($validPicUserIds)];
+                $randomPicUserId = $sameProvinceUserIds[array_rand($sameProvinceUserIds)];
 
                 // Add variation to arahan_tindak_lanjut text based on tindakan
                 $variationText = " (Tindakan Lanjutan ke-" . ($i + 1) . " untuk " . substr($tindakan->tindak_lanjut, 0, 30) . "...)";

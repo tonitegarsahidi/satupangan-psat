@@ -53,7 +53,8 @@ class PengawasanTindakanLanjutanDetailSeeder extends Seeder
 
                 $userId = rand(0, 1) ?
                     $pimpinanUserId :
-                    $picUserIds[array_rand($picUserIds)];
+                    // $picUserIds[array_rand($picUserIds)];
+                    $lanjutan->user_id_pic;
 
                 $tindakanLanjutanDetailData[] = [
                     'id' => Str::uuid(),
