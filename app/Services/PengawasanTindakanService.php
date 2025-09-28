@@ -39,7 +39,24 @@ class PengawasanTindakanService
     public function listAllTindakan($perPage, string $sortField = null, string $sortOrder = null, string $keyword = null): LengthAwarePaginator
     {
         $perPage = !is_null($perPage) ? $perPage : config('constant.CRUD.PER_PAGE');
-        return $this->pengawasanTindakanRepository->getAllTindakan($perPage, $sortField, $sortOrder, $keyword);
+
+        // Get current authenticated user
+        $currentUser = \Illuminate\Support\Facades\Auth::user();
+
+        // Check if user has admin role - if yes, show all data
+        if ($currentUser && $currentUser->hasAnyRole(['ROLE_ADMIN'])) {
+            // Admin can see all data - no province filtering
+            return $this->pengawasanTindakanRepository->getAllTindakan($perPage, $sortField, $sortOrder, $keyword, null);
+        }
+
+        // Get current authenticated user's province for non-admin users
+        $currentUserProvinceId = null;
+        $currentPetugas = \App\Models\Petugas::where('user_id', $currentUser->id)->first();
+        if ($currentPetugas && $currentPetugas->penempatan) {
+            $currentUserProvinceId = $currentPetugas->penempatan;
+        }
+
+        return $this->pengawasanTindakanRepository->getAllTindakan($perPage, $sortField, $sortOrder, $keyword, $currentUserProvinceId);
     }
 
     public function getTindakanDetail($tindakanId): ?PengawasanTindakan

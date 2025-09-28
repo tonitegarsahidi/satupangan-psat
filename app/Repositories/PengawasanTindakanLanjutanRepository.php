@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Log;
 
 class PengawasanTindakanLanjutanRepository
 {
-    public function getAllTindakanLanjutan(int $perPage = 10, string $sortField = null, string $sortOrder = null, String $keyword = null): LengthAwarePaginator
+    public function getAllTindakanLanjutan(int $perPage = 10, string $sortField = null, string $sortOrder = null, String $keyword = null, String $provinceId = null): LengthAwarePaginator
     {
         $queryResult = PengawasanTindakanLanjutan::query();
 
@@ -31,6 +31,15 @@ class PengawasanTindakanLanjutanRepository
             'pic',
             'attachments'
         ]);
+
+        // Filter by PIC province if provided
+        if (!is_null($provinceId)) {
+            $queryResult->whereHas('pic', function($q) use ($provinceId) {
+                $q->whereHas('petugas', function($petugasQuery) use ($provinceId) {
+                    $petugasQuery->where('penempatan', $provinceId);
+                });
+            });
+        }
 
         if (!is_null($keyword)) {
             $queryResult->whereRaw('lower(arahan_tindak_lanjut) LIKE ?', ['%' . strtolower($keyword) . '%'])
