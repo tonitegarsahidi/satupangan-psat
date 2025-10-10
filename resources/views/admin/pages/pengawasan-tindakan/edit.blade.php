@@ -9,13 +9,27 @@
 
         {{-- Display validation errors at the top --}}
         @if ($errors->any())
-            <div class="alert alert-danger">
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
                 <h5><i class="fas fa-exclamation-triangle me-2"></i> Harap perbaiki kesalahan berikut:</h5>
-                <ul>
+                <ul class="mb-0">
                     @foreach ($errors->all() as $error)
                         <li>{{ $error }}</li>
                     @endforeach
                 </ul>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        @endif
+
+        {{-- Display session errors if any --}}
+        @if (session('errors'))
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <h5><i class="fas fa-exclamation-triangle me-2"></i> Terjadi Kesalahan:</h5>
+                <ul class="mb-0">
+                    @foreach (session('errors')->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
         @endif
 
@@ -29,7 +43,7 @@
                     </div>
                     @include('admin.components.notification.error')
                     <div class="card-body">
-                        <form action="{{ route('pengawasan-tindakan.update', $pengawasanTindakan->id) }}"  method="POST">
+                        <form action="{{ route('pengawasan-tindakan.update', $pengawasanTindakan->id) }}" method="POST" novalidate onsubmit="console.log('Form submitted'); console.log('Form is valid:', this.checkValidity());">
                             @method('PUT')
                             @csrf
 
@@ -62,43 +76,43 @@
                             {{-- REKAP DETAILS SECTION (DYNAMICALLY SHOWN) --}}
                             <div id="rekap-details-section" class="row mb-3" style="display: none;">
                                 <div class="col-sm-12">
-                                    <div class="card bg-light">
+                                    <div class="card bg-light" style="background-color: rgba(255, 235, 125, 0.2) !important; border-width:2px">
                                         <div class="card-header">
                                             <h6 class="card-title mb-0">
                                                 <i class="bx bx-info-circle me-2"></i>
-                                                Detail Rekap Pengawasan Terpilih
+                                                <strong> Rekap Pengawasan Terpilih</strong>
                                             </h6>
                                         </div>
                                         <div class="card-body">
-                                            <div class="row">
-                                                <div class="col-md-3">
-                                                    <strong>Judul Rekap:</strong>
-                                                    <p id="selected-judul-rekap" class="mb-1">...</p>
-                                                </div>
-                                                <div class="col-md-3">
-                                                    <strong>Tanggal Dibuat:</strong>
-                                                    <p id="selected-created-at" class="mb-1">...</p>
-                                                </div>
-                                                <div class="col-md-3">
-                                                    <strong>Jenis PSAT:</strong>
-                                                    <p id="selected-jenis-psat" class="mb-1">...</p>
-                                                </div>
-                                                <div class="col-md-3">
-                                                    <strong>Nama Produk PSAT:</strong>
-                                                    <p id="selected-produk-psat" class="mb-1">...</p>
-                                                </div>
-                                            </div>
-                                            <div class="row mt-2">
-                                                <div class="col-md-12">
-                                                    <strong>Detail Lengkap:</strong>
-                                                    <p class="mb-1">
-                                                        <a id="rekap-detail-link" href="#" target="_blank" class="btn btn-sm btn-outline-primary">
-                                                            <i class="bx bx-show me-1"></i>
-                                                            Lihat Detail Rekap
-                                                        </a>
-                                                    </p>
-                                                </div>
-                                            </div>
+                                            <table class="table table-bordered">
+                                                <tbody>
+                                                    <tr>
+                                                        <td class="bg-primary text-white" style="width:300px"><strong>Judul Rekap</strong></td>
+                                                        <td class="bg-white"><p id="selected-judul-rekap" class="mb-0">...</p></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="bg-primary text-white" style="width:300px"><strong>Tanggal Dibuat</strong></td>
+                                                        <td class="bg-white"><p id="selected-created-at" class="mb-0">...</p></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="bg-primary text-white"  style="width:300px"><strong>Jenis PSAT</strong></td>
+                                                        <td class="bg-white"><p id="selected-jenis-psat" class="mb-0">...</p></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="bg-primary text-white"  style="width:300px"><strong>Nama Produk PSAT</strong></td>
+                                                        <td class="bg-white"><p id="selected-produk-psat" class="mb-0">...</p></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="bg-primary text-white"  style="width:300px"><strong>Detail Lengkap</strong></td>
+                                                        <td class="bg-white">
+                                                            <a id="rekap-detail-link" href="#" target="_blank" class="btn btn-sm btn-outline-primary">
+                                                                <i class="bx bx-show me-1"></i>
+                                                                Lihat Detail Rekap
+                                                            </a>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
                                         </div>
                                     </div>
                                 </div>
@@ -106,7 +120,7 @@
 
                             {{-- USER ID PEMIMPIN FIELD --}}
                             <div class="row mb-3">
-                                <label class="col-sm-2 col-form-label" for="user_id_pimpinan">Pimpinan*</label>
+                                <label class="col-sm-2 col-form-label" for="user_id_pimpinan">Penanggung Jawab*</label>
                                 <div class="col-sm-10">
                                     {{-- form validation error --}}
                                     @include('admin.components.notification.error-validation', [
@@ -115,11 +129,11 @@
 
                                     {{-- input form --}}
                                     <select name="user_id_pimpinan" class="form-select" id="user_id_pimpinan" required>
-                                        <option value="">-- Pilih Pimpinan --</option>
-                                        @foreach ($pimpinans as $pimpinan)
-                                            <option value="{{ $pimpinan->id }}"
-                                                {{ old('user_id_pimpinan', isset($pengawasanTindakan->user_id_pimpinan) ? $pengawasanTindakan->user_id_pimpinan : '') == $pimpinan->id ? 'selected' : '' }}>
-                                                {{ $pimpinan->name }}
+                                        <option value="">-- Pilih Petugas Penanggung Jawab --</option>
+                                        @foreach ($petugass as $petugas)
+                                            <option value="{{ $petugas->id }}"
+                                                {{ old('user_id_pimpinan', isset($pengawasanTindakan->user_id_pimpinan) ? $pengawasanTindakan->user_id_pimpinan : '') == $petugas->id ? 'selected' : '' }}>
+                                                {{ $petugas->name }}
                                             </option>
                                         @endforeach
                                     </select>
@@ -128,7 +142,7 @@
 
                             {{-- TINDAK LANJUT FIELD --}}
                             <div class="row mb-3">
-                                <label class="col-sm-2 col-form-label" for="tindak_lanjut">Tindak Lanjut*</label>
+                                <label class="col-sm-2 col-form-label" for="tindak_lanjut">Arahan Tindak Lanjut*</label>
                                 <div class="col-sm-10">
                                     {{-- form validation error --}}
                                     @include('admin.components.notification.error-validation', [
@@ -155,34 +169,12 @@
                                         <option value="">-- Pilih Status --</option>
                                         @foreach (\App\Models\PengawasanTindakan::getStatusOptions() as $value => $label)
                                             <option value="{{ $value }}"
-                                                {{ old('status', isset($pengawasanTindakan->status) ? $pengawasanTindakan->status : '') == $value ? 'selected' : '' }}>{{ $label }}</option>
+                                                {{ (old('status') ?: (isset($pengawasanTindakan->status) ? $pengawasanTindakan->status : '')) == $value ? 'selected' : '' }}>{{ $label }}</option>
                                         @endforeach
                                     </select>
                                 </div>
                             </div>
 
-                            {{-- PIC TINDAKAN IDS FIELD --}}
-                            <div class="row mb-3">
-                                <label class="col-sm-2 col-form-label" for="pic_tindakan_ids">PIC Tindakan</label>
-                                <div class="col-sm-10">
-                                    {{-- form validation error --}}
-                                    @include('admin.components.notification.error-validation', [
-                                        'field' => 'pic_tindakan_ids',
-                                    ])
-
-                                    {{-- input form --}}
-                                    <select name="pic_tindakan_ids[]" class="form-select" id="pic_tindakan_ids" multiple>
-                                        <option value="">-- Pilih PIC --</option>
-                                        @foreach ($pimpinans as $pimpinan)
-                                            <option value="{{ $pimpinan->id }}"
-                                                {{ (old('pic_tindakan_ids', isset($pengawasanTindakan->pic_tindakan_ids) ? $pengawasanTindakan->pic_tindakan_ids : []) && in_array($pimpinan->id, old('pic_tindakan_ids', isset($pengawasanTindakan->pic_tindakan_ids) ? $pengawasanTindakan->pic_tindakan_ids : [])) ? 'selected' : '' }}>
-                                                {{ $pimpinan->name }}
-                                            </option>
-                                        @endforeach
-                                    </select>
-                                    <small class="text-muted">Klik Ctrl/Cmd untuk memilih beberapa PIC</small>
-                                </div>
-                            </div>
 
                             {{-- IS ACTIVE FIELD --}}
                             <div class="row mb-3">
@@ -207,9 +199,35 @@
                                 </div>
                             </div>
 
+                            {{-- TINDAKAN LANJUTAN SECTION --}}
+                            <div class="row mb-3" id="tindakan-lanjutan-section" style="display: none;">
+                                <div class="col-12">
+                                    <div class="card">
+                                        <div class="card-header d-flex align-items-center justify-content-between">
+                                            <h5 class="mb-0">Edit Tindakan Lanjutan</h5>
+                                        </div>
+                                        <div class="card-body">
+                                            <div id="tindakan-lanjutan-container">
+                                                <!-- Dynamic Penugasan forms will be added here -->
+                                            </div>
+                                            <div class="row mt-3">
+                                                <div class="col-12">
+                                                    <button type="button" class="btn btn-secondary" id="add-penugasan-btn">
+                                                        <i class="bx bx-plus me-1"></i>
+                                                        Tambah Penugasan Tindakan
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
                             <div class="row justify-content-end">
                                 <div class="col-sm-10">
-                                    <button type="submit" class="btn btn-primary">Perbarui</button>
+                                    <button type="submit" class="btn btn-primary" onclick="console.log('Form submit button clicked'); console.log('Form data:', new FormData(this.closest('form')));">
+                                        <i class="bx bx-save me-1"></i>Perbarui
+                                    </button>
                                 </div>
                             </div>
                         </form>
@@ -223,6 +241,37 @@
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
+    console.log('Edit form loaded successfully');
+
+    // Test form submission
+    const form = document.querySelector('form');
+    if (form) {
+        form.addEventListener('submit', function(e) {
+            console.log('Form submission intercepted');
+            console.log('Form action:', this.action);
+            console.log('Form method:', this.method);
+
+            // Check if all required fields are filled
+            const requiredFields = this.querySelectorAll('[required]');
+            let missingFields = [];
+            requiredFields.forEach(field => {
+                if (!field.value.trim()) {
+                    missingFields.push(field.name || field.id);
+                }
+            });
+
+            if (missingFields.length > 0) {
+                console.log('Missing required fields:', missingFields);
+                alert('Fields yang masih kosong: ' + missingFields.join(', '));
+                e.preventDefault();
+                return false;
+            }
+
+            console.log('All required fields are filled, allowing submission...');
+        });
+    } else {
+        console.error('Form not found!');
+    }
 const pengawasanRekapSelect = document.getElementById('pengawasan_rekap_id');
 const rekapDetailsSection = document.getElementById('rekap-details-section');
 const selectedJudulRekapElement = document.getElementById('selected-judul-rekap');
@@ -255,11 +304,90 @@ pengawasanRekapSelect.addEventListener('change', function() {
    }
 });
 
-// Trigger change event on page load if a value is already selected (for edit mode)
-if (pengawasanRekapSelect.value !== '') {
-   pengawasanRekapSelect.dispatchEvent(new Event('change'));
-}
+    // Trigger change event on page load if a value is already selected (for edit mode)
+    if (pengawasanRekapSelect.value !== '') {
+        pengawasanRekapSelect.dispatchEvent(new Event('change'));
+    }
 });
+
+// TINDAKAN LANJUTAN FUNCTIONALITY
+const tindakanLanjutanContainer = document.getElementById('tindakan-lanjutan-container');
+const addPenugasanBtn = document.getElementById('add-penugasan-btn');
+let penugasanCount = 0;
+
+// Function to create a new penugasan form
+function createPenugasanForm() {
+    penugasanCount++;
+    const penugasanId = `penugasan-${penugasanCount}`;
+
+    const penugasanHtml = `
+        <div class="penugasan-form mb-3" id="${penugasanId}">
+            <div class="card">
+                <div class="card-header d-flex align-items-center justify-content-between">
+                    <h6 class="mb-0">Penugasan ${penugasanCount}</h6>
+                    <button type="button" class="btn btn-sm btn-danger remove-penugasan" data-penugasan-id="${penugasanId}">
+                        <i class="bx bx-trash"></i>
+                    </button>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Petugas PIC*</label>
+                            <select name="penugasan_pic_id[]" class="form-select pic-select" required>
+                                <option value="">-- Pilih Petugas PIC --</option>
+                                @foreach ($petugass as $petugas)
+                                    <option value="{{ $petugas->id }}">{{ $petugas->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Arahan Tindak Lanjut*</label>
+                            <textarea name="penugasan_arahan[]" class="form-control arahan-input" rows="3" required
+                                placeholder="Masukkan arahan tindak lanjut"></textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    `;
+
+    tindakanLanjutanContainer.insertAdjacentHTML('beforeend', penugasanHtml);
+
+    // Add event listener to remove button
+    const removeBtn = document.querySelector(`#${penugasanId} .remove-penugasan`);
+    removeBtn.addEventListener('click', function() {
+        document.getElementById(`${penugasanId}`).remove();
+    });
+}
+
+// Add event listener to add button
+addPenugasanBtn.addEventListener('click', function() {
+    createPenugasanForm();
+});
+
+// Add initial penugasan form
+createPenugasanForm();
+
+// TINDAKAN LANJUTAN VISIBILITY CONTROL
+const statusSelect = document.getElementById('status');
+const tindakanLanjutanSection = document.getElementById('tindakan-lanjutan-section');
+const butuhTindakanLanjutanValue = '{{ config('pengawasan.pengawasan_tindakan_statuses.BUTUH_TINDAKAN_LANJUTAN') }}';
+
+// Function to check if section should be visible
+function checkTindakanLanjutanVisibility() {
+    const selectedValue = statusSelect.value;
+    if (selectedValue === 'BUTUH_TINDAKAN_LANJUTAN') {
+        tindakanLanjutanSection.style.display = 'block';
+    } else {
+        tindakanLanjutanSection.style.display = 'none';
+    }
+}
+
+// Add event listener to status select
+statusSelect.addEventListener('change', checkTindakanLanjutanVisibility);
+
+// Check visibility on page load
+checkTindakanLanjutanVisibility();
 </script>
 
 @endsection

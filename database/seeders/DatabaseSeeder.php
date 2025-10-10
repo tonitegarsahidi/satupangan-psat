@@ -75,6 +75,9 @@ class DatabaseSeeder extends Seeder
 
             // Early Warning seeder
             EarlyWarningSeeder::class,
+
+            //   Article seeder
+            ArticleSeeder::class,
         ]);
     }
 }

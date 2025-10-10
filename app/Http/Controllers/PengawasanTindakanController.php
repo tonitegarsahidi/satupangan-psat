@@ -205,7 +205,7 @@ class PengawasanTindakanController extends Controller
             $currentProvinsiIdEdit = $currentPetugasEdit->penempatan;
         }
 
-        $pimpinans = \App\Models\User::where('is_active', 1)
+        $petugass = \App\Models\User::where('is_active', 1)
             ->whereHas('petugas', function($query) use ($currentProvinsiIdEdit) {
                 if ($currentProvinsiIdEdit) {
                     $query->where('penempatan', $currentProvinsiIdEdit);
@@ -230,7 +230,7 @@ class PengawasanTindakanController extends Controller
                 ];
             });
 
-        return view('admin.pages.pengawasan-tindakan.edit', compact('breadcrumbs', 'pengawasanTindakan', 'pimpinans', 'pengawasanRekaps'));
+        return view('admin.pages.pengawasan-tindakan.edit', compact('breadcrumbs', 'pengawasanTindakan', 'petugass', 'pengawasanRekaps'));
     }
 
     /**
@@ -240,10 +240,34 @@ class PengawasanTindakanController extends Controller
      */
     public function update(PengawasanTindakanEditRequest $request, $id)
     {
+        // Debug logging
+        \Log::info('Update method called with ID: ' . $id);
+        \Log::info('Request data: ', $request->all());
+
         $validatedData = $request->validated();
 
         // Add updated_by with current user ID
         $validatedData['updated_by'] = Auth::id();
+
+        // Handle tindakan lanjutan data if status requires it
+        $tindakanLanjutanData = [];
+        if (isset($validatedData['penugasan_pic_id']) && is_array($validatedData['penugasan_pic_id'])) {
+            $tindakanLanjutanData = [];
+            foreach ($validatedData['penugasan_pic_id'] as $index => $picId) {
+                if (isset($validatedData['penugasan_arahan'][$index])) {
+                    $tindakanLanjutanData[] = [
+                        'user_id_pic' => $picId,
+                        'arahan_tindak_lanjut' => $validatedData['penugasan_arahan'][$index],
+                        'created_by' => Auth::id(),
+                        'updated_by' => Auth::id(),
+                        'is_active' => 1,
+                    ];
+                }
+            }
+        }
+
+        // Remove penugasan data from main validated data
+        unset($validatedData['penugasan_pic_id'], $validatedData['penugasan_arahan']);
 
         $result = $this->pengawasanTindakanService->updateTindakan($validatedData, $id);
 

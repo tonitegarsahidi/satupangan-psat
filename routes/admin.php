@@ -290,7 +290,18 @@ Route::middleware('auth')->group(function () {
                 Route::post('/workflow/update/{id}', [\App\Http\Controllers\LaporanPengaduanWorkflowController::class, 'updateWorkflow'])->name('admin.laporan-pengaduan.workflow.update');
             });
 
-
+            // MANAGE ARTICLES
+            Route::prefix('/article')->group(function () {
+                Route::get('/', [\App\Http\Controllers\ArticleController::class, 'index'])->name('admin.article.index');
+                Route::get('/add/new', [\App\Http\Controllers\ArticleController::class, 'create'])->name('admin.article.add');
+                Route::post('/add/new', [\App\Http\Controllers\ArticleController::class, 'store'])->name('admin.article.store');
+                Route::get('/detail/{id}', [\App\Http\Controllers\ArticleController::class, 'detail'])->name('admin.article.detail');
+                Route::put('/edit/{id}', [\App\Http\Controllers\ArticleController::class, 'update'])->name('admin.article.update');
+                Route::get('/edit/{id}', [\App\Http\Controllers\ArticleController::class, 'edit'])->name('admin.article.edit');
+                Route::get('/delete/{id}', [\App\Http\Controllers\ArticleController::class, 'deleteConfirm'])->name('admin.article.delete');
+                Route::delete('/delete/{id}', [\App\Http\Controllers\ArticleController::class, 'destroy'])->name('admin.article.destroy');
+                Route::get('/search', [\App\Http\Controllers\ArticleController::class, 'search'])->name('admin.articles.search');
+            });
 
 });
 
