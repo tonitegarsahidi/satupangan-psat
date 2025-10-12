@@ -256,6 +256,71 @@ class ArticleController extends Controller
         return response()->json($formattedArticles);
     }
 
+    /**
+     * =============================================
+     *      Publish article (change status to published)
+     * =============================================
+     */
+    public function publish(Request $request)
+    {
+        try {
+            $article = $this->articleService->getArticleDetail($request->id);
+
+            if (!$article) {
+                $alert = AlertHelper::createAlert('danger', 'Article not found');
+                return redirect()->back()->with(['alerts' => [$alert]]);
+            }
+
+            $validatedData = [
+                'status' => 'published',
+                'published_at' => now()
+            ];
+
+            $result = $this->articleService->updateArticle($validatedData, $request->id);
+
+            $alert = $result
+                ? AlertHelper::createAlert('success', 'Article "' . $result->title . '" has been published successfully')
+                : AlertHelper::createAlert('danger', 'Failed to publish article');
+
+        } catch (\Exception $e) {
+            $alert = AlertHelper::createAlert('danger', 'Terjadi kesalahan: ' . $e->getMessage());
+        }
+
+        return redirect()->back()->with(['alerts' => [$alert]]);
+    }
+
+    /**
+     * =============================================
+     *      Move article to draft (change status to draft)
+     * =============================================
+     */
+    public function moveToDraft(Request $request)
+    {
+        try {
+            $article = $this->articleService->getArticleDetail($request->id);
+
+            if (!$article) {
+                $alert = AlertHelper::createAlert('danger', 'Article not found');
+                return redirect()->back()->with(['alerts' => [$alert]]);
+            }
+
+            $validatedData = [
+                'status' => 'draft'
+            ];
+
+            $result = $this->articleService->updateArticle($validatedData, $request->id);
+
+            $alert = $result
+                ? AlertHelper::createAlert('success', 'Article "' . $result->title . '" has been moved to draft successfully')
+                : AlertHelper::createAlert('danger', 'Failed to move article to draft');
+
+        } catch (\Exception $e) {
+            $alert = AlertHelper::createAlert('danger', 'Terjadi kesalahan: ' . $e->getMessage());
+        }
+
+        return redirect()->back()->with(['alerts' => [$alert]]);
+    }
+
 
     // ============================ END OF ULTIMATE CRUD FUNCTIONALITY ===============================
     /**

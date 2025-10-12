@@ -114,6 +114,25 @@
 
             {{-- ROW FOR ADDITIONAL FUNCTIONALITY BUTTON --}}
             <div class="m-4">
+                {{-- STATUS CHANGE BUTTONS --}}
+                @if($data->status == 'draft')
+                    <form method="POST" action="{{ route('admin.article.publish', ['id' => $data->id]) }}" style="display: inline-block;" onsubmit="return confirm('Are you sure you want to publish this article?')">
+                        @csrf
+                        <button type="submit" class="btn btn-success me-2" title="publish this article">
+                            <i class='tf-icons bx bx-check me-2'></i>Publish Sekarang
+                        </button>
+                    </form>
+                @endif
+
+                @if($data->status == 'published')
+                    <form method="POST" action="{{ route('admin.article.move-to-draft', ['id' => $data->id]) }}" style="display: inline-block;" onsubmit="return confirm('Are you sure you want to move this article to draft?')">
+                        @csrf
+                        <button type="submit" class="btn btn-warning me-2" title="move to draft">
+                            <i class='tf-icons bx bx-save me-2'></i>Simpan ke Draft
+                        </button>
+                    </form>
+                @endif
+
                 <a onclick="goBack()" class="btn btn-outline-secondary me-2"><i
                         class="tf-icons bx bx-left-arrow-alt me-2"></i>Back</a>
                 <a class="btn btn-primary me-2" href="{{ route('admin.article.edit', ['id' => $data->id]) }}"

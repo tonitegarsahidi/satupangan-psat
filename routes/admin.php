@@ -301,6 +301,8 @@ Route::middleware('auth')->group(function () {
                 Route::get('/delete/{id}', [\App\Http\Controllers\ArticleController::class, 'deleteConfirm'])->name('admin.article.delete');
                 Route::delete('/delete/{id}', [\App\Http\Controllers\ArticleController::class, 'destroy'])->name('admin.article.destroy');
                 Route::get('/search', [\App\Http\Controllers\ArticleController::class, 'search'])->name('admin.articles.search');
+                Route::post('/publish/{id}', [\App\Http\Controllers\ArticleController::class, 'publish'])->name('admin.article.publish');
+                Route::post('/move-to-draft/{id}', [\App\Http\Controllers\ArticleController::class, 'moveToDraft'])->name('admin.article.move-to-draft');
             });
 
 });
