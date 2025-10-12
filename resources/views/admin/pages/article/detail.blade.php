@@ -25,7 +25,7 @@
             <div class="row m-2">
 
                 <div class="col-md-8 col-xs-12">
-                    <div class="table-responsive text-nowrap">
+                    <div class="table-responsive">
                         <table class="table table-hover">
                             <tbody>
                                 <tr>
@@ -88,7 +88,7 @@
                                 <tr>
                                     <th scope="col" class="bg-dark text-white">Featured Image</th>
                                     <td>
-                                        <img src="{{ asset('storage/' . $data->featured_image) }}" alt="Featured Image" class="img-thumbnail" style="max-width: 200px; max-height: 200px; object-fit: cover;">
+                                        <img src="{{ $data->featured_image }}" alt="Featured Image" class="img-thumbnail" style="max-width: 200px; max-height: 200px; object-fit: cover;">
                                     </td>
                                 </tr>
                                 @endif

@@ -148,7 +148,7 @@
                                 <div class="row mb-3">
                                     <label class="col-sm-2 col-form-label">Current Image</label>
                                     <div class="col-sm-10">
-                                        <img src="{{ asset('storage/' . $article->featured_image) }}" alt="Current Featured Image" class="img-thumbnail" style="max-width: 200px; max-height: 200px;" />
+                                        <img src="{{ $article->featured_image }}" alt="Current Featured Image" class="img-thumbnail" style="max-width: 200px; max-height: 200px;" />
                                         <div class="form-text">Current featured image will be replaced if you upload a new one</div>
                                     </div>
                                 </div>

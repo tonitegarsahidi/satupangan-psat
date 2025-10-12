@@ -107,7 +107,7 @@
                                 <tr>
                                     <th scope="col" class="bg-dark text-white">Featured Image</th>
                                     <td>
-                                        <img src="{{ asset('storage/' . $data->featured_image) }}" alt="Featured Image" class="img-thumbnail" style="max-width: 200px; max-height: 200px; object-fit: cover;">
+                                        <img src="{{ $data->featured_image }}" alt="Featured Image" class="img-thumbnail" style="max-width: 200px; max-height: 200px; object-fit: cover;">
                                     </td>
                                 </tr>
                                 @endif

@@ -6,7 +6,9 @@ use App\Http\Requests\ArticleAddRequest;
 use App\Http\Requests\ArticleEditRequest;
 use App\Http\Requests\ArticleListRequest;
 use App\Services\ArticleService;
+use App\Services\ImageUploadService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use App\Helpers\AlertHelper;
 use Illuminate\Validation\ValidationException;
 
@@ -29,11 +31,13 @@ use Illuminate\Validation\ValidationException;
 class ArticleController extends Controller
 {
     private $articleService;
+    private $imageUploadService;
     private $mainBreadcrumbs;
 
-    public function __construct(ArticleService $articleService)
+    public function __construct(ArticleService $articleService, ImageUploadService $imageUploadService)
     {
         $this->articleService = $articleService;
+        $this->imageUploadService = $imageUploadService;
 
         // Store common breadcrumbs in the constructor
         $this->mainBreadcrumbs = [
@@ -90,14 +94,25 @@ class ArticleController extends Controller
      */
     public function store(ArticleAddRequest $request)
     {
-        $validatedData = $request->validated();
-        $result = $this->articleService->addNewArticle($validatedData);
+        try {
+            $validatedData = $request->except(['featured_image']);
 
-        $alert = $result
-            ? AlertHelper::createAlert('success', 'Data ' . $result->title . ' successfully added')
-            : AlertHelper::createAlert('danger', 'Data ' . $request->title . ' failed to be added');
+            // Handle featured_image upload using ImageUploadService
+            if ($request->hasFile('featured_image')) {
+                $path = $this->imageUploadService->uploadImage($request->file('featured_image'), "article");
+                $validatedData['featured_image'] = $path;
+            }
 
+            $result = $this->articleService->addNewArticle($validatedData);
 
+            $alert = $result
+                ? AlertHelper::createAlert('success', 'Data ' . $result->title . ' successfully added')
+                : AlertHelper::createAlert('danger', 'Data ' . $request->title . ' failed to be added');
+
+        } catch (\Exception $e) {
+            // Handle any exceptions (e.g. upload errors)
+            $alert = AlertHelper::createAlert('danger', 'Terjadi kesalahan: ' . $e->getMessage());
+        }
 
         return redirect()->route('admin.article.index')->with([
             'alerts'        => [$alert],
@@ -140,12 +155,42 @@ class ArticleController extends Controller
      */
     public function update(ArticleEditRequest $request, $id)
     {
-        $result = $this->articleService->updateArticle($request->validated(), $id);
+        try {
+            // Get existing article data first
+            $existingArticle = $this->articleService->getArticleDetail($id);
 
+            $validatedData = $request->except(['featured_image']);
 
-        $alert = $result
-            ? AlertHelper::createAlert('success', 'Data ' . $result->title . ' successfully updated')
-            : AlertHelper::createAlert('danger', 'Data ' . $request->title . ' failed to be updated');
+            // Handle featured_image upload using ImageUploadService
+            if ($request->hasFile('featured_image')) {
+                // Delete old featured image if exists
+                if ($existingArticle->featured_image) {
+                    try {
+                        $this->imageUploadService->deleteImage($existingArticle->featured_image);
+                    } catch (\Exception $e) {
+                        // Log error but don't stop the update process
+                        Log::warning('Failed to delete old featured image: ' . $e->getMessage());
+                    }
+                }
+
+                // Upload new image
+                $path = $this->imageUploadService->uploadImage($request->file('featured_image'), "article");
+                $validatedData['featured_image'] = $path;
+            } else {
+                // Keep existing featured_image if no new file is uploaded
+                $validatedData['featured_image'] = $existingArticle->featured_image;
+            }
+
+            $result = $this->articleService->updateArticle($validatedData, $id);
+
+            $alert = $result
+                ? AlertHelper::createAlert('success', 'Data ' . $result->title . ' successfully updated')
+                : AlertHelper::createAlert('danger', 'Data ' . $request->title . ' failed to be updated');
+
+        } catch (\Exception $e) {
+            // Handle any exceptions (e.g. upload errors)
+            $alert = AlertHelper::createAlert('danger', 'Terjadi kesalahan: ' . $e->getMessage());
+        }
 
         return redirect()->route('admin.article.index')->with([
             'alerts' => [$alert],

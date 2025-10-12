@@ -152,7 +152,7 @@
                                     {{-- input form --}}
                                     <input type="file" class="form-control" id="featured_image" name="featured_image"
                                         accept="image/*">
-                                    <div class="form-text">JPG, PNG or GIF. Max size 2MB</div>
+                                    <div class="form-text">JPG, PNG or GIF. Max size 20MB</div>
 
                                     {{-- IMAGE PREVIEW --}}
                                     <div class="mb-3" id="image-preview" style="display: none;">

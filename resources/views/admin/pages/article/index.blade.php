@@ -170,7 +170,7 @@
                                 <td>
                                     <div class="d-flex align-items-center">
                                         @if($article->featured_image)
-                                            <img src="{{ asset('storage/' . $article->featured_image) }}" alt="Featured Image" class="rounded" width="40" height="40" style="object-fit: cover; margin-right: 10px;">
+                                            <img src="{{ $article->featured_image }}" alt="Featured Image" class="rounded" width="40" height="40" style="object-fit: cover; margin-right: 10px;">
                                         @endif
                                         <div>
                                             <strong>{{ Str::limit($article->title, 50) }}</strong>
