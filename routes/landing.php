@@ -19,6 +19,9 @@ Route::prefix('landing')->group(function () {
     Route::get('/layanan/lapor-keamanan', [LandingController::class, 'laporKeamananPangan'])->name('landing.layanan.lapor_keamanan');
     Route::get('/layanan/registrasi-izin', [LandingController::class, 'registrasiIzinProdukPangan'])->name('landing.layanan.registrasi_izin');
     Route::get('/layanan/permintaan-informasi', [LandingController::class, 'permintaanInformasi'])->name('landing.layanan.permintaan_informasi');
+    Route::get('/layanan/pembinaan', [LandingController::class, 'pembinaan'])->name('landing.layanan.pembinaan');
+    Route::get('/layanan/berita', [LandingController::class, 'berita'])->name('landing.layanan.berita');
+    Route::get('/article/detail/{id}', [LandingController::class, 'articleDetail'])->name('landing.article.detail');
     Route::get('/panduan/alur-prosedur', [LandingController::class, 'alurProsedur'])->name('landing.panduan.alur_prosedur');
     Route::get('/panduan/standar-keamanan', [LandingController::class, 'standarKeamananMutuPangan'])->name('landing.panduan.standar_keamanan');
     Route::get('/panduan/batas-cemaran', [LandingController::class, 'batasCemaranResidu'])->name('landing.panduan.batas_cemaran');

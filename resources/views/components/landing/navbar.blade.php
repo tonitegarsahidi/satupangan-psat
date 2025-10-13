@@ -23,6 +23,8 @@
                         <a href="{{ route('landing.layanan.lapor_keamanan') }}" class="dropdown-item">Lapor Keamanan Pangan</a>
                         <a href="{{ route('landing.layanan.registrasi_izin') }}" class="dropdown-item">Registrasi Izin Produk Pangan</a>
                         <a href="{{ route('landing.layanan.permintaan_informasi') }}" class="dropdown-item">Permintaan Informasi</a>
+                        <a href="{{ route('landing.layanan.pembinaan') }}" class="dropdown-item">Pembinaan</a>
+                        <a href="{{ route('landing.layanan.berita') }}" class="dropdown-item">Berita</a>
                     </div>
                 </div>
 

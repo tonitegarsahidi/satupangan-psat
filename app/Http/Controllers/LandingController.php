@@ -62,6 +62,26 @@ class LandingController extends Controller
         return view('landing.layanan.permintaan_informasi');
     }
 
+    public function pembinaan()
+    {
+        return view('landing.layanan.pembinaan');
+    }
+
+    public function berita()
+    {
+        return view('landing.layanan.berita');
+    }
+
+    public function articleDetail($id)
+    {
+        $article = \App\Models\Article::with('author:id,name')->findOrFail($id);
+
+        // Increment view count
+        $article->incrementViewCount();
+
+        return view('landing.article.detail', compact('article'));
+    }
+
     public function alurProsedur()
     {
         return view('landing.panduan.alur_prosedur');
