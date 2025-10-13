@@ -434,6 +434,14 @@
             cursor: pointer;
         }
 
+        /* Custom Article Grid Layout */
+        .articles-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 45%);
+            gap: 5%;
+            justify-content: center;
+        }
+
         /* Responsive Design */
         @media (max-width: 992px) {
             .hero {
@@ -450,6 +458,28 @@
 
             .section {
                 padding: 50px 0;
+            }
+
+            .articles-grid {
+                grid-template-columns: repeat(2, 48%);
+                gap: 4%;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .articles-grid {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .articles-grid {
+                gap: 1.5rem;
+            }
+
+            .article-card {
+                margin-bottom: 1rem;
             }
         }
 
@@ -514,9 +544,9 @@
             @endphp
 
             @if($articles->count() > 0)
-                <div class="row">
+                <div class="articles-grid">
                     @foreach($articles as $article)
-                        <div class="col-lg-6 col-md-6 mb-4">
+                        <div>
                             <a href="{{ route('landing.article.detail', ['id' => $article->id]) }}" style="text-decoration: none; color: inherit;">
                                 <div class="article-card">
                                     @if($article->featured_image)

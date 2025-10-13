@@ -26,6 +26,17 @@ class ArticleSeeder extends Seeder
             return;
         }
 
+        $featuredImages = [
+            'images/upload/article/apples.jpg',
+            'images/upload/article/cabe rawit.jpg',
+            'images/upload/article/chilli.jpg',
+            'images/upload/article/jagung.jpg',
+            'images/upload/article/kacang tanah.jpg',
+            'images/upload/article/kebun anggur.jpg',
+            'images/upload/article/kebun jeruk.jpg',
+            'images/upload/article/semangka.jpg',
+        ];
+
         $articles = [
             [
                 'title' => 'Pentingnya Keamanan Pangan dalam Industri Pengolahan Makanan',
@@ -39,6 +50,7 @@ class ArticleSeeder extends Seeder
                 'category' => 'pembinaan',
                 'status' => 'published',
                 'is_featured' => true,
+                'featured_image' => $featuredImages[0],
                 'published_at' => Carbon::now()->subDays(7),
                 'view_count' => rand(50, 200),
             ],
@@ -54,6 +66,7 @@ class ArticleSeeder extends Seeder
                 'category' => 'pembinaan',
                 'status' => 'published',
                 'is_featured' => false,
+                'featured_image' => $featuredImages[1],
                 'published_at' => Carbon::now()->subDays(5),
                 'view_count' => rand(30, 150),
             ],
@@ -69,6 +82,7 @@ class ArticleSeeder extends Seeder
                 'category' => 'berita',
                 'status' => 'published',
                 'is_featured' => true,
+                'featured_image' => $featuredImages[2],
                 'published_at' => Carbon::now()->subDays(3),
                 'view_count' => rand(100, 300),
             ],
@@ -89,6 +103,7 @@ class ArticleSeeder extends Seeder
                 'category' => 'pembinaan',
                 'status' => 'published',
                 'is_featured' => false,
+                'featured_image' => $featuredImages[3],
                 'published_at' => Carbon::now()->subDays(2),
                 'view_count' => rand(75, 250),
             ],
@@ -104,6 +119,7 @@ class ArticleSeeder extends Seeder
                 'category' => 'berita',
                 'status' => 'published',
                 'is_featured' => false,
+                'featured_image' => $featuredImages[4],
                 'published_at' => Carbon::now()->subDays(1),
                 'view_count' => rand(40, 180),
             ],
@@ -119,6 +135,7 @@ class ArticleSeeder extends Seeder
                 'category' => 'berita',
                 'status' => 'published',
                 'is_featured' => false,
+                'featured_image' => $featuredImages[5],
                 'published_at' => Carbon::now()->subDays(4),
                 'view_count' => rand(25, 120),
             ]

@@ -810,7 +810,7 @@
                     <p class="feature-description">Laporan pelanggaran dari masyarakat ditindaklanjuti oleh petugas OKKP.</p>
                 </div>
 
-                <div class="feature-card" onclick="window.location.href='{{ route('landing.panduan.pembinaan_konsultasi') }}'">
+                <div class="feature-card" onclick="window.location.href='/landing/layanan/pembinaan'">
                     <div class="feature-icon">
                         <i class="fas fa-user-tie"></i>
                     </div>
