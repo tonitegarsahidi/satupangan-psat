@@ -104,12 +104,17 @@
                                     {{-- form validation error --}}
                                     @include('admin.components.notification.error-validation', ['field' => 'content'])
 
-                                    {{-- input form --}}
-                                    <textarea class="form-control" id="content" name="content"
-                                        rows="10" placeholder="Write your article content here" required>{{ old('content', $article->content) }}</textarea>
+                                    {{-- Quill Editor container --}}
+                                    <div id="content" style="min-height: 200px;">{{ old('content', $article->content) }}</div>
+
+                                    {{-- Hidden input to store Quill content --}}
+                                    <textarea id="content-hidden" name="content" required style="display: none;"></textarea>
                                 </div>
                             </div>
 
+                            <br/>
+                            <br/>
+                            <br/>
                             {{-- PUBLISHED AT FIELD --}}
                             <div class="row mb-3">
                                 <label class="col-sm-2 col-form-label" for="published_at">Published Date</label>
@@ -148,7 +153,7 @@
                                 <div class="row mb-3">
                                     <label class="col-sm-2 col-form-label">Current Image</label>
                                     <div class="col-sm-10">
-                                        <img src="{{ $article->featured_image }}" alt="Current Featured Image" class="img-thumbnail" style="max-width: 200px; max-height: 200px;" />
+                                        <img src="{{ asset($article->featured_image) }}" alt="Current Featured Image" class="img-thumbnail" style="max-width: 200px; max-height: 200px;" />
                                         <div class="form-text">Current featured image will be replaced if you upload a new one</div>
                                     </div>
                                 </div>
@@ -247,6 +252,39 @@ document.getElementById('featured_image').addEventListener('change', function(e)
     } else {
         preview.style.display = 'none';
     }
+});
+
+// Initialize Quill Editor
+document.addEventListener('DOMContentLoaded', function() {
+    var quill = new Quill('#content', {
+        theme: 'snow',
+        placeholder: 'Write your article content here...',
+        modules: {
+            toolbar: [
+                [{ 'header': [1, 2, 3, false] }],
+                ['bold', 'italic', 'underline'],
+                [{ 'color': [] }, { 'background': [] }],
+                [{ 'align': [] }],
+                [{ 'list': 'ordered'}, { 'list': 'bullet' }],
+                [{ 'indent': '-1'}, { 'indent': '+1' }],
+                ['link'],
+                ['blockquote', 'code-block'],
+                ['clean']
+            ]
+        }
+    });
+
+    // Set initial content from article data
+    var articleContent = @json($article->content ?? '');
+    if (articleContent) {
+        quill.root.innerHTML = articleContent;
+        document.getElementById('content-hidden').value = articleContent;
+    }
+
+    // Update hidden input on content change
+    quill.on('text-change', function() {
+        document.getElementById('content-hidden').value = quill.root.innerHTML;
+    });
 });
 </script>
 @endpush

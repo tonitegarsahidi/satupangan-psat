@@ -48,6 +48,12 @@
     <!--? Config:  Mandatory theme config file contain global vars & default theme options, Set your preferred theme option in this file.  -->
     <script src="{{ asset('assets/js/config.js') }}"></script>
 
+    {{-- Quill Editor CSS --}}
+    <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
+
+    {{-- Quill Editor JS --}}
+    <script src="https://cdn.quilljs.com/1.3.6/quill.min.js"></script>
+
     {{-- HEADER CODE FOR ANY CODE --}}
     @yield('header-code')
 </head>

@@ -97,18 +97,23 @@
                             </div>
 
                             {{-- CONTENT FIELD --}}
-                            <div class="row mb-3">
+                            <div class="row mb-10">
                                 <label class="col-sm-2 col-form-label" for="content">Content*</label>
                                 <div class="col-sm-10">
                                     {{-- form validation error --}}
                                     @include('admin.components.notification.error-validation', ['field' => 'content'])
 
-                                    {{-- input form --}}
-                                    <textarea class="form-control" id="content" name="content"
-                                        rows="10" placeholder="Write your article content here" required>{{ old('content') }}</textarea>
+                                    {{-- Quill Editor container --}}
+                                    <div id="content" style="min-height: 200px;">{{ old('content') }}</div>
+
+                                    {{-- Hidden input to store Quill content --}}
+                                    <textarea id="content-hidden" name="content" required style="display: none;"></textarea>
                                 </div>
                             </div>
 
+                            <br/>
+                            <br/>
+                            <br/>
                             {{-- PUBLISHED AT FIELD --}}
                             <div class="row mb-3">
                                 <label class="col-sm-2 col-form-label" for="published_at">Published Date</label>
@@ -210,6 +215,39 @@ document.getElementById('featured_image').addEventListener('change', function(e)
     } else {
         preview.style.display = 'none';
     }
+});
+
+// Initialize Quill Editor
+document.addEventListener('DOMContentLoaded', function() {
+    var quill = new Quill('#content', {
+        theme: 'snow',
+        placeholder: 'Write your article content here...',
+        modules: {
+            toolbar: [
+                [{ 'header': [1, 2, 3, false] }],
+                ['bold', 'italic', 'underline'],
+                [{ 'color': [] }, { 'background': [] }],
+                [{ 'align': [] }],
+                [{ 'list': 'ordered'}, { 'list': 'bullet' }],
+                [{ 'indent': '-1'}, { 'indent': '+1' }],
+                ['link'],
+                ['blockquote', 'code-block'],
+                ['clean']
+            ]
+        }
+    });
+
+    // Set initial content if available
+    var initialContent = @json(old('content', ''));
+    if (initialContent) {
+        quill.root.innerHTML = initialContent;
+        document.getElementById('content-hidden').value = initialContent;
+    }
+
+    // Update hidden input on content change
+    quill.on('text-change', function() {
+        document.getElementById('content-hidden').value = quill.root.innerHTML;
+    });
 });
 </script>
 @endpush
