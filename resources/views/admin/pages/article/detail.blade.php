@@ -94,7 +94,7 @@
                                 @endif
                                 <tr>
                                     <th scope="col" class="bg-dark text-white">Content</th>
-                                    <td>{!! nl2br(e($data->content)) !!}</td>
+                                    <td>{!! $data->content !!}</td>
                                 </tr>
                             </tbody>
                         </table>
