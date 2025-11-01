@@ -68,6 +68,7 @@ class DatabaseSeeder extends Seeder
             PengawasanTindakanLanjutanDetailSeeder::class,
             PengawasanAttachmentSeeder::class,
             PengawasanTindakanPicSeeder::class,
+            PengawasanItemSeeder::class,
 
             // Notification and Message seeders
             NotificationSeeder::class,

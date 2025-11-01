@@ -75,6 +75,11 @@ class Pengawasan extends Model
             ->where('linked_type', 'PENGAWASAN');
     }
 
+    public function items()
+    {
+        return $this->hasMany(PengawasanItem::class, 'pengawasan_id');
+    }
+
     /**
      * Get valid status options
      *

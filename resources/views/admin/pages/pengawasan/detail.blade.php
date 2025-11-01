@@ -1,4 +1,4 @@
-@extends('admin.template-base', ['searchNavbar' => false])
+ @extends('admin.template-base', ['searchNavbar' => false])
 
 @section('page-title', 'Detail of Pengawasan')
 
@@ -165,6 +165,110 @@
             </div>
 
 
+
+            <!-- Rapid Test Items -->
+            <div class="row m-2">
+                <div class="col-md-12 col-xs-12">
+                    <h4 class="card-header">Detail Rapid Test Items</h4>
+                    @if ($data->items->where('type', 'rapid')->count() > 0)
+                        <div class="table-responsive text-nowrap">
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>Test Name</th>
+                                        <th>Test Parameter</th>
+                                        <th>Komoditas</th>
+                                        <th>Value String</th>
+                                        <th>Is Positif</th>
+                                        <th>Is Memenuhi Syarat</th>
+                                        <th>Keterangan</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach ($data->items->where('type', 'rapid') as $item)
+                                        <tr>
+                                            <td>{{ $item->test_name ?: '-' }}</td>
+                                            <td>{{ $item->test_parameter ?: '-' }}</td>
+                                            <td>{{ $item->komoditas ? $item->komoditas->nama_bahan_pangan_segar : '-' }}</td>
+                                            <td>{{ $item->value_string ?: '-' }}</td>
+                                            <td>
+                                                @if ($item->is_positif)
+                                                    <span class="badge rounded-pill bg-danger">Yes</span>
+                                                @else
+                                                    <span class="badge rounded-pill bg-success">No</span>
+                                                @endif
+                                            </td>
+                                            <td>
+                                                @if ($item->is_memenuhisyarat)
+                                                    <span class="badge rounded-pill bg-success">Yes</span>
+                                                @else
+                                                    <span class="badge rounded-pill bg-danger">No</span>
+                                                @endif
+                                            </td>
+                                            <td>{{ $item->keterangan ?: '-' }}</td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                    @else
+                        <p>No Rapid Test Items found for this Pengawasan.</p>
+                    @endif
+                </div>
+            </div>
+
+            <!-- Laboratorium Test Items -->
+            <div class="row m-2">
+                <div class="col-md-12 col-xs-12">
+                    <h4 class="card-header">Detail Laboratorium Test Items</h4>
+                    @if ($data->items->where('type', 'lab')->count() > 0)
+                        <div class="table-responsive text-nowrap">
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>Test Name</th>
+                                        <th>Test Parameter</th>
+                                        <th>Komoditas</th>
+                                        <th>Value Numeric</th>
+                                        <th>Value Unit</th>
+                                        <th>Is Positif</th>
+                                        <th>Is Memenuhi Syarat</th>
+                                        <th>Keterangan</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach ($data->items->where('type', 'lab') as $item)
+                                        <tr>
+                                            <td>{{ $item->test_name ?: '-' }}</td>
+                                            <td>{{ $item->test_parameter ?: '-' }}</td>
+                                            <td>{{ $item->komoditas ? $item->komoditas->nama_bahan_pangan_segar : '-' }}</td>
+                                            <td>{{ $item->value_numeric ?: '-' }}</td>
+                                            <td>{{ $item->value_unit ?: '-' }}</td>
+                                            <td>
+                                                @if ($item->is_positif)
+                                                    <span class="badge rounded-pill bg-danger">Yes</span>
+                                                @else
+                                                    <span class="badge rounded-pill bg-success">No</span>
+                                                @endif
+                                            </td>
+                                            <td>
+                                                @if ($item->is_memenuhisyarat)
+                                                    <span class="badge rounded-pill bg-success">Yes</span>
+                                                @else
+                                                    <span class="badge rounded-pill bg-danger">No</span>
+                                                @endif
+                                            </td>
+                                            <td>{{ $item->keterangan ?: '-' }}</td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                    @else
+                        <p>No Laboratorium Test Items found for this Pengawasan.</p>
+                    @endif
+                </div>
+            </div>
 
             {{-- ROW FOR ADDITIONAL FUNCTIONALITY BUTTON --}}
             <div class="m-4">

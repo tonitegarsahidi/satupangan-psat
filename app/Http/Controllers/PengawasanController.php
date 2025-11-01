@@ -92,7 +92,11 @@ class PengawasanController extends Controller
 
         // Filter provinces based on user role
         // Check if user has ROLE_ADMIN by querying the database directly
-        $isAdmin = $user->hasRole('ROLE_ADMIN');
+        $isAdmin = DB::table('role_user')
+            ->join('role_master', 'role_user.role_id', '=', 'role_master.id')
+            ->where('role_user.user_id', $user->id)
+            ->where('role_master.role_code', 'ROLE_ADMIN')
+            ->exists();
 
         if ($isAdmin) {
             // Admin can see all provinces
@@ -175,7 +179,7 @@ class PengawasanController extends Controller
      */
     public function detail(Request $request)
     {
-        $data = $this->pengawasanService->getPengawasanDetail($request->id);
+        $data = $this->pengawasanService->getPengawasanDetail($request->id, ['items.komoditas']);
 
         $breadcrumbs = array_merge($this->mainBreadcrumbs, ['Detail' => null]);
 

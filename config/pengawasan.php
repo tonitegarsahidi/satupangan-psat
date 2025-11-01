@@ -29,6 +29,11 @@ return [
         'TINDAKAN_LANJUTAN' => 'Tindakan Lanjutan',
     ],
 
+    'pengawasan_item_types' => [
+        'rapid' => 'Rapid Test',
+        'lab' => 'Laboratorium Test',
+    ],
+
     'attachment_types' => [
         'image' => 'Image',
         'document' => 'Document',
