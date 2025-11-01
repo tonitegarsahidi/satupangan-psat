@@ -7,6 +7,10 @@ use Illuminate\Database\Seeder;
 use App\Models\PengawasanItem;
 use App\Models\Pengawasan;
 use App\Models\MasterBahanPanganSegar;
+use App\Models\MasterCemaranMikroba;
+use App\Models\MasterCemaranMikrotoksin;
+use App\Models\MasterCemaranPestisida;
+use App\Models\MasterCemaranLogamBerat;
 use Illuminate\Support\Str;
 
 class PengawasanItemSeeder extends Seeder
@@ -18,13 +22,61 @@ class PengawasanItemSeeder extends Seeder
     {
         // Get existing pengawasan records and master bahan pangan segar
         $pengawasanIds = Pengawasan::pluck('id')->toArray();
-        $komoditasIds = MasterBahanPanganSegar::pluck('id')->toArray();
+
+
         $pengawasanItemTypes = config('pengawasan.pengawasan_item_types');
 
-        if (empty($pengawasanIds) || empty($komoditasIds)) {
-            $this->command->info('Skipping PengawasanItemSeeder: No Pengawasan or MasterBahanPanganSegar records found.');
+        if (empty($pengawasanIds)) {
+            $this->command->info('Skipping PengawasanItemSeeder: No Pengawasan records found.');
             return;
         }
+
+        // Get cemaran data
+        $mikrobaIds = MasterCemaranMikroba::pluck('id')->toArray();
+        $mikrotoksinIds = MasterCemaranMikrotoksin::pluck('id')->toArray();
+        $pestisidaIds = MasterCemaranPestisida::pluck('id')->toArray();
+        $logamBeratIds = MasterCemaranLogamBerat::pluck('id')->toArray();
+
+        if (empty($mikrobaIds) || empty($mikrotoksinIds) || empty($pestisidaIds) || empty($logamBeratIds)) {
+            $this->command->info('Skipping PengawasanItemSeeder: No Cemaran records found.');
+            return;
+        }
+
+        // Define lab test configurations
+        $labTestConfigs = [
+            [
+                'type' => 'mikroba',
+                'ids' => $mikrobaIds,
+                'unit' => 'CFU/g',
+                'name_prefix' => 'Uji Mikroba: ',
+                'parameter_prefix' => 'Analisis: ',
+                'max_value' => 100000, // Max for TVC
+            ],
+            [
+                'type' => 'mikrotoksin',
+                'ids' => $mikrotoksinIds,
+                'unit' => 'µg/kg',
+                'name_prefix' => 'Uji Mikrotoksin: ',
+                'parameter_prefix' => 'Analisis: ',
+                'max_value' => 20, // Max for Aflatoxin
+            ],
+            [
+                'type' => 'pestisida',
+                'ids' => $pestisidaIds,
+                'unit' => 'mg/kg',
+                'name_prefix' => 'Uji Pestisida: ',
+                'parameter_prefix' => 'Analisis: ',
+                'max_value' => 1, // Max for common pesticides
+            ],
+            [
+                'type' => 'logam_berat',
+                'ids' => $logamBeratIds,
+                'unit' => 'mg/kg',
+                'name_prefix' => 'Uji Logam Berat: ',
+                'parameter_prefix' => 'Analisis: ',
+                'max_value' => 0.3, // Max for Pb
+            ],
+        ];
 
         $pengawasanItems = [];
 
@@ -41,6 +93,12 @@ class PengawasanItemSeeder extends Seeder
         ];
 
         foreach ($pengawasanIds as $pengawasanId) {
+
+
+            // Get the specific produk_psat_id values from Pengawasan records
+            $produkPsatId = Pengawasan::where('id', $pengawasanId)->first();
+
+
             // Generate 0-6 rapid type items
             $numRapidItems = rand(0, 6);
             for ($i = 0; $i < $numRapidItems; $i++) {
@@ -56,7 +114,7 @@ class PengawasanItemSeeder extends Seeder
                     'type' => 'rapid',
                     'test_name' => $selectedTest['name'],
                     'test_parameter' => $selectedTest['parameter'],
-                    'komoditas_id' => $komoditasIds[array_rand($komoditasIds)],
+                    'komoditas_id' => $produkPsatId["produk_psat_id"],
                     'value_numeric' => null,
                     'value_string' => $isPositif ? 'Positif' : 'Negatif',
                     'value_unit' => null,
@@ -71,18 +129,45 @@ class PengawasanItemSeeder extends Seeder
             // Generate 0-4 lab type items
             $numLabItems = rand(0, 4);
             for ($i = 0; $i < $numLabItems; $i++) {
-                $isPositif = (bool) rand(0, 1);
-                $isMemenuhiSyarat = (bool) rand(0, 1);
+                $config = $labTestConfigs[array_rand($labTestConfigs)];
+                $cemaranId = $config['ids'][array_rand($config['ids'])];
+                $isMemenuhiSyarat = (rand(1, 100) > 20); // 80% chance to meet requirements
+                $isPositif = !$isMemenuhiSyarat; // If it meets requirements, it's not positive
+
+                // Generate a value that is likely to be within limits if it meets requirements
+                if ($isMemenuhiSyarat) {
+                    $valueNumeric = (rand(1, intval($config['max_value'] * 0.8))) / 100; // Value is 80% below max
+                } else {
+                    $valueNumeric = (rand(intval($config['max_value'] * 0.8), intval($config['max_value'] * 2))) / 100; // Value is above max
+                }
+
+                // Get the cemaran model for the name
+                $cemaranModel = null;
+                switch ($config['type']) {
+                    case 'mikroba':
+                        $cemaranModel = MasterCemaranMikroba::find($cemaranId);
+                        break;
+                    case 'mikrotoksin':
+                        $cemaranModel = MasterCemaranMikrotoksin::find($cemaranId);
+                        break;
+                    case 'pestisida':
+                        $cemaranModel = MasterCemaranPestisida::find($cemaranId);
+                        break;
+                    case 'logam_berat':
+                        $cemaranModel = MasterCemaranLogamBerat::find($cemaranId);
+                        break;
+                }
+
                 $pengawasanItems[] = [
                     'id' => Str::uuid(),
                     'pengawasan_id' => $pengawasanId,
                     'type' => 'lab',
-                    'test_name' => 'Lab Test ' . Str::random(5),
-                    'test_parameter' => 'Uji Laboratorium Logam Berat',
-                    'komoditas_id' => $komoditasIds[array_rand($komoditasIds)],
-                    'value_numeric' => (rand(1, 1000) / 100), // Example: 1.00 to 10.00
+                    'test_name' => $config['name_prefix'] . ($cemaranModel ? $cemaranModel->nama_cemaran_mikroba ?? $cemaranModel->nama_cemaran_mikrotoksin ?? $cemaranModel->nama_cemaran_pestisida ?? $cemaranModel->nama_cemaran_logam_berat : 'Unknown'),
+                    'test_parameter' => $config['parameter_prefix'] . ($cemaranModel ? $cemaranModel->nama_cemaran_mikroba ?? $cemaranModel->nama_cemaran_mikrotoksin ?? $cemaranModel->nama_cemaran_pestisida ?? $cemaranModel->nama_cemaran_logam_berat : 'Unknown'),
+                    'komoditas_id' => $produkPsatId["produk_psat_id"],
+                    'value_numeric' => $valueNumeric,
                     'value_string' => null,
-                    'value_unit' => ['mg/kg', 'ppm', 'ppb'][array_rand(['mg/kg', 'ppm', 'ppb'])],
+                    'value_unit' => $config['unit'],
                     'is_positif' => $isPositif,
                     'is_memenuhisyarat' => $isMemenuhiSyarat,
                     'keterangan' => 'Keterangan untuk lab item ' . ($i + 1),
