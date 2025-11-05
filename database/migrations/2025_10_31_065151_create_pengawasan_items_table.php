@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('type', 50)->nullable();
             $table->string('test_name')->nullable();
             $table->string('test_parameter')->nullable();
+            $table->integer('jumlah_sampel')->default(1);
             $table->uuid('komoditas_id')->nullable();
             $table->decimal('value_numeric', 15, 4)->nullable();
             $table->string('value_string')->nullable();

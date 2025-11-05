@@ -20,6 +20,7 @@ class PengawasanItem extends Model
         'type',
         'test_name',
         'test_parameter',
+        'jumlah_sampel',
         'komoditas_id',
         'value_numeric',
         'value_string',

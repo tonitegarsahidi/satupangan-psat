@@ -177,11 +177,8 @@
                                     <tr>
                                         <th>Test Name</th>
                                         <th>Test Parameter</th>
-                                        <th>Komoditas</th>
-                                        <th>Value String</th>
-                                        <th>Is Positif</th>
-                                        <th>Is Memenuhi Syarat</th>
-                                        <th>Keterangan</th>
+                                        <th>Jumlah Sampel</th>
+                                        <th>Hasil</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -189,23 +186,14 @@
                                         <tr>
                                             <td>{{ $item->test_name ?: '-' }}</td>
                                             <td>{{ $item->test_parameter ?: '-' }}</td>
-                                            <td>{{ $item->komoditas ? $item->komoditas->nama_bahan_pangan_segar : '-' }}</td>
-                                            <td>{{ $item->value_string ?: '-' }}</td>
+                                            <td>{{ $item->jumlah_sampel ?: 1 }}</td>
                                             <td>
                                                 @if ($item->is_positif)
-                                                    <span class="badge rounded-pill bg-danger">Yes</span>
+                                                    <span class="badge rounded-pill bg-danger">positif</span>
                                                 @else
-                                                    <span class="badge rounded-pill bg-success">No</span>
+                                                    <span class="badge rounded-pill bg-success">negatif</span>
                                                 @endif
                                             </td>
-                                            <td>
-                                                @if ($item->is_memenuhisyarat)
-                                                    <span class="badge rounded-pill bg-success">Yes</span>
-                                                @else
-                                                    <span class="badge rounded-pill bg-danger">No</span>
-                                                @endif
-                                            </td>
-                                            <td>{{ $item->keterangan ?: '-' }}</td>
                                         </tr>
                                     @endforeach
                                 </tbody>
