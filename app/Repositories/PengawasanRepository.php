@@ -74,9 +74,9 @@ class PengawasanRepository
         return $paginator;
     }
 
-    public function getPengawasanById($pengawasanId): ?Pengawasan
+    public function getPengawasanById($pengawasanId, $withItems = false): ?Pengawasan
     {
-        return Pengawasan::with([
+        $with = [
             'initiator',
             'jenisPsat',
             'produkPsat',
@@ -84,7 +84,13 @@ class PengawasanRepository
             'lokasiProvinsi',
             'rekapRecords',
             'attachments'
-        ])->find($pengawasanId);
+        ];
+
+        if ($withItems) {
+            $with[] = 'items.komoditas';
+        }
+
+        return Pengawasan::with($with)->find($pengawasanId);
     }
 
     public function createPengawasan($data)

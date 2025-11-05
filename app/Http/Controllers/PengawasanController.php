@@ -179,7 +179,7 @@ class PengawasanController extends Controller
      */
     public function detail(Request $request)
     {
-        $data = $this->pengawasanService->getPengawasanDetail($request->id, ['items.komoditas']);
+        $data = $this->pengawasanService->getPengawasanDetail($request->id, true);
 
         $breadcrumbs = array_merge($this->mainBreadcrumbs, ['Detail' => null]);
 

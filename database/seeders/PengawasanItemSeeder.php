@@ -100,7 +100,7 @@ class PengawasanItemSeeder extends Seeder
 
 
             // Generate 0-6 rapid type items
-            $numRapidItems = rand(0, 6);
+            $numRapidItems = rand(2, 6);
             for ($i = 0; $i < $numRapidItems; $i++) {
                 // Make more than 80% negative
                 $isPositif = (rand(1, 100) > 80);
@@ -127,7 +127,7 @@ class PengawasanItemSeeder extends Seeder
             }
 
             // Generate 0-4 lab type items
-            $numLabItems = rand(0, 4);
+            $numLabItems = rand(2, 6);
             for ($i = 0; $i < $numLabItems; $i++) {
                 $config = $labTestConfigs[array_rand($labTestConfigs)];
                 $cemaranId = $config['ids'][array_rand($config['ids'])];

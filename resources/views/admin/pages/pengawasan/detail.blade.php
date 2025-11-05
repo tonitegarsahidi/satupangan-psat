@@ -228,12 +228,9 @@
                                     <tr>
                                         <th>Test Name</th>
                                         <th>Test Parameter</th>
-                                        <th>Komoditas</th>
-                                        <th>Value Numeric</th>
-                                        <th>Value Unit</th>
-                                        <th>Is Positif</th>
+                                        <th>Value</th>
+                                        <th>Satuan</th>
                                         <th>Is Memenuhi Syarat</th>
-                                        <th>Keterangan</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -241,16 +238,13 @@
                                         <tr>
                                             <td>{{ $item->test_name ?: '-' }}</td>
                                             <td>{{ $item->test_parameter ?: '-' }}</td>
-                                            <td>{{ $item->komoditas ? $item->komoditas->nama_bahan_pangan_segar : '-' }}</td>
-                                            <td>{{ $item->value_numeric ?: '-' }}</td>
-                                            <td>{{ $item->value_unit ?: '-' }}</td>
                                             <td>
-                                                @if ($item->is_positif)
-                                                    <span class="badge rounded-pill bg-danger">Yes</span>
-                                                @else
-                                                    <span class="badge rounded-pill bg-success">No</span>
+                                                {{ $item->value_numeric ?: '-' }}
+                                                @if ($item->value_string)
+                                                    <br><small class="text-muted">{{ $item->value_string }}</small>
                                                 @endif
                                             </td>
+                                            <td>{{ $item->value_unit ?: '-' }}</td>
                                             <td>
                                                 @if ($item->is_memenuhisyarat)
                                                     <span class="badge rounded-pill bg-success">Yes</span>
@@ -258,7 +252,6 @@
                                                     <span class="badge rounded-pill bg-danger">No</span>
                                                 @endif
                                             </td>
-                                            <td>{{ $item->keterangan ?: '-' }}</td>
                                         </tr>
                                     @endforeach
                                 </tbody>

@@ -40,9 +40,9 @@ class PengawasanService
         return $this->pengawasanRepository->getAllPengawasan($perPage, $sortField, $sortOrder, $keyword, $provinsiId);
     }
 
-    public function getPengawasanDetail($pengawasanId): ?Pengawasan
+    public function getPengawasanDetail($pengawasanId, $withItems = false): ?Pengawasan
     {
-        return $this->pengawasanRepository->getPengawasanById($pengawasanId);
+        return $this->pengawasanRepository->getPengawasanById($pengawasanId, $withItems);
     }
 
     public function addNewPengawasan(array $validatedData)
