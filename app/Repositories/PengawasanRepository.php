@@ -87,7 +87,7 @@ class PengawasanRepository
         ];
 
         if ($withItems) {
-            $with[] = 'items.komoditas';
+            $with[] = 'items';
         }
 
         return Pengawasan::with($with)->find($pengawasanId);
@@ -105,6 +105,11 @@ class PengawasanRepository
         return $pengawasan;
     }
 
+    public function createPengawasanItem($data)
+    {
+        return \App\Models\PengawasanItem::create($data);
+    }
+
     public function delete($pengawasanId): ?bool
     {
         try {
@@ -113,6 +118,17 @@ class PengawasanRepository
             return true;
         } catch (\Exception $e) {
             Log::error("Failed to delete pengawasan with id $pengawasanId: {$e->getMessage()}");
+            return false;
+        }
+    }
+
+    public function deletePengawasanItems($pengawasanId): ?bool
+    {
+        try {
+            \App\Models\PengawasanItem::where('pengawasan_id', $pengawasanId)->delete();
+            return true;
+        } catch (\Exception $e) {
+            Log::error("Failed to delete pengawasan items for pengawasan id $pengawasanId: {$e->getMessage()}");
             return false;
         }
     }

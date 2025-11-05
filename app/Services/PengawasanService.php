@@ -49,7 +49,21 @@ class PengawasanService
     {
         DB::beginTransaction();
         try {
+            // Extract pengawasan items before creating pengawasan
+            $pengawasanItems = $validatedData['pengawasan_items'] ?? [];
+            unset($validatedData['pengawasan_items']);
+
+            // Create pengawasan first
             $pengawasan = $this->pengawasanRepository->createPengawasan($validatedData);
+
+            // Create pengawasan items if they exist
+            if (!empty($pengawasanItems) && $pengawasan) {
+                foreach ($pengawasanItems as $itemData) {
+                    $itemData['pengawasan_id'] = $pengawasan->id;
+                    $this->pengawasanRepository->createPengawasanItem($itemData);
+                }
+            }
+
             DB::commit();
             return $pengawasan;
         } catch (\Exception $exception) {
@@ -63,7 +77,25 @@ class PengawasanService
     {
         DB::beginTransaction();
         try {
+            // Extract pengawasan items before updating pengawasan
+            $pengawasanItems = $validatedData['pengawasan_items'] ?? [];
+            unset($validatedData['pengawasan_items']);
+
+            // Update pengawasan first
             $pengawasan = $this->pengawasanRepository->update($id, $validatedData);
+
+            // Update pengawasan items if they exist
+            if (!empty($pengawasanItems) && $pengawasan) {
+                // Delete existing items
+                $this->pengawasanRepository->deletePengawasanItems($id);
+
+                // Create new items
+                foreach ($pengawasanItems as $itemData) {
+                    $itemData['pengawasan_id'] = $id;
+                    $this->pengawasanRepository->createPengawasanItem($itemData);
+                }
+            }
+
             DB::commit();
             return $pengawasan;
         } catch (\Exception $exception) {

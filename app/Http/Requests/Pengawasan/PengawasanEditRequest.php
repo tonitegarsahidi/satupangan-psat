@@ -42,6 +42,13 @@ class PengawasanEditRequest extends FormRequest
             'is_active' => 'nullable|boolean',
             'created_by' => 'nullable|exists:users,id',
             'updated_by' => 'nullable|exists:users,id',
+            'pengawasan_items' => 'nullable|array',
+            'pengawasan_items.*.jenis_pengawasan' => 'nullable|in:RAPID,LAB',
+            'pengawasan_items.*.jenis_cemaran' => 'nullable|string|max:255',
+            'pengawasan_items.*.metode_pengujian' => 'nullable|string|max:255',
+            'pengawasan_items.*.is_positif' => 'nullable|boolean',
+            'pengawasan_items.*.jumlah_sampel' => 'nullable|integer|min:1',
+            'pengawasan_items.*.keterangan' => 'nullable|string',
         ];
     }
 
@@ -76,6 +83,15 @@ class PengawasanEditRequest extends FormRequest
             'is_active.boolean' => 'The active field must be true or false.',
             'created_by.exists' => 'The selected creator is invalid.',
             'updated_by.exists' => 'The selected updater is invalid.',
+            'pengawasan_items.array' => 'The pengawasan items must be an array.',
+            'pengawasan_items.*.jenis_pengawasan.in' => 'The selected supervision type is invalid.',
+            'pengawasan_items.*.jenis_cemaran.string' => 'The contamination type must be a string.',
+            'pengawasan_items.*.jenis_cemaran.max' => 'The contamination type may not be greater than 255 characters.',
+            'pengawasan_items.*.metode_pengujian.string' => 'The testing method must be a string.',
+            'pengawasan_items.*.metode_pengujian.max' => 'The testing method may not be greater than 255 characters.',
+            'pengawasan_items.*.is_positif.boolean' => 'The positive status must be true or false.',
+            'pengawasan_items.*.jumlah_sampel.integer' => 'The sample quantity must be an integer.',
+            'pengawasan_items.*.jumlah_sampel.min' => 'The sample quantity must be at least 1.',
         ];
     }
 }

@@ -17,16 +17,11 @@ class PengawasanItem extends Model
 
     protected $fillable = [
         'pengawasan_id',
-        'type',
-        'test_name',
-        'test_parameter',
+        'jenis_pengawasan',
+        'jenis_cemaran',
+        'metode_pengujian',
         'jumlah_sampel',
-        'komoditas_id',
-        'value_numeric',
-        'value_string',
-        'value_unit',
         'is_positif',
-        'is_memenuhisyarat',
         'keterangan',
     ];
 
@@ -47,7 +42,7 @@ class PengawasanItem extends Model
      */
     public static function getTypeOptions()
     {
-        return config('pengawasan.pengawasan_item_types', []);
+        return ['RAPID' => 'Rapid Test', 'LAB' => 'Laboratory'];
     }
 
     /**
@@ -57,6 +52,6 @@ class PengawasanItem extends Model
      */
     public function getTypeLabel()
     {
-        return $this->getTypeOptions()[$this->type] ?? $this->type;
+        return $this->getTypeOptions()[$this->jenis_pengawasan] ?? $this->jenis_pengawasan;
     }
 }

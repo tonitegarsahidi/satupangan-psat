@@ -115,7 +115,26 @@ class PengawasanController extends Controller
         $jenisPsats = \App\Models\MasterJenisPanganSegar::where('is_active', 1)->orderBy('nama_jenis_pangan_segar', 'asc')->get();
         $produkPsats = [];
 
-        return view('admin.pages.pengawasan.add', compact('breadcrumbs', 'provinsis', 'kotas', 'jenisPsats', 'produkPsats'));
+        // Get options for pengawasan items
+        $rapidTestOptions = [
+            ['name' => 'Rapid Test Aflatoksin', 'parameter' => 'Deteksi Aflatoksin B1'],
+            ['name' => 'Rapid Test Logam Berat', 'parameter' => 'Deteksi Logam Berat (Pb, Cd, Hg)'],
+            ['name' => 'Rapid Test Mikroba', 'parameter' => 'Deteksi Total Mikroba (TVC)'],
+            ['name' => 'Rapid Test Pestisida', 'parameter' => 'Deteksi Sisa Pestisida Organofosfat'],
+            ['name' => 'Uji Visual', 'parameter' => 'Pemeriksaan Kondisi Fisik'],
+            ['name' => 'Uji Bau', 'parameter' => 'Pemeriksaan Kualitas Bau'],
+            ['name' => 'Rapid Test Formalin', 'parameter' => 'Deteksi Formaldehida'],
+            ['name' => 'Rapid Test Bleaching Chlorine', 'parameter' => 'Deteksi Sodium Hypochlorite']
+        ];
+
+        $labTestOptions = [
+            ['name' => 'Uji Mikroba', 'parameter' => 'Analisis Total Mikroba (TVC)', 'unit' => 'CFU/g', 'maxValue' => 100000],
+            ['name' => 'Uji Mikrotoksin', 'parameter' => 'Analisis Aflatoksin', 'unit' => 'µg/kg', 'maxValue' => 20],
+            ['name' => 'Uji Pestisida', 'parameter' => 'Analisis Sisa Pestisida', 'unit' => 'mg/kg', 'maxValue' => 1],
+            ['name' => 'Uji Logam Berat', 'parameter' => 'Analisis Logam Berat', 'unit' => 'mg/kg', 'maxValue' => 0.3]
+        ];
+
+        return view('admin.pages.pengawasan.add', compact('breadcrumbs', 'provinsis', 'kotas', 'jenisPsats', 'produkPsats', 'rapidTestOptions', 'labTestOptions'));
     }
 
     /**
@@ -160,6 +179,9 @@ class PengawasanController extends Controller
             }
         }
 
+        // Get pengawasan items from the request
+        $validatedData['pengawasan_items'] = $request->input('pengawasan_items', []);
+
         $result = $this->pengawasanService->addNewPengawasan($validatedData);
 
         $alert = $result
@@ -193,7 +215,7 @@ class PengawasanController extends Controller
      */
     public function edit(Request $request, $id)
     {
-        $pengawasan = $this->pengawasanService->getPengawasanDetail($id);
+        $pengawasan = $this->pengawasanService->getPengawasanDetail($id, true);
 
         $breadcrumbs = array_merge($this->mainBreadcrumbs, ['Edit' => null]);
 
@@ -231,7 +253,26 @@ class PengawasanController extends Controller
             $produkPsats = \App\Models\MasterBahanPanganSegar::where('jenis_id', $pengawasan->jenis_psat_id)->where('is_active', 1)->orderBy('nama_bahan_pangan_segar', 'asc')->get();
         }
 
-        return view('admin.pages.pengawasan.edit', compact('breadcrumbs', 'pengawasan', 'provinsis', 'kotas', 'jenisPsats', 'produkPsats'));
+        // Get options for pengawasan items
+        $rapidTestOptions = [
+            ['name' => 'Rapid Test Aflatoksin', 'parameter' => 'Deteksi Aflatoksin B1'],
+            ['name' => 'Rapid Test Logam Berat', 'parameter' => 'Deteksi Logam Berat (Pb, Cd, Hg)'],
+            ['name' => 'Rapid Test Mikroba', 'parameter' => 'Deteksi Total Mikroba (TVC)'],
+            ['name' => 'Rapid Test Pestisida', 'parameter' => 'Deteksi Sisa Pestisida Organofosfat'],
+            ['name' => 'Uji Visual', 'parameter' => 'Pemeriksaan Kondisi Fisik'],
+            ['name' => 'Uji Bau', 'parameter' => 'Pemeriksaan Kualitas Bau'],
+            ['name' => 'Rapid Test Formalin', 'parameter' => 'Deteksi Formaldehida'],
+            ['name' => 'Rapid Test Bleaching Chlorine', 'parameter' => 'Deteksi Sodium Hypochlorite']
+        ];
+
+        $labTestOptions = [
+            ['name' => 'Uji Mikroba', 'parameter' => 'Analisis Total Mikroba (TVC)', 'unit' => 'CFU/g', 'maxValue' => 100000],
+            ['name' => 'Uji Mikrotoksin', 'parameter' => 'Analisis Aflatoksin', 'unit' => 'µg/kg', 'maxValue' => 20],
+            ['name' => 'Uji Pestisida', 'parameter' => 'Analisis Sisa Pestisida', 'unit' => 'mg/kg', 'maxValue' => 1],
+            ['name' => 'Uji Logam Berat', 'parameter' => 'Analisis Logam Berat', 'unit' => 'mg/kg', 'maxValue' => 0.3]
+        ];
+
+        return view('admin.pages.pengawasan.edit', compact('breadcrumbs', 'pengawasan', 'provinsis', 'kotas', 'jenisPsats', 'produkPsats', 'rapidTestOptions', 'labTestOptions'));
     }
 
     /**
@@ -276,6 +317,9 @@ class PengawasanController extends Controller
                 $validatedData[$lampiranField] = $existingData->$lampiranField;
             }
         }
+
+        // Get pengawasan items from the request
+        $validatedData['pengawasan_items'] = $request->input('pengawasan_items', []);
 
         $result = $this->pengawasanService->updatePengawasan($validatedData, $id);
 

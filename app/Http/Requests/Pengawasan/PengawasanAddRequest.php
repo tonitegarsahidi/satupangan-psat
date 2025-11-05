@@ -41,6 +41,13 @@ class PengawasanAddRequest extends FormRequest
             'tindakan_rekomendasikan' => 'nullable|string',
             'created_by' => 'nullable|exists:users,id',
             'updated_by' => 'nullable|exists:users,id',
+            'pengawasan_items' => 'required|array|min:1',
+            'pengawasan_items.*.jenis_pengawasan' => 'required|in:RAPID,LAB',
+            'pengawasan_items.*.jenis_cemaran' => 'required|string|max:255',
+            'pengawasan_items.*.metode_pengujian' => 'nullable|string|max:255',
+            'pengawasan_items.*.is_positif' => 'required|boolean',
+            'pengawasan_items.*.jumlah_sampel' => 'required|integer|min:1',
+            'pengawasan_items.*.keterangan' => 'nullable|string',
         ];
     }
 
@@ -84,6 +91,21 @@ class PengawasanAddRequest extends FormRequest
             'is_active.boolean' => 'The active field must be true or false.',
             'created_by.exists' => 'The selected creator is invalid.',
             'updated_by.exists' => 'The selected updater is invalid.',
+            'pengawasan_items.required' => 'At least one pengawasan item is required.',
+            'pengawasan_items.min' => 'At least one pengawasan item is required.',
+            'pengawasan_items.*.jenis_pengawasan.required' => 'The supervision type field is required.',
+            'pengawasan_items.*.jenis_pengawasan.in' => 'The selected supervision type is invalid.',
+            'pengawasan_items.*.jenis_cemaran.required' => 'The contamination type field is required.',
+            'pengawasan_items.*.jenis_cemaran.string' => 'The contamination type must be a string.',
+            'pengawasan_items.*.jenis_cemaran.max' => 'The contamination type may not be greater than 255 characters.',
+            'pengawasan_items.*.metode_pengujian.required' => 'The testing method field is required.',
+            'pengawasan_items.*.metode_pengujian.string' => 'The testing method must be a string.',
+            'pengawasan_items.*.metode_pengujian.max' => 'The testing method may not be greater than 255 characters.',
+            'pengawasan_items.*.is_positif.required' => 'The positive status field is required.',
+            'pengawasan_items.*.is_positif.boolean' => 'The positive status must be true or false.',
+            'pengawasan_items.*.jumlah_sampel.required' => 'The sample quantity field is required.',
+            'pengawasan_items.*.jumlah_sampel.integer' => 'The sample quantity must be an integer.',
+            'pengawasan_items.*.jumlah_sampel.min' => 'The sample quantity must be at least 1.',
         ];
     }
 }
