@@ -53,6 +53,8 @@ class PengawasanService
             $pengawasanItems = $validatedData['pengawasan_items'] ?? [];
             unset($validatedData['pengawasan_items']);
 
+            Log::debug('Pengawasan items to be created: ' . json_encode($pengawasanItems));
+
             // Create pengawasan first
             $pengawasan = $this->pengawasanRepository->createPengawasan($validatedData);
 
@@ -60,6 +62,7 @@ class PengawasanService
             if (!empty($pengawasanItems) && $pengawasan) {
                 foreach ($pengawasanItems as $itemData) {
                     $itemData['pengawasan_id'] = $pengawasan->id;
+                    Log::debug('Creating pengawasan item: ' . json_encode($itemData));
                     $this->pengawasanRepository->createPengawasanItem($itemData);
                 }
             }

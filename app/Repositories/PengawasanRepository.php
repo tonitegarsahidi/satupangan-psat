@@ -107,7 +107,16 @@ class PengawasanRepository
 
     public function createPengawasanItem($data)
     {
-        return \App\Models\PengawasanItem::create($data);
+        Log::debug('Creating pengawasan item with data: ' . json_encode($data));
+        try {
+            $item = \App\Models\PengawasanItem::create($data);
+            Log::debug('Pengawasan item created successfully with ID: ' . $item->id);
+            return $item;
+        } catch (\Exception $e) {
+            Log::error('Failed to create pengawasan item: ' . $e->getMessage());
+            Log::error('Stack trace: ' . $e->getTraceAsString());
+            throw $e;
+        }
     }
 
     public function delete($pengawasanId): ?bool

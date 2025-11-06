@@ -182,8 +182,13 @@ class PengawasanController extends Controller
                 }
             }
 
-            // Get pengawasan items from the request
-            $validatedData['pengawasan_items'] = $request->input('pengawasan_items', []);
+            // Get pengawasan items from the request and decode JSON if needed
+            $pengawasanItemsInput = $request->input('pengawasan_items', []);
+            if (is_string($pengawasanItemsInput)) {
+                $validatedData['pengawasan_items'] = json_decode($pengawasanItemsInput, true);
+            } else {
+                $validatedData['pengawasan_items'] = $pengawasanItemsInput;
+            }
 
             $result = $this->pengawasanService->addNewPengawasan($validatedData);
 
@@ -329,8 +334,13 @@ class PengawasanController extends Controller
             }
         }
 
-        // Get pengawasan items from the request
-        $validatedData['pengawasan_items'] = $request->input('pengawasan_items', []);
+        // Get pengawasan items from the request and decode JSON if needed
+        $pengawasanItemsInput = $request->input('pengawasan_items', []);
+        if (is_string($pengawasanItemsInput)) {
+            $validatedData['pengawasan_items'] = json_decode($pengawasanItemsInput, true);
+        } else {
+            $validatedData['pengawasan_items'] = $pengawasanItemsInput;
+        }
 
         $result = $this->pengawasanService->updatePengawasan($validatedData, $id);
 

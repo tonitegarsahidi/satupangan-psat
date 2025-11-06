@@ -17,11 +17,16 @@ class PengawasanItem extends Model
 
     protected $fillable = [
         'pengawasan_id',
-        'jenis_pengawasan',
-        'jenis_cemaran',
-        'metode_pengujian',
+        'type',
+        'test_name',
+        'test_parameter',
         'jumlah_sampel',
+        'komoditas_id',
+        'value_numeric',
+        'value_string',
+        'value_unit',
         'is_positif',
+        'is_memenuhisyarat',
         'keterangan',
     ];
 

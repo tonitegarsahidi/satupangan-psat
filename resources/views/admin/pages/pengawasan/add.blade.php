@@ -34,7 +34,7 @@
                             </div>
                         @endif
 
-                        <form method="POST" action="{{ route('pengawasan.store') }}" enctype="multipart/form-data">
+                        <form method="POST" action="{{ route('pengawasan.store') }}" enctype="multipart/form-data" onsubmit="collectPengawasanItems(this)">
                             @csrf
 
 
@@ -482,6 +482,48 @@
         document.addEventListener('DOMContentLoaded', function() {
             addPengawasanItem();
         });
+
+        function collectPengawasanItems(form) {
+            const items = [];
+            const itemElements = document.querySelectorAll('#pengawasanItemsContainer > .card');
+
+            itemElements.forEach(itemElement => {
+                const itemId = itemElement.id;
+                const type = itemElement.querySelector(`#${itemId}_type`).value;
+
+                if (type) { // Only collect items with a selected type
+                    const item = {
+                        type: type,
+                        test_name: itemElement.querySelector(`#${itemId}_test_name`)?.value || null,
+                        test_parameter: itemElement.querySelector(`#${itemId}_test_parameter`)?.value || null,
+                        jumlah_sampel: parseInt(itemElement.querySelector(`#${itemId}_jumlah_sampel`).value) || 1,
+                        is_positif: itemElement.querySelector(`input[name="${itemId}[is_positif]"]:checked`)?.value === '1',
+                        keterangan: itemElement.querySelector(`#${itemId}_keterangan`)?.value || null,
+                        value_numeric: parseFloat(itemElement.querySelector(`#${itemId}_value_numeric`)?.value) || null,
+                        value_unit: itemElement.querySelector(`#${itemId}_value_unit`)?.value || null,
+                        is_memenuhisyarat: itemElement.querySelector(`input[name="${itemId}[is_memenuhisyarat]"]:checked`)?.value === '1'
+                    };
+
+                    // Remove null/empty values
+                    Object.keys(item).forEach(key => {
+                        if (item[key] === null || item[key] === '') {
+                            delete item[key];
+                        }
+                    });
+
+                    items.push(item);
+                }
+            });
+
+            // Create a hidden input with the JSON data
+            const itemsInput = document.createElement('input');
+            itemsInput.type = 'hidden';
+            itemsInput.name = 'pengawasan_items';
+            itemsInput.value = JSON.stringify(items);
+            form.appendChild(itemsInput);
+
+            return true;
+        }
     </script>
     @endpush
 @endsection
