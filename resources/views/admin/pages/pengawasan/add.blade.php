@@ -21,7 +21,7 @@
                         {{-- Validation Errors Notification --}}
                         @if ($errors->any() || session('loginError'))
                             <div class="alert alert-danger" role="alert">
-                                <ul>
+                                <ul class="mb-0">
                                     @if ($errors->any())
                                         @foreach ($errors->all() as $error)
                                             <li>{{ $error }}</li>
@@ -305,8 +305,8 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="mb-3">
-                                    <label class="form-label">Jenis Pengujian *</label>
-                                    <select class="form-select" name="${itemId}[type]" id="${itemId}_type" onchange="toggleItemTypeFields('${itemId}')" required>
+                                    <label class="form-label">Jenis Pengujian</label>
+                                    <select class="form-select" name="${itemId}[type]" id="${itemId}_type" onchange="toggleItemTypeFields('${itemId}')">
                                         <option value="">Pilih jenis pengujian</option>
                                         <option value="rapid">Rapid Test</option>
                                         <option value="lab">Laboratorium Test</option>
@@ -315,8 +315,8 @@
                             </div>
                             <div class="col-md-6">
                                 <div class="mb-3">
-                                    <label class="form-label">Jumlah Sampel *</label>
-                                    <input type="number" class="form-control" name="${itemId}[jumlah_sampel]" id="${itemId}_jumlah_sampel" min="1" value="1" required>
+                                    <label class="form-label">Jumlah Sampel</label>
+                                    <input type="number" class="form-control" name="${itemId}[jumlah_sampel]" id="${itemId}_jumlah_sampel" min="1" value="1">
                                 </div>
                             </div>
                         </div>
@@ -324,8 +324,8 @@
                         <div class="row" id="${itemId}_rapid_fields">
                             <div class="col-md-6">
                                 <div class="mb-3">
-                                    <label class="form-label">Nama Test *</label>
-                                    <select class="form-select" name="${itemId}[test_name]" id="${itemId}_test_name" required>
+                                    <label class="form-label">Nama Test</label>
+                                    <select class="form-select" name="${itemId}[test_name]" id="${itemId}_test_name">
                                         <option value="">Pilih test</option>
                                         @foreach ($rapidTestOptions as $option)
                                             <option value="{{ $option['name'] }}">{{ $option['name'] }}</option>
@@ -341,7 +341,7 @@
                             </div>
                             <div class="col-12">
                                 <div class="mb-3">
-                                    <label class="form-label">Hasil Test *</label>
+                                    <label class="form-label">Hasil Test</label>
                                     <div>
                                         <div class="form-check form-check-inline">
                                             <input class="form-check-input" type="radio" name="${itemId}[is_positif]" id="${itemId}_positif_yes" value="1">
@@ -365,8 +365,8 @@
                         <div class="row" id="${itemId}_lab_fields" style="display: none;">
                             <div class="col-md-6">
                                 <div class="mb-3">
-                                    <label class="form-label">Nama Test *</label>
-                                    <select class="form-select" name="${itemId}[test_name]" id="${itemId}_test_name" onchange="updateLabTestDetails('${itemId}')" required>
+                                    <label class="form-label">Nama Test</label>
+                                    <select class="form-select" name="${itemId}[test_name]" id="${itemId}_test_name" onchange="updateLabTestDetails('${itemId}')">
                                         <option value="">Pilih test</option>
                                         @foreach ($labTestOptions as $option)
                                             <option value="{{ $option['name'] }}">{{ $option['name'] }}</option>
@@ -382,19 +382,19 @@
                             </div>
                             <div class="col-md-6">
                                 <div class="mb-3">
-                                    <label class="form-label">Nilai Numerik *</label>
-                                    <input type="number" step="0.01" class="form-control" name="${itemId}[value_numeric]" id="${itemId}_value_numeric" placeholder="0.00" required>
+                                    <label class="form-label">Nilai Numerik</label>
+                                    <input type="number" step="0.01" class="form-control" name="${itemId}[value_numeric]" id="${itemId}_value_numeric" placeholder="0.00">
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="mb-3">
-                                    <label class="form-label">Satuan *</label>
-                                    <input type="text" class="form-control" name="${itemId}[value_unit]" id="${itemId}_value_unit" placeholder="mg/kg, µg/kg, dst" required>
+                                    <label class="form-label">Satuan</label>
+                                    <input type="text" class="form-control" name="${itemId}[value_unit]" id="${itemId}_value_unit" placeholder="mg/kg, µg/kg, dst">
                                 </div>
                             </div>
                             <div class="col-12">
                                 <div class="mb-3">
-                                    <label class="form-label">Memenuhi Syarat *</label>
+                                    <label class="form-label">Memenuhi Syarat</label>
                                     <div>
                                         <div class="form-check form-check-inline">
                                             <input class="form-check-input" type="radio" name="${itemId}[is_memenuhisyarat]" id="${itemId}_memenuhi_yes" value="1">

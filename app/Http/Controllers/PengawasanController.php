@@ -11,6 +11,7 @@ use App\Helpers\AlertHelper;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 /**
  * ################################################
@@ -142,56 +143,66 @@ class PengawasanController extends Controller
      *      proses "add new pengawasan" from previous form
      * =============================================
      */
-    public function store(PengawasanAddRequest $request)
+    public function store(Request $request)
     {
-        // Get validated data except file fields
-        $validatedData = $request->except(['lampiran1', 'lampiran2', 'lampiran3', 'lampiran4', 'lampiran5', 'lampiran6']);
+        try {
+            Log::debug("Mair menyimpan");
+            // Get validated data except file fields
+            $validatedData = $request->except(['lampiran1', 'lampiran2', 'lampiran3', 'lampiran4', 'lampiran5', 'lampiran6']);
 
-        // Get current authenticated user ID
-        $userId = Auth::id();
+            // Get current authenticated user ID
+            $userId = Auth::id();
 
-        // Add created_by and updated_by with current user ID
-        $validatedData['created_by'] = $userId;
-        $validatedData['updated_by'] = $userId;
+            // Add created_by and updated_by with current user ID
+            $validatedData['created_by'] = $userId;
+            $validatedData['updated_by'] = $userId;
 
-        // Set is_active to true by default
-        $validatedData['is_active'] = 1;
-        $validatedData['user_id_initiator'] = $userId;
+            // Set is_active to true by default
+            $validatedData['is_active'] = 1;
+            $validatedData['user_id_initiator'] = $userId;
 
-        // Handle file uploads for lampiran1 to lampiran6
-        $uploadPath = 'files/upload';
-        $publicPath = public_path($uploadPath);
+            // Handle file uploads for lampiran1 to lampiran6
+            $uploadPath = 'files/upload';
+            $publicPath = public_path($uploadPath);
 
-        // Create directory if it doesn't exist
-        if (!file_exists($publicPath)) {
-            mkdir($publicPath, 0755, true);
-        }
-
-        // Process each lampiran field
-        for ($i = 1; $i <= 6; $i++) {
-            $lampiranField = 'lampiran' . $i;
-            if ($request->hasFile($lampiranField)) {
-                $file = $request->file($lampiranField);
-                $extension = $file->getClientOriginalExtension();
-                $filename = uniqid() . '_' . $lampiranField . '.' . $extension;
-                $file->move($publicPath, $filename);
-                $validatedData[$lampiranField] = env('BASE_URL') . '/' . $uploadPath . '/' . $filename;
+            // Create directory if it doesn't exist
+            if (!file_exists($publicPath)) {
+                mkdir($publicPath, 0755, true);
             }
+
+            // Process each lampiran field
+            for ($i = 1; $i <= 6; $i++) {
+                $lampiranField = 'lampiran' . $i;
+                if ($request->hasFile($lampiranField)) {
+                    $file = $request->file($lampiranField);
+                    $extension = $file->getClientOriginalExtension();
+                    $filename = uniqid() . '_' . $lampiranField . '.' . $extension;
+                    $file->move($publicPath, $filename);
+                    $validatedData[$lampiranField] = env('BASE_URL') . '/' . $uploadPath . '/' . $filename;
+                }
+            }
+
+            // Get pengawasan items from the request
+            $validatedData['pengawasan_items'] = $request->input('pengawasan_items', []);
+
+            $result = $this->pengawasanService->addNewPengawasan($validatedData);
+
+            $alert = $result
+                ? AlertHelper::createAlert('success', 'Data Pengawasan successfully added')
+                : AlertHelper::createAlert('danger', 'Data Pengawasan failed to be added');
+
+            return redirect()->route('pengawasan.index')->with([
+                'alerts'        => [$alert],
+                'sort_order'    => 'desc'
+            ]);
+        } catch (ValidationException $e) {
+            Log::error("Validation Error: " . $e->getMessage(), $e->errors());
+            return redirect()->back()->withErrors($e->errors())->withInput();
+        } catch (\Exception $e) {
+            Log::error("Error adding Pengawasan: " . $e->getMessage());
+            $alert = AlertHelper::createAlert('danger', 'An unexpected error occurred: ' . $e->getMessage());
+            return redirect()->back()->with(['alerts' => [$alert]])->withInput();
         }
-
-        // Get pengawasan items from the request
-        $validatedData['pengawasan_items'] = $request->input('pengawasan_items', []);
-
-        $result = $this->pengawasanService->addNewPengawasan($validatedData);
-
-        $alert = $result
-            ? AlertHelper::createAlert('success', 'Data Pengawasan successfully added')
-            : AlertHelper::createAlert('danger', 'Data Pengawasan failed to be added');
-
-        return redirect()->route('pengawasan.index')->with([
-            'alerts'        => [$alert],
-            'sort_order'    => 'desc'
-        ]);
     }
 
     /**
