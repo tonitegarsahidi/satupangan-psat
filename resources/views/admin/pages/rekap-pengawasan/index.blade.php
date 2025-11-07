@@ -186,8 +186,8 @@
                                     {{ $item->pengawasan->lokasi_alamat ?? '-' }}
                                 </td>
                                 <td style="min-width: 120px;">
-                                    <span class="badge bg-{{ $item->type == 'RAPID' ? 'success' : 'info' }}">
-                                        {{ $item->type == 'RAPID' ? 'Rapid Test' : 'Laboratory' }}
+                                    <span class="badge bg-{{ $item->type == 'rapid' ? 'warning' : 'info' }}">
+                                        {{ $item->type == 'rapid' ? 'Rapid Test' : 'Laboratory' }}
                                     </span>
                                 </td>
                                 <td style="min-width: 150px;">
@@ -226,7 +226,7 @@
 
                 <div class="row">
                     <div class="col-md-10 mx-auto">
-                        {{ $rekapData->onEachSide(5)->links('admin.components.paginator.default') }}
+                        {{ $rekapData->onEachSide(5)->appends(['date_filter' => $dateFilter, 'provinsi_id' => $provinsiId, 'komoditas_id' => $komoditasId])->links('admin.components.paginator.default') }}
                     </div>
                 </div>
             </div>
