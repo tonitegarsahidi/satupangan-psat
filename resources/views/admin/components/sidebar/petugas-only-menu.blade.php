@@ -1,5 +1,5 @@
   {{-- ROLE SPECIFIC MENU -- PETUGAS --}}
-  @if (auth()->user()->hasAnyRole(['ROLE_OPERATOR','ROLE_SUPERVISOR', 'ROLE_LEADER', 'ROLE_ADMIN']))
+  @if (auth()->user()->hasAnyRole(['ROLE_OPERATOR','ROLE_SUPERVISOR', 'ROLE_LEADER', 'ROLE_KANTOR', 'ROLE_ADMIN']))
   {{-- EXAMPLE MENU HEADER FOR GROUPING --}}
   @include('admin.components.sidebar.menu-header', ['textMenuHeader' => 'Petugas Menu'])
   {{-- PETUGAS ONLY MENU --}}
@@ -41,7 +41,7 @@
 @include('admin.components.sidebar.item', [
     'menuId' => 'menu-pengawasan-rekap',
     'menuText' => 'Rekap Pengawasan',
-    'menuUrl' => route('pengawasan-rekap.index'),
+    'menuUrl' => route('rekap-pengawasan.index'),
     'menuIcon' => 'bx bx-bar-chart-square',
     'subMenuData' => null,
 ])

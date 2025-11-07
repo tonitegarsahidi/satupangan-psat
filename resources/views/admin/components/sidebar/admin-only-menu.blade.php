@@ -112,23 +112,6 @@
     @include('admin.components.sidebar.menu-header', ['textMenuHeader' => 'Pengawasan'])
 
 @include('admin.components.sidebar.item', [
-    'menuId' => 'menu-pengawasan',
-    'menuText' => 'Pengawasan',
-    'menuUrl' => '#',
-    'menuIcon' => 'bx bx-file',
-    'subMenuData' => [
-        [
-            'subMenuText' => 'Data Pengawasan',
-            'subMenuUrl' => route('pengawasan.index'),
-        ],
-        [
-            'subMenuText' => 'Rekap Pengawasan',
-            'subMenuUrl' => route('rekap-pengawasan.index'),
-        ],
-    ],
-])
-
-@include('admin.components.sidebar.item', [
     'menuId' => 'articles',
     'menuText' => 'Artikel',
     'menuUrl' => route('admin.article.index'),
