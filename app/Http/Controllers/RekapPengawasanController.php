@@ -35,8 +35,8 @@ class RekapPengawasanController extends Controller
         $tipe = $request->input('tipe');
         $komoditasId = $request->input('komoditas_id');
 
-        // Build query for pengawasan items with filtering
-        $query = PengawasanItem::with(['pengawasan', 'pengawasan.lokasiProvinsi', 'pengawasan.lokasiKota', 'komoditas'])
+        // Build base query for pengawasan items with filtering
+        $baseQuery = PengawasanItem::with(['pengawasan', 'pengawasan.lokasiProvinsi', 'pengawasan.lokasiKota', 'komoditas'])
             ->whereHas('pengawasan', function($q) {
                 $q->where('status', 'SELESAI');
             });
@@ -47,7 +47,7 @@ class RekapPengawasanController extends Controller
 
             switch ($dateFilter) {
                 case 'today':
-                    $query->whereHas('pengawasan', function($q) use ($now) {
+                    $baseQuery->whereHas('pengawasan', function($q) use ($now) {
                         $q->whereDate('tanggal_selesai', $now->format('Y-m-d'));
                     });
                     break;
@@ -55,7 +55,7 @@ class RekapPengawasanController extends Controller
                 case 'this_week':
                     $startOfWeek = $now->startOfWeek()->format('Y-m-d');
                     $endOfWeek = $now->endOfWeek()->format('Y-m-d');
-                    $query->whereHas('pengawasan', function($q) use ($startOfWeek, $endOfWeek) {
+                    $baseQuery->whereHas('pengawasan', function($q) use ($startOfWeek, $endOfWeek) {
                         $q->whereBetween('tanggal_selesai', [$startOfWeek, $endOfWeek]);
                     });
                     break;
@@ -63,28 +63,28 @@ class RekapPengawasanController extends Controller
                 case 'this_month':
                     $startOfMonth = $now->startOfMonth()->format('Y-m-d');
                     $endOfMonth = $now->endOfMonth()->format('Y-m-d');
-                    $query->whereHas('pengawasan', function($q) use ($startOfMonth, $endOfMonth) {
+                    $baseQuery->whereHas('pengawasan', function($q) use ($startOfMonth, $endOfMonth) {
                         $q->whereBetween('tanggal_selesai', [$startOfMonth, $endOfMonth]);
                     });
                     break;
 
                 case 'last_3_months':
                     $threeMonthsAgo = $now->subMonths(3)->format('Y-m-d');
-                    $query->whereHas('pengawasan', function($q) use ($threeMonthsAgo) {
+                    $baseQuery->whereHas('pengawasan', function($q) use ($threeMonthsAgo) {
                         $q->whereDate('tanggal_selesai', '>=', $threeMonthsAgo);
                     });
                     break;
 
                 case 'last_6_months':
                     $sixMonthsAgo = $now->subMonths(6)->format('Y-m-d');
-                    $query->whereHas('pengawasan', function($q) use ($sixMonthsAgo) {
+                    $baseQuery->whereHas('pengawasan', function($q) use ($sixMonthsAgo) {
                         $q->whereDate('tanggal_selesai', '>=', $sixMonthsAgo);
                     });
                     break;
 
                 case 'last_year':
                     $oneYearAgo = $now->subYear()->format('Y-m-d');
-                    $query->whereHas('pengawasan', function($q) use ($oneYearAgo) {
+                    $baseQuery->whereHas('pengawasan', function($q) use ($oneYearAgo) {
                         $q->whereDate('tanggal_selesai', '>=', $oneYearAgo);
                     });
                     break;
@@ -93,7 +93,7 @@ class RekapPengawasanController extends Controller
 
         // Apply province filter
         if ($provinsiId) {
-            $query->whereHas('pengawasan', function($q) use ($provinsiId) {
+            $baseQuery->whereHas('pengawasan', function($q) use ($provinsiId) {
                 $q->where('lokasi_provinsi_id', $provinsiId);
             });
         }
@@ -105,20 +105,88 @@ class RekapPengawasanController extends Controller
 
         // Apply commodity filter
         if ($komoditasId) {
-            $query->where('komoditas_id', $komoditasId);
+            $baseQuery->where('komoditas_id', $komoditasId);
         }
 
         // Get data with pagination
         $perPage = $request->input('per_page', 10);
-        $rekapData = $query->orderBy('created_at', 'desc')->paginate($perPage);
+        $rekapData = $baseQuery->orderBy('created_at', 'desc')->paginate($perPage);
 
         // Get filter options
         $provinsis = MasterProvinsi::orderBy('nama_provinsi', 'asc')->get();
         $komoditas = MasterBahanPanganSegar::orderBy('nama_bahan_pangan_segar', 'asc')->get();
         $tipeOptions = ['RAPID' => 'Rapid Test', 'LAB' => 'Laboratory'];
 
+        // Build fresh query for summary statistics (not affected by pagination)
+        $summaryQuery = PengawasanItem::with(['pengawasan', 'pengawasan.lokasiProvinsi', 'pengawasan.lokasiKota', 'komoditas'])
+            ->whereHas('pengawasan', function($q) {
+                $q->where('status', 'SELESAI');
+            });
+
+        // Apply all the same filters to the summary query
+        if ($dateFilter && $dateFilter !== 'all') {
+            $now = Carbon::now();
+
+            switch ($dateFilter) {
+                case 'today':
+                    $summaryQuery->whereHas('pengawasan', function($q) use ($now) {
+                        $q->whereDate('tanggal_selesai', $now->format('Y-m-d'));
+                    });
+                    break;
+
+                case 'this_week':
+                    $startOfWeek = $now->startOfWeek()->format('Y-m-d');
+                    $endOfWeek = $now->endOfWeek()->format('Y-m-d');
+                    $summaryQuery->whereHas('pengawasan', function($q) use ($startOfWeek, $endOfWeek) {
+                        $q->whereBetween('tanggal_selesai', [$startOfWeek, $endOfWeek]);
+                    });
+                    break;
+
+                case 'this_month':
+                    $startOfMonth = $now->startOfMonth()->format('Y-m-d');
+                    $endOfMonth = $now->endOfMonth()->format('Y-m-d');
+                    $summaryQuery->whereHas('pengawasan', function($q) use ($startOfMonth, $endOfMonth) {
+                        $q->whereBetween('tanggal_selesai', [$startOfMonth, $endOfMonth]);
+                    });
+                    break;
+
+                case 'last_3_months':
+                    $threeMonthsAgo = $now->subMonths(3)->format('Y-m-d');
+                    $summaryQuery->whereHas('pengawasan', function($q) use ($threeMonthsAgo) {
+                        $q->whereDate('tanggal_selesai', '>=', $threeMonthsAgo);
+                    });
+                    break;
+
+                case 'last_6_months':
+                    $sixMonthsAgo = $now->subMonths(6)->format('Y-m-d');
+                    $summaryQuery->whereHas('pengawasan', function($q) use ($sixMonthsAgo) {
+                        $q->whereDate('tanggal_selesai', '>=', $sixMonthsAgo);
+                    });
+                    break;
+
+                case 'last_year':
+                    $oneYearAgo = $now->subYear()->format('Y-m-d');
+                    $summaryQuery->whereHas('pengawasan', function($q) use ($oneYearAgo) {
+                        $q->whereDate('tanggal_selesai', '>=', $oneYearAgo);
+                    });
+                    break;
+            }
+        }
+
+        // Apply province filter
+        if ($provinsiId) {
+            $summaryQuery->whereHas('pengawasan', function($q) use ($provinsiId) {
+                $q->where('lokasi_provinsi_id', $provinsiId);
+            });
+        }
+
+        // Apply commodity filter
+        if ($komoditasId) {
+            $summaryQuery->where('komoditas_id', $komoditasId);
+        }
+
         // Get summary statistics
-        $summary = $this->getSummaryData($query->clone());
+        $summary = $this->getSummaryData($summaryQuery);
 
         return view('admin.pages.rekap-pengawasan.index', compact(
             'breadcrumbs',
