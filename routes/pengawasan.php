@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\PengawasanController;
 use App\Http\Controllers\PengawasanRekapController;
+use App\Http\Controllers\RekapPengawasanController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -69,5 +70,10 @@ Route::middleware(['auth', 'role:ROLE_OPERATOR,ROLE_SUPERVISOR,ROLE_LEADER,ROLE_
             Route::get('/delete/{id}', [\App\Http\Controllers\PengawasanTindakanLanjutanController::class, 'deleteConfirm'])->name('pengawasan-tindakan-lanjutan.delete');
             Route::delete('/delete/{id}', [\App\Http\Controllers\PengawasanTindakanLanjutanController::class, 'destroy'])->name('pengawasan-tindakan-lanjutan.destroy');
             Route::get('/search', [\App\Http\Controllers\PengawasanTindakanLanjutanController::class, 'search'])->name('pengawasan-tindakan-lanjutan.search');
+        });
+    // MANAGE REKAP PENGAWASAN
+    Route::prefix('/rekap-pengawasan')
+        ->group(function () {
+            Route::get('/', [RekapPengawasanController::class, 'index'])->name('rekap-pengawasan.index');
         });
 });

@@ -19,11 +19,20 @@
       'subMenuData' => null,
   ]) --}}
 {{-- PENGAWASAN MENU --}}
-{{-- @include('admin.components.sidebar.item', [
+@include('admin.components.sidebar.item', [
     'menuId' => 'menu-pengawasan',
     'menuText' => 'Pengawasan',
-    'menuUrl' => route('pengawasan.index'),
+    'menuUrl' => '#',
     'menuIcon' => 'bx bx-file',
-    'subMenuData' => null,
-]) --}}
+    'subMenuData' => [
+        [
+            'subMenuText' => 'Data Pengawasan',
+            'subMenuUrl' => route('pengawasan.index'),
+        ],
+        [
+            'subMenuText' => 'Rekap Pengawasan',
+            'subMenuUrl' => route('rekap-pengawasan.index'),
+        ],
+    ],
+])
 @endif
