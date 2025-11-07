@@ -224,10 +224,45 @@
                             </div>
                         </div>
                     </div>
+                    <div class="col-md-6">
+                        <div class="card">
+                            <div class="card-body">
+                                <h6 class="card-title mb-3">Tabel Distribusi Sampel Rapid Test</h6>
+                                <div class="table-responsive">
+                                    <table class="table table-striped table-hover align-middle">
+                                        <thead>
+                                            <tr>
+                                                <th>Status</th>
+                                                <th>Jumlah</th>
+                                                <th>Persentase</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td><span class="badge bg-success">Memenuhi Syarat</span></td>
+                                                <td>{{ number_format($summary['rapid_test_memenuhi_syarat']) }}</td>
+                                                <td>{{ $summary['rapid_test_count'] > 0 ? round(($summary['rapid_test_memenuhi_syarat'] / $summary['rapid_test_count']) * 100, 1) : 0 }}%</td>
+                                            </tr>
+                                            <tr>
+                                                <td><span class="badge bg-danger">Tidak Memenuhi Syarat</span></td>
+                                                <td>{{ number_format($summary['rapid_test_tidak_memenuhi_syarat']) }}</td>
+                                                <td>{{ $summary['rapid_test_count'] > 0 ? round(($summary['rapid_test_tidak_memenuhi_syarat'] / $summary['rapid_test_count']) * 100, 1) : 0 }}%</td>
+                                            </tr>
+                                            <tr class="table-secondary">
+                                                <td><strong>Total</strong></td>
+                                                <td><strong>{{ number_format($summary['rapid_test_count']) }}</strong></td>
+                                                <td><strong>100%</strong></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
-                {{-- Bar Charts --}}
-                <div class="row">
+                {{-- Test Name Chart and Table --}}
+                <div class="row mb-4">
                     <div class="col-md-6">
                         <div class="card">
                             <div class="card-body">
@@ -241,9 +276,71 @@
                     <div class="col-md-6">
                         <div class="card">
                             <div class="card-body">
+                                <h6 class="card-title mb-3">Tabel Summary Berdasarkan Test Name</h6>
+                                <div class="table-responsive">
+                                    <table class="table table-striped table-hover align-middle">
+                                        <thead>
+                                            <tr>
+                                                <th>Test Name</th>
+                                                <th>Memenuhi Syarat</th>
+                                                <th>Tidak Memenuhi Syarat</th>
+                                                <th>Total</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach ($summary['rapid_test_by_test_name'] as $item)
+                                                <tr>
+                                                    <td>{{ $item->test_name }}</td>
+                                                    <td><span class="badge bg-success">{{ number_format($item->memenuhi_syarat) }}</span></td>
+                                                    <td><span class="badge bg-danger">{{ number_format($item->tidak_memenuhi_syarat) }}</span></td>
+                                                    <td><strong>{{ number_format($item->memenuhi_syarat + $item->tidak_memenuhi_syarat) }}</strong></td>
+                                                </tr>
+                                            @endforeach
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                {{-- Komoditas Chart and Table --}}
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="card">
+                            <div class="card-body">
                                 <h6 class="card-title mb-3">Summary Berdasarkan Komoditas</h6>
                                 <div class="chart-container" style="position: relative; height:300px;">
                                     <canvas id="rapidTestByKomoditasChart"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="card">
+                            <div class="card-body">
+                                <h6 class="card-title mb-3">Tabel Summary Berdasarkan Komoditas</h6>
+                                <div class="table-responsive">
+                                    <table class="table table-striped table-hover align-middle">
+                                        <thead>
+                                            <tr>
+                                                <th>Komoditas</th>
+                                                <th>Memenuhi Syarat</th>
+                                                <th>Tidak Memenuhi Syarat</th>
+                                                <th>Total</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach ($summary['rapid_test_by_komoditas'] as $item)
+                                                <tr>
+                                                    <td>{{ $item->komoditas ? $item->komoditas->nama_bahan_pangan_segar : 'Unknown' }}</td>
+                                                    <td><span class="badge bg-success">{{ number_format($item->memenuhi_syarat) }}</span></td>
+                                                    <td><span class="badge bg-danger">{{ number_format($item->tidak_memenuhi_syarat) }}</span></td>
+                                                    <td><strong>{{ number_format($item->memenuhi_syarat + $item->tidak_memenuhi_syarat) }}</strong></td>
+                                                </tr>
+                                            @endforeach
+                                        </tbody>
+                                    </table>
                                 </div>
                             </div>
                         </div>
