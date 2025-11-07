@@ -232,8 +232,8 @@ class RekapPengawasanController extends Controller
         $summary['rapid_test_sample_count'] = $rapidTestQuery->sum('jumlah_sampel') ?? 0;
 
         // 3. Jumlah Sampel memenuhi syarat vs tidak memenuhi syarat
-        $summary['rapid_test_memenuhi_syarat'] = $rapidTestQuery->where('is_positif', 0)->count();
-        $summary['rapid_test_tidak_memenuhi_syarat'] = $rapidTestQuery->where('is_positif', true)->count();
+        $summary['rapid_test_memenuhi_syarat'] = (clone $rapidTestQuery)->where('is_positif', false)->count();
+        $summary['rapid_test_tidak_memenuhi_syarat'] = (clone $rapidTestQuery)->where('is_positif', true)->count();
 
         // 4. Summary Rapid Test berdasarkan test_name
         $testNameSummary = PengawasanItem::selectRaw('test_name,
