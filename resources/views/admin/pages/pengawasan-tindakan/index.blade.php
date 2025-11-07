@@ -66,17 +66,6 @@
                         <tr>
                             <th style="width: 50px;">No</th>
                             <th style="min-width: 120px;">Penanggung Jawab</th>
-                            <th style="min-width: 180px;">
-                                <a
-                                    href="{{ route('pengawasan-tindakan.index', [
-                                        'sort_field' => 'rekap.hasil_rekap',
-                                        'sort_order' => $sortOrder == 'asc' ? 'desc' : 'asc',
-                                        'keyword' => $keyword,
-                                    ]) }}">
-                                    Rekap Pengawasan Terkait
-                                    @include('components.arrow-sort', ['field' => 'rekap.hasil_rekap', 'sortField' => $sortField, 'sortOrder' => $sortOrder])
-                                </a>
-                            </th>
                             <th style="min-width: 200px; word-wrap: break-word;">
                                 <a
                                     href="{{ route('pengawasan-tindakan.index', [
@@ -128,26 +117,6 @@
                                         <a href="{{ route('petugas.profile.detail', ['userId' => $pengawasanTindakan->pimpinan->id]) }}"
                                            class="text-primary text-decoration-none">
                                             {{ $pengawasanTindakan->pimpinan->name }}
-                                        </a>
-                                    @else
-                                        -
-                                    @endif
-                                </td>
-                                <td style="max-width: 280px;">
-                                    @if ($pengawasanTindakan->rekap)
-                                        <a href="{{ route('pengawasan-rekap.detail', ['id' => $pengawasanTindakan->rekap->id]) }}"
-                                           class="text-primary text-decoration-none">
-                                            <div>
-                                                @if ($pengawasanTindakan->rekap->judul_rekap)
-                                                    <strong>{{ $pengawasanTindakan->rekap->judul_rekap }}</strong><br>
-                                                @endif
-                                                @if ($pengawasanTindakan->rekap->jenisPsat)
-                                                    <small class="text-black">Jenis: {{ $pengawasanTindakan->rekap->jenisPsat->nama_jenis_pangan_segar }}</small><br>
-                                                @endif
-                                                @if ($pengawasanTindakan->rekap->produkPsat)
-                                                    <small class="text-black">Produk: {{ $pengawasanTindakan->rekap->produkPsat->nama_bahan_pangan_segar }}</small>
-                                                @endif
-                                            </div>
                                         </a>
                                     @else
                                         -

@@ -13,7 +13,6 @@ return new class extends Migration
     {
         Schema::create('pengawasan_tindakan', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->uuid('pengawasan_rekap_id');
             $table->uuid('user_id_pimpinan');
             $table->text('tindak_lanjut');
             $table->string('status', 50);
@@ -32,7 +31,6 @@ return new class extends Migration
             $table->timestamps();
             $table->softDeletes();
 
-            $table->foreign('pengawasan_rekap_id')->references('id')->on('pengawasan_rekap');
             $table->foreign('user_id_pimpinan')->references('id')->on('users');
             $table->foreign('created_by')->references('id')->on('users');
             $table->foreign('updated_by')->references('id')->on('users');

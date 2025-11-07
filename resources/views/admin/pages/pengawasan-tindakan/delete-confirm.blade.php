@@ -28,16 +28,6 @@
                         <table class="table table-hover">
                             <tbody>
                                 <tr>
-                                    <th style="width: 250px;" scope="col" class="bg-dark text-white">Rekap Pengawasan</th>
-                                    <td>
-                                        @if ($data->rekap && $data->rekap->pengawasan)
-                                            {{ $data->rekap->pengawasan->lokasi_alamat }}
-                                        @else
-                                            -
-                                        @endif
-                                    </td>
-                                </tr>
-                                <tr>
                                     <th scope="col" class="bg-dark text-white">Pimpinan</th>
                                     <td>
                                         @if ($data->pimpinan)

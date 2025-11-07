@@ -19,12 +19,17 @@
                 <div class="p-2 bd-highlight">
                     <h3 class="card-header">List of Pengawasan</h3>
                 </div>
-                <div class="p-2">
-                    <a class="btn btn-primary" href="{{ route('pengawasan.add') }}">
-                        <span class="tf-icons bx bx-plus"></span>&nbsp;
-                        Add New Pengawasan
-                    </a>
-                </div>
+                @php
+                    $user = Auth::user();
+                @endphp
+                @if ($user->hasAnyRole(['ROLE_KANTOR', 'ROLE_SUPERVISOR']))
+                    <div class="p-2">
+                        <a class="btn btn-primary" href="{{ route('pengawasan.add') }}">
+                            <span class="tf-icons bx bx-plus"></span>&nbsp;
+                            Add New Pengawasan
+                        </a>
+                    </div>
+                @endif
 
             </div>
 

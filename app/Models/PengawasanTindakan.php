@@ -17,7 +17,6 @@ class PengawasanTindakan extends Model
     protected $keyType = 'string';
 
     protected $fillable = [
-        'pengawasan_rekap_id',
         'user_id_pimpinan',
         'tindak_lanjut',
         'status',
@@ -31,10 +30,6 @@ class PengawasanTindakan extends Model
         'pic_tindakan_ids' => 'array',
     ];
 
-    public function rekap()
-    {
-        return $this->belongsTo(PengawasanRekap::class, 'pengawasan_rekap_id');
-    }
 
     public function pimpinan()
     {

@@ -48,7 +48,7 @@ Route::middleware(['auth', 'role:ROLE_OPERATOR,ROLE_SUPERVISOR,ROLE_LEADER,ROLE_
     Route::prefix('/pengawasan-tindakan-utama')
         ->group(function () {
             Route::get('/', [\App\Http\Controllers\PengawasanTindakanController::class, 'index'])->name('pengawasan-tindakan.index');
-            Route::get('/add/{pengawasanRekapId?}', [\App\Http\Controllers\PengawasanTindakanController::class, 'create'])->name('pengawasan-tindakan.add');
+            Route::get('/add', [\App\Http\Controllers\PengawasanTindakanController::class, 'create'])->name('pengawasan-tindakan.add');
             Route::post('/add', [\App\Http\Controllers\PengawasanTindakanController::class, 'store'])->name('pengawasan-tindakan.store');
             Route::get('/detail/{id}', [\App\Http\Controllers\PengawasanTindakanController::class, 'detail'])->name('pengawasan-tindakan.detail');
             Route::get('/edit/{id}', [\App\Http\Controllers\PengawasanTindakanController::class, 'edit'])->name('pengawasan-tindakan.edit');

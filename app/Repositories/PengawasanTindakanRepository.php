@@ -26,10 +26,6 @@ class PengawasanTindakanRepository
         }
 
         $queryResult->with([
-            'rekap',
-            'rekap.pengawasans',
-            'rekap.jenisPsat',
-            'rekap.produkPsat',
             'pimpinan',
             'picTindakans',
             'picTindakans.pic',
@@ -49,9 +45,6 @@ class PengawasanTindakanRepository
 
         if (!is_null($keyword)) {
             $queryResult->whereRaw('lower(tindak_lanjut) LIKE ?', ['%' . strtolower($keyword) . '%'])
-                ->orWhereHas('rekap', function($q) use ($keyword) {
-                    $q->whereRaw('lower(hasil_rekap) LIKE ?', ['%' . strtolower($keyword) . '%']);
-                })
                 ->orWhereHas('pimpinan', function($q) use ($keyword) {
                     $q->whereRaw('lower(name) LIKE ?', ['%' . strtolower($keyword) . '%']);
                 });
@@ -66,10 +59,6 @@ class PengawasanTindakanRepository
     public function getTindakanById($tindakanId): ?PengawasanTindakan
     {
         return PengawasanTindakan::with([
-            'rekap',
-            'rekap.pengawasans',
-            'rekap.jenisPsat',
-            'rekap.produkPsat',
             'pimpinan',
             'picTindakans',
             'picTindakans.pic',
@@ -103,27 +92,11 @@ class PengawasanTindakanRepository
         }
     }
 
-    public function getTindakanByRekapId($rekapId)
-    {
-        return PengawasanTindakan::with([
-            'pimpinan',
-            'picTindakans',
-            'picTindakans.pic',
-            'tindakanLanjutan',
-            'tindakanLanjutan.pic',
-            'attachments'
-        ])->where('pengawasan_rekap_id', $rekapId)
-        ->first();
-    }
 
     public function getTindakanByPimpinan($pimpinanId, int $perPage = 10)
     {
         return PengawasanTindakan::where('user_id_pimpinan', $pimpinanId)
             ->with([
-                'rekap',
-                'rekap.pengawasans',
-                'rekap.jenisPsat',
-                'rekap.produkPsat',
                 'picTindakans',
                 'picTindakans.pic',
                 'tindakanLanjutan',
@@ -139,10 +112,6 @@ class PengawasanTindakanRepository
             $query->where('pic_id', $picId);
         })
         ->with([
-            'rekap',
-            'rekap.pengawasans',
-            'rekap.jenisPsat',
-            'rekap.produkPsat',
             'pimpinan',
             'picTindakans',
             'picTindakans.pic',
@@ -157,10 +126,6 @@ class PengawasanTindakanRepository
     {
         return PengawasanTindakan::where('status', $status)
             ->with([
-                'rekap',
-                'rekap.pengawasans',
-                'rekap.jenisPsat',
-                'rekap.produkPsat',
                 'pimpinan',
                 'picTindakans',
                 'picTindakans.pic',
@@ -192,34 +157,6 @@ class PengawasanTindakanRepository
             ->get();
     }
 
-    public function deleteByRekapId($rekapId): ?bool
-    {
-        try {
-            $tindakan = PengawasanTindakan::where('pengawasan_rekap_id', $rekapId)->first();
-
-            if ($tindakan) {
-                // Delete related records
-                $this->deletePicsByTindakanId($tindakan->id);
-
-                // Delete tindakan lanjutan if exists
-                if ($tindakan->tindakanLanjutan) {
-                    $tindakan->tindakanLanjutan->delete();
-                }
-
-                // Delete attachments
-                // This would need to be implemented in the attachment repository
-                // $this->pengawasanAttachmentRepository->deleteByLinkedId($tindakan->id, 'TINDAKAN');
-
-                // Delete the tindakan itself
-                $tindakan->delete();
-            }
-
-            return true;
-        } catch (\Exception $e) {
-            Log::error("Failed to delete tindakan by rekap_id $rekapId: {$e->getMessage()}");
-            return false;
-        }
-    }
 
     public function getTindakanWithLanjutan()
     {

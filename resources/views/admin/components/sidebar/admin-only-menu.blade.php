@@ -109,14 +109,13 @@
 
 
 
-    @include('admin.components.sidebar.menu-header', ['textMenuHeader' => 'Pengawasan'])
+    @include('admin.components.sidebar.menu-header', ['textMenuHeader' => 'Artikel Pembinaan'])
 
-@include('admin.components.sidebar.item', [
-    'menuId' => 'articles',
-    'menuText' => 'Artikel',
-    'menuUrl' => route('admin.article.index'),
-    'menuIcon' => 'bx bx-news',
-    'subMenuData' => null,
-])
-
+    @include('admin.components.sidebar.item', [
+        'menuId' => 'articles',
+        'menuText' => 'Artikel',
+        'menuUrl' => route('admin.article.index'),
+        'menuIcon' => 'bx bx-news',
+        'subMenuData' => null,
+    ])
 @endif

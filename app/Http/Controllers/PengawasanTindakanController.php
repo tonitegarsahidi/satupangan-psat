@@ -11,6 +11,7 @@ use Illuminate\Http\Request;
 use App\Helpers\AlertHelper;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 
 /**
  * ################################################
@@ -77,7 +78,7 @@ class PengawasanTindakanController extends Controller
      *      display "add new pengawasan tindakan" pages
      * =============================================
      */
-    public function create(Request $request, $pengawasanRekapId = null)
+    public function create(Request $request)
     {
         $breadcrumbs = array_merge($this->mainBreadcrumbs, ['Add' => null]);
 
@@ -99,24 +100,7 @@ class PengawasanTindakanController extends Controller
             ->orderBy('name', 'asc')
             ->get();
 
-        // Get pengawasan rekap options
-        $pengawasanRekaps = \App\Models\PengawasanRekap::where('is_active', 1)
-            ->where('provinsi_id', $currentProvinsiId) // Filter by current user's province
-            ->with(['pengawasans', 'jenisPsat', 'produkPsat'])
-            ->orderBy('created_at', 'desc')
-            ->get()
-            ->map(function ($rekap) {
-                return [
-                    'id' => $rekap->id,
-                    'judul_rekap' => $rekap->judul_rekap ?? 'N/A',
-                    'created_at' => $rekap->created_at,
-                    'formatted_date' => $rekap->created_at->format('d/m/Y'),
-                    'jenis_psat_nama' => $rekap->jenisPsat?->nama_jenis_pangan_segar ?? 'N/A',
-                    'produk_psat_nama' => $rekap->produkPsat?->nama_bahan_pangan_segar ?? 'N/A',
-                ];
-            });
-
-        return view('admin.pages.pengawasan-tindakan.add', compact('breadcrumbs', 'petugass', 'pengawasanRekaps', 'pengawasanRekapId'));
+        return view('admin.pages.pengawasan-tindakan.add', compact('breadcrumbs', 'petugass'));
     }
 
     /**
@@ -214,23 +198,7 @@ class PengawasanTindakanController extends Controller
             ->orderBy('name', 'asc')
             ->get();
 
-        // Get pengawasan rekap options
-        $pengawasanRekaps = \App\Models\PengawasanRekap::where('is_active', 1)
-            ->with(['pengawasans', 'jenisPsat', 'produkPsat'])
-            ->orderBy('created_at', 'desc')
-            ->get()
-            ->map(function ($rekap) {
-                return [
-                    'id' => $rekap->id,
-                    'judul_rekap' => $rekap->judul_rekap ?? 'N/A',
-                    'created_at' => $rekap->created_at,
-                    'formatted_date' => $rekap->created_at->format('d/m/Y'),
-                    'jenis_psat_nama' => $rekap->jenisPsat?->nama_jenis_pangan_segar ?? 'N/A',
-                    'produk_psat_nama' => $rekap->produkPsat?->nama_bahan_pangan_segar ?? 'N/A',
-                ];
-            });
-
-        return view('admin.pages.pengawasan-tindakan.edit', compact('breadcrumbs', 'pengawasanTindakan', 'petugass', 'pengawasanRekaps'));
+        return view('admin.pages.pengawasan-tindakan.edit', compact('breadcrumbs', 'pengawasanTindakan', 'petugass'));
     }
 
     /**
@@ -240,10 +208,6 @@ class PengawasanTindakanController extends Controller
      */
     public function update(PengawasanTindakanEditRequest $request, $id)
     {
-        // Debug logging
-        \Log::info('Update method called with ID: ' . $id);
-        \Log::info('Request data: ', $request->all());
-
         $validatedData = $request->validated();
 
         // Add updated_by with current user ID

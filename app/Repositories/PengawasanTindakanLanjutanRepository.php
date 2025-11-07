@@ -25,7 +25,6 @@ class PengawasanTindakanLanjutanRepository
 
         $queryResult->with([
             'tindakan',
-            'tindakan.rekap',
             'tindakan.pimpinan',
             'tindakan.picTindakans',
             'pic',
@@ -64,7 +63,6 @@ class PengawasanTindakanLanjutanRepository
     {
         return PengawasanTindakanLanjutan::with([
             'tindakan',
-            'tindakan.rekap',
             'tindakan.pimpinan',
             'tindakan.picTindakans',
             'pic',
@@ -110,7 +108,6 @@ class PengawasanTindakanLanjutanRepository
         return PengawasanTindakanLanjutan::where('user_id_pic', $picId)
             ->with([
                 'tindakan',
-                'tindakan.rekap',
                 'tindakan.pimpinan',
                 'tindakan.picTindakans'
             ])
@@ -123,7 +120,6 @@ class PengawasanTindakanLanjutanRepository
         return PengawasanTindakanLanjutan::where('status', $status)
             ->with([
                 'tindakan',
-                'tindakan.rekap',
                 'tindakan.pimpinan',
                 'tindakan.picTindakans',
                 'pic'

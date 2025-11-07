@@ -148,7 +148,6 @@ class PengawasanTindakanSeeder extends Seeder
 
                 $tindakanData[] = [
                     'id' => Str::uuid(),
-                    'pengawasan_rekap_id' => $rekap->id,
                     'user_id_pimpinan' => $template['user_id_pimpinan'] ?: $this->getRandomUser($users),
                     'tindak_lanjut' => $tindakLanjut,
                     'status' => $template['status'],
@@ -160,13 +159,9 @@ class PengawasanTindakanSeeder extends Seeder
             }
         }
 
-        // Insert pengawasan tindakan data and update corresponding rekap records
+        // Insert pengawasan tindakan data
         foreach ($tindakanData as $data) {
-            $tindakan = PengawasanTindakan::create($data);
-
-            // Update the corresponding rekap record with the tindakan_id
-            PengawasanRekap::where('id', $data['pengawasan_rekap_id'])
-                ->update(['tindakan_id' => $tindakan->id]);
+            PengawasanTindakan::create($data);
         }
     }
 
