@@ -134,6 +134,61 @@
                     </div>
                 </div>
             </div>
+            <div class="col-md-3 col-sm-6 mb-3">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <h6 class="card-title text-muted">Negatif</h6>
+                                <h3 class="mb-0">{{ number_format($summary['total_negatif']) }}</h3>
+                            </div>
+                            <div class="avatar avatar-stats bg-label-success p-3">
+                                <i class="bx bx-check bx-sm"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 col-sm-6 mb-3">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <h6 class="card-title text-muted">Memenuhi Syarat</h6>
+                                <h3 class="mb-0">{{ number_format($summary['total_memenuhi_syarat']) }}</h3>
+                            </div>
+                            <div class="avatar avatar-stats bg-label-info p-3">
+                                <i class="bx bx-check-double bx-sm"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 col-sm-6 mb-3">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <h6 class="card-title text-muted">Tidak Memenuhi Syarat</h6>
+                                <h3 class="mb-0">{{ number_format($summary['total_tidak_memenuhi_syarat']) }}</h3>
+                            </div>
+                            <div class="avatar avatar-stats bg-label-warning p-3">
+                                <i class="bx bx-x bx-sm"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        {{-- Chart Section --}}
+        <div class="card mb-4">
+            <div class="p-3">
+                <h5 class="card-title mb-4">Statistik Pengawasan</h5>
+                <div class="chart-container" style="position: relative; height:300px;">
+                    <canvas id="pengawasanChart"></canvas>
+                </div>
+            </div>
         </div>
 
         <div class="card">
@@ -233,4 +288,71 @@
         </div>
 
     </div>
+
+    @push('scripts')
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const ctx = document.getElementById('pengawasanChart').getContext('2d');
+
+            const chart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['Total Pengawasan', 'Rapid Test', 'Laboratory', 'Positif', 'Negatif', 'Memenuhi Syarat', 'Tidak Memenuhi Syarat'],
+                    datasets: [{
+                        label: 'Jumlah',
+                        data: [
+                            {{ $summary['total_pengawasan'] }},
+                            {{ $summary['total_rapid_test'] }},
+                            {{ $summary['total_lab_test'] }},
+                            {{ $summary['total_positif'] }},
+                            {{ $summary['total_negatif'] }},
+                            {{ $summary['total_memenuhi_syarat'] }},
+                            {{ $summary['total_tidak_memenuhi_syarat'] }}
+                        ],
+                        backgroundColor: [
+                            'rgba(54, 162, 235, 0.8)',
+                            'rgba(75, 192, 192, 0.8)',
+                            'rgba(153, 102, 255, 0.8)',
+                            'rgba(255, 99, 132, 0.8)',
+                            'rgba(75, 192, 192, 0.8)',
+                            'rgba(54, 162, 235, 0.8)',
+                            'rgba(255, 206, 86, 0.8)'
+                        ],
+                        borderColor: [
+                            'rgba(54, 162, 235, 1)',
+                            'rgba(75, 192, 192, 1)',
+                            'rgba(153, 102, 255, 1)',
+                            'rgba(255, 99, 132, 1)',
+                            'rgba(75, 192, 192, 1)',
+                            'rgba(54, 162, 235, 1)',
+                            'rgba(255, 206, 86, 1)'
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                precision: 0
+                            }
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            display: false
+                        },
+                        title: {
+                            display: true,
+                            text: 'Distribusi Pengawasan'
+                        }
+                    }
+                }
+            });
+        });
+    </script>
+    @endpush
 @endsection

@@ -118,7 +118,7 @@ class RekapPengawasanController extends Controller
         $tipeOptions = ['RAPID' => 'Rapid Test', 'LAB' => 'Laboratory'];
 
         // Get summary statistics
-        $summary = $this->getSummaryData($query);
+        $summary = $this->getSummaryData($query->clone());
 
         return view('admin.pages.rekap-pengawasan.index', compact(
             'breadcrumbs',
@@ -144,12 +144,13 @@ class RekapPengawasanController extends Controller
 
         $summary = [
             'total_pengawasan' => $summaryQuery->distinct('pengawasan_id')->count('pengawasan_id'),
-            'total_rapid_test' => $summaryQuery->where('type', 'RAPID')->count(),
-            'total_lab_test' => $summaryQuery->where('type', 'LAB')->count(),
-            'total_positif' => $summaryQuery->where('is_positif', true)->count(),
-            'total_negatif' => $summaryQuery->where('is_positif', false)->count(),
-            'total_memenuhi_syarat' => $summaryQuery->where('is_memenuhisyarat', true)->count(),
-            'total_tidak_memenuhi_syarat' => $summaryQuery->where('is_memenuhisyarat', false)->count(),
+            'total_pengawasan_item' => $summaryQuery->distinct('id')->count('id'),
+            'total_rapid_test' => $summaryQuery->where('type', 'rapid')->count(),
+            'total_lab_test' => $summaryQuery->where('type', 'lab')->count(),
+            'total_positif' => $summaryQuery->where('is_positif', true)->where('type', 'rapid')->count(),
+            'total_negatif' => $summaryQuery->where('is_positif', false)->where('type', 'rapid')->count(),
+            'total_memenuhi_syarat' => $summaryQuery->where('type', 'lab')->where('is_memenuhisyarat', true)->count(),
+            'total_tidak_memenuhi_syarat' => $summaryQuery->where('type', 'lab')->where('is_memenuhisyarat', false)->count(),
         ];
 
         return $summary;
