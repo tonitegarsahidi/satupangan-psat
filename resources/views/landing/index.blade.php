@@ -770,17 +770,6 @@
         </div>
     </section>
 
-    <!-- About Section -->
-    <section class="section about" id="about">
-        <div class="container">
-            <h2 class="section-title">Tentang Sistem Pengendalian Keamanan Pangan Segar Asal Tumbuhan</h2>
-            <div class="about-content">
-                <p>Sistem ini adalah sebuah platform digital terpadu untuk mendukung pengendalian keamanan Pangan Segar Asal Tumbuhan (PSAT) di Indonesia. Aplikasi ini dirancang untuk digunakan oleh masyarakat umum, pelaku usaha, serta petugas pengawas dari pemerintah pusat maupun daerah. Melalui sistem ini, pelaporan, verifikasi, edukasi, serta perizinan keamanan pangan dilakukan secara transparan, cepat, dan efisien.</p>
-                <p>Sistem ini dikembangkan sebagai solusi sistem digital untuk mendukung Badan Pangan Nasional dan otoritas terkait dalam menjaga keamanan pangan berbasis data, teknologi, dan partisipasi publik. Aplikasi ini menghubungkan pelaku usaha, masyarakat, dan pemerintah dalam satu ekosistem pangan segar yang aman, legal, dan terlacak.</p>
-            </div>
-        </div>
-    </section>
-
     <!-- Features Section -->
     <section class="section features" id="features">
         <div class="container">
@@ -837,6 +826,17 @@
 
             <!-- Dynamic content area for features -->
             <div id="feature-content-area"></div>
+        </div>
+    </section>
+
+     <!-- About Section -->
+    <section class="section about" id="about">
+        <div class="container">
+            <h2 class="section-title">Tentang Sistem Pengendalian Keamanan Pangan Segar Asal Tumbuhan</h2>
+            <div class="about-content">
+                <p>Sistem ini adalah sebuah platform digital terpadu untuk mendukung pengendalian keamanan Pangan Segar Asal Tumbuhan (PSAT) di Indonesia. Aplikasi ini dirancang untuk digunakan oleh masyarakat umum, pelaku usaha, serta petugas pengawas dari pemerintah pusat maupun daerah. Melalui sistem ini, pelaporan, verifikasi, edukasi, serta perizinan keamanan pangan dilakukan secara transparan, cepat, dan efisien.</p>
+                <p>Sistem ini dikembangkan sebagai solusi sistem digital untuk mendukung Badan Pangan Nasional dan otoritas terkait dalam menjaga keamanan pangan berbasis data, teknologi, dan partisipasi publik. Aplikasi ini menghubungkan pelaku usaha, masyarakat, dan pemerintah dalam satu ekosistem pangan segar yang aman, legal, dan terlacak.</p>
+            </div>
         </div>
     </section>
 
