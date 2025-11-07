@@ -23,10 +23,14 @@
                             <option value="">Semua Tanggal</option>
                             <option value="today" {{ $dateFilter == 'today' ? 'selected' : '' }}>Hari Ini</option>
                             <option value="this_week" {{ $dateFilter == 'this_week' ? 'selected' : '' }}>Pekan Ini</option>
-                            <option value="this_month" {{ $dateFilter == 'this_month' ? 'selected' : '' }}>Bulan Ini</option>
-                            <option value="last_3_months" {{ $dateFilter == 'last_3_months' ? 'selected' : '' }}>3 Bulan Terakhir</option>
-                            <option value="last_6_months" {{ $dateFilter == 'last_6_months' ? 'selected' : '' }}>6 Bulan Terakhir</option>
-                            <option value="last_year" {{ $dateFilter == 'last_year' ? 'selected' : '' }}>1 Tahun Terakhir</option>
+                            <option value="this_month" {{ $dateFilter == 'this_month' ? 'selected' : '' }}>Bulan Ini
+                            </option>
+                            <option value="last_3_months" {{ $dateFilter == 'last_3_months' ? 'selected' : '' }}>3 Bulan
+                                Terakhir</option>
+                            <option value="last_6_months" {{ $dateFilter == 'last_6_months' ? 'selected' : '' }}>6 Bulan
+                                Terakhir</option>
+                            <option value="last_year" {{ $dateFilter == 'last_year' ? 'selected' : '' }}>1 Tahun Terakhir
+                            </option>
                             <option value="all" {{ $dateFilter == 'all' ? 'selected' : '' }}>Semuanya</option>
                         </select>
                     </div>
@@ -94,56 +98,11 @@
                     <div class="card-body">
                         <div class="d-flex justify-content-between align-items-center">
                             <div>
-                                <h6 class="card-title text-muted">Rapid Test</h6>
-                                <h3 class="mb-0">{{ number_format($summary['total_rapid_test']) }}</h3>
-                            </div>
-                            <div class="avatar avatar-stats bg-label-success p-3">
-                                <i class="bx bx-time bx-sm"></i>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-3 col-sm-6 mb-3">
-                <div class="card">
-                    <div class="card-body">
-                        <div class="d-flex justify-content-between align-items-center">
-                            <div>
                                 <h6 class="card-title text-muted">Laboratory</h6>
                                 <h3 class="mb-0">{{ number_format($summary['total_lab_test']) }}</h3>
                             </div>
                             <div class="avatar avatar-stats bg-label-info p-3">
                                 <i class="bx bx bx-vial bx-sm"></i>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-3 col-sm-6 mb-3">
-                <div class="card">
-                    <div class="card-body">
-                        <div class="d-flex justify-content-between align-items-center">
-                            <div>
-                                <h6 class="card-title text-muted">Positif</h6>
-                                <h3 class="mb-0">{{ number_format($summary['total_positif']) }}</h3>
-                            </div>
-                            <div class="avatar avatar-stats bg-label-danger p-3">
-                                <i class="bx bx-error bx-sm"></i>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-3 col-sm-6 mb-3">
-                <div class="card">
-                    <div class="card-body">
-                        <div class="d-flex justify-content-between align-items-center">
-                            <div>
-                                <h6 class="card-title text-muted">Negatif</h6>
-                                <h3 class="mb-0">{{ number_format($summary['total_negatif']) }}</h3>
-                            </div>
-                            <div class="avatar avatar-stats bg-label-success p-3">
-                                <i class="bx bx-check bx-sm"></i>
                             </div>
                         </div>
                     </div>
@@ -174,6 +133,118 @@
                             </div>
                             <div class="avatar avatar-stats bg-label-warning p-3">
                                 <i class="bx bx-x bx-sm"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        @php
+            // dd($summary)
+        @endphp
+        {{-- Summary Rapid Test Section --}}
+        <div class="card mb-4">
+            <div class="p-3">
+                <h5 class="card-title mb-4">Summary Rapid Test</h5>
+
+                {{-- Summary Cards --}}
+                <div class="row mb-4">
+                    <div class="col-md-3 col-sm-6 mb-3">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <h6 class="card-title text-muted">Jumlah Rapid Test Dilakukan</h6>
+                                        <h3 class="mb-0">{{ number_format($summary['rapid_test_count']) }}</h3>
+                                    </div>
+                                    <div class="avatar avatar-stats bg-label-primary p-3">
+                                        <i class="bx bx-check-circle bx-sm"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-sm-6 mb-3">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <h6 class="card-title text-muted">Jumlah Sampel Rapid Test</h6>
+                                        <h3 class="mb-0">{{ number_format($summary['rapid_test_sample_count']) }}</h3>
+                                    </div>
+                                    <div class="avatar avatar-stats bg-label-info p-3">
+                                        <i class="bx bx bx-vial bx-sm"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-sm-6 mb-3">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <h6 class="card-title text-muted">Tidak Memenuhi Syarat</h6>
+                                        <h3 class="mb-0">{{ number_format($summary['rapid_test_tidak_memenuhi_syarat']) }}</h3>
+                                    </div>
+                                    <div class="avatar avatar-stats bg-label-danger p-3">
+                                        <i class="bx bx-error bx-sm"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-sm-6 mb-3">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <h6 class="card-title text-muted">Memenuhi Syarat</h6>
+                                        <h3 class="mb-0">{{ number_format($summary['rapid_test_memenuhi_syarat']) }}</h3>
+                                    </div>
+                                    <div class="avatar avatar-stats bg-label-success p-3">
+                                        <i class="bx bx-check bx-sm"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                {{-- Pie Chart for Memenuhi Syarat vs Tidak Memenuhi Syarat --}}
+                <div class="row mb-4">
+                    <div class="col-md-6">
+                        <div class="card">
+                            <div class="card-body">
+                                <h6 class="card-title mb-3">Distribusi Sampel Rapid Test</h6>
+                                <div class="chart-container" style="position: relative; height:250px;">
+                                    <canvas id="rapidTestPieChart"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                {{-- Bar Charts --}}
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="card">
+                            <div class="card-body">
+                                <h6 class="card-title mb-3">Summary Berdasarkan Test Name</h6>
+                                <div class="chart-container" style="position: relative; height:300px;">
+                                    <canvas id="rapidTestByTestNameChart"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="card">
+                            <div class="card-body">
+                                <h6 class="card-title mb-3">Summary Berdasarkan Komoditas</h6>
+                                <div class="chart-container" style="position: relative; height:300px;">
+                                    <canvas id="rapidTestByKomoditasChart"></canvas>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -290,42 +361,90 @@
     </div>
 
     @push('scripts')
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const ctx = document.getElementById('pengawasanChart').getContext('2d');
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                const ctx = document.getElementById('pengawasanChart').getContext('2d');
 
-            const chart = new Chart(ctx, {
-                type: 'bar',
+                const chart = new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: ['Total Pengawasan', 'Rapid Test', 'Laboratory', 'Positif', 'Negatif',
+                            'Memenuhi Syarat', 'Tidak Memenuhi Syarat'
+                        ],
+                        datasets: [{
+                            label: 'Jumlah',
+                            data: [
+                                {{ $summary['total_pengawasan'] }},
+                                {{ $summary['total_rapid_test'] }},
+                                {{ $summary['total_lab_test'] }},
+                                {{ $summary['total_positif'] }},
+                                {{ $summary['total_negatif'] }},
+                                {{ $summary['total_memenuhi_syarat'] }},
+                                {{ $summary['total_tidak_memenuhi_syarat'] }}
+                            ],
+                            backgroundColor: [
+                                'rgba(54, 162, 235, 0.8)',
+                                'rgba(75, 192, 192, 0.8)',
+                                'rgba(153, 102, 255, 0.8)',
+                                'rgba(255, 99, 132, 0.8)',
+                                'rgba(75, 192, 192, 0.8)',
+                                'rgba(54, 162, 235, 0.8)',
+                                'rgba(255, 206, 86, 0.8)'
+                            ],
+                            borderColor: [
+                                'rgba(54, 162, 235, 1)',
+                                'rgba(75, 192, 192, 1)',
+                                'rgba(153, 102, 255, 1)',
+                                'rgba(255, 99, 132, 1)',
+                                'rgba(75, 192, 192, 1)',
+                                'rgba(54, 162, 235, 1)',
+                                'rgba(255, 206, 86, 1)'
+                            ],
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                ticks: {
+                                    precision: 0
+                                }
+                            }
+                        },
+                        plugins: {
+                            legend: {
+                                display: false
+                            },
+                            title: {
+                                display: true,
+                                text: 'Distribusi Pengawasan'
+                            }
+                        }
+                    }
+                });
+            });
+
+            // Rapid Test Pie Chart
+            const pieCtx = document.getElementById('rapidTestPieChart').getContext('2d');
+            const pieChart = new Chart(pieCtx, {
+                type: 'pie',
                 data: {
-                    labels: ['Total Pengawasan', 'Rapid Test', 'Laboratory', 'Positif', 'Negatif', 'Memenuhi Syarat', 'Tidak Memenuhi Syarat'],
+                    labels: ['Memenuhi Syarat', 'Tidak Memenuhi Syarat'],
                     datasets: [{
-                        label: 'Jumlah',
                         data: [
-                            {{ $summary['total_pengawasan'] }},
-                            {{ $summary['total_rapid_test'] }},
-                            {{ $summary['total_lab_test'] }},
-                            {{ $summary['total_positif'] }},
-                            {{ $summary['total_negatif'] }},
-                            {{ $summary['total_memenuhi_syarat'] }},
-                            {{ $summary['total_tidak_memenuhi_syarat'] }}
+                            {{ $summary['rapid_test_memenuhi_syarat'] }},
+                            {{ $summary['rapid_test_tidak_memenuhi_syarat'] }}
                         ],
                         backgroundColor: [
-                            'rgba(54, 162, 235, 0.8)',
                             'rgba(75, 192, 192, 0.8)',
-                            'rgba(153, 102, 255, 0.8)',
-                            'rgba(255, 99, 132, 0.8)',
-                            'rgba(75, 192, 192, 0.8)',
-                            'rgba(54, 162, 235, 0.8)',
-                            'rgba(255, 206, 86, 0.8)'
+                            'rgba(255, 99, 132, 0.8)'
                         ],
                         borderColor: [
-                            'rgba(54, 162, 235, 1)',
                             'rgba(75, 192, 192, 1)',
-                            'rgba(153, 102, 255, 1)',
-                            'rgba(255, 99, 132, 1)',
-                            'rgba(75, 192, 192, 1)',
-                            'rgba(54, 162, 235, 1)',
-                            'rgba(255, 206, 86, 1)'
+                            'rgba(255, 99, 132, 1)'
                         ],
                         borderWidth: 1
                     }]
@@ -333,8 +452,49 @@
                 options: {
                     responsive: true,
                     maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'bottom'
+                        },
+                        title: {
+                            display: true,
+                            text: 'Distribusi Sampel Rapid Test'
+                        }
+                    }
+                }
+            });
+
+            // Rapid Test By Test Name Bar Chart
+            const testNameCtx = document.getElementById('rapidTestByTestNameChart').getContext('2d');
+            const testNameChart = new Chart(testNameCtx, {
+                type: 'bar',
+                data: {
+                    labels: @json($summary['rapid_test_by_test_name']->pluck('test_name')),
+                    datasets: [{
+                            label: 'Memenuhi Syarat',
+                            data: @json($summary['rapid_test_by_test_name']->pluck('memenuhi_syarat')),
+                            backgroundColor: 'rgba(75, 192, 192, 0.8)',
+                            borderColor: 'rgba(75, 192, 192, 1)',
+                            borderWidth: 1
+                        },
+                        {
+                            label: 'Tidak Memenuhi Syarat',
+                            data: @json($summary['rapid_test_by_test_name']->pluck('tidak_memenuhi_syarat')),
+                            backgroundColor: 'rgba(255, 99, 132, 0.8)',
+                            borderColor: 'rgba(255, 99, 132, 1)',
+                            borderWidth: 1
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
                     scales: {
+                        x: {
+                            stacked: true
+                        },
                         y: {
+                            stacked: true,
                             beginAtZero: true,
                             ticks: {
                                 precision: 0
@@ -343,16 +503,67 @@
                     },
                     plugins: {
                         legend: {
-                            display: false
+                            position: 'top'
                         },
                         title: {
                             display: true,
-                            text: 'Distribusi Pengawasan'
+                            text: 'Summary Berdasarkan Test Name'
                         }
                     }
                 }
             });
-        });
-    </script>
+
+            // Rapid Test By Komoditas Bar Chart
+            const komoditasCtx = document.getElementById('rapidTestByKomoditasChart').getContext('2d');
+            const komoditasChart = new Chart(komoditasCtx, {
+                type: 'bar',
+                data: {
+                    labels: @json(
+                        $summary['rapid_test_by_komoditas']->map(function ($item) {
+                            return $item->komoditas ? $item->komoditas->nama_bahan_pangan_segar : 'Unknown';
+                        })),
+                    datasets: [{
+                            label: 'Memenuhi Syarat',
+                            data: @json($summary['rapid_test_by_komoditas']->pluck('memenuhi_syarat')),
+                            backgroundColor: 'rgba(75, 192, 192, 0.8)',
+                            borderColor: 'rgba(75, 192, 192, 1)',
+                            borderWidth: 1
+                        },
+                        {
+                            label: 'Tidak Memenuhi Syarat',
+                            data: @json($summary['rapid_test_by_komoditas']->pluck('tidak_memenuhi_syarat')),
+                            backgroundColor: 'rgba(255, 99, 132, 0.8)',
+                            borderColor: 'rgba(255, 99, 132, 1)',
+                            borderWidth: 1
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        x: {
+                            stacked: true
+                        },
+                        y: {
+                            stacked: true,
+                            beginAtZero: true,
+                            ticks: {
+                                precision: 0
+                            }
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            position: 'top'
+                        },
+                        title: {
+                            display: true,
+                            text: 'Summary Berdasarkan Komoditas'
+                        }
+                    }
+                }
+            });
+        </script>
     @endpush
 @endsection

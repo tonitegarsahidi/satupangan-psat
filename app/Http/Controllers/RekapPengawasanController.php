@@ -153,6 +153,49 @@ class RekapPengawasanController extends Controller
             'total_tidak_memenuhi_syarat' => $summaryQuery->where('type', 'lab')->where('is_memenuhisyarat', false)->count(),
         ];
 
+        // Get rapid test summary data
+        $rapidTestQuery = clone $query;
+        $rapidTestQuery = $rapidTestQuery->where('type', 'rapid');
+
+        // 1. Jumlah Rapid Test dilakukan (count pengawasanItem where type=rapid)
+        $summary['rapid_test_count'] = $rapidTestQuery->count();
+
+        // 2. Jumlah Sampel Rapid Test (sum jumlah_sampel)
+        $summary['rapid_test_sample_count'] = $rapidTestQuery->sum('jumlah_sampel') ?? 0;
+
+        // 3. Jumlah Sampel memenuhi syarat vs tidak memenuhi syarat
+        $summary['rapid_test_memenuhi_syarat'] = $rapidTestQuery->where('is_positif', false)->count();
+        $summary['rapid_test_tidak_memenuhi_syarat'] = $rapidTestQuery->where('is_positif', TRUE)->count();
+
+        // 4. Summary Rapid Test berdasarkan test_name
+        $testNameSummary = PengawasanItem::selectRaw('test_name,
+            SUM(CASE WHEN is_positif = false THEN 1 ELSE 0 END) as memenuhi_syarat,
+            SUM(CASE WHEN is_positif = true THEN 1 ELSE 0 END) as tidak_memenuhi_syarat')
+            ->where('type', 'rapid')
+            ->whereHas('pengawasan', function($q) {
+                $q->where('status', 'SELESAI');
+            })
+            ->groupBy('test_name')
+            ->orderBy('test_name', 'asc')
+            ->get();
+        $summary['rapid_test_by_test_name'] = $testNameSummary;
+
+        // 5. Summary Rapid Test berdasarkan Komoditas
+        $komoditasSummary = PengawasanItem::with('komoditas')
+            ->selectRaw('komoditas_id,
+                SUM(CASE WHEN is_positif = false THEN 1 ELSE 0 END) as memenuhi_syarat,
+                SUM(CASE WHEN is_positif = true THEN 1 ELSE 0 END) as tidak_memenuhi_syarat')
+            ->where('type', 'rapid')
+            ->whereHas('pengawasan', function($q) {
+                $q->where('status', 'SELESAI');
+            })
+            ->groupBy('komoditas_id')
+            ->orderBy('komoditas_id', 'asc')
+            ->get();
+        $summary['rapid_test_by_komoditas'] = $komoditasSummary;
+
+        $rapidTestQuery = $rapidTestQuery->orderByDesc('created_at');
+
         return $summary;
     }
 }
