@@ -54,6 +54,9 @@
     {{-- Quill Editor JS --}}
     <script src="https://cdn.quilljs.com/1.3.6/quill.min.js"></script>
 
+    {{-- Chart.js CDN --}}
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
     {{-- HEADER CODE FOR ANY CODE --}}
     @yield('header-code')
 </head>
