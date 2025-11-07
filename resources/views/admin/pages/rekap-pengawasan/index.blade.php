@@ -98,8 +98,8 @@
                     <div class="card-body">
                         <div class="d-flex justify-content-between align-items-center">
                             <div>
-                                <h6 class="card-title text-muted">Laboratory</h6>
-                                <h3 class="mb-0">{{ number_format($summary['total_lab_test']) }}</h3>
+                                <h6 class="card-title text-muted">Total Seluruh sampel (lab dan rapid)</h6>
+                                <h3 class="mb-0">{{ number_format($summary['lab_test_sample_count'] + $summary['rapid_test_sample_count']) }}</h3>
                             </div>
                             <div class="avatar avatar-stats bg-label-info p-3">
                                 <i class="bx bx bx-vial bx-sm"></i>
@@ -113,8 +113,8 @@
                     <div class="card-body">
                         <div class="d-flex justify-content-between align-items-center">
                             <div>
-                                <h6 class="card-title text-muted">Memenuhi Syarat</h6>
-                                <h3 class="mb-0">{{ number_format($summary['total_memenuhi_syarat']) }}</h3>
+                                <h6 class="card-title text-muted">Jumlah Rapid Test</h6>
+                                <h3 class="mb-0">{{ number_format($summary['rapid_test_count']) }}</h3>
                             </div>
                             <div class="avatar avatar-stats bg-label-info p-3">
                                 <i class="bx bx-check-double bx-sm"></i>
@@ -128,11 +128,11 @@
                     <div class="card-body">
                         <div class="d-flex justify-content-between align-items-center">
                             <div>
-                                <h6 class="card-title text-muted">Tidak Memenuhi Syarat</h6>
-                                <h3 class="mb-0">{{ number_format($summary['total_tidak_memenuhi_syarat']) }}</h3>
+                                <h6 class="card-title text-muted">Jumlah Lab Test</h6>
+                                <h3 class="mb-0">{{ number_format($summary['lab_test_count']) }}</h3>
                             </div>
-                            <div class="avatar avatar-stats bg-label-warning p-3">
-                                <i class="bx bx-x bx-sm"></i>
+                            <div class="avatar avatar-stats bg-label-info p-3">
+                                <i class="bx bx-check-double bx-sm"></i>
                             </div>
                         </div>
                     </div>
@@ -332,6 +332,212 @@
                                         </thead>
                                         <tbody>
                                             @foreach ($summary['rapid_test_by_komoditas'] as $item)
+                                                <tr>
+                                                    <td>{{ $item->komoditas ? $item->komoditas->nama_bahan_pangan_segar : 'Unknown' }}</td>
+                                                    <td><span class="badge bg-success">{{ number_format($item->memenuhi_syarat) }}</span></td>
+                                                    <td><span class="badge bg-danger">{{ number_format($item->tidak_memenuhi_syarat) }}</span></td>
+                                                    <td><strong>{{ number_format($item->memenuhi_syarat + $item->tidak_memenuhi_syarat) }}</strong></td>
+                                                </tr>
+                                            @endforeach
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        {{-- Summary Lab Test Section --}}
+        <div class="card mb-4">
+            <div class="p-3">
+                <h5 class="card-title mb-4">Summary Lab Test</h5>
+
+                {{-- Summary Cards --}}
+                <div class="row mb-4">
+                    <div class="col-md-3 col-sm-6 mb-3">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <h6 class="card-title text-muted">Jumlah Lab Test Dilakukan</h6>
+                                        <h3 class="mb-0">{{ number_format($summary['lab_test_count']) }}</h3>
+                                    </div>
+                                    <div class="avatar avatar-stats bg-label-primary p-3">
+                                        <i class="bx bx-check-circle bx-sm"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-sm-6 mb-3">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <h6 class="card-title text-muted">Jumlah Sampel Lab Test</h6>
+                                        <h3 class="mb-0">{{ number_format($summary['lab_test_sample_count']) }}</h3>
+                                    </div>
+                                    <div class="avatar avatar-stats bg-label-info p-3">
+                                        <i class="bx bx bx-vial bx-sm"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-sm-6 mb-3">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <h6 class="card-title text-muted">Tidak Memenuhi Syarat</h6>
+                                        <h3 class="mb-0">{{ number_format($summary['lab_test_tidak_memenuhi_syarat']) }}</h3>
+                                    </div>
+                                    <div class="avatar avatar-stats bg-label-danger p-3">
+                                        <i class="bx bx-error bx-sm"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-sm-6 mb-3">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <h6 class="card-title text-muted">Memenuhi Syarat</h6>
+                                        <h3 class="mb-0">{{ number_format($summary['lab_test_memenuhi_syarat']) }}</h3>
+                                    </div>
+                                    <div class="avatar avatar-stats bg-label-success p-3">
+                                        <i class="bx bx-check bx-sm"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                {{-- Pie Chart for Memenuhi Syarat vs Tidak Memenuhi Syarat --}}
+                <div class="row mb-4">
+                    <div class="col-md-6">
+                        <div class="card">
+                            <div class="card-body">
+                                <h6 class="card-title mb-3">Distribusi Sampel Lab Test</h6>
+                                <div class="chart-container" style="position: relative; height:250px;">
+                                    <canvas id="labTestPieChart"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="card">
+                            <div class="card-body">
+                                <h6 class="card-title mb-3">Tabel Distribusi Sampel Lab Test</h6>
+                                <div class="table-responsive">
+                                    <table class="table table-striped table-hover align-middle">
+                                        <thead>
+                                            <tr>
+                                                <th>Status</th>
+                                                <th>Jumlah</th>
+                                                <th>Persentase</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td><span class="badge bg-success">Memenuhi Syarat</span></td>
+                                                <td>{{ number_format($summary['lab_test_memenuhi_syarat']) }}</td>
+                                                <td>{{ $summary['lab_test_count'] > 0 ? round(($summary['lab_test_memenuhi_syarat'] / $summary['lab_test_count']) * 100, 1) : 0 }}%</td>
+                                            </tr>
+                                            <tr>
+                                                <td><span class="badge bg-danger">Tidak Memenuhi Syarat</span></td>
+                                                <td>{{ number_format($summary['lab_test_tidak_memenuhi_syarat']) }}</td>
+                                                <td>{{ $summary['lab_test_count'] > 0 ? round(($summary['lab_test_tidak_memenuhi_syarat'] / $summary['lab_test_count']) * 100, 1) : 0 }}%</td>
+                                            </tr>
+                                            <tr class="table-secondary">
+                                                <td><strong>Total</strong></td>
+                                                <td><strong>{{ number_format($summary['lab_test_count']) }}</strong></td>
+                                                <td><strong>100%</strong></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                {{-- Test Name Chart and Table --}}
+                <div class="row mb-4">
+                    <div class="col-md-6">
+                        <div class="card">
+                            <div class="card-body">
+                                <h6 class="card-title mb-3">Summary Berdasarkan Test Name</h6>
+                                <div class="chart-container" style="position: relative; height:300px;">
+                                    <canvas id="labTestByTestNameChart"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="card">
+                            <div class="card-body">
+                                <h6 class="card-title mb-3">Tabel Summary Berdasarkan Test Name</h6>
+                                <div class="table-responsive">
+                                    <table class="table table-striped table-hover align-middle">
+                                        <thead>
+                                            <tr>
+                                                <th>Test Name</th>
+                                                <th>Memenuhi Syarat</th>
+                                                <th>Tidak Memenuhi Syarat</th>
+                                                <th>Total</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach ($summary['lab_test_by_test_name'] as $item)
+                                                <tr>
+                                                    <td>{{ $item->test_name }}</td>
+                                                    <td><span class="badge bg-success">{{ number_format($item->memenuhi_syarat) }}</span></td>
+                                                    <td><span class="badge bg-danger">{{ number_format($item->tidak_memenuhi_syarat) }}</span></td>
+                                                    <td><strong>{{ number_format($item->memenuhi_syarat + $item->tidak_memenuhi_syarat) }}</strong></td>
+                                                </tr>
+                                            @endforeach
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                {{-- Komoditas Chart and Table --}}
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="card">
+                            <div class="card-body">
+                                <h6 class="card-title mb-3">Summary Berdasarkan Komoditas</h6>
+                                <div class="chart-container" style="position: relative; height:300px;">
+                                    <canvas id="labTestByKomoditasChart"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="card">
+                            <div class="card-body">
+                                <h6 class="card-title mb-3">Tabel Summary Berdasarkan Komoditas</h6>
+                                <div class="table-responsive">
+                                    <table class="table table-striped table-hover align-middle">
+                                        <thead>
+                                            <tr>
+                                                <th>Komoditas</th>
+                                                <th>Memenuhi Syarat</th>
+                                                <th>Tidak Memenuhi Syarat</th>
+                                                <th>Total</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach ($summary['lab_test_by_komoditas'] as $item)
                                                 <tr>
                                                     <td>{{ $item->komoditas ? $item->komoditas->nama_bahan_pangan_segar : 'Unknown' }}</td>
                                                     <td><span class="badge bg-success">{{ number_format($item->memenuhi_syarat) }}</span></td>
@@ -629,6 +835,145 @@
                         {
                             label: 'Tidak Memenuhi Syarat',
                             data: @json($summary['rapid_test_by_komoditas']->pluck('tidak_memenuhi_syarat')),
+                            backgroundColor: 'rgba(255, 99, 132, 0.8)',
+                            borderColor: 'rgba(255, 99, 132, 1)',
+                            borderWidth: 1
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        x: {
+                            stacked: true
+                        },
+                        y: {
+                            stacked: true,
+                            beginAtZero: true,
+                            ticks: {
+                                precision: 0
+                            }
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            position: 'top'
+                        },
+                        title: {
+                            display: true,
+                            text: 'Summary Berdasarkan Komoditas'
+                        }
+                    }
+                }
+            });
+        </script>
+        <script>
+            // Lab Test Pie Chart
+            const labPieCtx = document.getElementById('labTestPieChart').getContext('2d');
+            const labPieChart = new Chart(labPieCtx, {
+                type: 'pie',
+                data: {
+                    labels: ['Memenuhi Syarat', 'Tidak Memenuhi Syarat'],
+                    datasets: [{
+                        data: [
+                            {{ $summary['lab_test_memenuhi_syarat'] }},
+                            {{ $summary['lab_test_tidak_memenuhi_syarat'] }}
+                        ],
+                        backgroundColor: [
+                            'rgba(75, 192, 192, 0.8)',
+                            'rgba(255, 99, 132, 0.8)'
+                        ],
+                        borderColor: [
+                            'rgba(75, 192, 192, 1)',
+                            'rgba(255, 99, 132, 1)'
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'bottom'
+                        },
+                        title: {
+                            display: true,
+                            text: 'Distribusi Sampel Lab Test'
+                        }
+                    }
+                }
+            });
+
+            // Lab Test By Test Name Bar Chart
+            const labTestNameCtx = document.getElementById('labTestByTestNameChart').getContext('2d');
+            const labTestNameChart = new Chart(labTestNameCtx, {
+                type: 'bar',
+                data: {
+                    labels: @json($summary['lab_test_by_test_name']->pluck('test_name')),
+                    datasets: [{
+                            label: 'Memenuhi Syarat',
+                            data: @json($summary['lab_test_by_test_name']->pluck('memenuhi_syarat')),
+                            backgroundColor: 'rgba(75, 192, 192, 0.8)',
+                            borderColor: 'rgba(75, 192, 192, 1)',
+                            borderWidth: 1
+                        },
+                        {
+                            label: 'Tidak Memenuhi Syarat',
+                            data: @json($summary['lab_test_by_test_name']->pluck('tidak_memenuhi_syarat')),
+                            backgroundColor: 'rgba(255, 99, 132, 0.8)',
+                            borderColor: 'rgba(255, 99, 132, 1)',
+                            borderWidth: 1
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        x: {
+                            stacked: true
+                        },
+                        y: {
+                            stacked: true,
+                            beginAtZero: true,
+                            ticks: {
+                                precision: 0
+                            }
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            position: 'top'
+                        },
+                        title: {
+                            display: true,
+                            text: 'Summary Berdasarkan Test Name'
+                        }
+                    }
+                }
+            });
+
+            // Lab Test By Komoditas Bar Chart
+            const labKomoditasCtx = document.getElementById('labTestByKomoditasChart').getContext('2d');
+            const labKomoditasChart = new Chart(labKomoditasCtx, {
+                type: 'bar',
+                data: {
+                    labels: @json(
+                        $summary['lab_test_by_komoditas']->map(function ($item) {
+                            return $item->komoditas ? $item->komoditas->nama_bahan_pangan_segar : 'Unknown';
+                        })),
+                    datasets: [{
+                            label: 'Memenuhi Syarat',
+                            data: @json($summary['lab_test_by_komoditas']->pluck('memenuhi_syarat')),
+                            backgroundColor: 'rgba(75, 192, 192, 0.8)',
+                            borderColor: 'rgba(75, 192, 192, 1)',
+                            borderWidth: 1
+                        },
+                        {
+                            label: 'Tidak Memenuhi Syarat',
+                            data: @json($summary['lab_test_by_komoditas']->pluck('tidak_memenuhi_syarat')),
                             backgroundColor: 'rgba(255, 99, 132, 0.8)',
                             borderColor: 'rgba(255, 99, 132, 1)',
                             borderWidth: 1

@@ -217,8 +217,9 @@ class RekapPengawasanController extends Controller
             'total_lab_test' => $summaryQuery->where('type', 'lab')->count(),
             'total_positif' => $summaryQuery->where('is_positif', true)->where('type', 'rapid')->count(),
             'total_negatif' => $summaryQuery->where('is_positif', false)->where('type', 'rapid')->count(),
-            'total_memenuhi_syarat' => $summaryQuery->where('type', 'lab')->where('is_memenuhisyarat', true)->count(),
-            'total_tidak_memenuhi_syarat' => $summaryQuery->where('type', 'lab')->where('is_memenuhisyarat', false)->count(),
+            'total_memenuhi_syarat' => (clone $summaryQuery)->where('type', 'lab')->where('is_memenuhisyarat', true)->count(),
+            'total_tidak_memenuhi_syarat' => (clone $summaryQuery)->where('type', 'lab')->where('is_memenuhisyarat', false)->count(),
+            'total_komoditas' => (clone $summaryQuery)->distinct('komoditas_id')->count('komoditas_id'),
         ];
 
         // Get rapid test summary data
@@ -261,6 +262,47 @@ class RekapPengawasanController extends Controller
             ->orderBy('komoditas_id', 'asc')
             ->get();
         $summary['rapid_test_by_komoditas'] = $komoditasSummary;
+
+        // Get lab test summary data
+        $labTestQuery = clone $query;
+        $labTestQuery = $labTestQuery->where('type', 'lab');
+
+        // 1. Jumlah Lab Test dilakukan (count pengawasanItem where type=lab)
+        $summary['lab_test_count'] = $labTestQuery->count();
+
+        // 2. Jumlah Sampel Lab Test (sum jumlah_sampel)
+        $summary['lab_test_sample_count'] = $labTestQuery->sum('jumlah_sampel') ?? 0;
+
+        // 3. Jumlah Sampel memenuhi syarat vs tidak memenuhi syarat
+        $summary['lab_test_memenuhi_syarat'] = (clone $labTestQuery)->where('is_memenuhisyarat', true)->count();
+        $summary['lab_test_tidak_memenuhi_syarat'] = (clone $labTestQuery)->where('is_memenuhisyarat', false)->count();
+
+        // 4. Summary Lab Test berdasarkan test_name
+        $labTestNameSummary = PengawasanItem::selectRaw('test_name,
+            SUM(CASE WHEN is_memenuhisyarat = true THEN 1 ELSE 0 END) as memenuhi_syarat,
+            SUM(CASE WHEN is_memenuhisyarat = false THEN 1 ELSE 0 END) as tidak_memenuhi_syarat')
+            ->where('type', 'lab')
+            ->whereHas('pengawasan', function($q) {
+                $q->where('status', 'SELESAI');
+            })
+            ->groupBy('test_name')
+            ->orderBy('test_name', 'asc')
+            ->get();
+        $summary['lab_test_by_test_name'] = $labTestNameSummary;
+
+        // 5. Summary Lab Test berdasarkan Komoditas
+        $labKomoditasSummary = PengawasanItem::with('komoditas')
+            ->selectRaw('komoditas_id,
+                SUM(CASE WHEN is_memenuhisyarat = true THEN 1 ELSE 0 END) as memenuhi_syarat,
+                SUM(CASE WHEN is_memenuhisyarat = false THEN 1 ELSE 0 END) as tidak_memenuhi_syarat')
+            ->where('type', 'lab')
+            ->whereHas('pengawasan', function($q) {
+                $q->where('status', 'SELESAI');
+            })
+            ->groupBy('komoditas_id')
+            ->orderBy('komoditas_id', 'asc')
+            ->get();
+        $summary['lab_test_by_komoditas'] = $labKomoditasSummary;
 
         $rapidTestQuery = $rapidTestQuery->orderByDesc('created_at');
 
