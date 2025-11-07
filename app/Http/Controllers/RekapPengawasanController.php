@@ -30,8 +30,7 @@ class RekapPengawasanController extends Controller
         $breadcrumbs = array_merge($this->mainBreadcrumbs, ['List' => null]);
 
         // Get filter parameters
-        $tanggalSelesaiFrom = $request->input('tanggal_selesai_from');
-        $tanggalSelesaiTo = $request->input('tanggal_selesai_to');
+        $dateFilter = $request->input('date_filter');
         $provinsiId = $request->input('provinsi_id');
         $tipe = $request->input('tipe');
         $komoditasId = $request->input('komoditas_id');
@@ -43,16 +42,53 @@ class RekapPengawasanController extends Controller
             });
 
         // Apply date filter
-        if ($tanggalSelesaiFrom) {
-            $query->whereHas('pengawasan', function($q) use ($tanggalSelesaiFrom) {
-                $q->whereDate('tanggal_selesai', '>=', $tanggalSelesaiFrom);
-            });
-        }
+        if ($dateFilter && $dateFilter !== 'all') {
+            $now = Carbon::now();
 
-        if ($tanggalSelesaiTo) {
-            $query->whereHas('pengawasan', function($q) use ($tanggalSelesaiTo) {
-                $q->whereDate('tanggal_selesai', '<=', $tanggalSelesaiTo);
-            });
+            switch ($dateFilter) {
+                case 'today':
+                    $query->whereHas('pengawasan', function($q) use ($now) {
+                        $q->whereDate('tanggal_selesai', $now->format('Y-m-d'));
+                    });
+                    break;
+
+                case 'this_week':
+                    $startOfWeek = $now->startOfWeek()->format('Y-m-d');
+                    $endOfWeek = $now->endOfWeek()->format('Y-m-d');
+                    $query->whereHas('pengawasan', function($q) use ($startOfWeek, $endOfWeek) {
+                        $q->whereBetween('tanggal_selesai', [$startOfWeek, $endOfWeek]);
+                    });
+                    break;
+
+                case 'this_month':
+                    $startOfMonth = $now->startOfMonth()->format('Y-m-d');
+                    $endOfMonth = $now->endOfMonth()->format('Y-m-d');
+                    $query->whereHas('pengawasan', function($q) use ($startOfMonth, $endOfMonth) {
+                        $q->whereBetween('tanggal_selesai', [$startOfMonth, $endOfMonth]);
+                    });
+                    break;
+
+                case 'last_3_months':
+                    $threeMonthsAgo = $now->subMonths(3)->format('Y-m-d');
+                    $query->whereHas('pengawasan', function($q) use ($threeMonthsAgo) {
+                        $q->whereDate('tanggal_selesai', '>=', $threeMonthsAgo);
+                    });
+                    break;
+
+                case 'last_6_months':
+                    $sixMonthsAgo = $now->subMonths(6)->format('Y-m-d');
+                    $query->whereHas('pengawasan', function($q) use ($sixMonthsAgo) {
+                        $q->whereDate('tanggal_selesai', '>=', $sixMonthsAgo);
+                    });
+                    break;
+
+                case 'last_year':
+                    $oneYearAgo = $now->subYear()->format('Y-m-d');
+                    $query->whereHas('pengawasan', function($q) use ($oneYearAgo) {
+                        $q->whereDate('tanggal_selesai', '>=', $oneYearAgo);
+                    });
+                    break;
+            }
         }
 
         // Apply province filter
@@ -62,10 +98,10 @@ class RekapPengawasanController extends Controller
             });
         }
 
-        // Apply type filter
-        if ($tipe) {
-            $query->where('type', $tipe);
-        }
+        // Apply type filter (removed as per requirement)
+        // if ($tipe) {
+        //     $query->where('type', $tipe);
+        // }
 
         // Apply commodity filter
         if ($komoditasId) {
@@ -87,8 +123,7 @@ class RekapPengawasanController extends Controller
         return view('admin.pages.rekap-pengawasan.index', compact(
             'breadcrumbs',
             'rekapData',
-            'tanggalSelesaiFrom',
-            'tanggalSelesaiTo',
+            'dateFilter',
             'provinsiId',
             'tipe',
             'komoditasId',

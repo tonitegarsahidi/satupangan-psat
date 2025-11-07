@@ -11,6 +11,67 @@
 
         {{-- MAIN PARTS --}}
 
+        {{-- Filter Form --}}
+        <div class="card mb-4">
+            <div class="p-3">
+                <h5 class="card-title mb-4">Filter Data</h5>
+                <form action="{{ route('rekap-pengawasan.index') }}" method="get" class="row g-3">
+                    {{-- Date Range Filter --}}
+                    <div class="col-md-3">
+                        <label for="date_filter" class="form-label">Rentang Tanggal</label>
+                        <select class="form-select" id="date_filter" name="date_filter">
+                            <option value="">Semua Tanggal</option>
+                            <option value="today" {{ $dateFilter == 'today' ? 'selected' : '' }}>Hari Ini</option>
+                            <option value="this_week" {{ $dateFilter == 'this_week' ? 'selected' : '' }}>Pekan Ini</option>
+                            <option value="this_month" {{ $dateFilter == 'this_month' ? 'selected' : '' }}>Bulan Ini</option>
+                            <option value="last_3_months" {{ $dateFilter == 'last_3_months' ? 'selected' : '' }}>3 Bulan Terakhir</option>
+                            <option value="last_6_months" {{ $dateFilter == 'last_6_months' ? 'selected' : '' }}>6 Bulan Terakhir</option>
+                            <option value="last_year" {{ $dateFilter == 'last_year' ? 'selected' : '' }}>1 Tahun Terakhir</option>
+                            <option value="all" {{ $dateFilter == 'all' ? 'selected' : '' }}>Semuanya</option>
+                        </select>
+                    </div>
+
+                    {{-- Provinsi --}}
+                    <div class="col-md-3">
+                        <label for="provinsi_id" class="form-label">Provinsi</label>
+                        <select class="form-select" id="provinsi_id" name="provinsi_id">
+                            <option value="">Semua Provinsi</option>
+                            @foreach ($provinsis as $provinsi)
+                                <option value="{{ $provinsi->id }}" {{ $provinsiId == $provinsi->id ? 'selected' : '' }}>
+                                    {{ $provinsi->nama_provinsi }}
+                                </option>
+                            @endforeach
+                        </select>
+                    </div>
+
+                    {{-- Komoditas --}}
+                    <div class="col-md-3">
+                        <label for="komoditas_id" class="form-label">Komoditas</label>
+                        <select class="form-select" id="komoditas_id" name="komoditas_id">
+                            <option value="">Semua Komoditas</option>
+                            @foreach ($komoditas as $komod)
+                                <option value="{{ $komod->id }}" {{ $komoditasId == $komod->id ? 'selected' : '' }}>
+                                    {{ $komod->nama_bahan_pangan_segar }}
+                                </option>
+                            @endforeach
+                        </select>
+                    </div>
+
+                    {{-- Submit Button --}}
+                    <div class="col-md-3 d-flex align-items-end">
+                        <button type="submit" class="btn btn-primary w-100">
+                            <i class="bx bx-search me-1"></i> Filter
+                        </button>
+                    </div>
+                    <div class="col-12">
+                        <a href="{{ route('rekap-pengawasan.index') }}" class="btn btn-secondary">
+                            <i class="bx bx-reset me-1"></i> Reset
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+
         {{-- Summary Cards --}}
         <div class="row mb-4">
             <div class="col-md-3 col-sm-6 mb-3">
@@ -80,74 +141,6 @@
             {{-- FIRST ROW,  FOR TITLE --}}
             <div class="p-3">
                 <h3 class="card-header">Rekapitulasi Pengawasan</h3>
-            </div>
-
-            {{-- SECOND ROW,  FOR FILTER FORM --}}
-            <div class="p-3 border-bottom">
-                <form action="{{ route('rekap-pengawasan.index') }}" method="get" class="row g-3">
-                    {{-- Tanggal Selesai From --}}
-                    <div class="col-md-3">
-                        <label for="tanggal_selesai_from" class="form-label">Tanggal Selesai Dari</label>
-                        <input type="date" class="form-control" id="tanggal_selesai_from" name="tanggal_selesai_from"
-                               value="{{ $tanggalSelesaiFrom }}" placeholder="Pilih tanggal mulai">
-                    </div>
-
-                    {{-- Tanggal Selesai To --}}
-                    <div class="col-md-3">
-                        <label for="tanggal_selesai_to" class="form-label">Tanggal Selesai Sampai</label>
-                        <input type="date" class="form-control" id="tanggal_selesai_to" name="tanggal_selesai_to"
-                               value="{{ $tanggalSelesaiTo }}" placeholder="Pilih tanggal akhir">
-                    </div>
-
-                    {{-- Provinsi --}}
-                    <div class="col-md-2">
-                        <label for="provinsi_id" class="form-label">Provinsi</label>
-                        <select class="form-select" id="provinsi_id" name="provinsi_id">
-                            <option value="">Semua Provinsi</option>
-                            @foreach ($provinsis as $provinsi)
-                                <option value="{{ $provinsi->id }}" {{ $provinsiId == $provinsi->id ? 'selected' : '' }}>
-                                    {{ $provinsi->nama_provinsi }}
-                                </option>
-                            @endforeach
-                        </select>
-                    </div>
-
-                    {{-- Tipe --}}
-                    <div class="col-md-2">
-                        <label for="tipe" class="form-label">Tipe</label>
-                        <select class="form-select" id="tipe" name="tipe">
-                            <option value="">Semua Tipe</option>
-                            @foreach ($tipeOptions as $key => $value)
-                                <option value="{{ $key }}" {{ $tipe == $key ? 'selected' : '' }}>
-                                    {{ $value }}
-                                </option>
-                            @endforeach
-                        </select>
-                    </div>
-
-                    {{-- Komoditas --}}
-                    <div class="col-md-2">
-                        <label for="komoditas_id" class="form-label">Komoditas</label>
-                        <select class="form-select" id="komoditas_id" name="komoditas_id">
-                            <option value="">Semua Komoditas</option>
-                            @foreach ($komoditas as $komod)
-                                <option value="{{ $komod->id }}" {{ $komoditasId == $komod->id ? 'selected' : '' }}>
-                                    {{ $komod->nama_bahan_pangan_segar }}
-                                </option>
-                            @endforeach
-                        </select>
-                    </div>
-
-                    {{-- Submit Button --}}
-                    <div class="col-12">
-                        <button type="submit" class="btn btn-primary">
-                            <i class="bx bx-search me-1"></i> Filter
-                        </button>
-                        <a href="{{ route('rekap-pengawasan.index') }}" class="btn btn-secondary">
-                            <i class="bx bx-reset me-1"></i> Reset
-                        </a>
-                    </div>
-                </form>
             </div>
 
             {{-- THIRD ROW, FOR THE MAIN DATA PART --}}
