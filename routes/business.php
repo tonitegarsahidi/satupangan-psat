@@ -6,6 +6,7 @@ use App\Http\Controllers\RegisterIzinedarPsatpdController;
 use App\Http\Controllers\RegisterIzinedarPsatpdukController;
 use App\Http\Controllers\QrBadanPanganController;
 use App\Http\Controllers\MasterPenangananController;
+use App\Http\Controllers\BusinessController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -14,11 +15,24 @@ use Illuminate\Support\Facades\Route;
 |--------------------------------------------------------------------------
 |
 | Routes for business-specific functionality including SPPB registration,
-| izin edar registration, and master penanganan
+| izin edar registration, master penanganan, and business CRUD
 |
 */
 
 Route::middleware('auth')->group(function () {
+    // BUSINESS CRUD FOR ROLE_ADMIN, ROLE_OPERATOR, ROLE_SUPERVISOR
+    Route::middleware('role:ROLE_ADMIN,ROLE_OPERATOR,ROLE_SUPERVISOR')->prefix('/business')->group(function () {
+        Route::get('/', [BusinessController::class, 'index'])->name('business.index');
+        Route::get('/add/new', [BusinessController::class, 'create'])->name('business.add');
+        Route::post('/add/new', [BusinessController::class, 'store'])->name('business.store');
+        Route::get('/detail/{id}', [BusinessController::class, 'detail'])->name('business.detail');
+        Route::put('/edit/{id}', [BusinessController::class, 'update'])->name('business.update');
+        Route::get('/edit/{id}', [BusinessController::class, 'edit'])->name('business.edit');
+        Route::get('/delete/{id}', [BusinessController::class, 'deleteConfirm'])->name('business.delete');
+        Route::delete('/delete/{id}', [BusinessController::class, 'destroy'])->name('business.destroy');
+        Route::post('/update-status/{id}', [BusinessController::class, 'updateStatus'])->name('business.update-status');
+        Route::get('/kota-by-provinsi/{provinsiId}', [BusinessController::class, 'getKotaByProvinsi'])->name('business.kota_by_provinsi');
+    });
     // BUSINESS-ONLY ROUTES
     Route::middleware('role:ROLE_USER_BUSINESS,ROLE_OPERATOR,ROLE_SUPERVISOR,ROLE_ADMIN')->group(function () {
         // REGISTER SPPB CRUD FOR ROLE_USER_BUSINESS

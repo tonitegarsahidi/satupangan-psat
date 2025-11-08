@@ -43,6 +43,44 @@ class Business extends Model
             'business_jenispsat',
             'business_id',
             'jenispsat_id'
-        );
+        )->withPivot('id'); // Include the 'id' column from the pivot table
+    }
+
+    public function provinsi()
+    {
+        return $this->belongsTo(\App\Models\MasterProvinsi::class, 'provinsi_id');
+    }
+
+    public function kota()
+    {
+        return $this->belongsTo(\App\Models\MasterKota::class, 'kota_id');
+    }
+
+    public function creator()
+    {
+        return $this->belongsTo(User::class, 'created_by');
+    }
+
+    public function updater()
+    {
+        return $this->belongsTo(User::class, 'updated_by');
+    }
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($business) {
+            if (auth()->check()) {
+                $business->created_by = auth()->id();
+                $business->updated_by = auth()->id();
+            }
+        });
+
+        static::updating(function ($business) {
+            if (auth()->check()) {
+                $business->updated_by = auth()->id();
+            }
+        });
     }
 }
