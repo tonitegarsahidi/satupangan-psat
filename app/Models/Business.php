@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\BusinessJenispsatPivot;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
@@ -43,7 +45,7 @@ class Business extends Model
             'business_jenispsat',
             'business_id',
             'jenispsat_id'
-        )->withPivot('id'); // Include the 'id' column from the pivot table
+        )->using(BusinessJenispsatPivot::class)->withPivot('id'); // Include the 'id' column from the pivot table
     }
 
     public function provinsi()
@@ -71,15 +73,15 @@ class Business extends Model
         parent::boot();
 
         static::creating(function ($business) {
-            if (auth()->check()) {
-                $business->created_by = auth()->id();
-                $business->updated_by = auth()->id();
+            if (Auth::check()) {
+                $business->created_by = Auth::id();
+                $business->updated_by = Auth::id();
             }
         });
 
         static::updating(function ($business) {
-            if (auth()->check()) {
-                $business->updated_by = auth()->id();
+            if (Auth::check()) {
+                $business->updated_by = Auth::id();
             }
         });
     }
