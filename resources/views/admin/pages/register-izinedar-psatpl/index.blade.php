@@ -110,14 +110,14 @@
                             <th>
                                 <a
                                     href="{{ route('register-izinedar-psatpl.index', [
-                                        'sort_field' => 'updated_at',
+                                        'sort_field' => 'tanggal_terakhir',
                                         'sort_order' => $sortOrder == 'asc' ? 'desc' : 'asc',
                                         'keyword' => $keyword,
                                     ]) }}">
                                     Akhir Masa Berlaku
                                     {{-- SORTING ARROW --}}
                                     @include('components.arrow-sort', [
-                                        'field' => 'updated_at',
+                                        'field' => 'tanggal_terakhir',
                                         'sortField' => $sortField,
                                         'sortOrder' => $sortOrder,
                                     ])
@@ -163,8 +163,25 @@
                                 </td>
                                 <td>
                                     @php
-                                        $expiryDate = \Carbon\Carbon::parse($registerIzinedarPsatpl->updated_at);
+                                        $expiryDate = \Carbon\Carbon::parse($registerIzinedarPsatpl->tanggal_terakhir);
                                         $oneMonthFromNow = \Carbon\Carbon::now()->addMonth();
+                                        // Format date with Indonesian month names
+                                        $monthNames = [
+                                            'January' => 'Januari',
+                                            'February' => 'Februari',
+                                            'March' => 'Maret',
+                                            'April' => 'April',
+                                            'May' => 'Mei',
+                                            'June' => 'Juni',
+                                            'July' => 'Juli',
+                                            'August' => 'Agustus',
+                                            'September' => 'September',
+                                            'October' => 'Oktober',
+                                            'November' => 'November',
+                                            'December' => 'Desember'
+                                        ];
+                                        $englishDate = $expiryDate->format('d F Y');
+                                        $formattedDate = strtr($englishDate, $monthNames);
                                         $isExpiringSoon = $expiryDate->lessThanOrEqualTo($oneMonthFromNow);
                                     @endphp
                                     <span class="{{ $isExpiringSoon ? 'text-danger' : '' }}">
