@@ -97,6 +97,22 @@
                                 </a>
                             </th>
                             <th>
+                                <a
+                                    href="{{ route('register-sppb.index', [
+                                        'sort_field' => 'updated_at',
+                                        'sort_order' => $sortOrder == 'asc' ? 'desc' : 'asc',
+                                        'keyword' => $keyword,
+                                    ]) }}">
+                                    Akhir Masa Berlaku
+                                    {{-- SORTING ARROW --}}
+                                    @include('components.arrow-sort', [
+                                        'field' => 'updated_at',
+                                        'sortField' => $sortField,
+                                        'sortOrder' => $sortOrder,
+                                    ])
+                                </a>
+                            </th>
+                            <th>
                                 Komoditas
                             </th>
                             <th>
@@ -132,6 +148,16 @@
                                     @else
                                         {{ $registerSppb->status }}
                                     @endif
+                                </td>
+                                <td>
+                                    @php
+                                        $expiryDate = \Carbon\Carbon::parse($registerSppb->updated_at);
+                                        $oneMonthFromNow = \Carbon\Carbon::now()->addMonth();
+                                        $isExpiringSoon = $expiryDate->lessThanOrEqualTo($oneMonthFromNow);
+                                    @endphp
+                                    <span class="{{ $isExpiringSoon ? 'text-danger' : '' }}">
+                                        {{ $expiryDate->translatedFormat('j F Y') }}
+                                    </span>
                                 </td>
                                 <td>{{ $registerSppb->nama_komoditas }}</td>
                                 <td>{{ $registerSppb->penanganan->nama_penanganan }}</td>

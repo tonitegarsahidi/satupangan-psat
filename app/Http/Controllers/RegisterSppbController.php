@@ -39,8 +39,8 @@ class RegisterSppbController extends Controller
      */
     public function index(RegisterSppbListRequest $request)
     {
-        $sortField = session()->get('sort_field', $request->input('sort_field', 'id'));
-        $sortOrder = session()->get('sort_order', $request->input('sort_order', 'asc'));
+        $sortField = session()->get('sort_field', $request->input('sort_field', 'updated_at'));
+        $sortOrder = session()->get('sort_order', $request->input('sort_order', 'desc'));
 
         $perPage = $request->input('per_page', config('constant.CRUD.PER_PAGE'));
         $page = $request->input('page', config('constant.CRUD.PAGE'));

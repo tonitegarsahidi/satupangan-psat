@@ -108,6 +108,22 @@
                                 </a>
                             </th>
                             <th>
+                                <a
+                                    href="{{ route('register-izinedar-psatpl.index', [
+                                        'sort_field' => 'updated_at',
+                                        'sort_order' => $sortOrder == 'asc' ? 'desc' : 'asc',
+                                        'keyword' => $keyword,
+                                    ]) }}">
+                                    Akhir Masa Berlaku
+                                    {{-- SORTING ARROW --}}
+                                    @include('components.arrow-sort', [
+                                        'field' => 'updated_at',
+                                        'sortField' => $sortField,
+                                        'sortOrder' => $sortOrder,
+                                    ])
+                                </a>
+                            </th>
+                            <th>
                                 Komoditas
                             </th>
                             <th>
@@ -144,6 +160,16 @@
                                     @else
                                         {{ $registerIzinedarPsatpl->status }}
                                     @endif
+                                </td>
+                                <td>
+                                    @php
+                                        $expiryDate = \Carbon\Carbon::parse($registerIzinedarPsatpl->updated_at);
+                                        $oneMonthFromNow = \Carbon\Carbon::now()->addMonth();
+                                        $isExpiringSoon = $expiryDate->lessThanOrEqualTo($oneMonthFromNow);
+                                    @endphp
+                                    <span class="{{ $isExpiringSoon ? 'text-danger' : '' }}">
+                                        {{ $expiryDate->translatedFormat('j F Y') }}
+                                    </span>
                                 </td>
                                 <td>{{ $registerIzinedarPsatpl->nama_komoditas }}</td>
                                 <td>{{ $registerIzinedarPsatpl->merk_dagang }}</td>
