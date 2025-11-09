@@ -104,7 +104,13 @@
                                 <td>
                                     {{-- KIRIM NOTIFIKASI BUTTON --}}
                                     @if(auth()->user()->hasAnyRole(['ROLE_SUPERVISOR', 'ROLE_OPERATOR', 'ROLE_KANTOR', 'ROLE_PIMPINAN']))
-                                        <a href="{{ route('surveilan.create-notification-for-business', ['business_id' => $surveilan['business_id'] ?? null]) }}"
+                                        <a href="{{ route('surveilan.create-notification-for-business', [
+                                           'business_id' => $surveilan['business_id'] ?? null,
+                                           'jenis' => $surveilan['jenis'] ?? null,
+                                           'nomor' => $surveilan['nomor'] ?? null,
+                                           'pelaku_usaha' => $surveilan['nama_perusahaan'] ?? null,
+                                           'akhir_masa_berlaku' => $expiryDate->translatedFormat('j F Y') ?? null
+                                       ]) }}"
                                            class="btn btn-sm btn-primary">
                                             <i class="bx bx-send me-1"></i>
                                             Kirim Notifikasi

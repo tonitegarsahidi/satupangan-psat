@@ -59,7 +59,7 @@
                     <div class="row mb-3">
                         <div class="col-md-12">
                             <label for="title" class="form-label">Judul</label>
-                            <input type="text" class="form-control" id="title" name="title" value="Notifikasi Surveilan terkait Dokumen nomor ....." required>
+                            <input type="text" class="form-control" id="title" name="title" value="[PENTING] Kunjungan Surveilan untuk {{(request('jenis') ?? '')}}, Nomor {{request('nomor')}}" required>
                             @error('title')
                                 <div class="text-danger">{{ $message }}</div>
                             @enderror
@@ -72,9 +72,15 @@
                     <div class="row mb-3">
                         <div class="col-md-12">
                             <label for="message" class="form-label">Pesan</label>
-                            <textarea class="form-control" id="message" name="message" rows="6" required
-                                placeholder="Tulis pesan yang akan dikirim ke pemilik bisnis...">
-                            </textarea>
+                            <textarea class="form-control" id="message" name="message" rows="8" required
+                                placeholder="Tulis pesan yang akan dikirim ke pemilik bisnis...">Yang kami hormati {{request('pelaku_usaha') ?? ''}},
+dengan ini kami memberitahukan terkait rencana surveilance/visitasi yang akan kami lakukan, terkait dokumen berikut :
+
+{{
+                                    'Jenis: ' . (request('jenis') ?? '') . "\n" .
+                                    'Nomor: ' . (request('nomor') ?? '') . "\n" .
+                                    'Akhir Masa Berlaku: ' . (request('akhir_masa_berlaku') ?? '')."\n"
+                                }}Atas perhatiannya kami ucapkan terima kasih</textarea>
                             @error('message')
                                 <div class="text-danger">{{ $message }}</div>
                             @enderror
