@@ -31,6 +31,7 @@ require __DIR__ . '/registration.php';
 require __DIR__ . '/pengawasan.php';
 // Include early warning routes
 require __DIR__ . '/earlywarning.php';
+require __DIR__ . '/surveilan.php';
 
 
 // Authentication routes

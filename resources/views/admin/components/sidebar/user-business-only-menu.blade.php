@@ -35,6 +35,14 @@
         'subMenuData' => null,
     ])
 
+    @include('admin.components.sidebar.item', [
+        'menuId' => 'menu-notifikasi-surveilan',
+        'menuText' => 'Notifikasi Surveilan',
+        'menuUrl' => route('surveilan.index'),
+        'menuIcon' => 'bx bx-bell',
+        'subMenuData' => null,
+    ])
+
     @include('admin.components.sidebar.menu-header', ['textMenuHeader' => 'QR Code Badan Pangan'])
     {{-- REGISTER SPPB MENU --}}
     @include('admin.components.sidebar.item', [
