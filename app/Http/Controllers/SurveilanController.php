@@ -31,6 +31,7 @@ class SurveilanController extends Controller
             ->map(function ($item) {
                 return [
                     'jenis' => 'Register SPPB',
+                    'nomor' => $item->nomor_registrasi ?? 'N/A',
                     'nama_perusahaan' => $item->business->nama_perusahaan ?? 'N/A',
                     'akhir_masa_berlaku' => $item->tanggal_terakhir,
                 ];
@@ -44,6 +45,7 @@ class SurveilanController extends Controller
             ->map(function ($item) {
                 return [
                     'jenis' => 'Izin Edar PL',
+                    'nomor' => $item->nomor_izinedar_pl ?? 'N/A',
                     'nama_perusahaan' => $item->business->nama_perusahaan ?? 'N/A',
                     'akhir_masa_berlaku' => $item->tanggal_terakhir,
                 ];
@@ -57,6 +59,7 @@ class SurveilanController extends Controller
             ->map(function ($item) {
                 return [
                     'jenis' => 'Izin Edar PD',
+                    'nomor' => $item->nomor_izinedar_pd ?? 'N/A',
                     'nama_perusahaan' => $item->business->nama_perusahaan ?? 'N/A',
                     'akhir_masa_berlaku' => $item->tanggal_terakhir,
                 ];
@@ -70,6 +73,7 @@ class SurveilanController extends Controller
             ->map(function ($item) {
                 return [
                     'jenis' => 'Izin Edar PDUK',
+                    'nomor' => $item->nomor_izinedar_pduk ?? 'N/A',
                     'nama_perusahaan' => $item->business->nama_perusahaan ?? 'N/A',
                     'akhir_masa_berlaku' => $item->tanggal_terakhir,
                 ];

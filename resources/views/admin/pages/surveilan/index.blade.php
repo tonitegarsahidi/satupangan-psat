@@ -60,6 +60,7 @@
                         <tr>
                             <th>No</th>
                             <th>Jenis</th>
+                            <th>Nomor</th>
                             <th>Pelaku Usaha</th>
                             <th>Akhir Masa Berlaku</th>
                         </tr>
@@ -74,8 +75,20 @@
                             <tr>
                                 <td>{{ $startNumber++ }}</td>
                                 <td>{{ $surveilan['jenis'] }}</td>
+                                <td>{{ $surveilan['nomor'] }}</td>
                                 <td>{{ $surveilan['nama_perusahaan'] }}</td>
-                                <td>{{ $surveilan['akhir_masa_berlaku'] }}</td>
+                                <td>
+                                    @php
+                                        $expiryDate = \Carbon\Carbon::parse($surveilan['akhir_masa_berlaku']);
+                                        $oneMonthFromNow = \Carbon\Carbon::now()->addMonth(config('pengawasan.MAX_MONTH_EXPIRED'));
+                                        // Format date with Indonesian month names
+                                        $formattedDate = $expiryDate->translatedFormat('d F Y');
+                                        $isExpiringSoon = $expiryDate->lessThanOrEqualTo($oneMonthFromNow);
+                                    @endphp
+                                    <span class="{{ $isExpiringSoon ? 'text-danger' : '' }}">
+                                        {{ $expiryDate->translatedFormat('j F Y') }}
+                                    </span>
+                                </td>
                             </tr>
                         @endforeach
                     </tbody>
