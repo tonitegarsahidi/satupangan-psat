@@ -1,6 +1,6 @@
 @extends('admin/template-base')
 
-@section('page-title', 'Delete Business')
+@section('page-title', $data->is_active ? 'Deactivate Business' : 'Activate Business')
 
 @section('main-content')
     <div class="container-xxl flex-grow-1 container-p-y">
@@ -11,8 +11,8 @@
             <div class="col-xxl">
                 <div class="card mb-4">
                     <div class="card-header d-flex align-items-center justify-content-between">
-                        <h5 class="mb-0">Delete Business</h5>
-                        <small class="text-muted float-end">Are you sure you want to delete this business?</small>
+                        <h5 class="mb-0">{{ $data->is_active ? 'Deactivate Business' : 'Activate Business' }}</h5>
+                        <small class="text-muted float-end">Are you sure you want to {{ $data->is_active ? 'deactivate' : 'activate' }} this business?</small>
                     </div>
                     <div class="card-body">
                         <div class="row">
@@ -81,12 +81,18 @@
 
                         <div class="row mt-4">
                             <div class="col-md-12 text-center">
-                                <form action="{{ route('business.destroy', $data->id) }}" method="POST">
+                                <form action="{{ route('business.toggle-status', $data->id) }}" method="POST">
                                     @csrf
-                                    @method('DELETE')
-                                    <button type="submit" class="btn btn-danger me-2">
-                                        <i class='bx bx-trash'></i> Delete Business
-                                    </button>
+                                    @method('POST')
+                                    @if ($data->is_active)
+                                        <button type="submit" class="btn btn-danger me-2">
+                                            <i class='bx bx-power-off'></i> Deactivate Business
+                                        </button>
+                                    @else
+                                        <button type="submit" class="btn btn-success me-2">
+                                            <i class='bx bx-power-on'></i> Activate Business
+                                        </button>
+                                    @endif
                                     <a href="{{ route('business.index') }}" class="btn btn-secondary">
                                         <i class='bx bx-x'></i> Cancel
                                     </a>

@@ -118,13 +118,6 @@
                             </div>
                         </div>
 
-                        <div class="row mt-4">
-                            <div class="col-md-12 text-center">
-                                <a href="{{ route('business.delete', $data->id) }}" class="btn btn-danger">
-                                    <i class='bx bx-trash'></i> Delete Business
-                                </a>
-                            </div>
-                        </div>
                     </div>
                 </div>
             </div>

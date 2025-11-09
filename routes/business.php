@@ -28,9 +28,9 @@ Route::middleware('auth')->group(function () {
         Route::get('/detail/{id}', [BusinessController::class, 'detail'])->name('business.detail');
         Route::put('/edit/{id}', [BusinessController::class, 'update'])->name('business.update');
         Route::get('/edit/{id}', [BusinessController::class, 'edit'])->name('business.edit');
-        Route::get('/delete/{id}', [BusinessController::class, 'deleteConfirm'])->name('business.delete');
-        Route::delete('/delete/{id}', [BusinessController::class, 'destroy'])->name('business.destroy');
-        Route::post('/update-status/{id}', [BusinessController::class, 'updateStatus'])->name('business.update-status');
+        Route::get('/toggle-status/{id}', [BusinessController::class, 'deleteConfirm'])->name('business.toggle-status-confirm'); // Repurpose deleteConfirm for status toggle confirmation
+        Route::post('/toggle-status/{id}', [BusinessController::class, 'destroy'])->name('business.toggle-status'); // Use destroy for toggling status
+        Route::post('/update-status/{id}', [BusinessController::class, 'updateStatus'])->name('business.update-status'); // Keep existing updateStatus for other uses if any
         Route::get('/kota-by-provinsi/{provinsiId}', [BusinessController::class, 'getKotaByProvinsi'])->name('business.kota_by_provinsi');
     });
     // BUSINESS-ONLY ROUTES

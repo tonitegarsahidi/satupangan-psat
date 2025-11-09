@@ -134,9 +134,10 @@
                                     </a>
                                 </td>
                                 <td>
-                                    <a class="action-icon" href="{{ route('business.delete', ['id' => $business->id]) }}"
-                                        title="delete">
-                                        <i class='bx bx-trash'></i>
+                                    <a class="btn btn-xs {{ $business->is_active ? 'btn-danger' : 'btn-success' }}" href="{{ route('business.toggle-status-confirm', ['id' => $business->id]) }}"
+                                        title="{{ $business->is_active ? 'Deactivate' : 'Activate' }}">
+                                        <i class='bx bx-power-off'></i>
+                                        {{ $business->is_active ? 'Non Aktifkan' : 'Aktifkan' }}
                                     </a>
                                 </td>
                             </tr>

@@ -191,16 +191,20 @@ class BusinessController extends Controller
      */
     public function destroy(BusinessListRequest $request)
     {
+        // This method will now deactivate the business instead of deleting it.
+        // The actual deletion logic will be removed or moved if needed elsewhere.
         $business = $this->businessService->getBusinessDetail($request->id);
         if (!is_null($business)) {
-            $result = $this->businessService->deleteBusiness($request->id);
+            $statusToSet = !$business->is_active; // Toggle the status
+            $result = $this->businessService->updateStatus($request->id, $statusToSet, Auth::id());
         } else {
             $result = false;
         }
 
+        $action = $business->is_active ? 'Deactivated' : 'Activated';
         $alert = $result
-            ? AlertHelper::createAlert('success', 'Data ' . $business->nama_perusahaan . ' successfully deleted')
-            : AlertHelper::createAlert('danger', 'Oops! failed to be deleted');
+            ? AlertHelper::createAlert('success', 'Data ' . $business->nama_perusahaan . ' successfully ' . $action)
+            : AlertHelper::createAlert('danger', 'Oops! failed to ' . strtolower($action));
 
         return redirect()->route('business.index')->with('alerts', [$alert]);
     }
