@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Auth;
 use App\Models\RegisterSppb;
 use App\Models\RegisterIzinedarPsatpl;
 use App\Models\RegisterIzinedarPsatpd;
@@ -34,6 +35,7 @@ class SurveilanController extends Controller
                     'nomor' => $item->nomor_registrasi ?? 'N/A',
                     'nama_perusahaan' => $item->business->nama_perusahaan ?? 'N/A',
                     'akhir_masa_berlaku' => $item->tanggal_terakhir,
+                    'business_id' => $item->business->id ?? null,
                 ];
             });
         $surveilans = $surveilans->concat($sppbData);
@@ -48,6 +50,7 @@ class SurveilanController extends Controller
                     'nomor' => $item->nomor_izinedar_pl ?? 'N/A',
                     'nama_perusahaan' => $item->business->nama_perusahaan ?? 'N/A',
                     'akhir_masa_berlaku' => $item->tanggal_terakhir,
+                    'business_id' => $item->business->id ?? null,
                 ];
             });
         $surveilans = $surveilans->concat($psatplData);
@@ -62,6 +65,7 @@ class SurveilanController extends Controller
                     'nomor' => $item->nomor_izinedar_pd ?? 'N/A',
                     'nama_perusahaan' => $item->business->nama_perusahaan ?? 'N/A',
                     'akhir_masa_berlaku' => $item->tanggal_terakhir,
+                    'business_id' => $item->business->id ?? null,
                 ];
             });
         $surveilans = $surveilans->concat($psatpdData);
@@ -76,6 +80,7 @@ class SurveilanController extends Controller
                     'nomor' => $item->nomor_izinedar_pduk ?? 'N/A',
                     'nama_perusahaan' => $item->business->nama_perusahaan ?? 'N/A',
                     'akhir_masa_berlaku' => $item->tanggal_terakhir,
+                    'business_id' => $item->business->id ?? null,
                 ];
             });
         $surveilans = $surveilans->concat($psatpdukData);
@@ -84,7 +89,7 @@ class SurveilanController extends Controller
         if ($keyword) {
             $surveilans = $surveilans->filter(function ($item) use ($keyword) {
                 return str_contains(strtolower($item['jenis']), strtolower($keyword)) ||
-                       str_contains(strtolower($item['nama_perusahaan']), strtolower($keyword));
+                    str_contains(strtolower($item['nama_perusahaan']), strtolower($keyword));
             });
         }
 
@@ -112,6 +117,126 @@ class SurveilanController extends Controller
             'sortField',
             'sortOrder',
             'page'
+        ));
+    }
+
+    /**
+     * Show the form for sending notification to business owners
+     */
+    public function createNotification()
+    {
+        // Get all business owners (users with ROLE_USER_BUSINESS who have a business)
+        $businessOwners = \App\Models\User::whereHas('roles', function ($query) {
+            $query->where('role_code', 'ROLE_USER_BUSINESS');
+        })
+            ->whereHas('business')
+            ->with('business')
+            ->get(['id', 'name', 'email']);
+
+        $breadcrumbs = [
+            'Admin' => 'javascript:void(0)',
+            'Notifikasi Surveilan' => route('surveilan.index'),
+            'Kirim Notifikasi' => null,
+        ];
+
+        return view('admin.pages.surveilan.create-notification', compact(
+            'breadcrumbs',
+            'businessOwners'
+        ));
+    }
+
+    /**
+     * Send notification to business owner
+     */
+    public function sendNotification(Request $request)
+    {
+
+        // dd($request->all());
+        $validatedData = $request->validate([
+            'business_owner_id' => 'required|exists:users,id',
+            'title' => 'required|string|max:255', // Add validation for the new title field
+            'message' => 'required|string|max:5000',
+        ]);
+
+        // dd($validatedData);
+
+        // Get the business owner
+        $businessOwner = \App\Models\User::findOrFail($validatedData['business_owner_id']);
+
+        // Create message thread
+        $threadData = [
+            'title' => $validatedData['title'], // Use the title from the request
+            'participant_id' => $businessOwner->id,
+        ];
+
+        $messageData = [
+            'message' => $validatedData['message'],
+        ];
+
+        // Use the MessageService to create thread and send message
+        $messageService = app(\App\Services\MessageService::class);
+        $thread = $messageService->createThreadWithMessage($threadData, $messageData, Auth::id());
+
+        if ($thread) {
+            // Create notification for the business owner if requested
+
+            $notificationService = app(\App\Services\NotificationService::class);
+            $notificationService->createSystemNotification(
+                $businessOwner->id,
+                $validatedData['title'], // Use the title from the request for notification
+                $validatedData['message'],
+                'notification_surveilans',
+                [
+                    'thread_id' => $thread->id,
+                    'sender_id' => Auth::id(),
+                    'business_name' => $businessOwner->business->nama_perusahaan ?? 'N/A'
+                ]
+            );
+
+
+            return redirect()->route('surveilan.index')
+                ->with('alerts', [
+                    \App\Helpers\AlertHelper::createAlert('success', 'Pesan berhasil dikirim ke pemilik bisnis.')
+                ]);
+        }
+
+        return redirect()->route('surveilan.create-notification')
+            ->with('alerts', [
+                \App\Helpers\AlertHelper::createAlert('danger', 'Gagal mengirim pesan. Silakan coba lagi.')
+            ])
+            ->withInput();
+    }
+
+    /**
+     * Show the form for sending notification to a specific business owner
+     */
+    public function createNotificationForBusiness($business_id)
+    {
+        // Get the specific business owner
+        $selectedBusinessOwner = \App\Models\User::whereHas('business', function ($query) use ($business_id) {
+            $query->where('id', $business_id);
+        })
+            ->with('business')
+            ->firstOrFail(['id', 'name', 'email']);
+
+        // Get all business owners (users with ROLE_USER_BUSINESS who have a business)
+        $businessOwners = \App\Models\User::whereHas('roles', function ($query) {
+            $query->where('role_code', 'ROLE_USER_BUSINESS');
+        })
+            ->whereHas('business')
+            ->with('business')
+            ->get(['id', 'name', 'email']);
+
+        $breadcrumbs = [
+            'Admin' => 'javascript:void(0)',
+            'Notifikasi Surveilan' => route('surveilan.index'),
+            'Kirim Notifikasi' => null,
+        ];
+
+        return view('admin.pages.surveilan.create-notification', compact(
+            'breadcrumbs',
+            'businessOwners',
+            'selectedBusinessOwner'
         ));
     }
 }

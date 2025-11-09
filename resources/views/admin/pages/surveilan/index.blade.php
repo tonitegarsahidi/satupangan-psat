@@ -20,6 +20,17 @@
                     <h3 class="card-header">Notifikasi Surveilan</h3>
                 </div>
 
+                {{-- KIRIM NOTIFIKASI BUTTON --}}
+                @if(auth()->user()->hasAnyRole(['ROLE_SUPERVISOR', 'ROLE_OPERATOR', 'ROLE_KANTOR', 'ROLE_PIMPINAN']))
+                    <div class="p-2 bd-highlight">
+                        <a href="{{ route('surveilan.create-notification') }}"
+                           class="btn btn-primary">
+                            <i class="bx bx-send me-1"></i>
+                            Kirim Notifikasi
+                        </a>
+                    </div>
+                @endif
+
             </div>
 
             {{-- SECOND ROW,  FOR DISPLAY PER PAGE AND SEARCH FORM --}}
@@ -63,6 +74,7 @@
                             <th>Nomor</th>
                             <th>Pelaku Usaha</th>
                             <th>Akhir Masa Berlaku</th>
+                            <th>Aksi</th>
                         </tr>
                     </thead>
 
@@ -88,6 +100,16 @@
                                     <span class="{{ $isExpiringSoon ? 'text-danger' : '' }}">
                                         {{ $expiryDate->translatedFormat('j F Y') }}
                                     </span>
+                                </td>
+                                <td>
+                                    {{-- KIRIM NOTIFIKASI BUTTON --}}
+                                    @if(auth()->user()->hasAnyRole(['ROLE_SUPERVISOR', 'ROLE_OPERATOR', 'ROLE_KANTOR', 'ROLE_PIMPINAN']))
+                                        <a href="{{ route('surveilan.create-notification-for-business', ['business_id' => $surveilan['business_id'] ?? null]) }}"
+                                           class="btn btn-sm btn-primary">
+                                            <i class="bx bx-send me-1"></i>
+                                            Kirim Notifikasi
+                                        </a>
+                                    @endif
                                 </td>
                             </tr>
                         @endforeach
