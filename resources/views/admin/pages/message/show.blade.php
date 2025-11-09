@@ -75,7 +75,7 @@
                                 <small class="text-muted">{{ \Carbon\Carbon::parse($message->created_at)->format('d M Y H:i') }}</small>
                             </div>
                             <div class="ms-4">
-                                <p class="mb-0">{{ $message->message }}</p>
+                                <p class="mb-0" >{!! nl2br(e($message->message)) !!}</p>
                             </div>
                         </div>
                     @empty
