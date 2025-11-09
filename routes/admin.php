@@ -305,6 +305,11 @@ Route::middleware('auth')->group(function () {
                 Route::post('/move-to-draft/{id}', [\App\Http\Controllers\ArticleController::class, 'moveToDraft'])->name('admin.article.move-to-draft');
             });
 
+            // MANAGE MESSAGES
+            Route::prefix('/message')->group(function () {
+                Route::get('/detail/{id}', [MessageController::class, 'show'])->name('admin.message.detail');
+            });
+
 });
 
 

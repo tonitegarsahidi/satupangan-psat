@@ -24,25 +24,6 @@
     ])
     @endif
 
-    {{-- REGISTRASI & MASTER DATA --}}
-    @include('admin.components.sidebar.menu-header', ['textMenuHeader' => 'Data Pelaku Usaha'])
-    {{-- BUSINESS CRUD MENU --}}
-    @include('admin.components.sidebar.item', [
-        'menuId' => 'menu-business',
-        'menuText' => 'Data Pelaku Usaha',
-        'menuUrl' => route('business.index'),
-        'menuIcon' => 'bx bx-buildings',
-        'subMenuData' => null,
-    ])
-
-    @include('admin.components.sidebar.item', [
-        'menuId' => 'menu-notifikasi-surveilan',
-        'menuText' => 'Notifikasi Surveilan',
-        'menuUrl' => route('surveilan.index'),
-        'menuIcon' => 'bx bx-bell',
-        'subMenuData' => null,
-    ])
-
     @include('admin.components.sidebar.menu-header', ['textMenuHeader' => 'QR Code Badan Pangan'])
     {{-- REGISTER SPPB MENU --}}
     @include('admin.components.sidebar.item', [

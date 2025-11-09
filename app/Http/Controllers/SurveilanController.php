@@ -184,7 +184,7 @@ class SurveilanController extends Controller
             $notificationService->createSystemNotification(
                 $businessOwner->id,
                 $validatedData['title'], // Use the title from the request for notification
-                $validatedData['message'],
+                $validatedData['message'].'<br/>'.'Silakan Cek Kotak Pesan Anda untuk melihat detailnya: <a href="'.route('admin.message.detail', $thread->id).'">Lihat Pesan</a>',
                 'notification_surveilans',
                 [
                     'thread_id' => $thread->id,
