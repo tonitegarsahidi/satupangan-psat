@@ -25,6 +25,85 @@ class RegisterIzinedarPsatpdSeeder extends Seeder
        $this->seedRegisterIzinedarPsatpd();
     }
 
+    private function getKomoditasDetails(string $namaKomoditas): array
+    {
+        $details = [
+            'Kentang' => [
+                'merk_dagang' => 'Kentang Super',
+                'nama_latin' => 'Solanum tuberosum',
+                'jenis_kemasan' => 'Karung',
+                'ukuran_berat' => '5 kg',
+            ],
+            'Pisang' => [
+                'merk_dagang' => 'Pisang Raja',
+                'nama_latin' => 'Musa acuminata',
+                'jenis_kemasan' => 'Tandan',
+                'ukuran_berat' => '2 kg',
+            ],
+            'Semangka' => [
+                'merk_dagang' => 'Semangka Segar',
+                'nama_latin' => 'Citrullus lanatus',
+                'jenis_kemasan' => 'Loose',
+                'ukuran_berat' => '3 kg',
+            ],
+            'Alpukat' => [
+                'merk_dagang' => 'Alpukat Mentega',
+                'nama_latin' => 'Persea americana',
+                'jenis_kemasan' => 'Loose',
+                'ukuran_berat' => '0.3 kg',
+            ],
+            'Tomat' => [
+                'merk_dagang' => 'Tomat Merah',
+                'nama_latin' => 'Solanum lycopersicum',
+                'jenis_kemasan' => 'Keranjang',
+                'ukuran_berat' => '0.5 kg',
+            ],
+            'Mangga' => [
+                'merk_dagang' => 'Mangga Harum Manis',
+                'nama_latin' => 'Mangifera indica',
+                'jenis_kemasan' => 'Loose',
+                'ukuran_berat' => '0.4 kg',
+            ],
+            'Kubis' => [
+                'merk_dagang' => 'Kubis Hijau',
+                'nama_latin' => 'Brassica oleracea var. capitata',
+                'jenis_kemasan' => 'Loose',
+                'ukuran_berat' => '1.2 kg',
+            ],
+            'Jeruk' => [
+                'merk_dagang' => 'Jeruk Manis',
+                'nama_latin' => 'Citrus sinensis',
+                'jenis_kemasan' => 'Jaring',
+                'ukuran_berat' => '1 kg',
+            ],
+            'Labu' => [
+                'merk_dagang' => 'Labu Kuning',
+                'nama_latin' => 'Cucurbita moschata',
+                'jenis_kemasan' => 'Loose',
+                'ukuran_berat' => '2 kg',
+            ],
+            'Kacang Panjang' => [
+                'merk_dagang' => 'Kacang Panjang Segar',
+                'nama_latin' => 'Vigna unguiculata subsp. sesquipedalis',
+                'jenis_kemasan' => 'Ikat',
+                'ukuran_berat' => '0.25 kg',
+            ],
+            'Bawang Merah' => [
+                'merk_dagang' => 'Bawang Merah Super',
+                'nama_latin' => 'Allium cepa var. aggregatum',
+                'jenis_kemasan' => 'Jaring',
+                'ukuran_berat' => '0.5 kg',
+            ],
+        ];
+
+        return $details[$namaKomoditas] ?? [
+            'merk_dagang' => $namaKomoditas . ' Brand',
+            'nama_latin' => $namaKomoditas . ' Latin Name',
+            'jenis_kemasan' => 'Kemasan Umum',
+            'ukuran_berat' => '1 kg',
+        ];
+    }
+
    private function seedRegisterIzinedarPsatpd(): void
    {
         // Get the user with email pengusaha@panganaman.my.id
@@ -113,11 +192,11 @@ class RegisterIzinedarPsatpdSeeder extends Seeder
             'jenis_psat' => $jenispsat2?->id,
 
             'nama_komoditas' => 'Kentang',
-            'nama_latin' => 'Solanum tuberosum',
+            'nama_latin' => $this->getKomoditasDetails('Kentang')['nama_latin'],
             'negara_asal' => 'Indonesia',
-            'merk_dagang' => 'Kentang Garut',
-            'jenis_kemasan' => 'Sakel',
-            'ukuran_berat' => '20 kg per sakel',
+            'merk_dagang' => $this->getKomoditasDetails('Kentang')['merk_dagang'],
+            'jenis_kemasan' => $this->getKomoditasDetails('Kentang')['jenis_kemasan'],
+            'ukuran_berat' => $this->getKomoditasDetails('Kentang')['ukuran_berat'],
             'klaim' => 'Pangan Lokal, Berkualitas Export',
             'foto_1' => 'images/upload/register/kentang1.jpg',
             'foto_2' => 'images/upload/register/kentang2.jpg',
@@ -159,11 +238,11 @@ class RegisterIzinedarPsatpdSeeder extends Seeder
             'jenis_psat' => $jenispsat2?->id,
 
             'nama_komoditas' => 'Kentang',
-            'nama_latin' => 'Solanum tuberosum',
+            'nama_latin' => $this->getKomoditasDetails('Kentang')['nama_latin'],
             'negara_asal' => 'Indonesia',
-            'merk_dagang' => 'Kentang Kita',
-            'jenis_kemasan' => 'Karung',
-            'ukuran_berat' => '20 kg per karung',
+            'merk_dagang' => $this->getKomoditasDetails('Kentang')['merk_dagang'],
+            'jenis_kemasan' => $this->getKomoditasDetails('Kentang')['jenis_kemasan'],
+            'ukuran_berat' => $this->getKomoditasDetails('Kentang')['ukuran_berat'],
             'klaim' => 'Pangan Lokal, Berkualitas Export',
             'foto_1' => env('APP_URL').'/'.'images/upload/register/kentang_7.jpg',
             'foto_2' => env('APP_URL').'/'.'images/upload/register/kentang_8.jpg',
@@ -204,12 +283,12 @@ class RegisterIzinedarPsatpdSeeder extends Seeder
 
             'jenis_psat' => $jenispsat1?->id,
 
-            'nama_komoditas' => 'Kentang',
-            'nama_latin' => 'Solanum tuberosum',
+            'nama_komoditas' => 'Pisang',
+            'nama_latin' => $this->getKomoditasDetails('Pisang')['nama_latin'],
             'negara_asal' => 'Indonesia',
-            'merk_dagang' => 'Kentang Garut',
-            'jenis_kemasan' => 'Kardus',
-            'ukuran_berat' => '15 kg per kardus',
+            'merk_dagang' => $this->getKomoditasDetails('Pisang')['merk_dagang'],
+            'jenis_kemasan' => $this->getKomoditasDetails('Pisang')['jenis_kemasan'],
+            'ukuran_berat' => $this->getKomoditasDetails('Pisang')['ukuran_berat'],
             'klaim' => 'Pangan Lokal, Berkualitas Export',
             'foto_1' => 'images/upload/register/pisang1.jpg',
             'foto_2' => 'images/upload/register/pisang2.jpg',
@@ -250,12 +329,12 @@ class RegisterIzinedarPsatpdSeeder extends Seeder
 
             'jenis_psat' => $jenispsat1?->id,
 
-            'nama_komoditas' => 'Kentang',
-            'nama_latin' => 'Solanum tuberosum',
+            'nama_komoditas' => 'Semangka',
+            'nama_latin' => $this->getKomoditasDetails('Semangka')['nama_latin'],
             'negara_asal' => 'Indonesia',
-            'merk_dagang' => 'Kentang Garut',
-            'jenis_kemasan' => 'Karton',
-            'ukuran_berat' => '10 kg per karton',
+            'merk_dagang' => $this->getKomoditasDetails('Semangka')['merk_dagang'],
+            'jenis_kemasan' => $this->getKomoditasDetails('Semangka')['jenis_kemasan'],
+            'ukuran_berat' => $this->getKomoditasDetails('Semangka')['ukuran_berat'],
             'klaim' => 'Pangan Lokal, Berkualitas Export',
             'foto_1' => env('APP_URL').'/'.'images/upload/register/semangka_7.jpg',
             'foto_2' => env('APP_URL').'/'.'images/upload/register/semangka_8.jpg',
@@ -296,12 +375,12 @@ class RegisterIzinedarPsatpdSeeder extends Seeder
 
             'jenis_psat' => $jenispsat1?->id,
 
-            'nama_komoditas' => 'Kentang',
-            'nama_latin' => 'Solanum tuberosum',
+            'nama_komoditas' => 'Alpukat',
+            'nama_latin' => $this->getKomoditasDetails('Alpukat')['nama_latin'],
             'negara_asal' => 'Indonesia',
-            'merk_dagang' => 'Kentang Garut',
-            'jenis_kemasan' => 'Sakel',
-            'ukuran_berat' => '5 kg per sakel',
+            'merk_dagang' => $this->getKomoditasDetails('Alpukat')['merk_dagang'],
+            'jenis_kemasan' => $this->getKomoditasDetails('Alpukat')['jenis_kemasan'],
+            'ukuran_berat' => $this->getKomoditasDetails('Alpukat')['ukuran_berat'],
             'klaim' => 'Pangan Lokal, Berkualitas Export',
             'foto_1' => 'images/upload/register/alpukat1.jpg',
             'foto_2' => 'images/upload/register/alpukat2.jpg',
@@ -342,12 +421,12 @@ class RegisterIzinedarPsatpdSeeder extends Seeder
 
             'jenis_psat' => $jenispsat2?->id,
 
-            'nama_komoditas' => 'Kentang',
-            'nama_latin' => 'Solanum tuberosum',
+            'nama_komoditas' => 'Tomat',
+            'nama_latin' => $this->getKomoditasDetails('Tomat')['nama_latin'],
             'negara_asal' => 'Indonesia',
-            'merk_dagang' => 'Kentang Garut',
-            'jenis_kemasan' => 'Pet',
-            'ukuran_berat' => '1 kg per pet',
+            'merk_dagang' => $this->getKomoditasDetails('Tomat')['merk_dagang'],
+            'jenis_kemasan' => $this->getKomoditasDetails('Tomat')['jenis_kemasan'],
+            'ukuran_berat' => $this->getKomoditasDetails('Tomat')['ukuran_berat'],
             'klaim' => 'Pangan Lokal, Berkualitas Export',
             'foto_1' => env('APP_URL').'/'.'images/upload/register/tomat_7.jpg',
             'foto_2' => env('APP_URL').'/'.'images/upload/register/tomat_8.jpg',
@@ -388,12 +467,12 @@ class RegisterIzinedarPsatpdSeeder extends Seeder
 
             'jenis_psat' => $jenispsat1?->id,
 
-            'nama_komoditas' => 'Kentang',
-            'nama_latin' => 'Solanum tuberosum',
+            'nama_komoditas' => 'Mangga',
+            'nama_latin' => $this->getKomoditasDetails('Mangga')['nama_latin'],
             'negara_asal' => 'Indonesia',
-            'merk_dagang' => 'Kentang Garut',
-            'jenis_kemasan' => 'Kardus',
-            'ukuran_berat' => '8 kg per kardus',
+            'merk_dagang' => $this->getKomoditasDetails('Mangga')['merk_dagang'],
+            'jenis_kemasan' => $this->getKomoditasDetails('Mangga')['jenis_kemasan'],
+            'ukuran_berat' => $this->getKomoditasDetails('Mangga')['ukuran_berat'],
             'klaim' => 'Pangan Lokal, Berkualitas Export',
             'foto_1' => 'images/upload/register/mangga1.jpg',
             'foto_2' => 'images/upload/register/mangga2.jpg',
@@ -434,12 +513,12 @@ class RegisterIzinedarPsatpdSeeder extends Seeder
 
             'jenis_psat' => $jenispsat2?->id,
 
-            'nama_komoditas' => 'Kentang',
-            'nama_latin' => 'Solanum tuberosum',
+            'nama_komoditas' => 'Kubis',
+            'nama_latin' => $this->getKomoditasDetails('Kubis')['nama_latin'],
             'negara_asal' => 'Indonesia',
-            'merk_dagang' => 'Kentang Garut',
-            'jenis_kemasan' => 'Kardus',
-            'ukuran_berat' => '12 kg per kardus',
+            'merk_dagang' => $this->getKomoditasDetails('Kubis')['merk_dagang'],
+            'jenis_kemasan' => $this->getKomoditasDetails('Kubis')['jenis_kemasan'],
+            'ukuran_berat' => $this->getKomoditasDetails('Kubis')['ukuran_berat'],
             'klaim' => 'Pangan Lokal, Berkualitas Export',
             'foto_1' => env('APP_URL').'/'.'images/upload/register/kubis_7.jpg',
             'foto_2' => env('APP_URL').'/'.'images/upload/register/kubis_8.jpg',
@@ -480,12 +559,12 @@ class RegisterIzinedarPsatpdSeeder extends Seeder
 
             'jenis_psat' => $jenispsat1?->id,
 
-            'nama_komoditas' => 'Kentang',
-            'nama_latin' => 'Solanum tuberosum',
+            'nama_komoditas' => 'Jeruk',
+            'nama_latin' => $this->getKomoditasDetails('Jeruk')['nama_latin'],
             'negara_asal' => 'Indonesia',
-            'merk_dagang' => 'Kentang Garut',
-            'jenis_kemasan' => 'Karton',
-            'ukuran_berat' => '20 kg per karton',
+            'merk_dagang' => $this->getKomoditasDetails('Jeruk')['merk_dagang'],
+            'jenis_kemasan' => $this->getKomoditasDetails('Jeruk')['jenis_kemasan'],
+            'ukuran_berat' => $this->getKomoditasDetails('Jeruk')['ukuran_berat'],
             'klaim' => 'Pangan Lokal, Berkualitas Export',
             'foto_1' => 'images/upload/register/jeruk1.jpg',
             'foto_2' => 'images/upload/register/jeruk2.jpg',
@@ -526,12 +605,12 @@ class RegisterIzinedarPsatpdSeeder extends Seeder
 
             'jenis_psat' => $jenispsat2?->id,
 
-            'nama_komoditas' => 'Kentang',
-            'nama_latin' => 'Cucurbita pepo',
+            'nama_komoditas' => 'Labu',
+            'nama_latin' => $this->getKomoditasDetails('Labu')['nama_latin'],
             'negara_asal' => 'Indonesia',
-            'merk_dagang' => 'Labu Siam',
-            'jenis_kemasan' => 'Karung',
-            'ukuran_berat' => '25 kg per karung',
+            'merk_dagang' => $this->getKomoditasDetails('Labu')['merk_dagang'],
+            'jenis_kemasan' => $this->getKomoditasDetails('Labu')['jenis_kemasan'],
+            'ukuran_berat' => $this->getKomoditasDetails('Labu')['ukuran_berat'],
             'klaim' => 'Pangan Lokal, Berkualitas Export',
             'foto_1' => env('APP_URL').'/'.'images/upload/register/labu_7.jpg',
             'foto_2' => env('APP_URL').'/'.'images/upload/register/labu_8.jpg',
@@ -572,12 +651,12 @@ class RegisterIzinedarPsatpdSeeder extends Seeder
 
             'jenis_psat' => $jenispsat2?->id,
 
-            'nama_komoditas' => 'Kentang',
-            'nama_latin' => 'Vigna unguiculata',
+            'nama_komoditas' => 'Kacang Panjang',
+            'nama_latin' => $this->getKomoditasDetails('Kacang Panjang')['nama_latin'],
             'negara_asal' => 'Indonesia',
-            'merk_dagang' => 'Kacang Panjang Hijau',
-            'jenis_kemasan' => 'Pet',
-            'ukuran_berat' => '500 gr per pet',
+            'merk_dagang' => $this->getKomoditasDetails('Kacang Panjang')['merk_dagang'],
+            'jenis_kemasan' => $this->getKomoditasDetails('Kacang Panjang')['jenis_kemasan'],
+            'ukuran_berat' => $this->getKomoditasDetails('Kacang Panjang')['ukuran_berat'],
             'klaim' => 'Pangan Lokal, Berkualitas Export',
             'foto_1' => 'images/upload/register/kacang1.jpg',
             'foto_2' => 'images/upload/register/kacang2.jpg',
@@ -618,12 +697,12 @@ class RegisterIzinedarPsatpdSeeder extends Seeder
 
             'jenis_psat' => $jenispsat2?->id,
 
-            'nama_komoditas' => 'Kentang',
-            'nama_latin' => 'Allium cepa',
+            'nama_komoditas' => 'Bawang Merah',
+            'nama_latin' => $this->getKomoditasDetails('Bawang Merah')['nama_latin'],
             'negara_asal' => 'Indonesia',
-            'merk_dagang' => 'Bawang Merah Bali',
-            'jenis_kemasan' => 'Sakel',
-            'ukuran_berat' => '10 kg per sakel',
+            'merk_dagang' => $this->getKomoditasDetails('Bawang Merah')['merk_dagang'],
+            'jenis_kemasan' => $this->getKomoditasDetails('Bawang Merah')['jenis_kemasan'],
+            'ukuran_berat' => $this->getKomoditasDetails('Bawang Merah')['ukuran_berat'],
             'klaim' => 'Pangan Lokal, Berkualitas Export',
             'foto_1' => env('APP_URL').'/'.'images/upload/register/bawang_7.jpg',
             'foto_2' => env('APP_URL').'/'.'images/upload/register/bawang_8.jpg',

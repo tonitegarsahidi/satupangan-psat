@@ -25,6 +25,67 @@ class RegisterIzinedarPsatpdukSeeder extends Seeder
        $this->seedRegisterIzinedarPsatpduk();
     }
 
+    private function getKomoditasDetails(string $namaKomoditas): array
+    {
+        $details = [
+            'Wortel' => [
+                'merk_dagang' => 'Wortel Kelinci',
+                'nama_latin' => 'Daucus carota subsp. sativus',
+                'jenis_kemasan' => 'Plastik',
+                'ukuran_berat' => '1 kg',
+            ],
+            'Kentang' => [
+                'merk_dagang' => 'Kentang Super',
+                'nama_latin' => 'Solanum tuberosum',
+                'jenis_kemasan' => 'Karung',
+                'ukuran_berat' => '5 kg',
+            ],
+            'Kubis' => [
+                'merk_dagang' => 'Kubis Hijau',
+                'nama_latin' => 'Brassica oleracea var. capitata',
+                'jenis_kemasan' => 'Loose',
+                'ukuran_berat' => '1.2 kg',
+            ],
+            'Tomat' => [
+                'merk_dagang' => 'Tomat Merah',
+                'nama_latin' => 'Solanum lycopersicum',
+                'jenis_kemasan' => 'Keranjang',
+                'ukuran_berat' => '0.5 kg',
+            ],
+            'Bawang Merah' => [
+                'merk_dagang' => 'Bawang Merah Super',
+                'nama_latin' => 'Allium cepa var. aggregatum',
+                'jenis_kemasan' => 'Jaring',
+                'ukuran_berat' => '0.5 kg',
+            ],
+            'Kacang Panjang' => [
+                'merk_dagang' => 'Kacang Panjang Segar',
+                'nama_latin' => 'Vigna unguiculata subsp. sesquipedalis',
+                'jenis_kemasan' => 'Ikat',
+                'ukuran_berat' => '0.25 kg',
+            ],
+            'Labu' => [
+                'merk_dagang' => 'Labu Kuning',
+                'nama_latin' => 'Cucurbita moschata',
+                'jenis_kemasan' => 'Loose',
+                'ukuran_berat' => '2 kg',
+            ],
+            'Bawang Putih' => [
+                'merk_dagang' => 'Bawang Putih Lokal',
+                'nama_latin' => 'Allium sativum',
+                'jenis_kemasan' => 'Jaring',
+                'ukuran_berat' => '0.25 kg',
+            ],
+        ];
+
+        return $details[$namaKomoditas] ?? [
+            'merk_dagang' => $namaKomoditas . ' Brand',
+            'nama_latin' => $namaKomoditas . ' Latin Name',
+            'jenis_kemasan' => 'Kemasan Umum',
+            'ukuran_berat' => '1 kg',
+        ];
+    }
+
    private function seedRegisterIzinedarPsatpduk(): void
    {
         // Get the user with email pengusaha@panganaman.my.id
@@ -94,11 +155,11 @@ class RegisterIzinedarPsatpdukSeeder extends Seeder
             'jenis_psat' => $jenispsat2?->id,
 
             'nama_komoditas' => 'Wortel',
-            'nama_latin' => 'Daucus carota',
+            'nama_latin' => $this->getKomoditasDetails('Wortel')['nama_latin'],
             'negara_asal' => 'Indonesia',
-            'merk_dagang' => 'Wortel Segar',
-            'jenis_kemasan' => 'Kardus',
-            'ukuran_berat' => '10 kg per kardus',
+            'merk_dagang' => $this->getKomoditasDetails('Wortel')['merk_dagang'],
+            'jenis_kemasan' => $this->getKomoditasDetails('Wortel')['jenis_kemasan'],
+            'ukuran_berat' => $this->getKomoditasDetails('Wortel')['ukuran_berat'],
             'kategorilabel' => 'Label Hijau',
             'foto_1' =>  env('APP_URL').'/'.'images/upload/register/carrot1.jpg',
             'foto_2' =>  env('APP_URL').'/'.'images/upload/register/carrot2.jpg',
@@ -139,12 +200,12 @@ class RegisterIzinedarPsatpdukSeeder extends Seeder
 
             'jenis_psat' => $jenispsat2?->id,
 
-            'nama_komoditas' => 'Wortel',
-            'nama_latin' => 'Daucus carota',
+            'nama_komoditas' => 'Kentang',
+            'nama_latin' => $this->getKomoditasDetails('Kentang')['nama_latin'],
             'negara_asal' => 'Indonesia',
-            'merk_dagang' => 'Wortel Segar',
-            'jenis_kemasan' => 'Karung',
-            'ukuran_berat' => '20 kg per karung',
+            'merk_dagang' => $this->getKomoditasDetails('Kentang')['merk_dagang'],
+            'jenis_kemasan' => $this->getKomoditasDetails('Kentang')['jenis_kemasan'],
+            'ukuran_berat' => $this->getKomoditasDetails('Kentang')['ukuran_berat'],
             'kategorilabel' => 'Label Hijau',
             'foto_1' =>  env('APP_URL').'/'.'images/upload/register/kentang_7.jpg',
             'foto_2' =>  env('APP_URL').'/'.'images/upload/register/kentang_8.jpg',
@@ -185,12 +246,12 @@ class RegisterIzinedarPsatpdukSeeder extends Seeder
 
             'jenis_psat' => $jenispsat2?->id,
 
-            'nama_komoditas' => 'Wortel',
-            'nama_latin' => 'Brassica oleracea',
+            'nama_komoditas' => 'Kubis',
+            'nama_latin' => $this->getKomoditasDetails('Kubis')['nama_latin'],
             'negara_asal' => 'Indonesia',
-            'merk_dagang' => 'Kubis Segar',
-            'jenis_kemasan' => 'Kardus',
-            'ukuran_berat' => '12 kg per kardus',
+            'merk_dagang' => $this->getKomoditasDetails('Kubis')['merk_dagang'],
+            'jenis_kemasan' => $this->getKomoditasDetails('Kubis')['jenis_kemasan'],
+            'ukuran_berat' => $this->getKomoditasDetails('Kubis')['ukuran_berat'],
             'kategorilabel' => 'Label Hijau',
             'foto_1' =>  env('APP_URL').'/'.'images/upload/register/kubis1.jpg',
             'foto_2' =>  env('APP_URL').'/'.'images/upload/register/kubis2.jpg',
@@ -231,12 +292,12 @@ class RegisterIzinedarPsatpdukSeeder extends Seeder
 
             'jenis_psat' => $jenispsat2?->id,
 
-            'nama_komoditas' => 'Wortel',
-            'nama_latin' => 'Solanum lycopersicum',
+            'nama_komoditas' => 'Tomat',
+            'nama_latin' => $this->getKomoditasDetails('Tomat')['nama_latin'],
             'negara_asal' => 'Indonesia',
-            'merk_dagang' => 'Tomat Rajawali',
-            'jenis_kemasan' => 'Pet',
-            'ukuran_berat' => '1 kg per pet',
+            'merk_dagang' => $this->getKomoditasDetails('Tomat')['merk_dagang'],
+            'jenis_kemasan' => $this->getKomoditasDetails('Tomat')['jenis_kemasan'],
+            'ukuran_berat' => $this->getKomoditasDetails('Tomat')['ukuran_berat'],
             'kategorilabel' => 'Label Hijau',
             'foto_1' =>  env('APP_URL').'/'.'images/upload/register/tomat_7.jpg',
             'foto_2' =>  env('APP_URL').'/'.'images/upload/register/tomat_8.jpg',
@@ -277,12 +338,12 @@ class RegisterIzinedarPsatpdukSeeder extends Seeder
 
             'jenis_psat' => $jenispsat2?->id,
 
-            'nama_komoditas' => 'Wortel',
-            'nama_latin' => 'Allium cepa',
+            'nama_komoditas' => 'Bawang Merah',
+            'nama_latin' => $this->getKomoditasDetails('Bawang Merah')['nama_latin'],
             'negara_asal' => 'Indonesia',
-            'merk_dagang' => 'Bawang Merah Bali',
-            'jenis_kemasan' => 'Sakel',
-            'ukuran_berat' => '10 kg per sakel',
+            'merk_dagang' => $this->getKomoditasDetails('Bawang Merah')['merk_dagang'],
+            'jenis_kemasan' => $this->getKomoditasDetails('Bawang Merah')['jenis_kemasan'],
+            'ukuran_berat' => $this->getKomoditasDetails('Bawang Merah')['ukuran_berat'],
             'kategorilabel' => 'Label Hijau',
             'foto_1' =>  env('APP_URL').'/'.'images/upload/register/bawang1.jpg',
             'foto_2' =>  env('APP_URL').'/'.'images/upload/register/bawang2.jpg',
@@ -323,12 +384,12 @@ class RegisterIzinedarPsatpdukSeeder extends Seeder
 
             'jenis_psat' => $jenispsat2?->id,
 
-            'nama_komoditas' => 'Wortel',
-            'nama_latin' => 'Vigna unguiculata',
+            'nama_komoditas' => 'Kacang Panjang',
+            'nama_latin' => $this->getKomoditasDetails('Kacang Panjang')['nama_latin'],
             'negara_asal' => 'Indonesia',
-            'merk_dagang' => 'Kacang Panjang Hijau',
-            'jenis_kemasan' => 'Pet',
-            'ukuran_berat' => '500 gr per pet',
+            'merk_dagang' => $this->getKomoditasDetails('Kacang Panjang')['merk_dagang'],
+            'jenis_kemasan' => $this->getKomoditasDetails('Kacang Panjang')['jenis_kemasan'],
+            'ukuran_berat' => $this->getKomoditasDetails('Kacang Panjang')['ukuran_berat'],
             'kategorilabel' => 'Label Hijau',
             'foto_1' =>  env('APP_URL').'/'.'images/upload/register/kacang_7.jpg',
             'foto_2' =>  env('APP_URL').'/'.'images/upload/register/kacang_8.jpg',
@@ -369,12 +430,12 @@ class RegisterIzinedarPsatpdukSeeder extends Seeder
 
             'jenis_psat' => $jenispsat2?->id,
 
-            'nama_komoditas' => 'Wortel',
-            'nama_latin' => 'Cucurbita pepo',
+            'nama_komoditas' => 'Labu',
+            'nama_latin' => $this->getKomoditasDetails('Labu')['nama_latin'],
             'negara_asal' => 'Indonesia',
-            'merk_dagang' => 'Labu Siam',
-            'jenis_kemasan' => 'Karung',
-            'ukuran_berat' => '25 kg per karung',
+            'merk_dagang' => $this->getKomoditasDetails('Labu')['merk_dagang'],
+            'jenis_kemasan' => $this->getKomoditasDetails('Labu')['jenis_kemasan'],
+            'ukuran_berat' => $this->getKomoditasDetails('Labu')['ukuran_berat'],
             'kategorilabel' => 'Label Hijau',
             'foto_1' =>  env('APP_URL').'/'.'images/upload/register/labu1.jpg',
             'foto_2' =>  env('APP_URL').'/'.'images/upload/register/labu2.jpg',
@@ -416,11 +477,11 @@ class RegisterIzinedarPsatpdukSeeder extends Seeder
             'jenis_psat' => $jenispsat2?->id,
 
             'nama_komoditas' => 'Wortel',
-            'nama_latin' => 'Daucus carota',
+            'nama_latin' => $this->getKomoditasDetails('Wortel')['nama_latin'],
             'negara_asal' => 'Indonesia',
-            'merk_dagang' => 'Wortel Hijau',
-            'jenis_kemasan' => 'Kardus',
-            'ukuran_berat' => '15 kg per kardus',
+            'merk_dagang' => $this->getKomoditasDetails('Wortel')['merk_dagang'],
+            'jenis_kemasan' => $this->getKomoditasDetails('Wortel')['jenis_kemasan'],
+            'ukuran_berat' => $this->getKomoditasDetails('Wortel')['ukuran_berat'],
             'kategorilabel' => 'Label Hijau',
             'foto_1' =>  env('APP_URL').'/'.'images/upload/register/wortel_7.jpg',
             'foto_2' =>  env('APP_URL').'/'.'images/upload/register/wortel_8.jpg',
@@ -461,12 +522,12 @@ class RegisterIzinedarPsatpdukSeeder extends Seeder
 
             'jenis_psat' => $jenispsat2?->id,
 
-            'nama_komoditas' => 'Wortel',
-            'nama_latin' => 'Solanum tuberosum',
+            'nama_komoditas' => 'Kentang',
+            'nama_latin' => $this->getKomoditasDetails('Kentang')['nama_latin'],
             'negara_asal' => 'Indonesia',
-            'merk_dagang' => 'Kentang Merah',
-            'jenis_kemasan' => 'Sakel',
-            'ukuran_berat' => '5 kg per sakel',
+            'merk_dagang' => $this->getKomoditasDetails('Kentang')['merk_dagang'],
+            'jenis_kemasan' => $this->getKomoditasDetails('Kentang')['jenis_kemasan'],
+            'ukuran_berat' => $this->getKomoditasDetails('Kentang')['ukuran_berat'],
             'kategorilabel' => 'Label Hijau',
             'foto_1' =>  env('APP_URL').'/'.'images/upload/register/kentangmerah1.jpg',
             'foto_2' =>  env('APP_URL').'/'.'images/upload/register/kentangmerah2.jpg',
@@ -507,12 +568,12 @@ class RegisterIzinedarPsatpdukSeeder extends Seeder
 
             'jenis_psat' => $jenispsat2?->id,
 
-            'nama_komoditas' => 'Wortel',
-            'nama_latin' => 'Brassica oleracea',
+            'nama_komoditas' => 'Kubis',
+            'nama_latin' => $this->getKomoditasDetails('Kubis')['nama_latin'],
             'negara_asal' => 'Indonesia',
-            'merk_dagang' => 'Kubis Putih',
-            'jenis_kemasan' => 'Kardus',
-            'ukuran_berat' => '18 kg per kardus',
+            'merk_dagang' => $this->getKomoditasDetails('Kubis')['merk_dagang'],
+            'jenis_kemasan' => $this->getKomoditasDetails('Kubis')['jenis_kemasan'],
+            'ukuran_berat' => $this->getKomoditasDetails('Kubis')['ukuran_berat'],
             'kategorilabel' => 'Label Hijau',
             'foto_1' =>  env('APP_URL').'/'.'images/upload/register/kubisputih_7.jpg',
             'foto_2' =>  env('APP_URL').'/'.'images/upload/register/kubisputih_8.jpg',
@@ -553,12 +614,12 @@ class RegisterIzinedarPsatpdukSeeder extends Seeder
 
             'jenis_psat' => $jenispsat2?->id,
 
-            'nama_komoditas' => 'Wortel',
-            'nama_latin' => 'Solanum lycopersicum',
+            'nama_komoditas' => 'Tomat',
+            'nama_latin' => $this->getKomoditasDetails('Tomat')['nama_latin'],
             'negara_asal' => 'Indonesia',
-            'merk_dagang' => 'Tomat Cherry',
-            'jenis_kemasan' => 'Pet',
-            'ukuran_berat' => '250 gr per pet',
+            'merk_dagang' => $this->getKomoditasDetails('Tomat')['merk_dagang'],
+            'jenis_kemasan' => $this->getKomoditasDetails('Tomat')['jenis_kemasan'],
+            'ukuran_berat' => $this->getKomoditasDetails('Tomat')['ukuran_berat'],
             'kategorilabel' => 'Label Hijau',
             'foto_1' =>  env('APP_URL').'/'.'images/upload/register/tomatcherry1.jpg',
             'foto_2' =>  env('APP_URL').'/'.'images/upload/register/tomatcherry2.jpg',
@@ -599,12 +660,12 @@ class RegisterIzinedarPsatpdukSeeder extends Seeder
 
             'jenis_psat' => $jenispsat2?->id,
 
-            'nama_komoditas' => 'Wortel',
-            'nama_latin' => 'Allium sativum',
+            'nama_komoditas' => 'Bawang Putih',
+            'nama_latin' => $this->getKomoditasDetails('Bawang Putih')['nama_latin'],
             'negara_asal' => 'Indonesia',
-            'merk_dagang' => 'Bawang Putih Lokal',
-            'jenis_kemasan' => 'Sakel',
-            'ukuran_berat' => '15 kg per sakel',
+            'merk_dagang' => $this->getKomoditasDetails('Bawang Putih')['merk_dagang'],
+            'jenis_kemasan' => $this->getKomoditasDetails('Bawang Putih')['jenis_kemasan'],
+            'ukuran_berat' => $this->getKomoditasDetails('Bawang Putih')['ukuran_berat'],
             'kategorilabel' => 'Label Hijau',
             'foto_1' =>  env('APP_URL').'/'.'images/upload/register/bawangputih_7.jpg',
             'foto_2' =>  env('APP_URL').'/'.'images/upload/register/bawangputih_8.jpg',
