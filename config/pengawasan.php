@@ -41,4 +41,6 @@ return [
         'link' => 'Link',
         'others' => 'Others',
     ],
+
+    'MAX_MONTH_EXPIRED' => 2,
 ];

@@ -12,6 +12,7 @@ use App\Models\MasterJenisPanganSegar;
 use App\Models\MasterKelompokPangan;
 use App\Models\MasterPenanganan;
 use Illuminate\Support\Str;
+use Carbon\Carbon;
 
 class RegisterSppbSeeder extends Seeder
 {
@@ -20,6 +21,11 @@ class RegisterSppbSeeder extends Seeder
      */
     public function run(): void
     {
+       $this->seedRegisterSppb();
+    }
+
+   private function seedRegisterSppb(): void
+   {
         // Ensure there are businesses for the specified emails
         $business1 = Business::whereHas('user', function($query) {
             $query->where('email', 'pengusaha@panganaman.my.id');
@@ -114,7 +120,7 @@ class RegisterSppbSeeder extends Seeder
             'is_enabled' => true,
             'nomor_registrasi' => 'REG-SPPB-DNGN-001',
             'tanggal_terbit' => '2025-01-01',
-            'tanggal_terakhir' => '2026-01-01',
+            'tanggal_terakhir' => $this->getRandomTanggalTerakhir(),
             'is_unitusaha' => true,
             'nama_unitusaha' => 'Unit Usaha A',
             'alamat_unitusaha' => 'Jl. Unit A No. 1',
@@ -136,7 +142,7 @@ class RegisterSppbSeeder extends Seeder
             'is_enabled' => true,
             'nomor_registrasi' => 'REG-SPPB-KMSN-002',
             'tanggal_terbit' => '2025-02-01',
-            'tanggal_terakhir' => '2026-02-01',
+            'tanggal_terakhir' => $this->getRandomTanggalTerakhir(),
             'is_unitusaha' => false,
             'nama_unitusaha' => null,
             'alamat_unitusaha' => null,
@@ -158,7 +164,7 @@ class RegisterSppbSeeder extends Seeder
             'is_enabled' => true,
             'nomor_registrasi' => 'REG-SPPB-DNGN-003',
             'tanggal_terbit' => '2025-03-01',
-            'tanggal_terakhir' => '2026-03-01',
+            'tanggal_terakhir' => $this->getRandomTanggalTerakhir(),
             'is_unitusaha' => true,
             'nama_unitusaha' => 'Unit Usaha B',
             'alamat_unitusaha' => 'Jl. Unit B No. 2',
@@ -180,7 +186,7 @@ class RegisterSppbSeeder extends Seeder
             'is_enabled' => true,
             'nomor_registrasi' => 'REG-SPPB-KMSN-004',
             'tanggal_terbit' => '2025-04-01',
-            'tanggal_terakhir' => '2026-04-01',
+            'tanggal_terakhir' => $this->getRandomTanggalTerakhir(),
             'is_unitusaha' => false,
             'nama_unitusaha' => null,
             'alamat_unitusaha' => null,
@@ -202,7 +208,7 @@ class RegisterSppbSeeder extends Seeder
             'is_enabled' => true,
             'nomor_registrasi' => 'REG-SPPB-DNGN-005',
             'tanggal_terbit' => '2025-05-01',
-            'tanggal_terakhir' => '2026-05-01',
+            'tanggal_terakhir' => $this->getRandomTanggalTerakhir(),
             'is_unitusaha' => true,
             'nama_unitusaha' => 'Unit Usaha C',
             'alamat_unitusaha' => 'Jl. Unit C No. 3',
@@ -224,7 +230,7 @@ class RegisterSppbSeeder extends Seeder
             'is_enabled' => true,
             'nomor_registrasi' => 'REG-SPPB-KMSN-006',
             'tanggal_terbit' => '2025-06-01',
-            'tanggal_terakhir' => '2026-06-01',
+            'tanggal_terakhir' => $this->getRandomTanggalTerakhir(),
             'is_unitusaha' => false,
             'nama_unitusaha' => null,
             'alamat_unitusaha' => null,
@@ -246,7 +252,7 @@ class RegisterSppbSeeder extends Seeder
             'is_enabled' => true,
             'nomor_registrasi' => 'REG-SPPB-DNGN-007',
             'tanggal_terbit' => '2025-07-01',
-            'tanggal_terakhir' => '2026-07-01',
+            'tanggal_terakhir' => $this->getRandomTanggalTerakhir(),
             'is_unitusaha' => true,
             'nama_unitusaha' => 'Unit Usaha D',
             'alamat_unitusaha' => 'Jl. Unit D No. 4',
@@ -268,7 +274,7 @@ class RegisterSppbSeeder extends Seeder
             'is_enabled' => true,
             'nomor_registrasi' => 'REG-SPPB-KMSN-008',
             'tanggal_terbit' => '2025-08-01',
-            'tanggal_terakhir' => '2026-08-01',
+            'tanggal_terakhir' => $this->getRandomTanggalTerakhir(),
             'is_unitusaha' => false,
             'nama_unitusaha' => null,
             'alamat_unitusaha' => null,
@@ -290,7 +296,7 @@ class RegisterSppbSeeder extends Seeder
             'is_enabled' => true,
             'nomor_registrasi' => 'REG-SPPB-DNGN-009',
             'tanggal_terbit' => '2025-09-01',
-            'tanggal_terakhir' => '2026-09-01',
+            'tanggal_terakhir' => $this->getRandomTanggalTerakhir(),
             'is_unitusaha' => true,
             'nama_unitusaha' => 'Unit Usaha E',
             'alamat_unitusaha' => 'Jl. Unit E No. 5',
@@ -312,7 +318,7 @@ class RegisterSppbSeeder extends Seeder
             'is_enabled' => true,
             'nomor_registrasi' => 'REG-SPPB-KMSN-010',
             'tanggal_terbit' => '2025-10-01',
-            'tanggal_terakhir' => '2026-10-01',
+            'tanggal_terakhir' => $this->getRandomTanggalTerakhir(),
             'is_unitusaha' => false,
             'nama_unitusaha' => null,
             'alamat_unitusaha' => null,
@@ -334,7 +340,7 @@ class RegisterSppbSeeder extends Seeder
             'is_enabled' => true,
             'nomor_registrasi' => 'REG-SPPB-DNGN-011',
             'tanggal_terbit' => '2025-11-01',
-            'tanggal_terakhir' => '2026-11-01',
+            'tanggal_terakhir' => $this->getRandomTanggalTerakhir(),
             'is_unitusaha' => true,
             'nama_unitusaha' => 'Unit Usaha F',
             'alamat_unitusaha' => 'Jl. Unit F No. 6',
@@ -356,7 +362,7 @@ class RegisterSppbSeeder extends Seeder
             'is_enabled' => true,
             'nomor_registrasi' => 'REG-SPPB-KMSN-012',
             'tanggal_terbit' => '2025-12-01',
-            'tanggal_terakhir' => '2026-12-01',
+            'tanggal_terakhir' => $this->getRandomTanggalTerakhir(),
             'is_unitusaha' => false,
             'nama_unitusaha' => null,
             'alamat_unitusaha' => null,
@@ -378,7 +384,7 @@ class RegisterSppbSeeder extends Seeder
             'is_enabled' => true,
             'nomor_registrasi' => 'REG-SPPB-SMG-013',
             'tanggal_terbit' => '2025-01-15',
-            'tanggal_terakhir' => '2026-01-15',
+            'tanggal_terakhir' => $this->getRandomTanggalTerakhir(),
             'is_unitusaha' => false,
             'nama_unitusaha' => null,
             'alamat_unitusaha' => null,
@@ -400,7 +406,7 @@ class RegisterSppbSeeder extends Seeder
             'is_enabled' => true,
             'nomor_registrasi' => 'REG-SPPB-PSN-014',
             'tanggal_terbit' => '2025-02-15',
-            'tanggal_terakhir' => '2026-02-15',
+            'tanggal_terakhir' => $this->getRandomTanggalTerakhir(),
             'is_unitusaha' => false,
             'nama_unitusaha' => null,
             'alamat_unitusaha' => null,
@@ -422,7 +428,7 @@ class RegisterSppbSeeder extends Seeder
             'is_enabled' => true,
             'nomor_registrasi' => 'REG-SPPB-WRT-015',
             'tanggal_terbit' => '2025-03-15',
-            'tanggal_terakhir' => '2026-03-15',
+            'tanggal_terakhir' => $this->getRandomTanggalTerakhir(),
             'is_unitusaha' => false,
             'nama_unitusaha' => null,
             'alamat_unitusaha' => null,
@@ -444,7 +450,7 @@ class RegisterSppbSeeder extends Seeder
             'is_enabled' => true,
             'nomor_registrasi' => 'REG-SPPB-KBS-016',
             'tanggal_terbit' => '2025-04-15',
-            'tanggal_terakhir' => '2026-04-15',
+            'tanggal_terakhir' => $this->getRandomTanggalTerakhir(),
             'is_unitusaha' => false,
             'nama_unitusaha' => null,
             'alamat_unitusaha' => null,
@@ -466,7 +472,7 @@ class RegisterSppbSeeder extends Seeder
             'is_enabled' => true,
             'nomor_registrasi' => 'REG-SPPB-TMT-017',
             'tanggal_terbit' => '2025-05-15',
-            'tanggal_terakhir' => '2026-05-15',
+            'tanggal_terakhir' => $this->getRandomTanggalTerakhir(),
             'is_unitusaha' => false,
             'nama_unitusaha' => null,
             'alamat_unitusaha' => null,
@@ -488,7 +494,7 @@ class RegisterSppbSeeder extends Seeder
             'is_enabled' => true,
             'nomor_registrasi' => 'REG-SPPB-BWM-018',
             'tanggal_terbit' => '2025-06-15',
-            'tanggal_terakhir' => '2026-06-15',
+            'tanggal_terakhir' => $this->getRandomTanggalTerakhir(),
             'is_unitusaha' => false,
             'nama_unitusaha' => null,
             'alamat_unitusaha' => null,
@@ -510,7 +516,7 @@ class RegisterSppbSeeder extends Seeder
             'is_enabled' => true,
             'nomor_registrasi' => 'REG-SPPB-LBU-019',
             'tanggal_terbit' => '2025-07-15',
-            'tanggal_terakhir' => '2026-07-15',
+            'tanggal_terakhir' => $this->getRandomTanggalTerakhir(),
             'is_unitusaha' => false,
             'nama_unitusaha' => null,
             'alamat_unitusaha' => null,
@@ -532,7 +538,7 @@ class RegisterSppbSeeder extends Seeder
             'is_enabled' => true,
             'nomor_registrasi' => 'REG-SPPB-KCG-020',
             'tanggal_terbit' => '2025-08-15',
-            'tanggal_terakhir' => '2026-08-15',
+            'tanggal_terakhir' => $this->getRandomTanggalTerakhir(),
             'is_unitusaha' => false,
             'nama_unitusaha' => null,
             'alamat_unitusaha' => null,
@@ -554,7 +560,7 @@ class RegisterSppbSeeder extends Seeder
             'is_enabled' => true,
             'nomor_registrasi' => 'REG-SPPB-ALP-021',
             'tanggal_terbit' => '2025-09-15',
-            'tanggal_terakhir' => '2026-09-15',
+            'tanggal_terakhir' => $this->getRandomTanggalTerakhir(),
             'is_unitusaha' => false,
             'nama_unitusaha' => null,
             'alamat_unitusaha' => null,
@@ -576,7 +582,7 @@ class RegisterSppbSeeder extends Seeder
             'is_enabled' => true,
             'nomor_registrasi' => 'REG-SPPB-JRK-022',
             'tanggal_terbit' => '2025-10-15',
-            'tanggal_terakhir' => '2026-10-15',
+            'tanggal_terakhir' => $this->getRandomTanggalTerakhir(),
             'is_unitusaha' => false,
             'nama_unitusaha' => null,
             'alamat_unitusaha' => null,
@@ -598,7 +604,7 @@ class RegisterSppbSeeder extends Seeder
             'is_enabled' => true,
             'nomor_registrasi' => 'REG-SPPB-MNG-023',
             'tanggal_terbit' => '2025-11-15',
-            'tanggal_terakhir' => '2026-11-15',
+            'tanggal_terakhir' => $this->getRandomTanggalTerakhir(),
             'is_unitusaha' => false,
             'nama_unitusaha' => null,
             'alamat_unitusaha' => null,
@@ -612,4 +618,24 @@ class RegisterSppbSeeder extends Seeder
             'alamat_unit_penanganan' => 'Jl. Penanganan Mangga No. 23',
         ]);
     }
+
+   private function getRandomTanggalTerakhir(): string
+   {
+       $now = Carbon::now();
+       $randomPercentage = rand(1, 100);
+
+       if ($randomPercentage <= 10) { // 10% between 0-1 month
+           $months = rand(0, 1);
+           $days = rand(0, 30); // Max 30 days for a month
+           return $now->copy()->addMonths($months)->addDays($days)->format('Y-m-d');
+       } elseif ($randomPercentage <= 30) { // 20% between 1-2 months
+           $months = rand(1, 2);
+           $days = rand(0, 30);
+           return $now->copy()->addMonths($months)->addDays($days)->format('Y-m-d');
+       } else { // 70% between 2-24 months
+           $months = rand(2, 24);
+           $days = rand(0, 30);
+           return $now->copy()->addMonths($months)->addDays($days)->format('Y-m-d');
+       }
+   }
 }

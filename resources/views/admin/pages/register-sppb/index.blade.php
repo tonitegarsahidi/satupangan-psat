@@ -152,7 +152,7 @@
                                 <td>
                                     @php
                                         $expiryDate = \Carbon\Carbon::parse($registerSppb->tanggal_terakhir);
-                                        $oneMonthFromNow = \Carbon\Carbon::now()->addMonth();
+                                        $oneMonthFromNow = \Carbon\Carbon::now()->addMonth(config('pengawasan.MAX_MONTH_EXPIRED'));
                                         // Format date with Indonesian month names
                                         $formattedDate = $expiryDate->translatedFormat('d F Y');
                                         $isExpiringSoon = $expiryDate->lessThanOrEqualTo($oneMonthFromNow);

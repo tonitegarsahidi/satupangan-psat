@@ -13,6 +13,7 @@ use App\Models\MasterJenisPanganSegar;
 use App\Models\MasterKelompokPangan;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\DB;
+use Carbon\Carbon;
 
 class RegisterIzinedarPsatpdukSeeder extends Seeder
 {
@@ -21,6 +22,11 @@ class RegisterIzinedarPsatpdukSeeder extends Seeder
      */
     public function run(): void
     {
+       $this->seedRegisterIzinedarPsatpduk();
+    }
+
+   private function seedRegisterIzinedarPsatpduk(): void
+   {
         // Get the user with email pengusaha@panganaman.my.id
         $user = User::where('email', 'pengusaha2@panganaman.my.id')->first();
         if (!$user) {
@@ -107,7 +113,7 @@ class RegisterIzinedarPsatpdukSeeder extends Seeder
             'okkp_penangungjawab' => $userpetugas->id,
 
             'tanggal_terbit' => '2025-01-01',
-            'tanggal_terakhir' => '2026-01-01',
+            'tanggal_terakhir' => $this->getRandomTanggalTerakhir(),
 
             'created_by' => $user->id,
             'updated_by' => $user->id,
@@ -153,7 +159,7 @@ class RegisterIzinedarPsatpdukSeeder extends Seeder
             'okkp_penangungjawab' => $userpetugas->id,
 
             'tanggal_terbit' => '2025-02-01',
-            'tanggal_terakhir' => '2026-02-01',
+            'tanggal_terakhir' => $this->getRandomTanggalTerakhir(),
 
             'created_by' => $user->id,
             'updated_by' => $user->id,
@@ -199,7 +205,7 @@ class RegisterIzinedarPsatpdukSeeder extends Seeder
             'okkp_penangungjawab' => $userpetugas->id,
 
             'tanggal_terbit' => '2025-03-01',
-            'tanggal_terakhir' => '2026-03-01',
+            'tanggal_terakhir' => $this->getRandomTanggalTerakhir(),
 
             'created_by' => $user->id,
             'updated_by' => $user->id,
@@ -245,7 +251,7 @@ class RegisterIzinedarPsatpdukSeeder extends Seeder
             'okkp_penangungjawab' => $userpetugas->id,
 
             'tanggal_terbit' => '2025-04-01',
-            'tanggal_terakhir' => '2026-04-01',
+            'tanggal_terakhir' => $this->getRandomTanggalTerakhir(),
 
             'created_by' => $user->id,
             'updated_by' => $user->id,
@@ -291,7 +297,7 @@ class RegisterIzinedarPsatpdukSeeder extends Seeder
             'okkp_penangungjawab' => $userpetugas->id,
 
             'tanggal_terbit' => '2025-05-01',
-            'tanggal_terakhir' => '2026-05-01',
+            'tanggal_terakhir' => $this->getRandomTanggalTerakhir(),
 
             'created_by' => $user->id,
             'updated_by' => $user->id,
@@ -337,7 +343,7 @@ class RegisterIzinedarPsatpdukSeeder extends Seeder
             'okkp_penangungjawab' => $userpetugas->id,
 
             'tanggal_terbit' => '2025-06-01',
-            'tanggal_terakhir' => '2026-06-01',
+            'tanggal_terakhir' => $this->getRandomTanggalTerakhir(),
 
             'created_by' => $user->id,
             'updated_by' => $user->id,
@@ -383,7 +389,7 @@ class RegisterIzinedarPsatpdukSeeder extends Seeder
             'okkp_penangungjawab' => $userpetugas->id,
 
             'tanggal_terbit' => '2025-07-01',
-            'tanggal_terakhir' => '2026-07-01',
+            'tanggal_terakhir' => $this->getRandomTanggalTerakhir(),
 
             'created_by' => $user->id,
             'updated_by' => $user->id,
@@ -429,7 +435,7 @@ class RegisterIzinedarPsatpdukSeeder extends Seeder
             'okkp_penangungjawab' => $userpetugas->id,
 
             'tanggal_terbit' => '2025-08-01',
-            'tanggal_terakhir' => '2026-08-01',
+            'tanggal_terakhir' => $this->getRandomTanggalTerakhir(),
 
             'created_by' => $user->id,
             'updated_by' => $user->id,
@@ -475,7 +481,7 @@ class RegisterIzinedarPsatpdukSeeder extends Seeder
             'okkp_penangungjawab' => $userpetugas->id,
 
             'tanggal_terbit' => '2025-09-01',
-            'tanggal_terakhir' => '2026-09-01',
+            'tanggal_terakhir' => $this->getRandomTanggalTerakhir(),
 
             'created_by' => $user->id,
             'updated_by' => $user->id,
@@ -521,7 +527,7 @@ class RegisterIzinedarPsatpdukSeeder extends Seeder
             'okkp_penangungjawab' => $userpetugas->id,
 
             'tanggal_terbit' => '2025-10-01',
-            'tanggal_terakhir' => '2026-10-01',
+            'tanggal_terakhir' => $this->getRandomTanggalTerakhir(),
 
             'created_by' => $user->id,
             'updated_by' => $user->id,
@@ -567,7 +573,7 @@ class RegisterIzinedarPsatpdukSeeder extends Seeder
             'okkp_penangungjawab' => $userpetugas->id,
 
             'tanggal_terbit' => '2025-11-01',
-            'tanggal_terakhir' => '2026-11-01',
+            'tanggal_terakhir' => $this->getRandomTanggalTerakhir(),
 
             'created_by' => $user->id,
             'updated_by' => $user->id,
@@ -613,10 +619,30 @@ class RegisterIzinedarPsatpdukSeeder extends Seeder
             'okkp_penangungjawab' => $userpetugas->id,
 
             'tanggal_terbit' => '2025-12-01',
-            'tanggal_terakhir' => '2026-12-01',
+            'tanggal_terakhir' => $this->getRandomTanggalTerakhir(),
 
             'created_by' => $user->id,
             'updated_by' => $user->id,
         ]);
     }
+
+   private function getRandomTanggalTerakhir(): string
+   {
+       $now = Carbon::now();
+       $randomPercentage = rand(1, 100);
+
+       if ($randomPercentage <= 10) { // 10% between 0-1 month
+           $months = rand(0, 1);
+           $days = rand(0, 30); // Max 30 days for a month
+           return $now->copy()->addMonths($months)->addDays($days)->format('Y-m-d');
+       } elseif ($randomPercentage <= 30) { // 20% between 1-2 months
+           $months = rand(1, 2);
+           $days = rand(0, 30);
+           return $now->copy()->addMonths($months)->addDays($days)->format('Y-m-d');
+       } else { // 70% between 2-24 months
+           $months = rand(2, 24);
+           $days = rand(0, 30);
+           return $now->copy()->addMonths($months)->addDays($days)->format('Y-m-d');
+       }
+   }
 }
