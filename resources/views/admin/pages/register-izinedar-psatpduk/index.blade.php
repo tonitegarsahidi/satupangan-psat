@@ -166,22 +166,7 @@
                                         $expiryDate = \Carbon\Carbon::parse($registerIzinedarPsatpduk->tanggal_terakhir);
                                         $oneMonthFromNow = \Carbon\Carbon::now()->addMonth();
                                         // Format date with Indonesian month names
-                                        $monthNames = [
-                                            'January' => 'Januari',
-                                            'February' => 'Februari',
-                                            'March' => 'Maret',
-                                            'April' => 'April',
-                                            'May' => 'Mei',
-                                            'June' => 'Juni',
-                                            'July' => 'Juli',
-                                            'August' => 'Agustus',
-                                            'September' => 'September',
-                                            'October' => 'Oktober',
-                                            'November' => 'November',
-                                            'December' => 'Desember'
-                                        ];
-                                        $englishDate = $expiryDate->format('d F Y');
-                                        $formattedDate = strtr($englishDate, $monthNames);
+                                        $formattedDate = $expiryDate->translatedFormat('d F Y');
                                         $isExpiringSoon = $expiryDate->lessThanOrEqualTo($oneMonthFromNow);
                                     @endphp
                                     <span class="{{ $isExpiringSoon ? 'text-danger' : '' }}">
