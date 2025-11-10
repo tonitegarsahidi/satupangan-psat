@@ -34,6 +34,32 @@
                 </div>
             @endforeach
 
+            <!-- Surveilans Notification Section -->
+            @foreach($unreadSurveilansNotifications as $notification)
+                <div class="col-12 mb-2">
+                    <div class="card bg-warning border-0">
+                        <div class="p-2 ml-3">
+                            <h3 class="card-title mb-0 mt-0 text-danger">
+                                <i class="bx bx-bell me-2"></i>Notifikasi Surveilans
+                            </h3>
+                                <div class="alert alert-light alert-dismissible mb-0" role="alert">
+                                    <div class="d-flex align-items-center">
+                                        <div class="flex-grow-1">
+                                            <span class="mb-0 mt-0 text-black">{{ $notification->title }}</span>
+                                        </div>
+                                        <div>
+                                            <a href="{{ route('notification.show', $notification->id) }}"
+                                               class="btn btn-hover bg-white text-black btn-sm">
+                                                <i class="bx bx-arrow-to-right me-1"></i>Lihat Detail
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                        </div>
+                    </div>
+                </div>
+            @endforeach
+
             <!-- Congratulations Section -->
             <div class="col-lg-8 mb-4 order-0">
                 <div class="card">

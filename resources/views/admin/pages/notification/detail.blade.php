@@ -25,7 +25,7 @@
                             </tr>
                             <tr>
                                 <th>Message</th>
-                                <td>{{ $notification->message }}</td>
+                                <td>{!! $notification->message !!}</td>
                             </tr>
                             <tr>
                                 <th>Type</th>

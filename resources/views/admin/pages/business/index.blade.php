@@ -90,6 +90,12 @@
                                 </a>
                             </th>
                             <th>
+                                Kota
+                            </th>
+                            <th>
+                                Provinsi
+                            </th>
+                            <th>
                                 NIB
                             </th>
                             <th>
@@ -111,6 +117,8 @@
                                 <td>{{ $startNumber++ }}</td>
                                 <td>{{ $business->nama_perusahaan }}</td>
                                 <td>{{ $business->alamat_perusahaan }}</td>
+                                <td>{{ $business->kota ? $business->kota->nama_kota : '-' }}</td>
+                                <td>{{ $business->provinsi ? $business->provinsi->nama_provinsi : '-' }}</td>
                                 <td>{{ $business->nib }}</td>
                                 <td>
                                     @if ($business->is_active)

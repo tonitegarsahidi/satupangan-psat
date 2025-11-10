@@ -35,6 +35,14 @@
                                         <td>{{ $data->alamat_perusahaan }}</td>
                                     </tr>
                                     <tr>
+                                        <th>Nama Kota</th>
+                                        <td>{{ $data->kota ? $data->kota->nama_kota : '-' }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Nama Provinsi</th>
+                                        <td>{{ $data->provinsi ? $data->provinsi->nama_provinsi : '-' }}</td>
+                                    </tr>
+                                    <tr>
                                         <th>Jabatan Perusahaan</th>
                                         <td>{{ $data->jabatan_perusahaan }}</td>
                                     </tr>
