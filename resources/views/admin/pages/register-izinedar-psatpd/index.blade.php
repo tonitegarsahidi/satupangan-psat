@@ -124,13 +124,7 @@
                                 </a>
                             </th>
                             <th>
-                                Komoditas
-                            </th>
-                            <th>
-                                Merk Dagang
-                            </th>
-                            <th>
-                                Nama Unit Usaha
+                                Informasi Produk
                             </th>
                             <th></th>
                             <th></th>
@@ -173,9 +167,11 @@
                                         {{ $expiryDate->translatedFormat('j F Y') }}
                                     </span>
                                 </td>
-                                <td>{{ $registerIzinedarPsatpd->nama_komoditas }}</td>
-                                <td>{{ $registerIzinedarPsatpd->merk_dagang }}</td>
-                                <td>{{ $registerIzinedarPsatpd->nama_unitusaha }}</td>
+                                <td>
+                                    <div class="fw-semibold">{{ $registerIzinedarPsatpd->nama_komoditas }}</div>
+                                    <div class="text-muted small">Merk: {{ $registerIzinedarPsatpd->merk_dagang }}</div>
+                                    <div class="text-muted small">Unit: {{ $registerIzinedarPsatpd->nama_unitusaha }}</div>
+                                </td>
 
                                 {{-- ============ CRUD LINK ICON =============  --}}
                                 <td>
