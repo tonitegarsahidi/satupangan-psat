@@ -93,6 +93,12 @@ class NotificationController extends Controller
             return redirect()->route('early-warning.detail', ['id' => $notification->data['earlyWarningId']]);
         }
 
+        // Check if notification type is notification_surveilans and has thread_id in additional data
+        if ($notification->type === 'notification_surveilans' && isset($notification->data['thread_id'])) {
+            // Redirect to Message Detail page
+            return redirect()->route('message.show', ['id' => $notification->data['thread_id']]);
+        }
+
         $breadcrumbs = array_merge($this->mainBreadcrumbs, ['Detail' => null]);
 
         return view('admin.pages.notification.detail', compact('breadcrumbs', 'notification'));
