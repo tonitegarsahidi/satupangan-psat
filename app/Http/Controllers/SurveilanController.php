@@ -150,13 +150,17 @@ class SurveilanController extends Controller
      */
     public function sendNotification(Request $request)
     {
-
         // dd($request->all());
         $validatedData = $request->validate([
             'business_owner_id' => 'required|exists:users,id',
-            'title' => 'required|string|max:255', // Add validation for the new title field
+            'title' => 'required|string|max:255',
             'message' => 'required|string|max:5000',
+            'jenis' => 'nullable|string|max:255', // Tambahan: jenis dokumen
+            'nomor' => 'nullable|string|max:255', // Tambahan: nomor dokumen
+            'surveilan_id' => 'nullable|string|max:255', // Tambahan: ID surveilan
         ]);
+
+        // dd($validatedData);
 
         // dd($validatedData);
 
@@ -165,7 +169,7 @@ class SurveilanController extends Controller
 
         // Create message thread
         $threadData = [
-            'title' => $validatedData['title'], // Use the title from the request
+            'title' => $validatedData['title'],
             'participant_id' => $businessOwner->id,
         ];
 
@@ -178,21 +182,34 @@ class SurveilanController extends Controller
         $thread = $messageService->createThreadWithMessage($threadData, $messageData, Auth::id());
 
         if ($thread) {
-            // Create notification for the business owner if requested
-
+            // Create notification for the business owner
             $notificationService = app(\App\Services\NotificationService::class);
+
+            // Siapkan data tambahan untuk notifikasi
+            $notificationData = [
+                'thread_id' => $thread->id,
+                'sender_id' => Auth::id(),
+                'business_name' => $businessOwner->business->nama_perusahaan ?? 'N/A'
+            ];
+
+            // Tambahkan data surveilan jika tersedia
+            if (isset($validatedData['jenis'])) {
+                $notificationData['jenis_dokumen'] = $validatedData['jenis'];
+            }
+            if (isset($validatedData['nomor'])) {
+                $notificationData['nomor_dokumen'] = $validatedData['nomor'];
+            }
+            if (isset($validatedData['surveilan_id'])) {
+                $notificationData['surveilan_id'] = $validatedData['surveilan_id'];
+            }
+
             $notificationService->createSystemNotification(
                 $businessOwner->id,
-                $validatedData['title'], // Use the title from the request for notification
-                $validatedData['message'].'<br/>'.'Silakan Cek Kotak Pesan Anda untuk melihat detailnya: <a href="'.route('message.show', $thread->id).'">Lihat Pesan</a>',
+                $validatedData['title'],
+                $validatedData['message'] . '<br/>' . 'Silakan Cek Kotak Pesan Anda untuk melihat detailnya: <a href="' . route('message.show', $thread->id) . '">Lihat Pesan</a>',
                 'notification_surveilans',
-                [
-                    'thread_id' => $thread->id,
-                    'sender_id' => Auth::id(),
-                    'business_name' => $businessOwner->business->nama_perusahaan ?? 'N/A'
-                ]
+                $notificationData
             );
-
 
             return redirect()->route('surveilan.index')
                 ->with('alerts', [
@@ -210,7 +227,7 @@ class SurveilanController extends Controller
     /**
      * Show the form for sending notification to a specific business owner
      */
-    public function createNotificationForBusiness($business_id)
+    public function createNotificationForBusiness(Request $request, $business_id)
     {
         // Get the specific business owner
         $selectedBusinessOwner = \App\Models\User::whereHas('business', function ($query) use ($business_id) {
@@ -227,6 +244,13 @@ class SurveilanController extends Controller
             ->with('business')
             ->get(['id', 'name', 'email']);
 
+        // Get additional parameters from request
+        $jenis = $request->get('jenis');
+        $nomor = $request->get('nomor');
+        $surveilan_id = $request->get('surveilan_id');
+        $pelaku_usaha = $request->get('pelaku_usaha');
+        $akhir_masa_berlaku = $request->get('akhir_masa_berlaku');
+
         $breadcrumbs = [
             'Admin' => 'javascript:void(0)',
             'Notifikasi Surveilan' => route('surveilan.index'),
@@ -236,7 +260,12 @@ class SurveilanController extends Controller
         return view('admin.pages.surveilan.create-notification', compact(
             'breadcrumbs',
             'businessOwners',
-            'selectedBusinessOwner'
+            'selectedBusinessOwner',
+            'jenis',
+            'nomor',
+            'surveilan_id',
+            'pelaku_usaha',
+            'akhir_masa_berlaku'
         ));
     }
 }

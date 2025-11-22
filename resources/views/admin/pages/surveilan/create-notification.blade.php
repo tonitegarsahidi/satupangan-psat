@@ -33,6 +33,17 @@
                 <form action="{{ route('surveilan.send-notification') }}" method="POST" class="needs-validation" novalidate>
                     @csrf
 
+                    {{-- Hidden fields untuk data surveilan --}}
+                    @if(isset($jenis) && $jenis)
+                        <input type="hidden" name="jenis" value="{{ $jenis }}">
+                    @endif
+                    @if(isset($nomor) && $nomor)
+                        <input type="hidden" name="nomor" value="{{ $nomor }}">
+                    @endif
+                    @if(isset($surveilan_id) && $surveilan_id)
+                        <input type="hidden" name="surveilan_id" value="{{ $surveilan_id }}">
+                    @endif
+
                     <div class="row mb-3">
                         <div class="col-md-12">
                             <label for="business_owner" class="form-label">Pemilik Bisnis</label>
@@ -59,7 +70,7 @@
                     <div class="row mb-3">
                         <div class="col-md-12">
                             <label for="title" class="form-label">Judul</label>
-                            <input type="text" class="form-control" id="title" name="title" value="[PENTING] Kunjungan Surveilan untuk {{(request('jenis') ?? '')}}, Nomor {{request('nomor')}}" required>
+                            <input type="text" class="form-control" id="title" name="title" value="[PENTING] Kunjungan Surveilan untuk {{ isset($jenis) ? $jenis : (request('jenis') ?? '') }}, Nomor {{ isset($nomor) ? $nomor : (request('nomor') ?? '') }}" required>
                             @error('title')
                                 <div class="text-danger">{{ $message }}</div>
                             @enderror
@@ -73,13 +84,13 @@
                         <div class="col-md-12">
                             <label for="message" class="form-label">Pesan</label>
                             <textarea class="form-control" id="message" name="message" rows="8" required
-                                placeholder="Tulis pesan yang akan dikirim ke pemilik bisnis...">Yang kami hormati {{request('pelaku_usaha') ?? ''}},
+                                placeholder="Tulis pesan yang akan dikirim ke pemilik bisnis...">Yang kami hormati {{ isset($pelaku_usaha) ? $pelaku_usaha : (request('pelaku_usaha') ?? '') }},
 dengan ini kami memberitahukan terkait rencana surveilance/visitasi yang akan kami lakukan, terkait dokumen berikut :
 
 {{
-                                    'Jenis: ' . (request('jenis') ?? '') . "\n" .
-                                    'Nomor: ' . (request('nomor') ?? '') . "\n" .
-                                    'Akhir Masa Berlaku: ' . (request('akhir_masa_berlaku') ?? '')."\n"
+                                    'Jenis: ' . (isset($jenis) ? $jenis : (request('jenis') ?? '')) . "\n" .
+                                    'Nomor: ' . (isset($nomor) ? $nomor : (request('nomor') ?? '')) . "\n" .
+                                    'Akhir Masa Berlaku: ' . (isset($akhir_masa_berlaku) ? $akhir_masa_berlaku : (request('akhir_masa_berlaku') ?? ''))."\n"
                                 }}Atas perhatiannya kami ucapkan terima kasih</textarea>
                             @error('message')
                                 <div class="text-danger">{{ $message }}</div>

@@ -109,7 +109,8 @@
                                            'jenis' => $surveilan['jenis'] ?? null,
                                            'nomor' => $surveilan['nomor'] ?? null,
                                            'pelaku_usaha' => $surveilan['nama_perusahaan'] ?? null,
-                                           'akhir_masa_berlaku' => $expiryDate->translatedFormat('j F Y') ?? null
+                                           'akhir_masa_berlaku' => $expiryDate->translatedFormat('j F Y') ?? null,
+                                           'surveilan_id' => $surveilan['nomor'] ?? null
                                        ]) }}"
                                            class="btn btn-sm btn-primary">
                                             <i class="bx bx-send me-1"></i>
