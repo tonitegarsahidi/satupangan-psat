@@ -241,6 +241,21 @@ class NotificationService
     }
 
     /**
+     * Get notifications by type and date range
+     */
+    public function getNotificationsByTypeAndDateRange($type, $startDate, $endDate = null)
+    {
+        $query = Notification::where('type', $type)
+            ->where('created_at', '>=', $startDate);
+
+        if ($endDate) {
+            $query->where('created_at', '<=', $endDate);
+        }
+
+        return $query->get();
+    }
+
+    /**
      * Get notification statistics for a user
      */
     public function getNotificationStats($userId): array

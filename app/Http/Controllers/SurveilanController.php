@@ -21,6 +21,27 @@ class SurveilanController extends Controller
         $sortOrder = $request->input('sort_order', 'asc');
         $page = $request->input('page', 1);
 
+        // Get notification service to query recent notifications
+        $notificationService = app(\App\Services\NotificationService::class);
+
+        // Query notifications from last 2 months
+        $twoMonthsAgo = Carbon::now()->subMonths(2);
+        $recentNotifications = $notificationService->getNotificationsByTypeAndDateRange(
+            'notification_surveilans',
+            $twoMonthsAgo
+        );
+
+        // Create lookup map for jenis and nomor from notifications
+        $notificationLookup = [];
+        foreach ($recentNotifications as $notification) {
+            $jenis = $notification->data['jenis_dokumen'] ?? null;
+            $nomor = $notification->data['nomor_dokumen'] ?? null;
+            if ($jenis && $nomor) {
+                $key = strtolower($jenis) . '|' . strtolower($nomor);
+                $notificationLookup[$key] = true;
+            }
+        }
+
         $surveilans = collect();
         $today = Carbon::today();
         $notificationMonthLater = Carbon::today()->addMonths(2);
@@ -29,13 +50,20 @@ class SurveilanController extends Controller
         $sppbData = RegisterSppb::with('business')
             ->where('tanggal_terakhir', '<=', $notificationMonthLater)
             ->get()
-            ->map(function ($item) {
+            ->map(function ($item) use ($notificationLookup) {
+                $jenis = 'Register SPPB';
+                $nomor = $item->nomor_registrasi ?? 'N/A';
+                $key = strtolower($jenis) . '|' . strtolower($nomor);
+                $hasNotification = isset($notificationLookup[$key]);
+
                 return [
-                    'jenis' => 'Register SPPB',
-                    'nomor' => $item->nomor_registrasi ?? 'N/A',
+                    'jenis' => $jenis,
+                    'nomor' => $nomor,
                     'nama_perusahaan' => $item->business->nama_perusahaan ?? 'N/A',
                     'akhir_masa_berlaku' => $item->tanggal_terakhir,
                     'business_id' => $item->business->id ?? null,
+                    'has_notification' => $hasNotification,
+                    'surveilan_id' => $item->id,
                 ];
             });
         $surveilans = $surveilans->concat($sppbData);
@@ -44,13 +72,20 @@ class SurveilanController extends Controller
         $psatplData = RegisterIzinedarPsatpl::with('business')
             ->where('tanggal_terakhir', '<=', $notificationMonthLater)
             ->get()
-            ->map(function ($item) {
+            ->map(function ($item) use ($notificationLookup) {
+                $jenis = 'Izin Edar PL';
+                $nomor = $item->nomor_izinedar_pl ?? 'N/A';
+                $key = strtolower($jenis) . '|' . strtolower($nomor);
+                $hasNotification = isset($notificationLookup[$key]);
+
                 return [
-                    'jenis' => 'Izin Edar PL',
+                    'jenis' => $jenis,
                     'nomor' => $item->nomor_izinedar_pl ?? 'N/A',
                     'nama_perusahaan' => $item->business->nama_perusahaan ?? 'N/A',
                     'akhir_masa_berlaku' => $item->tanggal_terakhir,
                     'business_id' => $item->business->id ?? null,
+                    'has_notification' => $hasNotification,
+                    'surveilan_id' => $item->id,
                 ];
             });
         $surveilans = $surveilans->concat($psatplData);
@@ -59,13 +94,20 @@ class SurveilanController extends Controller
         $psatpdData = RegisterIzinedarPsatpd::with('business')
             ->where('tanggal_terakhir', '<=', $notificationMonthLater)
             ->get()
-            ->map(function ($item) {
+            ->map(function ($item) use ($notificationLookup) {
+                $jenis = 'Izin Edar PD';
+                $nomor = $item->nomor_izinedar_pd ?? 'N/A';
+                $key = strtolower($jenis) . '|' . strtolower($nomor);
+                $hasNotification = isset($notificationLookup[$key]);
+
                 return [
-                    'jenis' => 'Izin Edar PD',
+                    'jenis' => $jenis,
                     'nomor' => $item->nomor_izinedar_pd ?? 'N/A',
                     'nama_perusahaan' => $item->business->nama_perusahaan ?? 'N/A',
                     'akhir_masa_berlaku' => $item->tanggal_terakhir,
                     'business_id' => $item->business->id ?? null,
+                    'has_notification' => $hasNotification,
+                    'surveilan_id' => $item->id,
                 ];
             });
         $surveilans = $surveilans->concat($psatpdData);
@@ -74,13 +116,20 @@ class SurveilanController extends Controller
         $psatpdukData = RegisterIzinedarPsatpduk::with('business')
             ->where('tanggal_terakhir', '<=', $notificationMonthLater)
             ->get()
-            ->map(function ($item) {
+            ->map(function ($item) use ($notificationLookup) {
+                $jenis = 'Izin Edar PDUK';
+                $nomor = $item->nomor_izinedar_pduk ?? 'N/A';
+                $key = strtolower($jenis) . '|' . strtolower($nomor);
+                $hasNotification = isset($notificationLookup[$key]);
+
                 return [
-                    'jenis' => 'Izin Edar PDUK',
+                    'jenis' => $jenis,
                     'nomor' => $item->nomor_izinedar_pduk ?? 'N/A',
                     'nama_perusahaan' => $item->business->nama_perusahaan ?? 'N/A',
                     'akhir_masa_berlaku' => $item->tanggal_terakhir,
                     'business_id' => $item->business->id ?? null,
+                    'has_notification' => $hasNotification,
+                    'surveilan_id' => $item->id,
                 ];
             });
         $surveilans = $surveilans->concat($psatpdukData);

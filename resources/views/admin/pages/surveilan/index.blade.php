@@ -74,6 +74,7 @@
                             <th>Nomor</th>
                             <th>Pelaku Usaha</th>
                             <th>Akhir Masa Berlaku</th>
+                            <th>Status Notifikasi</th>
                             <th>Aksi</th>
                         </tr>
                     </thead>
@@ -102,8 +103,21 @@
                                     </span>
                                 </td>
                                 <td>
+                                    @if($surveilan['has_notification'])
+                                        <span class="badge bg-success text-black">
+                                            <i class="bx bx-check-circle me-1"></i>
+                                            Notifikasi sudah terkirim
+                                        </span>
+                                    @else
+                                        <span class="badge bg-warning text-black">
+                                            <i class="bx bx-clock me-1"></i>
+                                            Belum ada notifikasi
+                                        </span>
+                                    @endif
+                                </td>
+                                <td>
                                     {{-- KIRIM NOTIFIKASI BUTTON --}}
-                                    @if(auth()->user()->hasAnyRole(['ROLE_SUPERVISOR', 'ROLE_OPERATOR', 'ROLE_KANTOR', 'ROLE_PIMPINAN']))
+                                    @if(auth()->user()->hasAnyRole(['ROLE_SUPERVISOR', 'ROLE_OPERATOR', 'ROLE_KANTOR', 'ROLE_PIMPINAN']) && !$surveilan['has_notification'])
                                         <a href="{{ route('surveilan.create-notification-for-business', [
                                            'business_id' => $surveilan['business_id'] ?? null,
                                            'jenis' => $surveilan['jenis'] ?? null,
