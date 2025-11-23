@@ -6,9 +6,8 @@
         <script>
           document.write(new Date().getFullYear());
         </script>
-        SamBoilerplate {{ config('constant.SAMBOILERPLATE_VERSION') }} made with ❤️ by
-        <a href="https://www.linkedin.com/in/toni-tegar-sahidi-60546858/" target="_blank" class="footer-link fw-bolder">SamToni</a>.
-        Admin template is <strong><a href="https://demos.themeselection.com/sneat-bootstrap-html-admin-template/documentation/" target="_blank">Sneat  by ThemeSelection</strong></a>
+        PanganAman v1.0 made with ❤️ by <strong>Dhani Hermansyah</strong>. Co-engineered with
+        <a href="https://www.linkedin.com/in/tonitegarsahidi" target="_blank" class="footer-link fw-bolder">SamToni</a>.
       </div>
       <div>
         <a href="https://themeselection.com/license/" class="footer-link me-4" target="_blank">Theme License</a>
