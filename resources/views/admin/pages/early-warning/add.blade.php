@@ -34,7 +34,7 @@
 
                             {{-- TITLE FIELD --}}
                             <div class="row mb-3">
-                                <label class="col-sm-2 col-form-label" for="title">Judul<span class="text-danger">*</span></label>
+                                <label class="col-sm-2 col-form-label" for="title">Kasus<span class="text-danger">*</span></label>
                                 <div class="col-sm-10">
                                     {{-- form validation error --}}
                                     @include('admin.components.notification.error-validation', ['field' => 'title'])

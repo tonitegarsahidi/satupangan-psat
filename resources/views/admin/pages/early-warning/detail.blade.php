@@ -51,7 +51,7 @@
                     <table class="table table-hover">
                             <tbody>
                                 <tr>
-                                    <th style="width: 250px;" scope="col" class="bg-dark text-white">Judul</th>
+                                    <th style="width: 250px;" scope="col" class="bg-dark text-white">Kasus</th>
                                     <td>{{ $data->title }}</td>
                                 </tr>
                                 <tr>
