@@ -17,7 +17,7 @@
             <div class="d-flex justify-content-between">
 
                 <div class="p-2 bd-highlight">
-                    <h3 class="card-header">List of Business</h3>
+                    <h3 class="card-header">Data Pelaku Usaha</h3>
                 </div>
                 <div class="p-2">
                     <a class="btn btn-primary" href="{{ route('business.add') }}">
