@@ -21,7 +21,7 @@
                 </div>
 
                 {{-- KIRIM NOTIFIKASI BUTTON --}}
-                @if(auth()->user()->hasAnyRole(['ROLE_SUPERVISOR', 'ROLE_OPERATOR', 'ROLE_KANTOR', 'ROLE_PIMPINAN']))
+                {{-- @if(auth()->user()->hasAnyRole(['ROLE_SUPERVISOR', 'ROLE_OPERATOR', 'ROLE_KANTOR', 'ROLE_PIMPINAN']))
                     <div class="p-2 bd-highlight">
                         <a href="{{ route('surveilan.create-notification') }}"
                            class="btn btn-primary">
@@ -29,7 +29,7 @@
                             Kirim Notifikasi
                         </a>
                     </div>
-                @endif
+                @endif --}}
 
             </div>
 
@@ -60,6 +60,11 @@
             {{-- //to display any error if any --}}
             @if (isset($alerts))
                 @include('admin.components.notification.general', $alerts)
+            @endif
+
+            {{-- Display session alerts from redirect --}}
+            @if (session('alerts'))
+                @include('admin.components.notification.general', ['alerts' => session('alerts')])
             @endif
 
             <div class="table-responsive text-nowrap">

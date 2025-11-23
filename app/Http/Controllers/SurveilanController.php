@@ -260,9 +260,21 @@ class SurveilanController extends Controller
                 $notificationData
             );
 
+            // Buat pesan sukses yang lebih informatif
+            $businessName = $businessOwner->business->nama_perusahaan ?? 'N/A';
+            $jenisDokumen = $validatedData['jenis'] ?? 'N/A';
+            $nomorDokumen = $validatedData['nomor'] ?? 'N/A';
+
+            $successMessage = sprintf(
+                'Notifikasi surveilan berhasil dikirim ke %s untuk dokumen %s nomor %s.',
+                $businessName,
+                $jenisDokumen,
+                $nomorDokumen
+            );
+
             return redirect()->route('surveilan.index')
                 ->with('alerts', [
-                    \App\Helpers\AlertHelper::createAlert('success', 'Pesan berhasil dikirim ke pemilik bisnis.')
+                    \App\Helpers\AlertHelper::createAlert('success', $successMessage)
                 ]);
         }
 
