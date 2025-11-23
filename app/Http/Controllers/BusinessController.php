@@ -45,7 +45,18 @@ class BusinessController extends Controller
         $page = $request->input('page', config('constant.CRUD.PAGE'));
         $keyword = $request->input('keyword');
 
-        $businesses = $this->businessService->listAllBusiness($perPage, $sortField, $sortOrder, $keyword);
+        // Get current user and check role for province filtering
+        $user = Auth::user();
+        $provinsiId = null;
+
+        if ($user && !$user->hasRole('ROLE_ADMIN')) {
+            // For non-admin users (OPERATOR, SUPERVISOR, KANTOR, PIMPINAN), filter by their assigned province
+            if ($user->petugas && $user->petugas->penempatan) {
+                $provinsiId = $user->petugas->penempatan;
+            }
+        }
+
+        $businesses = $this->businessService->listAllBusiness($perPage, $sortField, $sortOrder, $keyword, $provinsiId);
 
         $breadcrumbs = array_merge($this->mainBreadcrumbs, ['List' => null]);
 

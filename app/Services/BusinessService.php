@@ -17,10 +17,10 @@ class BusinessService
         $this->businessRepository = $businessRepository;
     }
 
-    public function listAllBusiness($perPage, string $sortField = null, string $sortOrder = null, string $keyword = null): LengthAwarePaginator
+    public function listAllBusiness($perPage, string $sortField = null, string $sortOrder = null, string $keyword = null, string $provinsiId = null): LengthAwarePaginator
     {
         $perPage = !is_null($perPage) ? $perPage : config('constant.CRUD.PER_PAGE');
-        return $this->businessRepository->getAllBusinesses($perPage, $sortField, $sortOrder, $keyword);
+        return $this->businessRepository->getAllBusinesses($perPage, $sortField, $sortOrder, $keyword, $provinsiId);
     }
 
     public function getBusinessDetail($businessId): ?Business
@@ -37,11 +37,17 @@ class BusinessService
         return $this->businessRepository->isBusinessNameExist($nama_perusahaan);
     }
 
-    public function addNewBusiness(array $validatedData)
+    public function addNewBusiness(array $validatedData, array $jenispsatIds = [])
     {
         DB::beginTransaction();
         try {
             $business = $this->businessRepository->createBusiness($validatedData);
+
+            // Attach jenispsat relationships if provided
+            if (!empty($jenispsatIds)) {
+                $business->jenispsats()->attach($jenispsatIds);
+            }
+
             DB::commit();
             return $business;
         } catch (\Exception $exception) {

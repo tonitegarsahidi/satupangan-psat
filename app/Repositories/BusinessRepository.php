@@ -8,7 +8,7 @@ use Illuminate\Pagination\LengthAwarePaginator;
 
 class BusinessRepository
 {
-    public function getAllBusinesses(int $perPage = 10, string $sortField = null, string $sortOrder = null, string $keyword = null): LengthAwarePaginator
+    public function getAllBusinesses(int $perPage = 10, string $sortField = null, string $sortOrder = null, string $keyword = null, string $provinsiId = null): LengthAwarePaginator
     {
         $query = Business::query();
 
@@ -21,6 +21,10 @@ class BusinessRepository
         if (!is_null($keyword)) {
             $query->whereRaw('lower(nama_perusahaan) LIKE ?', ['%' . strtolower($keyword) . '%'])
                   ->orWhereRaw('lower(alamat_perusahaan) LIKE ?', ['%' . strtolower($keyword) . '%']);
+        }
+
+        if (!is_null($provinsiId)) {
+            $query->where('provinsi_id', $provinsiId);
         }
 
         $paginator = $query->paginate($perPage);
