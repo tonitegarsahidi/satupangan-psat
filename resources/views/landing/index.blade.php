@@ -799,7 +799,7 @@
                     <p class="feature-description">Laporan pelanggaran dari masyarakat ditindaklanjuti oleh petugas OKKP.</p>
                 </div>
 
-                <div class="feature-card" onclick="window.location.href='/landing/layanan/pembinaan'">
+                <div class="feature-card" onclick="window.location.href='/landing/panduan/pembinaan-konsultasi'">
                     <div class="feature-icon">
                         <i class="fas fa-user-tie"></i>
                     </div>
@@ -985,7 +985,7 @@
             return `
                 <h4><i class="fas fa-file-alt"></i> Alur Prosedur Pengajuan QR Code Keamanan Pangan</h4>
                 <ol class="list-group">
-                    <li class="list-group-item">1. User membuat akun pelaku usaha di <a href="{{ route('register-business') }}" class="text-primary">Sini</a></li>
+                    <li class="list-group-item">1. User membuat akun pelaku usaha di <a href="{{ route('register-business') }}" class="text-primary">Sini</a>. Sudah punya akun? Silakan <a href="{{ route('login') }}" class="text-primary">Login</a></li>
                     <li class="list-group-item">2. Untuk usaha UMKM cukup mengisi data Izin Edar PSAT PDUK</li>
                     <li class="list-group-item">3. Untuk usaha Non UMKM, mengisi data SPPB dan data Izin Edar PSAT (PL untuk produk impor, PD untuk produk lokal)</li>
                     <li class="list-group-item">4. User mengisi form pengajuan QR Badan Pangan</li>
@@ -999,7 +999,7 @@
             return `
                 <h4><i class="fas fa-file-search"></i> Pelaporan & Pengawasan Terpadu</h4>
                 <ol class="list-group">
-                    <li class="list-group-item">1. Pengguna membuat akun di <a href="{{ route('register') }}" class="text-primary">sini</a></li>
+                    <li class="list-group-item">1. Pengguna membuat akun di <a href="{{ route('register') }}" class="text-primary">sini</a>.  Sudah punya akun? Silakan <a href="{{ route('login') }}" class="text-primary">Login</a></li>
                     <li class="list-group-item">2. Pengguna mengisi form laporan pengaduan</li>
                     <li class="list-group-item">3. Petugas akan memberikan tanggapan dari laporan pengaduan tersebut</li>
                 </ol>
@@ -1010,7 +1010,7 @@
             return `
                 <h4><i class="fas fa-shield-alt"></i> Titik Kritis Keamanan Pangan dalam Penanganan PSAT</h4>
 
-                <h5>Titik kritis keamanan pangan dalam penanganan PSAT produk Sayuran</h5>
+                <h5>Titik kritis keamanan pangan dalam penanganan PSAT produk Sayuran Daun</h5>
                 <ol class="list-group mb-4">
                     <li class="list-group-item">1. Suhu Penyimpanan tidak sesuai (Suhu optimal 0˚ – 4˚ C)</li>
                     <li class="list-group-item">2. Pencucian tidak menggunakan air bersih</li>
