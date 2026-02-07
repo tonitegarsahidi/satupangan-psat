@@ -330,7 +330,8 @@
             border-radius: var(--radius-sm);
             border-left: 4px solid var(--primary-color);
             display: flex;
-            align-items: flex-start;
+            align-items: center;
+            justify-content: space-between;
             gap: 1rem;
             transition: var(--transition);
         }
@@ -352,13 +353,44 @@
 
         .list-group-item-title {
             font-weight: 600;
-            margin-bottom: 0.25rem;
             color: var(--primary-color);
+            flex: 1;
+            margin-right: 1rem;
         }
 
         .list-group-item-description {
             font-size: 0.95rem;
             color: #666;
+        }
+
+        /* Download Button */
+        .download-btn {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: var(--radius-sm);
+            text-decoration: none;
+            font-size: 0.875rem;
+            font-weight: 500;
+            transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            white-space: nowrap;
+        }
+
+        .download-btn:hover {
+            background-color: var(--primary-dark);
+            transform: translateY(-1px);
+            box-shadow: var(--shadow-sm);
+            color: white;
+            text-decoration: none;
+        }
+
+        .download-btn.disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+            pointer-events: none;
         }
 
         /* Service Cards */
@@ -602,52 +634,170 @@
                         <div class="card-body">
                             <h3 class="card-title">
                                 <i class="fas fa-list-check"></i>
-                                Layanan Pembinaan & Konsultasi
+                                Dokumen Panduan dan Regulasi
                             </h3>
-                            <p class="card-text">Berikut adalah daftar layanan pembinaan dan konsultasi yang tersedia untuk pelaku usaha dan masyarakat:</p>
+                            <p class="card-text">Berikut adalah daftar dokumen panduan dan regulasi terkait keamanan pangan yang dapat diunduh:</p>
 
                             <ol class="list-group">
                                 <li class="list-group-item">
-                                    <i class="fas fa-book"></i>
                                     <div class="list-group-item-content">
-                                        <div class="list-group-item-title">Panduan Standar Keamanan Pangan</div>
-                                        <div class="list-group-item-description">Informasi lengkap mengenai standar keamanan pangan yang harus dipatuhi, termasuk regulasi terbaru dari Badan Pangan Nasional.</div>
+                                        <div class="list-group-item-title">Maklumat Pelayanan Otoritas Kompeten Keamanan Pangan Pusat (OKKPP)</div>
                                     </div>
+                                    <a href="https://badanpangan.go.id/standar-pelayanan" target="_blank" class="download-btn">
+                                        <i class="fas fa-download"></i> Download
+                                    </a>
                                 </li>
                                 <li class="list-group-item">
-                                    <i class="fas fa-tools"></i>
                                     <div class="list-group-item-content">
-                                        <div class="list-group-item-title">Implementasi Cara Budidaya Pangan Segar yang Baik (GAP)</div>
-                                        <div class="list-group-item-description">Bimbingan teknis untuk menerapkan prinsip GAP dalam budidaya pangan segar guna menghasilkan produk yang aman dan berkualitas.</div>
+                                        <div class="list-group-item-title">Direktori Laboratorium Pengujian Pangan Segar Tahun 2023</div>
                                     </div>
+                                    <a href="https://badanpangan.go.id/storage/app/media/informasi%20publik/Kepegawaian/standar_keamanan_dan_mutu_pangan/Direktori%20Laboratorium%20Pengujian%20Pangan%20Segar%20Tahun%202023.pdf" target="_blank" class="download-btn">
+                                        <i class="fas fa-download"></i> Download
+                                    </a>
                                 </li>
                                 <li class="list-group-item">
-                                    <i class="fas fa-shield-alt"></i>
                                     <div class="list-group-item-content">
-                                        <div class="list-group-item-title">Implementasi Cara Penanganan Pangan Segar yang Baik (GHP)</div>
-                                        <div class="list-group-item-description">Pelatihan dan bimbingan tentang penanganan pascapanen yang higienis untuk mencegah kontaminasi pangan.</div>
+                                        <div class="list-group-item-title">Panduan Pencantuman Label Pangan Segar</div>
                                     </div>
+                                    <a href="https://badanpangan.go.id/storage/app/media/Panduan%20Pencantuman%20Label%20Pangan%20Segar%20%281%29.pdf" target="_blank" class="download-btn">
+                                        <i class="fas fa-download"></i> Download
+                                    </a>
                                 </li>
                                 <li class="list-group-item">
-                                    <i class="fas fa-clipboard-check"></i>
                                     <div class="list-group-item-content">
-                                        <div class="list-group-item-title">Pembinaan Sistem Keamanan Pangan</div>
-                                        <div class="list-group-item-description">Bantuan dalam merancang dan mengimplementasikan sistem manajemen keamanan pangan di tingkat usaha.</div>
+                                        <div class="list-group-item-title">Panduan Pencantuman Label Pangan Segar (versi e-Book)</div>
                                     </div>
+                                    <span class="download-btn disabled">
+                                        <i class="fas fa-ban"></i> Link tidak tersedia
+                                    </span>
                                 </li>
                                 <li class="list-group-item">
-                                    <i class="fas fa-file-alt"></i>
                                     <div class="list-group-item-content">
-                                        <div class="list-group-item-title">Pembuatan Dokumen Kesehatan Pangan</div>
-                                        <div class="list-group-item-description">Bantuan dalam pembuatan dokumen kesehatan pangan yang diperlukan untuk memperoleh izin edar produk.</div>
+                                        <div class="list-group-item-title">Panduan Implementasi Persyaratan Mutu dan Label Beras</div>
                                     </div>
+                                    <a href="https://badanpangan.go.id/storage/app/media/Panduan%20Implementasi%20Persyaratan%20Mutu%20dan%20Label%20Beras_compressed.pdf" target="_blank" class="download-btn">
+                                        <i class="fas fa-download"></i> Download
+                                    </a>
                                 </li>
                                 <li class="list-group-item">
-                                    <i class="fas fa-bug"></i>
                                     <div class="list-group-item-content">
-                                        <div class="list-group-item-title">Penanganan Masalah Keamanan Pangan</div>
-                                        <div class="list-group-item-description">Konsultasi untuk penanganan masalah keamanan pangan yang dihadapi oleh pelaku usaha atau masyarakat.</div>
+                                        <div class="list-group-item-title">Panduan Penerapan dan Penilaian Sistem Manajemen Pengawasan Keamanan Pangan Segar Daerah Provinsi dan Kabupaten/Kota</div>
                                     </div>
+                                    <a href="https://badanpangan.go.id/storage/app/media/panduan-perbadan-no-12-tahun-20232.pdf" target="_blank" class="download-btn">
+                                        <i class="fas fa-download"></i> Download
+                                    </a>
+                                </li>
+                                <li class="list-group-item">
+                                    <div class="list-group-item-content">
+                                        <div class="list-group-item-title">Tips Cerdas Keamanan Pangan dan Baca Label</div>
+                                    </div>
+                                    <a href="https://badanpangan.go.id/storage/app/media/informasi%20publik/Kepegawaian/standar_keamanan_dan_mutu_pangan/Tips%20Cerdas%20Keamanan%20Pangan%20dan%20Baca%20Label.pdf" target="_blank" class="download-btn">
+                                        <i class="fas fa-download"></i> Download
+                                    </a>
+                                </li>
+                                <li class="list-group-item">
+                                    <div class="list-group-item-content">
+                                        <div class="list-group-item-title">Peraturan Badan Pangan Nasional Nomor 1 Tahun 2023 tentang Label Pangan Segar</div>
+                                    </div>
+                                    <a href="https://badanpangan.go.id/storage/app/media/PERBADAN%201%20TAHUN%202023_LABEL%20PANGAN%20SEGAR_BN%20140-2023.pdf" target="_blank" class="download-btn">
+                                        <i class="fas fa-download"></i> Download
+                                    </a>
+                                </li>
+                                <li class="list-group-item">
+                                    <div class="list-group-item-content">
+                                        <div class="list-group-item-title">Peraturan Badan Pangan Nasional Nomor 2 Tahun 2023 tentang Persyaratan Mutu dan Label Beras</div>
+                                    </div>
+                                    <a href="https://badanpangan.go.id/storage/app/media/PERBADAN%202%20TAHUN%202023_PERSYARATAN%20MUTU%20DAN%20LABEL%20BERAS_BN%20176-2023.pdf" target="_blank" class="download-btn">
+                                        <i class="fas fa-download"></i> Download
+                                    </a>
+                                </li>
+                                <li class="list-group-item">
+                                    <div class="list-group-item-content">
+                                        <div class="list-group-item-title">Peraturan Badan Pangan Nasional Nomor 12 Tahun 2023 tentang Penyelenggaraan Urusan Pemerintahan Konkuren Bidang Pangan Sub Urusan Keamanan Pangan</div>
+                                    </div>
+                                    <a href="https://badanpangan.go.id/storage/app/media/Peraturan%20Badan%20Pangan%20Nasional%20Nomor%2012%20Tahun%202023%20tentang%20Penyelenggaraan%20Urusan%20Pemerintahan%20Konkuren%20Bidang%20Pangan%20Sub%20Urusan%20Keamanan%20Pangan.pdf" target="_blank" class="download-btn">
+                                        <i class="fas fa-download"></i> Download
+                                    </a>
+                                </li>
+                                <li class="list-group-item">
+                                    <div class="list-group-item-content">
+                                        <div class="list-group-item-title">SK Kepala Badan Pangan Nasional tentang Pedoman Klasifikasi Pangan Segar</div>
+                                    </div>
+                                    <a href="https://badanpangan.go.id/storage/app/media/SK%20Pedoman%20Klasifikasi%20Pangan%20Segar.pdf" target="_blank" class="download-btn">
+                                        <i class="fas fa-download"></i> Download
+                                    </a>
+                                </li>
+                                <li class="list-group-item">
+                                    <div class="list-group-item-content">
+                                        <div class="list-group-item-title">Pedoman Klasifikasi Pangan Segar</div>
+                                    </div>
+                                    <a href="https://badanpangan.go.id/storage/app/media/Pedoman%20Klasifikasi%20Pangan%20Segar.pdf" target="_blank" class="download-btn">
+                                        <i class="fas fa-download"></i> Download
+                                    </a>
+                                </li>
+                                <li class="list-group-item">
+                                    <div class="list-group-item-content">
+                                        <div class="list-group-item-title">Peraturan Badan Pangan Nasional RI Nomor 2 Tahun 2024 tentang Pengawasan Pemenuhan Persyaratan Keamanan, Mutu, Gizi, Label, dan Iklan Pangan Segar</div>
+                                    </div>
+                                    <a href="https://badanpangan.go.id/storage/app/media/peraturan-badan-pangan-nasional-nomor-2-tahun-2024-tentang-pengawasan-terhadap-pemenuhan-persyaratan-keamanan-mutu-gizi-label-dan-iklan-pangan-segar.pdf" target="_blank" class="download-btn">
+                                        <i class="fas fa-download"></i> Download
+                                    </a>
+                                </li>
+                                <li class="list-group-item">
+                                    <div class="list-group-item-content">
+                                        <div class="list-group-item-title">Panduan KIE Keamanan, Mutu, Gizi, Label dan Iklan Pangan Segar</div>
+                                    </div>
+                                    <a href="https://badanpangan.go.id/storage/app/media/panduan-kie-keamanan-mutu-gizi-label-dan-iklan-pangan-segar.pdf" target="_blank" class="download-btn">
+                                        <i class="fas fa-download"></i> Download
+                                    </a>
+                                </li>
+                                <li class="list-group-item">
+                                    <div class="list-group-item-content">
+                                        <div class="list-group-item-title">Peraturan Badan Pangan Nasional Nomor 9 Tahun 2024 tentang Perubahan atas Perbadan Pengawasan Keamanan Pangan Nomor 2 Tahun 2024</div>
+                                    </div>
+                                    <a href="https://badanpangan.go.id/storage/app/media/Peraturan%20Badan%20Pangan%20Nasional%20Nomor%209%20Tahun%202024%20tentang%20Perubahan%20atas%20Perbadan%20Pengawasan%20Keamanan%20Pangan%20Nomor%202%20Tahun%202024.pdf" target="_blank" class="download-btn">
+                                        <i class="fas fa-download"></i> Download
+                                    </a>
+                                </li>
+                                <li class="list-group-item">
+                                    <div class="list-group-item-content">
+                                        <div class="list-group-item-title">Peraturan Badan Pangan Nasional Nomor 10 Tahun 2024 tentang Batas Maksimal Cemaran dalam Pangan Segar di Peredaran</div>
+                                    </div>
+                                    <a href="https://badanpangan.go.id/storage/app/media/Peraturan%20Badan%20Pangan%20Nasional%20Nomor%2010%20Tahun%202024%20tentang%20Batas%20Maksimal%20Cemaran%20dalam%20Pangan%20Segar%20di%20Peredaran.pdf" target="_blank" class="download-btn">
+                                        <i class="fas fa-download"></i> Download
+                                    </a>
+                                </li>
+                                <li class="list-group-item">
+                                    <div class="list-group-item-content">
+                                        <div class="list-group-item-title">Peraturan Badan Pangan Nasional Nomor 13 Tahun 2024 tentang Standar Mutu Produk Pangan Lokal dalam rangka Penganekaragaman Pangan</div>
+                                    </div>
+                                    <a href="https://badanpangan.go.id/storage/app/media/Peraturan%20Badan%20Pangan%20Nasional%20Nomor%2013%20Tahun%202024%20tentang%20Standar%20Mutu%20Produk%20Pangan%20Lokal%20dalam%20rangka%20Penganekaragaman%20Pangan.pdf" target="_blank" class="download-btn">
+                                        <i class="fas fa-download"></i> Download
+                                    </a>
+                                </li>
+                                <li class="list-group-item">
+                                    <div class="list-group-item-content">
+                                        <div class="list-group-item-title">Peraturan Badan Pangan Nasional Nomor 15 Tahun 2024 tentang Batas Maksimal Residu Pestisida dalam Pangan Segar Asal Tumbuhan</div>
+                                    </div>
+                                    <a href="https://badanpangan.go.id/storage/app/media/Peraturan%20Badan%20Pangan%20Nasional%20Nomor%2015%20Tahun%202024%20tentang%20Batas%20Maksimal%20Residu%20Pestisida%20dalam%20Pangan%20Segar%20Asal%20Tumbuhan.pdf" target="_blank" class="download-btn">
+                                        <i class="fas fa-download"></i> Download
+                                    </a>
+                                </li>
+                                <li class="list-group-item">
+                                    <div class="list-group-item-content">
+                                        <div class="list-group-item-title">Peraturan Badan Nomor 10 Tahun 2025 tentang Standar Produk pada Penyelenggaraan Perizinan Berusaha Berbasis Risiko Subsektor Pangan Segar</div>
+                                    </div>
+                                    <a href="https://badanpangan.go.id/storage/app/media/Perbadan%20Nomor%2010%20Tahun%202025%20tentang%20Standar%20Produk%20pada%20Penyelenggaraan%20Perizinan%20Berusaha%20Berbasis%20Risiko%20Subsektor%20Pangan%20Segar.pdf" target="_blank" class="download-btn">
+                                        <i class="fas fa-download"></i> Download
+                                    </a>
+                                </li>
+                                <li class="list-group-item">
+                                    <div class="list-group-item-content">
+                                        <div class="list-group-item-title">Peraturan Badan Pangan Nasional Nomor 12 Tahun 2025 tentang Bahan Tambahan Pangan dan Bahan Penolong dalam Pangan Segar</div>
+                                    </div>
+                                    <a href="https://badanpangan.go.id/storage/app/media/Peraturan%20Badan%20Pangan%20Nasional%20Nomor%2012%20Tahun%202025%20tentang%20Bahan%20Tambahan%20Pangan%20dan%20Bahan%20Penolong%20dalam%20Pangan%20Segar.pdf" target="_blank" class="download-btn">
+                                        <i class="fas fa-download"></i> Download
+                                    </a>
                                 </li>
                             </ol>
                         </div>
