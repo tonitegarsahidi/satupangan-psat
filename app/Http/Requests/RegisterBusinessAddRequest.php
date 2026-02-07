@@ -35,7 +35,7 @@ class RegisterBusinessAddRequest extends FormRequest
             'nama_perusahaan' => ['required', 'string', 'max:255'],
             'alamat_perusahaan' => ['nullable', 'string', 'max:255'],
             'jabatan_perusahaan' => ['nullable', 'string', 'max:100'],
-            'nib' => ['nullable', 'string', 'max:100'],
+            'nib' => ['nullable', 'string', 'max:100', 'regex:/^[0-9]+$/', 'min:13'],
             'jenispsat_id' => ['required', 'array'],
             'jenispsat_id.*' => ['exists:master_jenis_pangan_segars,id'],
         ];
@@ -64,6 +64,8 @@ class RegisterBusinessAddRequest extends FormRequest
             'password.required' => 'Password wajib diisi.',
             'agree.accepted' => 'Anda harus menyetujui syarat dan ketentuan.',
             'nama_perusahaan.required' => 'Nama Perusahaan wajib diisi.',
+            'nib.regex' => 'NIB hanya boleh berisi angka saja.',
+            'nib.min' => 'NIB harus memiliki minimal 13 digit.',
             'jenispsat_id.required' => 'Jenis Pangan Segar wajib dipilih.',
             'jenispsat_id.array' => 'Jenis Pangan Segar harus berupa array.',
             'jenispsat_id.*.exists' => 'Jenis Pangan Segar yang dipilih tidak valid.',

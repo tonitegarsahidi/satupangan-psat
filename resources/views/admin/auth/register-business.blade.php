@@ -110,7 +110,12 @@
                             <div class="mb-3">
                                 <label for="nib" class="form-label">NIB</label>
                                 <input type="text" class="form-control" id="nib" name="nib" value="{{old('nib')}}"
-                                    placeholder="Nomor Induk Berusaha" />
+                                    placeholder="Nomor Induk Berusaha - 13 digit angka"
+                                    pattern="[0-9]{13,}"
+                                    title="NIB harus terdiri dari angka saja, minimal 13 digit"
+                                    oninput="this.value = this.value.replace(/[^0-9]/g, '')"
+                                    maxlength="20" />
+                                <small class="text-muted">NIB harus terdiri dari angka saja, minimal 13 digit</small>
                             </div>
                             <div class="mb-3">
                                 <label class="form-label">Apakah Anda UMKM?</label>
