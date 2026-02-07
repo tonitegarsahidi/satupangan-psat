@@ -324,7 +324,7 @@
         }
 
         .list-group-item {
-            padding: 1rem 1.5rem;
+            padding: 1.25rem 1.5rem;
             margin-bottom: 0.75rem;
             background-color: #F5F5F5;
             border-radius: var(--radius-sm);
@@ -332,7 +332,7 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-            gap: 1rem;
+            gap: 1.5rem;
             transition: var(--transition);
         }
 
@@ -341,21 +341,15 @@
             transform: translateX(5px);
         }
 
-        .list-group-item i {
-            color: var(--primary-color);
-            font-size: 1.25rem;
-            margin-top: 0.25rem;
-        }
-
         .list-group-item-content {
             flex: 1;
+            min-width: 0;
         }
 
         .list-group-item-title {
             font-weight: 600;
             color: var(--primary-color);
-            flex: 1;
-            margin-right: 1rem;
+            line-height: 1.4;
         }
 
         .list-group-item-description {
@@ -367,7 +361,7 @@
         .download-btn {
             background-color: var(--primary-color);
             color: white;
-            padding: 0.5rem 1rem;
+            padding: 0.6rem 1.2rem;
             border-radius: var(--radius-sm);
             text-decoration: none;
             font-size: 0.875rem;
@@ -377,6 +371,10 @@
             align-items: center;
             gap: 0.5rem;
             white-space: nowrap;
+            border: none;
+            cursor: pointer;
+            min-width: 100px;
+            justify-content: center;
         }
 
         .download-btn:hover {
@@ -387,10 +385,37 @@
             text-decoration: none;
         }
 
+        .download-btn i {
+            font-size: 1rem;
+            line-height: 1;
+            font-family: "Font Awesome 6 Free";
+            font-weight: 900;
+            -webkit-font-smoothing: antialiased;
+            display: inline-block;
+            font-style: normal;
+            font-variant: normal;
+            text-rendering: auto;
+        }
+
+        .download-btn i::before {
+            content: "\f019"; /* Unicode untuk fa-download */
+        }
+
+        .download-btn.disabled i::before {
+            content: "\f05e"; /* Unicode untuk fa-ban */
+        }
+
         .download-btn.disabled {
-            background-color: #ccc;
+            background-color: #9e9e9e;
             cursor: not-allowed;
             pointer-events: none;
+            color: #fff;
+        }
+
+        .download-btn.disabled i {
+            color: #fff;
+            font-family: "Font Awesome 6 Free";
+            font-weight: 900;
         }
 
         /* Service Cards */
@@ -582,6 +607,30 @@
 
             .card-body {
                 padding: 1.5rem;
+            }
+
+            /* Responsive untuk list item dan download button */
+            .list-group-item {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
+                padding: 1rem;
+            }
+
+            .list-group-item-content {
+                width: 100%;
+            }
+
+            .list-group-item-title {
+                font-size: 0.95rem;
+                margin-bottom: 0.5rem;
+            }
+
+            .download-btn {
+                align-self: flex-end;
+                font-size: 0.8rem;
+                padding: 0.5rem 1rem;
+                min-width: auto;
             }
         }
     </style>
