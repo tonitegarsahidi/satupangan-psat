@@ -697,7 +697,7 @@
                                 <div class="list-group-item-content">
                                     <div class="list-group-item-title">Direktori Laboratorium Pengujian Pangan Segar Tahun 2023</div>
                                 </div>
-                                <a href="https://badanpangan.go.id/storage/app/media/informasi%20publik/Kepegawaian/standar_keamanan_dan_mutu_pangan/Direktori%20Laboratorium%20Pengujian%20Pangan%20Segar%20Tahun%202023.pdf" target="_blank" class="download-btn">
+                                <a href="{{config('app.url').'/download'.'/Direktori%20Laboratorium%20Pengujian%20Pangan%20Segar%20Tahun%202023.pdf'}}" target="_blank" class="download-btn">
                                     <i class="fas fa-download"></i> Download
                                 </a>
                             </li>
@@ -705,7 +705,7 @@
                                 <div class="list-group-item-content">
                                     <div class="list-group-item-title">Panduan Pencantuman Label Pangan Segar</div>
                                 </div>
-                                <a href="https://badanpangan.go.id/storage/app/media/Panduan%20Pencantuman%20Label%20Pangan%20Segar%20%281%29.pdf" target="_blank" class="download-btn">
+                                <a href="{{config('app.url').'/download'.'/Panduan%20Pencantuman%20Label%20Pangan%20Segar%20%281%29.pdf'}}" target="_blank" class="download-btn">
                                     <i class="fas fa-download"></i> Download
                                 </a>
                             </li>
@@ -713,7 +713,7 @@
                                 <div class="list-group-item-content">
                                     <div class="list-group-item-title">Panduan Implementasi Persyaratan Mutu dan Label Beras</div>
                                 </div>
-                                <a href="https://badanpangan.go.id/storage/app/media/Panduan%20Implementasi%20Persyaratan%20Mutu%20dan%20Label%20Beras_compressed.pdf" target="_blank" class="download-btn">
+                                <a href="{{config('app.url').'/download'.'/Panduan%20Implementasi%20Persyaratan%20Mutu%20dan%20Label%20Beras_compressed.pdf'}}" target="_blank" class="download-btn">
                                     <i class="fas fa-download"></i> Download
                                 </a>
                             </li>
@@ -721,7 +721,7 @@
                                 <div class="list-group-item-content">
                                     <div class="list-group-item-title">Panduan Penerapan dan Penilaian Sistem Manajemen Pengawasan Keamanan Pangan Segar Daerah Provinsi dan Kabupaten/Kota</div>
                                 </div>
-                                <a href="https://badanpangan.go.id/storage/app/media/panduan-perbadan-no-12-tahun-20232.pdf" target="_blank" class="download-btn">
+                                <a href="{{config('app.url').'/download'.'/panduan-perbadan-no-12-tahun-20232.pdf'}}" target="_blank" class="download-btn">
                                     <i class="fas fa-download"></i> Download
                                 </a>
                             </li>
@@ -729,7 +729,7 @@
                                 <div class="list-group-item-content">
                                     <div class="list-group-item-title">Panduan KIE Keamanan, Mutu, Gizi, Label dan Iklan Pangan Segar</div>
                                 </div>
-                                <a href="https://badanpangan.go.id/storage/app/media/panduan-kie-keamanan-mutu-gizi-label-dan-iklan-pangan-segar.pdf" target="_blank" class="download-btn">
+                                <a href="{{config('app.url').'/download'.'/panduan-kie-keamanan-mutu-gizi-label-dan-iklan-pangan-segar.pdf'}}" target="_blank" class="download-btn">
                                     <i class="fas fa-download"></i> Download
                                 </a>
                             </li>
@@ -747,7 +747,7 @@
                                 <div class="list-group-item-content">
                                     <div class="list-group-item-title">Peraturan Badan Pangan Nasional Nomor 1 Tahun 2023 tentang Label Pangan Segar</div>
                                 </div>
-                                <a href="https://badanpangan.go.id/storage/app/media/PERBADAN%201%20TAHUN%202023_LABEL%20PANGAN%20SEGAR_BN%20140-2023.pdf" target="_blank" class="download-btn">
+                                <a href="{{config('app.url').'/download'.'/PERBADAN%201%20TAHUN%202023_LABEL%20PANGAN%20SEGAR_BN%20140-2023.pdf'}}" target="_blank" class="download-btn">
                                     <i class="fas fa-download"></i> Download
                                 </a>
                             </li>
@@ -755,7 +755,7 @@
                                 <div class="list-group-item-content">
                                     <div class="list-group-item-title">Peraturan Badan Pangan Nasional Nomor 2 Tahun 2023 tentang Persyaratan Mutu dan Label Beras</div>
                                 </div>
-                                <a href="https://badanpangan.go.id/storage/app/media/PERBADAN%202%20TAHUN%202023_PERSYARATAN%20MUTU%20DAN%20LABEL%20BERAS_BN%20176-2023.pdf" target="_blank" class="download-btn">
+                                <a href="{{config('app.url').'/download'.'/PERBADAN%202%20TAHUN%202023_PERSYARATAN%20MUTU%20DAN%20LABEL%20BERAS_BN%20176-2023.pdf'}}" target="_blank" class="download-btn">
                                     <i class="fas fa-download"></i> Download
                                 </a>
                             </li>
@@ -763,7 +763,7 @@
                                 <div class="list-group-item-content">
                                     <div class="list-group-item-title">Peraturan Badan Pangan Nasional Nomor 12 Tahun 2023 tentang Penyelenggaraan Urusan Pemerintahan Konkuren Bidang Pangan Sub Urusan Keamanan Pangan</div>
                                 </div>
-                                <a href="https://badanpangan.go.id/storage/app/media/Peraturan%20Badan%20Pangan%20Nasional%20Nomor%2012%20Tahun%202023%20tentang%20Penyelenggaraan%20Urusan%20Pemerintahan%20Konkuren%20Bidang%20Pangan%20Sub%20Urusan%20Keamanan%20Pangan.pdf" target="_blank" class="download-btn">
+                                <a href="{{config('app.url').'/download'.'/Peraturan%20Badan%20Pangan%20Nasional%20Nomor%2012%20Tahun%202023%20tentang%20Penyelenggaraan%20Urusan%20Pemerintahan%20Konkuren%20Bidang%20Pangan%20Sub%20Urusan%20Keamanan%20Pangan.pdf'}}" target="_blank" class="download-btn">
                                     <i class="fas fa-download"></i> Download
                                 </a>
                             </li>
@@ -771,7 +771,7 @@
                                 <div class="list-group-item-content">
                                     <div class="list-group-item-title">SK Kepala Badan Pangan Nasional tentang Pedoman Klasifikasi Pangan Segar</div>
                                 </div>
-                                <a href="https://badanpangan.go.id/storage/app/media/SK%20Pedoman%20Klasifikasi%20Pangan%20Segar.pdf" target="_blank" class="download-btn">
+                                <a href="{{config('app.url').'/download'.'/SK%20Pedoman%20Klasifikasi%20Pangan%20Segar.pdf'}}" target="_blank" class="download-btn">
                                     <i class="fas fa-download"></i> Download
                                 </a>
                             </li>
@@ -779,7 +779,7 @@
                                 <div class="list-group-item-content">
                                     <div class="list-group-item-title">Pedoman Klasifikasi Pangan Segar</div>
                                 </div>
-                                <a href="https://badanpangan.go.id/storage/app/media/Pedoman%20Klasifikasi%20Pangan%20Segar.pdf" target="_blank" class="download-btn">
+                                <a href="{{config('app.url').'/download'.'/Pedoman%20Klasifikasi%20Pangan%20Segar.pdf'}}" target="_blank" class="download-btn">
                                     <i class="fas fa-download"></i> Download
                                 </a>
                             </li>
@@ -787,7 +787,7 @@
                                 <div class="list-group-item-content">
                                     <div class="list-group-item-title">Peraturan Badan Pangan Nasional RI Nomor 2 Tahun 2024 tentang Pengawasan Pemenuhan Persyaratan Keamanan, Mutu, Gizi, Label, dan Iklan Pangan Segar</div>
                                 </div>
-                                <a href="https://badanpangan.go.id/storage/app/media/peraturan-badan-pangan-nasional-nomor-2-tahun-2024-tentang-pengawasan-terhadap-pemenuhan-persyaratan-keamanan-mutu-gizi-label-dan-iklan-pangan-segar.pdf" target="_blank" class="download-btn">
+                                <a href="{{config('app.url').'/download'.'/peraturan-badan-pangan-nasional-nomor-2-tahun-2024-tentang-pengawasan-terhadap-pemenuhan-persyaratan-keamanan-mutu-gizi-label-dan-iklan-pangan-segar.pdf'}}" target="_blank" class="download-btn">
                                     <i class="fas fa-download"></i> Download
                                 </a>
                             </li>
@@ -795,7 +795,7 @@
                                 <div class="list-group-item-content">
                                     <div class="list-group-item-title">Peraturan Badan Pangan Nasional Nomor 9 Tahun 2024 tentang Perubahan atas Perbadan Pengawasan Keamanan Pangan Nomor 2 Tahun 2024</div>
                                 </div>
-                                <a href="https://badanpangan.go.id/storage/app/media/Peraturan%20Badan%20Pangan%20Nasional%20Nomor%209%20Tahun%202024%20tentang%20Perubahan%20atas%20Perbadan%20Pengawasan%20Keamanan%20Pangan%20Nomor%202%20Tahun%202024.pdf" target="_blank" class="download-btn">
+                                <a href="{{config('app.url').'/download'.'/Peraturan%20Badan%20Pangan%20Nasional%20Nomor%209%20Tahun%202024%20tentang%20Perubahan%20atas%20Perbadan%20Pengawasan%20Keamanan%20Pangan%20Nomor%202%20Tahun%202024.pdf'}}" target="_blank" class="download-btn">
                                     <i class="fas fa-download"></i> Download
                                 </a>
                             </li>
@@ -803,7 +803,7 @@
                                 <div class="list-group-item-content">
                                     <div class="list-group-item-title">Peraturan Badan Pangan Nasional Nomor 10 Tahun 2024 tentang Batas Maksimal Cemaran dalam Pangan Segar di Peredaran</div>
                                 </div>
-                                <a href="https://badanpangan.go.id/storage/app/media/Peraturan%20Badan%20Pangan%20Nasional%20Nomor%2010%20Tahun%202024%20tentang%20Batas%20Maksimal%20Cemaran%20dalam%20Pangan%20Segar%20di%20Peredaran.pdf" target="_blank" class="download-btn">
+                                <a href="{{config('app.url').'/download'.'/Peraturan%20Badan%20Pangan%20Nasional%20Nomor%2010%20Tahun%202024%20tentang%20Batas%20Maksimal%20Cemaran%20dalam%20Pangan%20Segar%20di%20Peredaran.pdf'}}" target="_blank" class="download-btn">
                                     <i class="fas fa-download"></i> Download
                                 </a>
                             </li>
@@ -811,7 +811,7 @@
                                 <div class="list-group-item-content">
                                     <div class="list-group-item-title">Peraturan Badan Pangan Nasional Nomor 13 Tahun 2024 tentang Standar Mutu Produk Pangan Lokal dalam rangka Penganekaragaman Pangan</div>
                                 </div>
-                                <a href="https://badanpangan.go.id/storage/app/media/Peraturan%20Badan%20Pangan%20Nasional%20Nomor%2013%20Tahun%202024%20tentang%20Standar%20Mutu%20Produk%20Pangan%20Lokal%20dalam%20rangka%20Penganekaragaman%20Pangan.pdf" target="_blank" class="download-btn">
+                                <a href="{{config('app.url').'/download'.'/Peraturan%20Badan%20Pangan%20Nasional%20Nomor%2013%20Tahun%202024%20tentang%20Standar%20Mutu%20Produk%20Pangan%20Lokal%20dalam%20rangka%20Penganekaragaman%20Pangan.pdf'}}" target="_blank" class="download-btn">
                                     <i class="fas fa-download"></i> Download
                                 </a>
                             </li>
@@ -819,7 +819,7 @@
                                 <div class="list-group-item-content">
                                     <div class="list-group-item-title">Peraturan Badan Pangan Nasional Nomor 15 Tahun 2024 tentang Batas Maksimal Residu Pestisida dalam Pangan Segar Asal Tumbuhan</div>
                                 </div>
-                                <a href="https://badanpangan.go.id/storage/app/media/Peraturan%20Badan%20Pangan%20Nasional%20Nomor%2015%20Tahun%202024%20tentang%20Batas%20Maksimal%20Residu%20Pestisida%20dalam%20Pangan%20Segar%20Asal%20Tumbuhan.pdf" target="_blank" class="download-btn">
+                                <a href="{{config('app.url').'/download'.'/Peraturan%20Badan%20Pangan%20Nasional%20Nomor%2015%20Tahun%202024%20tentang%20Batas%20Maksimal%20Residu%20Pestisida%20dalam%20Pangan%20Segar%20Asal%20Tumbuhan.pdf'}}" target="_blank" class="download-btn">
                                     <i class="fas fa-download"></i> Download
                                 </a>
                             </li>
@@ -827,7 +827,7 @@
                                 <div class="list-group-item-content">
                                     <div class="list-group-item-title">Peraturan Badan Nomor 10 Tahun 2025 tentang Standar Produk pada Penyelenggaraan Perizinan Berusaha Berbasis Risiko Subsektor Pangan Segar</div>
                                 </div>
-                                <a href="https://badanpangan.go.id/storage/app/media/Perbadan%20Nomor%2010%20Tahun%202025%20tentang%20Standar%20Produk%20pada%20Penyelenggaraan%20Perizinan%20Berusaha%20Berbasis%20Risiko%20Subsektor%20Pangan%20Segar.pdf" target="_blank" class="download-btn">
+                                <a href="{{config('app.url').'/download'.'/Perbadan%20Nomor%2010%20Tahun%202025%20tentang%20Standar%20Produk%20pada%20Penyelenggaraan%20Perizinan%20Berusaha%20Berbasis%20Risiko%20Subsektor%20Pangan%20Segar.pdf'}}" target="_blank" class="download-btn">
                                     <i class="fas fa-download"></i> Download
                                 </a>
                             </li>
@@ -835,7 +835,7 @@
                                 <div class="list-group-item-content">
                                     <div class="list-group-item-title">Peraturan Badan Pangan Nasional Nomor 12 Tahun 2025 tentang Bahan Tambahan Pangan dan Bahan Penolong dalam Pangan Segar</div>
                                 </div>
-                                <a href="https://badanpangan.go.id/storage/app/media/Peraturan%20Badan%20Pangan%20Nasional%20Nomor%2012%20Tahun%202025%20tentang%20Bahan%20Tambahan%20Pangan%20dan%20Bahan%20Penolong%20dalam%20Pangan%20Segar.pdf" target="_blank" class="download-btn">
+                                <a href="{{config('app.url').'/download'.'/Peraturan%20Badan%20Pangan%20Nasional%20Nomor%2012%20Tahun%202025%20tentang%20Bahan%20Tambahan%20Pangan%20dan%20Bahan%20Penolong%20dalam%20Pangan%20Segar.pdf'}}" target="_blank" class="download-btn">
                                     <i class="fas fa-download"></i> Download
                                 </a>
                             </li>
@@ -853,7 +853,7 @@
                                 <div class="list-group-item-content">
                                     <div class="list-group-item-title">Tips Cerdas Keamanan Pangan dan Baca Label</div>
                                 </div>
-                                <a href="https://badanpangan.go.id/storage/app/media/informasi%20publik/Kepegawaian/standar_keamanan_dan_mutu_pangan/Tips%20Cerdas%20Keamanan%20Pangan%20dan%20Baca%20Label.pdf" target="_blank" class="download-btn">
+                                <a href="{{config('app.url').'/download'.'/Tips%20Cerdas%20Keamanan%20Pangan%20dan%20Baca%20Label.pdf'}}" target="_blank" class="download-btn">
                                     <i class="fas fa-download"></i> Download
                                 </a>
                             </li>
